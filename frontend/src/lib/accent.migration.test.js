@@ -23,8 +23,8 @@ const KEY = 'gym_state_v1'
 
 describe('the two defaults', () => {
   it('a new profile gets the brand green, everything that never picked keeps the old one', () => {
-    expect(NEW_ACCENT).toBe('brand')
-    expect(DEFAULT_ACCENT).toBe('lime')
+    expect(NEW_ACCENT).toBe('violet')
+    expect(DEFAULT_ACCENT).toBe('violet')
     expect(ACCENTS.brand).toBe('#a3e635')
     expect(ACCENTS.lime).toBe('#30d158')
     expect(DEF.accent).toBe('lime')
@@ -41,9 +41,9 @@ describe('the two defaults', () => {
 
 describe('a fresh install (no data at all)', () => {
   it('freshState and a start over wear the brand green', () => {
-    expect(freshState().accent).toBe('brand')
-    expect(accentValue(freshState())).toBe('brand')
-    expect(restartedState({ lang: 'de', accent: 'sky' }).accent).toBe('brand')
+    expect(freshState().accent).toBe('violet')
+    expect(accentValue(freshState())).toBe('violet')
+    expect(restartedState({ lang: 'de', accent: 'sky' }).accent).toBe('violet')
   })
 })
 
@@ -53,7 +53,7 @@ describe('a copy saved on this device before 1.4.5', () => {
   const boot = async () => (await import('../store/useStore.js')).useStore.getState().S
 
   it('nothing saved: the brand green', async () => {
-    expect((await boot()).accent).toBe('brand')
+    expect((await boot()).accent).toBe('violet')
   })
   it('saved without an accent (from before accents existed): the old green', async () => {
     localStorage.setItem(KEY, JSON.stringify({ unit: 'kg', workouts: [{ id: 'w1' }], routines: [] }))
@@ -79,7 +79,7 @@ describe('a copy saved on this device before 1.4.5', () => {
   })
   it('junk in the accent field draws the old green, as it did before', async () => {
     localStorage.setItem(KEY, JSON.stringify({ accent: '"><x>' }))
-    expect((await boot()).accent).toBe('lime')
+    expect((await boot()).accent).toBe('violet')
   })
 })
 
@@ -129,7 +129,7 @@ describe('a backup imported on this device', () => {
     useStore.getState().importBackup({ unit: 'kg', workouts: [{ id: 'w1', d: '2026-09-01', entries: [] }], routines: [] })
     expect(useStore.getState().S.accent).toBe('lime')
     useStore.getState().importBackup({ ...freshState(), workouts: [{ id: 'w2', d: '2026-09-02', entries: [] }] })
-    expect(useStore.getState().S.accent).toBe('brand')
+    expect(useStore.getState().S.accent).toBe('violet')
   })
 })
 
@@ -139,7 +139,7 @@ describe('another account on this device', () => {
     localStorage.setItem('gym_owner', 'user-1')
     useStore.setState({ S: { ...clone(DEF), accent: 'pink', workouts: [{ id: 'w1', d: '2026-09-01', entries: [] }] }, user: { id: 'user-1' } })
     useStore.getState().setUser({ id: 'user-2', name: 'Two' })
-    expect(useStore.getState().S.accent).toBe('brand')
+    expect(useStore.getState().S.accent).toBe('violet')
     expect(restoredStateFor(useStore.getState().S, { workouts: [{ id: 'w9' }] }).accent).toBe('lime')
   })
 })

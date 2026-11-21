@@ -4654,9 +4654,9 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 /* The openGym logo (components/BrandLogo.jsx, assets/logo): brand colours whatever the accent, the
    type 700 with tight tracking, the mark 1.07em high with its middle 0.36em over the baseline. */
 .brand-lockup{display:inline-block;font-weight:700;letter-spacing:-.036em;line-height:1.1;white-space:nowrap;unicode-bidi:isolate;direction:ltr}
-.brand-lockup-mark{display:inline-block;height:1.07em;width:calc(1.07em * 352 / 174);vertical-align:-.175em;margin-inline-end:.2em;fill:#a3e635}
-.brand-lockup-open{color:#eef1f6}
-.brand-lockup-gym{color:#a3e635}
+.brand-lockup-mark{display:inline-block;height:1.07em;width:calc(1.07em * 352 / 174);vertical-align:-.175em;margin-inline-end:.2em;fill:#bf5af2}
+.brand-lockup-open{color:#eef1f6;white-space:pre}
+.brand-lockup-gym{color:#bf5af2}
 :root[data-theme="light"] .brand-lockup-open{color:#12151b}
 
 /* Add set / Warm-up / Remove: 44px tall, the leading glyph on the card's content edge; wrapped siblings share the same edge */
