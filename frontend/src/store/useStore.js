@@ -108,6 +108,9 @@ export const DEF = {
   dayForm: {},
   // Glasses of water per day (Ti Guigui FIT): { [iso]: { n, _ts } } (lib/water.js), merged per day like dayNotes.
   water: {},
+  // Supplements (Ti Guigui FIT, lib/supps.js): the ones on the card, and what was taken per day
+  // ({ [iso]: { ids, _ts } }, merged per day like water).
+  suppList: [], supps: {},
   // Body measurements (#82, #699): one check-in per day; canonical cm, kg or % according to
   // the field's unit (lib/measurements.js); merged like weigh-ins (lib/sync-merge.js).
   measurements: [], measurementEnabled: null, customMeasurements: [],

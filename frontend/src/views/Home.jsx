@@ -38,6 +38,7 @@ import { FastingLine } from '../components/SisterApps.jsx'
 import { ChallengesCard } from '../components/Challenges.jsx'
 import { isOn } from '../lib/modules.js'
 import WaterCard from '../components/WaterCard.jsx'
+import SuppsCard from '../components/SuppsCard.jsx'
 
 // Home = what to do now + a quick glance. Deep charts & history live in Stats.
 export default function Home() {
@@ -300,6 +301,9 @@ export default function Home() {
 
     {/* Glasses of water today (lib/water.js), part of the Body module. */}
     {on('body') && <WaterCard S={S} />}
+
+    {/* Supplements taken today, with a streak each (lib/supps.js), part of the Body module too. */}
+    {on('body') && <SuppsCard S={S} />}
 
     {/* The streak opens its calendar from its text (CardHead open); the weekly-sets line and the
         party banner are buttons of their own beside it, not inside a card that is a button. */}

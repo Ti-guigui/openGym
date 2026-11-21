@@ -5916,4 +5916,16 @@ export default {
   "Remove a glass": "한 잔 빼기",
   "Add a glass": "한 잔 추가",
   "{0} ml today": "오늘 {0}ml",
+  // --- Supplements card (Ti Guigui FIT) ---
+  "Supplements": "보충제",
+  "Creatine": "크레아틴",
+  "Whey": "웨이",
+  "Vitamin D": "비타민 D",
+  "Omega-3": "오메가-3",
+  "Magnesium": "마그네슘",
+  "Multivitamin": "종합비타민",
+  "Pick the ones you take.": "먹는 것을 골라요.",
+  "{0} of {1} taken today": "오늘 {1}개 중 {0}개",
+  "Choose supplements": "보충제 고르기",
+  "{0} days in a row": "{0}일 연속",
 }

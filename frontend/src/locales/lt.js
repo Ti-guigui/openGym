@@ -5912,4 +5912,16 @@ export default {
   "Remove a glass": "Pašalinti stiklinę",
   "Add a glass": "Pridėti stiklinę",
   "{0} ml today": "Šiandien {0} ml",
+  // --- Supplements card (Ti Guigui FIT) ---
+  "Supplements": "Papildai",
+  "Creatine": "Kreatinas",
+  "Whey": "Išrūgos",
+  "Vitamin D": "Vitaminas D",
+  "Omega-3": "Omega-3",
+  "Magnesium": "Magnis",
+  "Multivitamin": "Multivitaminai",
+  "Pick the ones you take.": "Pasirink tuos, kuriuos vartoji.",
+  "{0} of {1} taken today": "Šiandien {0} iš {1}",
+  "Choose supplements": "Pasirinkti papildus",
+  "{0} days in a row": "{0} d. iš eilės",
 }

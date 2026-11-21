@@ -5919,4 +5919,16 @@ export default {
   "Remove a glass": "Egy pohár törlése",
   "Add a glass": "Egy pohár hozzáadása",
   "{0} ml today": "Ma {0} ml",
+  // --- Supplements card (Ti Guigui FIT) ---
+  "Supplements": "Étrend-kiegészítők",
+  "Creatine": "Kreatin",
+  "Whey": "Tejsavó",
+  "Vitamin D": "D-vitamin",
+  "Omega-3": "Omega-3",
+  "Magnesium": "Magnézium",
+  "Multivitamin": "Multivitamin",
+  "Pick the ones you take.": "Válaszd ki, amiket szedsz.",
+  "{0} of {1} taken today": "Ma {0} / {1} bevéve",
+  "Choose supplements": "Kiegészítők kiválasztása",
+  "{0} days in a row": "{0} napja egymás után",
 }

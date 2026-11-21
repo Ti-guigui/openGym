@@ -5927,4 +5927,16 @@ export default {
   "Remove a glass": "ลบหนึ่งแก้ว",
   "Add a glass": "เพิ่มหนึ่งแก้ว",
   "{0} ml today": "วันนี้ {0} มล.",
+  // --- Supplements card (Ti Guigui FIT) ---
+  "Supplements": "อาหารเสริม",
+  "Creatine": "ครีเอทีน",
+  "Whey": "เวย์",
+  "Vitamin D": "วิตามินดี",
+  "Omega-3": "โอเมก้า-3",
+  "Magnesium": "แมกนีเซียม",
+  "Multivitamin": "วิตามินรวม",
+  "Pick the ones you take.": "เลือกตัวที่คุณทาน",
+  "{0} of {1} taken today": "วันนี้ทาน {0} จาก {1}",
+  "Choose supplements": "เลือกอาหารเสริม",
+  "{0} days in a row": "{0} วันติดต่อกัน",
 }

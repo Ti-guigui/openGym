@@ -5916,4 +5916,16 @@ export default {
   "Remove a glass": "减少一杯",
   "Add a glass": "增加一杯",
   "{0} ml today": "今天 {0} 毫升",
+  // --- Supplements card (Ti Guigui FIT) ---
+  "Supplements": "补充剂",
+  "Creatine": "肌酸",
+  "Whey": "乳清",
+  "Vitamin D": "维生素 D",
+  "Omega-3": "Omega-3",
+  "Magnesium": "镁",
+  "Multivitamin": "复合维生素",
+  "Pick the ones you take.": "选择你在吃的。",
+  "{0} of {1} taken today": "今天已吃 {0}/{1}",
+  "Choose supplements": "选择补充剂",
+  "{0} days in a row": "连续 {0} 天",
 }

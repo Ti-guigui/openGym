@@ -5916,4 +5916,16 @@ export default {
   "Remove a glass": "Retirer un verre",
   "Add a glass": "Ajouter un verre",
   "{0} ml today": "{0} ml aujourd'hui",
+  // --- Supplements card (Ti Guigui FIT) ---
+  "Supplements": "Compléments",
+  "Creatine": "Créatine",
+  "Whey": "Whey",
+  "Vitamin D": "Vitamine D",
+  "Omega-3": "Oméga-3",
+  "Magnesium": "Magnésium",
+  "Multivitamin": "Multivitamines",
+  "Pick the ones you take.": "Choisis ceux que tu prends.",
+  "{0} of {1} taken today": "{0} sur {1} pris aujourd'hui",
+  "Choose supplements": "Choisir les compléments",
+  "{0} days in a row": "{0} jours d'affilée",
 }

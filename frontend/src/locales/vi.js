@@ -5882,4 +5882,16 @@ export default {
   "Remove a glass": "Bớt một ly",
   "Add a glass": "Thêm một ly",
   "{0} ml today": "Hôm nay {0} ml",
+  // --- Supplements card (Ti Guigui FIT) ---
+  "Supplements": "Thực phẩm bổ sung",
+  "Creatine": "Creatine",
+  "Whey": "Whey",
+  "Vitamin D": "Vitamin D",
+  "Omega-3": "Omega-3",
+  "Magnesium": "Magie",
+  "Multivitamin": "Vitamin tổng hợp",
+  "Pick the ones you take.": "Chọn những loại bạn dùng.",
+  "{0} of {1} taken today": "Hôm nay {0} trên {1}",
+  "Choose supplements": "Chọn thực phẩm bổ sung",
+  "{0} days in a row": "{0} ngày liên tiếp",
 }

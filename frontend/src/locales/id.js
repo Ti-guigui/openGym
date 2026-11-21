@@ -5881,4 +5881,16 @@ export default {
   "Remove a glass": "Hapus satu gelas",
   "Add a glass": "Tambah satu gelas",
   "{0} ml today": "{0} ml hari ini",
+  // --- Supplements card (Ti Guigui FIT) ---
+  "Supplements": "Suplemen",
+  "Creatine": "Kreatin",
+  "Whey": "Whey",
+  "Vitamin D": "Vitamin D",
+  "Omega-3": "Omega-3",
+  "Magnesium": "Magnesium",
+  "Multivitamin": "Multivitamin",
+  "Pick the ones you take.": "Pilih yang kamu konsumsi.",
+  "{0} of {1} taken today": "{0} dari {1} diminum hari ini",
+  "Choose supplements": "Pilih suplemen",
+  "{0} days in a row": "{0} hari berturut-turut",
 }

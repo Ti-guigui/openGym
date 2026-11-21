@@ -5913,4 +5913,16 @@ export default {
   "Remove a glass": "Прибрати склянку",
   "Add a glass": "Додати склянку",
   "{0} ml today": "Сьогодні {0} мл",
+  // --- Supplements card (Ti Guigui FIT) ---
+  "Supplements": "Добавки",
+  "Creatine": "Креатин",
+  "Whey": "Сироватковий протеїн",
+  "Vitamin D": "Вітамін D",
+  "Omega-3": "Омега-3",
+  "Magnesium": "Магній",
+  "Multivitamin": "Мультивітаміни",
+  "Pick the ones you take.": "Обери ті, що приймаєш.",
+  "{0} of {1} taken today": "Сьогодні {0} з {1}",
+  "Choose supplements": "Обрати добавки",
+  "{0} days in a row": "{0} дн. поспіль",
 }

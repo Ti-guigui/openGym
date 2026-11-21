@@ -40,7 +40,15 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
      identiques) ;
    - la carte est `frontend/src/components/WaterCard.jsx`, l'icône `drop` est dans `Icon.jsx`,
      le style dans `frontend/src/index.css` (`.water-*`), les textes dans les 25 langues.
-5. **Docker.** `docker-compose.yml` construit des images locales (`tiguiguifit-*`) au lieu de
+5. **La carte Compléments** (Accueil, sous l'eau, avec le module Corps) :
+   - la liste fixe (créatine, whey, vitamine D, oméga-3, magnésium, multivitamines) est `SUPPS`
+     dans `frontend/src/lib/supps.js`, avec les tests dans `supps.test.js` ;
+   - `S.suppList` = ceux qu'on prend (réglage simple), `S.supps = { 'AAAA-MM-JJ': { ids, _ts } }`
+     = ce qui a été pris, synchronisé jour par jour comme l'eau (mêmes deux listes) ;
+   - la série compte les jours d'affilée ; pas encore pris aujourd'hui, elle part d'hier ;
+   - la carte est `frontend/src/components/SuppsCard.jsx` (crayon pour choisir), l'icône `pill`
+     dans `Icon.jsx`, le style `.supps-*` / `.supp-run` dans `index.css`.
+6. **Docker.** `docker-compose.yml` construit des images locales (`tiguiguifit-*`) au lieu de
    télécharger celles d'openGym.
 
 ## Règles à respecter
@@ -76,5 +84,5 @@ docker compose down           # arrêter l'appli
 ## Idées pour la suite (pas encore faites)
 
 - Choisir son propre objectif d'eau (aujourd'hui fixé à 8 verres)
-- Suivi des compléments (créatine, whey…) avec série de jours
+- Ajouter ses propres compléments (aujourd'hui une liste fixe de 6)
 - Citation motivante du jour sur l'accueil

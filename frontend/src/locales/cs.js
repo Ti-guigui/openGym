@@ -5882,4 +5882,16 @@ export default {
   "Remove a glass": "Odebrat sklenici",
   "Add a glass": "Přidat sklenici",
   "{0} ml today": "Dnes {0} ml",
+  // --- Supplements card (Ti Guigui FIT) ---
+  "Supplements": "Doplňky",
+  "Creatine": "Kreatin",
+  "Whey": "Syrovátka",
+  "Vitamin D": "Vitamín D",
+  "Omega-3": "Omega-3",
+  "Magnesium": "Hořčík",
+  "Multivitamin": "Multivitamín",
+  "Pick the ones you take.": "Vyber ty, které bereš.",
+  "{0} of {1} taken today": "Dnes {0} z {1}",
+  "Choose supplements": "Vybrat doplňky",
+  "{0} days in a row": "{0} dní v řadě",
 }

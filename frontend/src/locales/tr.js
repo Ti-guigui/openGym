@@ -5916,4 +5916,16 @@ export default {
   "Remove a glass": "Bir bardak çıkar",
   "Add a glass": "Bir bardak ekle",
   "{0} ml today": "Bugün {0} ml",
+  // --- Supplements card (Ti Guigui FIT) ---
+  "Supplements": "Takviyeler",
+  "Creatine": "Kreatin",
+  "Whey": "Whey",
+  "Vitamin D": "D vitamini",
+  "Omega-3": "Omega-3",
+  "Magnesium": "Magnezyum",
+  "Multivitamin": "Multivitamin",
+  "Pick the ones you take.": "Kullandıklarını seç.",
+  "{0} of {1} taken today": "Bugün {1} takviyeden {0}",
+  "Choose supplements": "Takviyeleri seç",
+  "{0} days in a row": "{0} gün üst üste",
 }
