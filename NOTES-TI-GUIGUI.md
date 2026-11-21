@@ -48,7 +48,15 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
    - la série compte les jours d'affilée ; pas encore pris aujourd'hui, elle part d'hier ;
    - la carte est `frontend/src/components/SuppsCard.jsx` (crayon pour choisir), l'icône `pill`
      dans `Icon.jsx`, le style `.supps-*` / `.supp-run` dans `index.css`.
-6. **Docker.** `docker-compose.yml` construit des images locales (`tiguiguifit-*`) au lieu de
+6. **La citation du jour** (Accueil, sous la carte du jour, avec le module Motivation) :
+   - 20 phrases écrites pour l'appli (pas de citations de célébrités, donc rien à attribuer),
+     dans `QUOTES` de `frontend/src/lib/quotes.js`, tests dans `quotes.test.js` ;
+   - la phrase dépend seulement de la date : la même toute la journée, sur tous les appareils,
+     et les 20 passent avant qu'une revienne. Rien n'est enregistré ni synchronisé ;
+   - la carte est directement dans `frontend/src/views/Home.jsx` (`quote-card`), les 21 textes
+     sont traduits dans les 25 langues. Pour ajouter une phrase : l'ajouter dans `QUOTES` puis
+     dans les 25 fichiers de langue.
+7. **Docker.** `docker-compose.yml` construit des images locales (`tiguiguifit-*`) au lieu de
    télécharger celles d'openGym.
 
 ## Règles à respecter
@@ -85,4 +93,3 @@ docker compose down           # arrêter l'appli
 
 - Choisir son propre objectif d'eau (aujourd'hui fixé à 8 verres)
 - Ajouter ses propres compléments (aujourd'hui une liste fixe de 6)
-- Citation motivante du jour sur l'accueil

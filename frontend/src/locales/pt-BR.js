@@ -4357,6 +4357,28 @@ export const PT_BR_OVERRIDES = {
   "{0} of {1} taken today": "{0} de {1} tomados hoje",
   "Choose supplements": "Escolher suplementos",
   "{0} days in a row": "{0} dias seguidos",
+  // --- Quote of the day (Ti Guigui FIT) ---
+  "Quote of the day": "Frase do dia",
+  "The hardest part is showing up. You already know the way.": "O mais difícil é aparecer. Você já conhece o caminho.",
+  "Small plates add up. So do small wins.": "Anilhas pequenas se somam. Pequenas vitórias também.",
+  "You don't have to feel like it. You just have to start.": "Você não precisa estar com vontade. Só precisa começar.",
+  "Strong is built one rep at a time.": "A força se constrói uma repetição de cada vez.",
+  "Rest is part of the plan, not a break from it.": "O descanso faz parte do plano, não é uma pausa.",
+  "Compare yourself to last month, not to the person next to you.": "Compare-se com o mês passado, não com quem está do seu lado.",
+  "A short workout beats the one you skipped.": "Um treino curto vale mais que o que você pula.",
+  "Progress likes boring: the same lifts, a little more each week.": "O progresso gosta do tédio: os mesmos exercícios, um pouco mais a cada semana.",
+  "Your future self is watching. Give them a reason to thank you.": "Seu eu do futuro está olhando. Dê a ele um motivo para te agradecer.",
+  "Good form today, heavier weights tomorrow.": "Boa técnica hoje, mais carga amanhã.",
+  "Motivation comes and goes. Habits stay.": "A motivação vem e vai. Os hábitos ficam.",
+  "Every set you log is proof you showed up.": "Cada série registrada prova que você estava lá.",
+  "Slow progress is still progress.": "Progresso lento ainda é progresso.",
+  "Drink water, eat protein, sleep. Then do it again.": "Beba água, coma proteína, durma. Depois repita.",
+  "The bar is honest: it only moves when you push it.": "A barra é honesta: ela só se move quando você empurra.",
+  "Ten minutes is enough to keep the streak alive.": "Dez minutos bastam para manter a sequência viva.",
+  "Breathe, brace, lift. One rep at a time.": "Respire, contraia, levante. Uma repetição de cada vez.",
+  "Be proud of the days you trained when you didn't want to.": "Tenha orgulho dos dias em que treinou sem vontade.",
+  "Consistency beats intensity.": "Constância vence intensidade.",
+  "Today's effort is next month's warm-up.": "O esforço de hoje é o aquecimento do mês que vem.",
 }
 
 export default { ...pt, ...PT_BR_OVERRIDES }

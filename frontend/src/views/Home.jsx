@@ -39,6 +39,7 @@ import { ChallengesCard } from '../components/Challenges.jsx'
 import { isOn } from '../lib/modules.js'
 import WaterCard from '../components/WaterCard.jsx'
 import SuppsCard from '../components/SuppsCard.jsx'
+import { quoteOf } from '../lib/quotes.js'
 
 // Home = what to do now + a quick glance. Deep charts & history live in Stats.
 export default function Home() {
@@ -221,6 +222,11 @@ export default function Home() {
       </div>}
       <SeasonDeco spot="home-hero" />
     </div>
+
+    {/* A motivating line of the day (lib/quotes.js), with the Motivation module. */}
+    {on('motivation') && <div className="card quote-card">
+      <CardHead icon="sparkles" tint="var(--orange)" eyebrow={t('Quote of the day')} title={t(quoteOf(todayKey))} />
+    </div>}
 
     {/* Monday: Your week; the 1st: Your month (lib/recap.js). Off in Settings → Look & Home. */}
     <RecapHomeCard S={S} />
