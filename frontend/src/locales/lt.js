@@ -5906,4 +5906,10 @@ export default {
   "Protein: {0} to {1} g a day": "Baltymai: {0}–{1} g per dieną",
   "Needs your height, weight and age.": "Reikia tavo ūgio, svorio ir amžiaus.",
   "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin-St Jeor formulė. Džiovinimas yra 20 % mažiau nei palaikymas, masės auginimas 10 % daugiau.",
+  // --- Water card (Ti Guigui FIT) ---
+  "Water": "Vanduo",
+  "{0} of {1} glasses": "{0} iš {1} stiklinių",
+  "Remove a glass": "Pašalinti stiklinę",
+  "Add a glass": "Pridėti stiklinę",
+  "{0} ml today": "Šiandien {0} ml",
 }

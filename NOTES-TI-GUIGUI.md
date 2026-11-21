@@ -32,7 +32,15 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
      `frontend/src/index.css` (`.tools-kcal-*`) ;
    - les textes sont traduits dans les 25 fichiers de `frontend/src/locales/`. Pour le
      portugais du Brésil, ils sont dans `PT_BR_OVERRIDES` de `pt-BR.js`.
-4. **Docker.** `docker-compose.yml` construit des images locales (`tiguiguifit-*`) au lieu de
+4. **La carte Eau** (Accueil, sous le poids, avec le module Corps) :
+   - les verres par jour sont dans `S.water = { 'AAAA-MM-JJ': { n, _ts } }`, lus et écrits par
+     `frontend/src/lib/water.js` (tests dans `water.test.js`). Objectif fixe : 8 verres de 250 ml ;
+   - la synchro jour par jour passe par `STAMPED_MAPS` et `OWN_MERGE`, dans
+     `frontend/src/lib/sync-merge.js` **et** `api/sync-stamps.js` (les deux listes doivent rester
+     identiques) ;
+   - la carte est `frontend/src/components/WaterCard.jsx`, l'icône `drop` est dans `Icon.jsx`,
+     le style dans `frontend/src/index.css` (`.water-*`), les textes dans les 25 langues.
+5. **Docker.** `docker-compose.yml` construit des images locales (`tiguiguifit-*`) au lieu de
    télécharger celles d'openGym.
 
 ## Règles à respecter
@@ -67,6 +75,6 @@ docker compose down           # arrêter l'appli
 
 ## Idées pour la suite (pas encore faites)
 
-- Suivi d'hydratation (verres d'eau par jour)
+- Choisir son propre objectif d'eau (aujourd'hui fixé à 8 verres)
 - Suivi des compléments (créatine, whey…) avec série de jours
 - Citation motivante du jour sur l'accueil

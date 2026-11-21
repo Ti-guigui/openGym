@@ -5875,4 +5875,10 @@ export default {
   "Protein: {0} to {1} g a day": "Protein: {0} sampai {1} g per hari",
   "Needs your height, weight and age.": "Perlu tinggi, berat, dan usiamu.",
   "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Rumus Mifflin-St Jeor. Cutting 20 % di bawah pemeliharaan, bulking 10 % di atasnya.",
+  // --- Water card (Ti Guigui FIT) ---
+  "Water": "Air",
+  "{0} of {1} glasses": "{0} dari {1} gelas",
+  "Remove a glass": "Hapus satu gelas",
+  "Add a glass": "Tambah satu gelas",
+  "{0} ml today": "{0} ml hari ini",
 }

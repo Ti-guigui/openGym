@@ -5910,4 +5910,10 @@ export default {
   "Protein: {0} to {1} g a day": "단백질: 하루 {0}~{1}g",
   "Needs your height, weight and age.": "키, 체중, 나이가 필요해요.",
   "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin-St Jeor 공식. 감량은 유지보다 20 % 적고, 증량은 10 % 많아요.",
+  // --- Water card (Ti Guigui FIT) ---
+  "Water": "물",
+  "{0} of {1} glasses": "{1}잔 중 {0}잔",
+  "Remove a glass": "한 잔 빼기",
+  "Add a glass": "한 잔 추가",
+  "{0} ml today": "오늘 {0}ml",
 }

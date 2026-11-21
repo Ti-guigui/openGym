@@ -5913,4 +5913,10 @@ export default {
   "Protein: {0} to {1} g a day": "Fehérje: napi {0}–{1} g",
   "Needs your height, weight and age.": "Kell hozzá a magasságod, a testsúlyod és az életkorod.",
   "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin–St Jeor-képlet. A szálkásítás 20 %-kal a szinten tartás alatt, a tömegnövelés 10 %-kal felette van.",
+  // --- Water card (Ti Guigui FIT) ---
+  "Water": "Víz",
+  "{0} of {1} glasses": "{0} / {1} pohár",
+  "Remove a glass": "Egy pohár törlése",
+  "Add a glass": "Egy pohár hozzáadása",
+  "{0} ml today": "Ma {0} ml",
 }

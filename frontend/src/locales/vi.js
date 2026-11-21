@@ -5876,4 +5876,10 @@ export default {
   "Protein: {0} to {1} g a day": "Đạm: {0} đến {1} g mỗi ngày",
   "Needs your height, weight and age.": "Cần chiều cao, cân nặng và tuổi của bạn.",
   "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Công thức Mifflin-St Jeor. Giảm mỡ thấp hơn mức duy trì 20 %, tăng cơ cao hơn 10 %.",
+  // --- Water card (Ti Guigui FIT) ---
+  "Water": "Nước",
+  "{0} of {1} glasses": "{0} trên {1} ly",
+  "Remove a glass": "Bớt một ly",
+  "Add a glass": "Thêm một ly",
+  "{0} ml today": "Hôm nay {0} ml",
 }

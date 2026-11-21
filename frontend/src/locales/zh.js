@@ -5910,4 +5910,10 @@ export default {
   "Protein: {0} to {1} g a day": "蛋白质：每天 {0} 到 {1} 克",
   "Needs your height, weight and age.": "需要你的身高、体重和年龄。",
   "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin-St Jeor 公式。减脂比维持低 20 %，增肌比维持高 10 %。",
+  // --- Water card (Ti Guigui FIT) ---
+  "Water": "喝水",
+  "{0} of {1} glasses": "{1} 杯中的 {0} 杯",
+  "Remove a glass": "减少一杯",
+  "Add a glass": "增加一杯",
+  "{0} ml today": "今天 {0} 毫升",
 }

@@ -4236,6 +4236,10 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 .tools-kcal-act .seg-inline button{padding:5px 4px}
 .tools-kcal-act .seg-inline button span{white-space:normal;line-height:1.15}
 .tools-kcal-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+/* Water card (Ti Guigui FIT, components/WaterCard.jsx): one dot per glass, the goal as empty dots */
+.water-dots{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 6px}
+.water-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--blue);opacity:.45}
+.water-dot.on{background:var(--blue);opacity:1}
 
 /* ---------------------------------------------------------- journal -- */
 /* Stats → More → Journal (views/Journal.jsx): a feed of notes. The note is the content, so it gets

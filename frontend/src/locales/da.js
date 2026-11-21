@@ -5850,4 +5850,10 @@ export default {
   "Protein: {0} to {1} g a day": "Protein: {0} til {1} g om dagen",
   "Needs your height, weight and age.": "Kræver din højde, vægt og alder.",
   "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin-St Jeor-formlen. Vægttab ligger 20 % under vedligehold, opbygning 10 % over.",
+  // --- Water card (Ti Guigui FIT) ---
+  "Water": "Vand",
+  "{0} of {1} glasses": "{0} af {1} glas",
+  "Remove a glass": "Fjern et glas",
+  "Add a glass": "Tilføj et glas",
+  "{0} ml today": "{0} ml i dag",
 }

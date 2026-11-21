@@ -106,6 +106,8 @@ export const DEF = {
   // (lib/daily-form.js), merged per day like dayNotes. `dailyForm` is its switch: undefined until
   // asked once, then true or false.
   dayForm: {},
+  // Glasses of water per day (Ti Guigui FIT): { [iso]: { n, _ts } } (lib/water.js), merged per day like dayNotes.
+  water: {},
   // Body measurements (#82, #699): one check-in per day; canonical cm, kg or % according to
   // the field's unit (lib/measurements.js); merged like weigh-ins (lib/sync-merge.js).
   measurements: [], measurementEnabled: null, customMeasurements: [],

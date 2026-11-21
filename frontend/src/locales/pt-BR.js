@@ -4339,6 +4339,12 @@ export const PT_BR_OVERRIDES = {
   "Protein: {0} to {1} g a day": "Proteína: {0} a {1} g por dia",
   "Needs your height, weight and age.": "Precisa da sua altura, peso e idade.",
   "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Fórmula de Mifflin-St Jeor. O cutting fica 20 % abaixo da manutenção e o bulking 10 % acima.",
+  // --- Water card (Ti Guigui FIT) ---
+  "Water": "Água",
+  "{0} of {1} glasses": "{0} de {1} copos",
+  "Remove a glass": "Remover um copo",
+  "Add a glass": "Adicionar um copo",
+  "{0} ml today": "{0} ml hoje",
 }
 
 export default { ...pt, ...PT_BR_OVERRIDES }

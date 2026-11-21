@@ -5930,4 +5930,10 @@ export default {
   "Protein: {0} to {1} g a day": "Protein: {0} bis {1} g pro Tag",
   "Needs your height, weight and age.": "Braucht deine Größe, dein Gewicht und dein Alter.",
   "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin-St-Jeor-Formel. Diät liegt 20 % unter der Erhaltung, Aufbau 10 % darüber.",
+  // --- Water card (Ti Guigui FIT) ---
+  "Water": "Wasser",
+  "{0} of {1} glasses": "{0} von {1} Gläsern",
+  "Remove a glass": "Ein Glas entfernen",
+  "Add a glass": "Ein Glas hinzufügen",
+  "{0} ml today": "Heute {0} ml",
 }

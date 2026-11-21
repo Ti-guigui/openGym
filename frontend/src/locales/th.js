@@ -5921,4 +5921,10 @@ export default {
   "Protein: {0} to {1} g a day": "โปรตีน: {0} ถึง {1} กรัมต่อวัน",
   "Needs your height, weight and age.": "ต้องใช้ส่วนสูง น้ำหนัก และอายุของคุณ",
   "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "สูตร Mifflin-St Jeor ลดไขมันต่ำกว่าคงน้ำหนัก 20 % เพิ่มกล้ามสูงกว่า 10 %",
+  // --- Water card (Ti Guigui FIT) ---
+  "Water": "น้ำ",
+  "{0} of {1} glasses": "{0} จาก {1} แก้ว",
+  "Remove a glass": "ลบหนึ่งแก้ว",
+  "Add a glass": "เพิ่มหนึ่งแก้ว",
+  "{0} ml today": "วันนี้ {0} มล.",
 }

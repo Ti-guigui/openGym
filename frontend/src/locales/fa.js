@@ -5876,4 +5876,10 @@ export default {
   "Protein: {0} to {1} g a day": "پروتئین: {0} تا {1} گرم در روز",
   "Needs your height, weight and age.": "قد، وزن و سنت لازم است.",
   "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "فرمول میفلین-سنت ژئور. کات ۲۰ ٪ زیر نگهداری است و حجم ۱۰ ٪ بالای آن.",
+  // --- Water card (Ti Guigui FIT) ---
+  "Water": "آب",
+  "{0} of {1} glasses": "{0} از {1} لیوان",
+  "Remove a glass": "حذف یک لیوان",
+  "Add a glass": "افزودن یک لیوان",
+  "{0} ml today": "امروز {0} میلی‌لیتر",
 }

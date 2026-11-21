@@ -5910,4 +5910,10 @@ export default {
   "Protein: {0} to {1} g a day": "Protein: günde {0}-{1} g",
   "Needs your height, weight and age.": "Boyun, kilon ve yaşın gerekiyor.",
   "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin-St Jeor formülü. Definasyon korumanın %20 altında, bulk %10 üstünde.",
+  // --- Water card (Ti Guigui FIT) ---
+  "Water": "Su",
+  "{0} of {1} glasses": "{1} bardaktan {0}",
+  "Remove a glass": "Bir bardak çıkar",
+  "Add a glass": "Bir bardak ekle",
+  "{0} ml today": "Bugün {0} ml",
 }
