@@ -5897,4 +5897,17 @@ export default {
   "Preview on": "预览位置",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "缩短一点",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Age": "年龄",
+  "Sedentary": "久坐",
+  "Lightly active": "轻度",
+  "Moderate": "中度",
+  "Very active": "高度活跃",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "轻度：每周 1 到 3 次训练。中度：3 到 5 次。高度活跃：6 或 7 次。",
+  "Cut": "减脂",
+  "Maintenance": "维持",
+  "Bulk": "增肌",
+  "Protein: {0} to {1} g a day": "蛋白质：每天 {0} 到 {1} 克",
+  "Needs your height, weight and age.": "需要你的身高、体重和年龄。",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin-St Jeor 公式。减脂比维持低 20 %，增肌比维持高 10 %。",
 }

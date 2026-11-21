@@ -5908,4 +5908,17 @@ export default {
   "Preview on": "ดูตัวอย่างบน",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "สั้นลงหน่อย",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Age": "อายุ",
+  "Sedentary": "นั่งเป็นส่วนใหญ่",
+  "Lightly active": "เบา",
+  "Moderate": "ปานกลาง",
+  "Very active": "แอคทีฟมาก",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "เบา: 1 ถึง 3 ครั้งต่อสัปดาห์ ปานกลาง: 3 ถึง 5 แอคทีฟมาก: 6 หรือ 7",
+  "Cut": "ลดไขมัน",
+  "Maintenance": "คงน้ำหนัก",
+  "Bulk": "เพิ่มกล้าม",
+  "Protein: {0} to {1} g a day": "โปรตีน: {0} ถึง {1} กรัมต่อวัน",
+  "Needs your height, weight and age.": "ต้องใช้ส่วนสูง น้ำหนัก และอายุของคุณ",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "สูตร Mifflin-St Jeor ลดไขมันต่ำกว่าคงน้ำหนัก 20 % เพิ่มกล้ามสูงกว่า 10 %",
 }

@@ -5894,4 +5894,17 @@ export default {
   "Preview on": "Попередній перегляд на",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "трохи коротше",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Age": "Вік",
+  "Sedentary": "Сидячий",
+  "Lightly active": "Легкий",
+  "Moderate": "Помірний",
+  "Very active": "Дуже активний",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "Легкий: 1–3 тренування на тиждень. Помірний: 3–5. Дуже активний: 6 або 7.",
+  "Cut": "Сушка",
+  "Maintenance": "Підтримка",
+  "Bulk": "Набір маси",
+  "Protein: {0} to {1} g a day": "Білок: {0}–{1} г на день",
+  "Needs your height, weight and age.": "Потрібні твій зріст, вага й вік.",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Формула Міффліна — Сан Жеора. Сушка на 20 % нижче підтримки, набір маси на 10 % вище.",
 }

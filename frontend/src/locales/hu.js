@@ -5900,4 +5900,17 @@ export default {
   "Preview on": "Előnézet itt",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "kicsit rövidebben",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Age": "Életkor",
+  "Sedentary": "Ülő",
+  "Lightly active": "Könnyű",
+  "Moderate": "Közepes",
+  "Very active": "Nagyon aktív",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "Könnyű: heti 1–3 edzés. Közepes: 3–5. Nagyon aktív: 6 vagy 7.",
+  "Cut": "Szálkásítás",
+  "Maintenance": "Szinten tartás",
+  "Bulk": "Tömegnövelés",
+  "Protein: {0} to {1} g a day": "Fehérje: napi {0}–{1} g",
+  "Needs your height, weight and age.": "Kell hozzá a magasságod, a testsúlyod és az életkorod.",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin–St Jeor-képlet. A szálkásítás 20 %-kal a szinten tartás alatt, a tömegnövelés 10 %-kal felette van.",
 }

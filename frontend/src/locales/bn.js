@@ -5976,4 +5976,17 @@ export default {
   "Preview on": "প্রিভিউ দেখুন",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "একটু কম সময়",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Age": "বয়স",
+  "Sedentary": "কম সক্রিয়",
+  "Lightly active": "হালকা",
+  "Moderate": "মাঝারি",
+  "Very active": "খুব সক্রিয়",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "হালকা: সপ্তাহে ১ থেকে ৩টি সেশন। মাঝারি: ৩ থেকে ৫। খুব সক্রিয়: ৬ বা ৭।",
+  "Cut": "কাটিং",
+  "Maintenance": "রক্ষণ",
+  "Bulk": "বাল্কিং",
+  "Protein: {0} to {1} g a day": "প্রোটিন: দিনে {0} থেকে {1} গ্রাম",
+  "Needs your height, weight and age.": "তোমার উচ্চতা, ওজন আর বয়স লাগবে।",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin-St Jeor সূত্র। কাটিং রক্ষণের চেয়ে ২০ % কম, বাল্কিং ১০ % বেশি।",
 }

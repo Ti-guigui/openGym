@@ -4229,6 +4229,13 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 .tools-time .stp-l{text-align:start}
 .tools-time input{width:100%;font-variant-numeric:tabular-nums}
 .tools-foot{text-align:center;margin:4px 16px 24px}
+/* Calories card: the activity picker full width (four choices), and three tiles in one row. */
+.tools-kcal-act{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.tools-kcal-act .stp-l{text-align:start}
+.tools-kcal-act .seg-inline{width:100%;margin-inline-start:0}
+.tools-kcal-act .seg-inline button{padding:5px 4px}
+.tools-kcal-act .seg-inline button span{white-space:normal;line-height:1.15}
+.tools-kcal-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
 
 /* ---------------------------------------------------------- journal -- */
 /* Stats → More → Journal (views/Journal.jsx): a feed of notes. The note is the content, so it gets

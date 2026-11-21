@@ -5952,4 +5952,17 @@ export default {
   "Preview on": "المعاينة على",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "أقصر قليلًا",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Age": "العمر",
+  "Sedentary": "خامل",
+  "Lightly active": "خفيف",
+  "Moderate": "معتدل",
+  "Very active": "نشيط جدًا",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "خفيف: من 1 إلى 3 حصص أسبوعيًا. معتدل: من 3 إلى 5. نشيط جدًا: 6 أو 7.",
+  "Cut": "تنشيف",
+  "Maintenance": "ثبات",
+  "Bulk": "تضخيم",
+  "Protein: {0} to {1} g a day": "البروتين: من {0} إلى {1} غ يوميًا",
+  "Needs your height, weight and age.": "يلزم طولك ووزنك وعمرك.",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "معادلة ميفلين-سانت جيور. التنشيف أقل من الثبات بنسبة 20 %، والتضخيم أعلى بنسبة 10 %.",
 }

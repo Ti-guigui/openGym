@@ -5863,4 +5863,17 @@ export default {
   "Preview on": "Xem trước trên",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "ngắn hơn",
-};
+  // --- Calories card (Ti Guigui FIT) ---
+  "Age": "Tuổi",
+  "Sedentary": "Ít vận động",
+  "Lightly active": "Nhẹ",
+  "Moderate": "Vừa",
+  "Very active": "Rất năng động",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "Nhẹ: 1 đến 3 buổi mỗi tuần. Vừa: 3 đến 5. Rất năng động: 6 hoặc 7.",
+  "Cut": "Giảm mỡ",
+  "Maintenance": "Duy trì",
+  "Bulk": "Tăng cơ",
+  "Protein: {0} to {1} g a day": "Đạm: {0} đến {1} g mỗi ngày",
+  "Needs your height, weight and age.": "Cần chiều cao, cân nặng và tuổi của bạn.",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Công thức Mifflin-St Jeor. Giảm mỡ thấp hơn mức duy trì 20 %, tăng cơ cao hơn 10 %.",
+}

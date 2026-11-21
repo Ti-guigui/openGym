@@ -5897,4 +5897,17 @@ export default {
   "Preview on": "Önizleme yeri",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "biraz daha kısa",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Age": "Yaş",
+  "Sedentary": "Hareketsiz",
+  "Lightly active": "Hafif",
+  "Moderate": "Orta",
+  "Very active": "Çok aktif",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "Hafif: haftada 1-3 antrenman. Orta: 3-5. Çok aktif: 6 veya 7.",
+  "Cut": "Definasyon",
+  "Maintenance": "Koruma",
+  "Bulk": "Bulk",
+  "Protein: {0} to {1} g a day": "Protein: günde {0}-{1} g",
+  "Needs your height, weight and age.": "Boyun, kilon ve yaşın gerekiyor.",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin-St Jeor formülü. Definasyon korumanın %20 altında, bulk %10 üstünde.",
 }

@@ -5917,4 +5917,17 @@ export default {
   "Preview on": "Vorschau auf",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "etwas kürzer",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Age": "Alter",
+  "Sedentary": "Sitzend",
+  "Lightly active": "Leicht",
+  "Moderate": "Mäßig",
+  "Very active": "Sehr aktiv",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "Leicht: 1 bis 3 Einheiten pro Woche. Mäßig: 3 bis 5. Sehr aktiv: 6 oder 7.",
+  "Cut": "Diät",
+  "Maintenance": "Erhaltung",
+  "Bulk": "Aufbau",
+  "Protein: {0} to {1} g a day": "Protein: {0} bis {1} g pro Tag",
+  "Needs your height, weight and age.": "Braucht deine Größe, dein Gewicht und dein Alter.",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin-St-Jeor-Formel. Diät liegt 20 % unter der Erhaltung, Aufbau 10 % darüber.",
 }

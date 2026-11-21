@@ -5901,4 +5901,17 @@ export default {
   "Preview on": "Предпросмотр на",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "чуть покороче",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Age": "Возраст",
+  "Sedentary": "Сидячий",
+  "Lightly active": "Лёгкий",
+  "Moderate": "Умеренный",
+  "Very active": "Очень активный",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "Лёгкий: 1–3 тренировки в неделю. Умеренный: 3–5. Очень активный: 6 или 7.",
+  "Cut": "Сушка",
+  "Maintenance": "Поддержание",
+  "Bulk": "Набор массы",
+  "Protein: {0} to {1} g a day": "Белок: {0}–{1} г в день",
+  "Needs your height, weight and age.": "Нужны твой рост, вес и возраст.",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Формула Миффлина — Сан Жеора. Сушка на 20 % ниже поддержания, набор массы на 10 % выше.",
 }

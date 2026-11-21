@@ -5893,4 +5893,17 @@ export default {
   "Preview on": "Peržiūra",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "šiek tiek trumpiau",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Lightly active": "Lengvas",
+  "Age": "Amžius",
+  "Sedentary": "Sėslus",
+  "Moderate": "Vidutinis",
+  "Very active": "Labai aktyvus",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "Lengvas: 1–3 treniruotės per savaitę. Vidutinis: 3–5. Labai aktyvus: 6 ar 7.",
+  "Cut": "Džiovinimas",
+  "Maintenance": "Palaikymas",
+  "Bulk": "Masės auginimas",
+  "Protein: {0} to {1} g a day": "Baltymai: {0}–{1} g per dieną",
+  "Needs your height, weight and age.": "Reikia tavo ūgio, svorio ir amžiaus.",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin-St Jeor formulė. Džiovinimas yra 20 % mažiau nei palaikymas, masės auginimas 10 % daugiau.",
 }

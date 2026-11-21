@@ -12,13 +12,13 @@ import { best1RM, formulaOf } from '../lib/onerm.js'
 import { lastBW, modeOf } from '../lib/history.js'
 import { dropGrid } from '../lib/plates.js'
 import { currentDbLoad } from '../lib/dumbbells.js'
-import { sexOf } from '../lib/strength-level.js'
+import { sexOf, ageOf } from '../lib/strength-level.js'
 import { lengthUnitOf } from '../lib/measurements.js'
 import { distUnitOf, distLabel } from '../lib/distance.js'
 import { isoRun } from '../lib/bidi.js'
 import {
   LB_PER_KG, CM_PER_IN, percentTable, rpeLoad, dots, wilks, ipfGl, bmi, bmiBand, ffmi, navyBodyFat,
-  pace, timeAt, RACES, fmtClock, parseClock,
+  pace, timeAt, RACES, fmtClock, parseClock, calorieNeeds,
 } from '../lib/calculators.js'
 
 // Tools (gm-tools, 1.4.5): the calculators people open another app for, filled in from what is
@@ -66,6 +66,7 @@ export default function Tools() {
     <ScoresCard S={S} unit={unit} toKg={toKg} bwNow={bwNow} formula={formula} />
     <BodyCard S={S} update={update} unit={unit} toKg={toKg} bwNow={bwNow} lenUnit={lenUnit} toCm={toCm} fromCm={fromCm}
       neck={latest('neck')} waist={latest('waist')} hips={latest('hips')} bodyFat={latest('bodyFat')} />
+    <CaloriesCard S={S} unit={unit} toKg={toKg} bwNow={bwNow} />
     <PaceCard S={S} />
     <div className="small dim tools-foot">{t('Estimates, not a lab. Good for planning, not for arguing.')}</div>
   </>
@@ -221,6 +222,47 @@ function BodyCard({ S, update, unit, toKg, bwNow, lenUnit, toCm, fromCm, neck, w
     <div className="row cfgrow" style={{ marginTop: 8 }}>
       <Stepper label={t('Body fat for FFMI (%)')} value={fat} step={0.5} max={60} onChange={setBf} />
     </div>
+  </section>
+}
+
+// Calories (Ti Guigui FIT): the daily need to cut, hold and bulk, by Mifflin-St Jeor
+// (lib/calculators.js calorieNeeds). Weight and height come from the profile like the Body card;
+// the age starts from the year of birth when the profile has one. Nothing here is saved.
+const ACTIVITY_LABEL = { sedentary: 'Sedentary', light: 'Lightly active', moderate: 'Moderate', very: 'Very active' }
+
+function CaloriesCard({ S, unit, toKg, bwNow }) {
+  const [bw, setBw] = useState(null)
+  const [age, setAge] = useState(null)
+  const [sex, setSex] = useState(sexOf(S) || 'male')
+  const [activity, setActivity] = useState('moderate')
+  const heightCm = Number(S.heightCm) > 0 ? Number(S.heightCm) : 0
+  const body = bw ?? bwNow ?? 0
+  const years = age ?? ageOf(S) ?? 30
+  const kg = toKg(body)
+  const need = calorieNeeds({ kg, cm: heightCm, age: years, sex, activity })
+  const kcal = v => fmtNum(v)
+  return <section className="card tools-card" aria-labelledby="tools-kcal">
+    <h2 id="tools-kcal" className="tools-h"><Icon name="flame" />{t('Calories')}</h2>
+    <div className="row cfgrow" style={{ marginBottom: 8 }}>
+      <Stepper label={t('Body weight ({0})', unit)} value={body} step={0.5} onChange={setBw} />
+      <Stepper label={t('Age')} value={years} step={1} min={14} max={100} onChange={setAge} />
+    </div>
+    <SexPicker value={sex} onChange={setSex} />
+    <div className="tools-kcal-act">
+      <span className="stp-l">{t('Activity')}</span>
+      <Segmented className="seg-inline" value={activity} onChange={setActivity}
+        options={Object.keys(ACTIVITY_LABEL).map(k => ({ value: k, label: t(ACTIVITY_LABEL[k]) }))} />
+      <div className="small dim">{t('Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.')}</div>
+    </div>
+    {need ? <>
+      <div className="tiles tools-tiles tools-kcal-tiles" aria-live="polite">
+        <div className="tile"><div className="l">{t('Cut')}</div><div className="v v-sm">{kcal(need.cut)}</div><div className="small dim">kcal</div></div>
+        <div className="tile"><div className="l">{t('Maintenance')}</div><div className="v v-sm">{kcal(need.maintenance)}</div><div className="small dim">kcal</div></div>
+        <div className="tile"><div className="l">{t('Bulk')}</div><div className="v v-sm">{kcal(need.bulk)}</div><div className="small dim">kcal</div></div>
+      </div>
+      <div className="small" style={{ marginTop: 8 }}>{t('Protein: {0} to {1} g a day', fmtNum(need.protein[0]), fmtNum(need.protein[1]))}</div>
+      <div className="small dim" style={{ marginTop: 4 }}>{t('Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.')}</div>
+    </> : <div className="small dim">{heightCm ? t('Needs your height, weight and age.') : t('Add your height once and every body number below fills in. It stays on this profile.')}</div>}
   </section>
 }
 

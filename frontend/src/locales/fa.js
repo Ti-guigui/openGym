@@ -5863,4 +5863,17 @@ export default {
   "Preview on": "پیش‌نمایش روی",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "کمی کوتاه‌تر",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Lightly active": "سبک",
+  "Age": "سن",
+  "Sedentary": "کم‌تحرک",
+  "Moderate": "متوسط",
+  "Very active": "بسیار فعال",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "سبک: ۱ تا ۳ جلسه در هفته. متوسط: ۳ تا ۵. بسیار فعال: ۶ یا ۷.",
+  "Cut": "کات",
+  "Maintenance": "نگهداری",
+  "Bulk": "حجم",
+  "Protein: {0} to {1} g a day": "پروتئین: {0} تا {1} گرم در روز",
+  "Needs your height, weight and age.": "قد، وزن و سنت لازم است.",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "فرمول میفلین-سنت ژئور. کات ۲۰ ٪ زیر نگهداری است و حجم ۱۰ ٪ بالای آن.",
 }

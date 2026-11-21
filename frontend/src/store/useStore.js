@@ -95,7 +95,7 @@ export const DEF = {
   // accent: the old iOS green on purpose. A loaded copy that never picked one (saved before accents,
   // a server document, a backup) keeps the green it always had; a new profile starts on the
   // brand's green instead (freshState, lib/accent.js NEW_ACCENT).
-  theme: 'dark', accent: 'lime', body: 'male', targetW: null,
+  theme: 'dark', accent: 'violet', body: 'male', targetW: null,
   // The weekly-rate corridor on the body-weight card (#759, lib/bodyweight.js rateCorridor).
   rateGoal: null,
   bodyweight: [], routines: [], week: {}, dayPlan: {},

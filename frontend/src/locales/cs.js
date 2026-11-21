@@ -5863,4 +5863,17 @@ export default {
   "Preview on": "Náhled na",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "kratší",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Age": "Věk",
+  "Sedentary": "Sedavý",
+  "Lightly active": "Lehký",
+  "Moderate": "Střední",
+  "Very active": "Velmi aktivní",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "Lehký: 1 až 3 tréninky týdně. Střední: 3 až 5. Velmi aktivní: 6 nebo 7.",
+  "Cut": "Rýsování",
+  "Maintenance": "Udržování",
+  "Bulk": "Nabírání",
+  "Protein: {0} to {1} g a day": "Bílkoviny: {0} až {1} g denně",
+  "Needs your height, weight and age.": "Potřebuje tvou výšku, váhu a věk.",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Vzorec Mifflin-St Jeor. Rýsování je 20 % pod udržováním, nabírání 10 % nad ním.",
 }

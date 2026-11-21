@@ -4326,6 +4326,19 @@ export const PT_BR_OVERRIDES = {
   "iOS ends it after 8 hours, and a swipe removes it. It comes back with your next set.": "O iOS encerra depois de 8 horas, e um deslize remove. Volta com sua próxima série.",
   "Android Settings, Apps, openGym, Notifications.": "Configurações do Android, Apps, openGym, Notificações.",
   "Follows the main page. Switch this on to pick the details and buttons for this type yourself.": "Segue a página principal. Ative isto para escolher você mesmo os detalhes e os botões deste tipo.",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Age": "Idade",
+  "Sedentary": "Sedentário",
+  "Lightly active": "Leve",
+  "Moderate": "Moderado",
+  "Very active": "Muito ativo",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "Leve: 1 a 3 treinos por semana. Moderado: 3 a 5. Muito ativo: 6 ou 7.",
+  "Cut": "Cutting",
+  "Maintenance": "Manutenção",
+  "Bulk": "Bulking",
+  "Protein: {0} to {1} g a day": "Proteína: {0} a {1} g por dia",
+  "Needs your height, weight and age.": "Precisa da sua altura, peso e idade.",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Fórmula de Mifflin-St Jeor. O cutting fica 20 % abaixo da manutenção e o bulking 10 % acima.",
 }
 
 export default { ...pt, ...PT_BR_OVERRIDES }

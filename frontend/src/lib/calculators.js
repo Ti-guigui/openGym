@@ -113,6 +113,42 @@ export function bmi(kg, cm) {
 /** The WHO adult bands, as a key: under (< 18.5), normal (< 25), over (< 30), obese. */
 export const bmiBand = v => (v == null ? null : v < 18.5 ? 'under' : v < 25 ? 'normal' : v < 30 ? 'over' : 'obese')
 
+// ── Energy ─────────────────────────────────────────────────────────────────────
+
+/**
+ * Activity factors for the daily energy need (the usual multipliers applied to a resting rate,
+ * as in FAO/WHO/UNU 2004 and McArdle, Katch & Katch): sedentary, light (1 to 3 sessions a
+ * week), moderate (3 to 5), very active (6 or 7).
+ */
+export const ACTIVITY = { sedentary: 1.2, light: 1.375, moderate: 1.55, very: 1.725 }
+
+/**
+ * Resting energy (kcal a day) by Mifflin-St Jeor (Mifflin et al. 1990, the equation the
+ * Academy of Nutrition and Dietetics recommends): 10 × kg + 6.25 × cm − 5 × age, +5 for men,
+ * −161 for women.
+ */
+export function bmrMifflin(kg, cm, age, sex = 'male') {
+  if (!ok(kg) || !ok(cm) || !ok(age)) return null
+  return 10 * num(kg) + 6.25 * num(cm) - 5 * num(age) + (sex === 'female' ? -161 : 5)
+}
+
+/**
+ * The daily calories to hold, lose and gain weight: maintenance is the resting rate times the
+ * activity factor; a cut sits 20 % under it and a lean bulk 10 % over it. Rounded to 10 kcal.
+ * Protein is the 1.6 to 2.2 g per kg range (Morton et al. 2018, ISSN position stand 2017).
+ */
+export function calorieNeeds({ kg, cm, age, sex = 'male', activity = 'moderate' } = {}) {
+  const bmr = bmrMifflin(kg, cm, age, sex)
+  if (bmr == null || bmr <= 0) return null
+  const f = ACTIVITY[activity] || ACTIVITY.moderate
+  const r10 = v => Math.round(v / 10) * 10
+  const tdee = bmr * f
+  return {
+    bmr: r10(bmr), maintenance: r10(tdee), cut: r10(tdee * 0.8), bulk: r10(tdee * 1.1),
+    protein: [Math.round(num(kg) * 1.6), Math.round(num(kg) * 2.2)],
+  }
+}
+
 /**
  * Fat-free mass index (Kouri, Pope, Katz & Oliva 1995): lean mass / m², and the version
  * normalised to 1.80 m (+ 6.1 × (1.8 − height in m)) that their cut-off of about 25 refers to.

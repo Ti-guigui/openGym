@@ -5897,4 +5897,17 @@ export default {
   "Preview on": "미리 볼 화면",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "조금 짧게",
+  // --- Calories card (Ti Guigui FIT) ---
+  "Age": "나이",
+  "Sedentary": "좌식",
+  "Lightly active": "가벼움",
+  "Moderate": "보통",
+  "Very active": "매우 활동적",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "가벼움: 주 1~3회 운동. 보통: 3~5회. 매우 활동적: 6~7회.",
+  "Cut": "감량",
+  "Maintenance": "유지",
+  "Bulk": "증량",
+  "Protein: {0} to {1} g a day": "단백질: 하루 {0}~{1}g",
+  "Needs your height, weight and age.": "키, 체중, 나이가 필요해요.",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Mifflin-St Jeor 공식. 감량은 유지보다 20 % 적고, 증량은 10 % 많아요.",
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { percentTable, rpePercent, rpeLoad, e1rmFromRpe, dots, wilks, ipfGl, bmi, bmiBand, ffmi, navyBodyFat, pace, timeAt, fmtClock, parseClock, RACES } from './calculators.js'
+import { percentTable, rpePercent, rpeLoad, e1rmFromRpe, dots, wilks, ipfGl, bmi, bmiBand, ffmi, navyBodyFat, pace, timeAt, fmtClock, parseClock, RACES, bmrMifflin, calorieNeeds, ACTIVITY } from './calculators.js'
 
 describe('strength scores against published values', () => {
   it('DOTS: men 100 kg has the coefficient 0.6155 (500 / 812.33)', () => {
@@ -89,5 +89,28 @@ describe('pace', () => {
     expect(parseClock('4,5')).toBe(270)
     expect(parseClock('a:b')).toBeNull()
     expect(parseClock('')).toBeNull()
+  })
+})
+
+describe('calorie needs (Mifflin-St Jeor)', () => {
+  it('matches the published equation', () => {
+    // 10 × 80 + 6.25 × 180 − 5 × 30 + 5
+    expect(bmrMifflin(80, 180, 30, 'male')).toBe(1780)
+    // 10 × 60 + 6.25 × 165 − 5 × 25 − 161
+    expect(bmrMifflin(60, 165, 25, 'female')).toBeCloseTo(1345.25, 2)
+  })
+  it('gives maintenance, a 20 % cut, a 10 % bulk and a protein range', () => {
+    expect(calorieNeeds({ kg: 80, cm: 180, age: 30, sex: 'male', activity: 'moderate' }))
+      .toEqual({ bmr: 1780, maintenance: 2760, cut: 2210, bulk: 3030, protein: [128, 176] })
+    expect(calorieNeeds({ kg: 60, cm: 165, age: 25, sex: 'female', activity: 'sedentary' }).maintenance).toBe(1610)
+  })
+  it('orders the activity levels and falls back to moderate', () => {
+    expect(ACTIVITY.sedentary < ACTIVITY.light && ACTIVITY.light < ACTIVITY.moderate && ACTIVITY.moderate < ACTIVITY.very).toBe(true)
+    expect(calorieNeeds({ kg: 80, cm: 180, age: 30, activity: 'nonsense' }).maintenance).toBe(2760)
+  })
+  it('needs weight, height and age', () => {
+    expect(calorieNeeds({ kg: 80, cm: 0, age: 30 })).toBe(null)
+    expect(calorieNeeds({ kg: 80, cm: 180 })).toBe(null)
+    expect(bmrMifflin(null, 180, 30)).toBe(null)
   })
 })

@@ -5862,4 +5862,17 @@ export default {
   "Preview on": "Pratinjau di",
   // 1.4.5 UX round, P2: timed holds in the finish summary (next hold is shorter)
   "shorter": "sedikit lebih singkat",
-};
+  // --- Calories card (Ti Guigui FIT) ---
+  "Lightly active": "Ringan",
+  "Age": "Usia",
+  "Sedentary": "Jarang bergerak",
+  "Moderate": "Sedang",
+  "Very active": "Sangat aktif",
+  "Lightly active: 1 to 3 sessions a week. Moderate: 3 to 5. Very active: 6 or 7.": "Ringan: 1 sampai 3 sesi seminggu. Sedang: 3 sampai 5. Sangat aktif: 6 atau 7.",
+  "Cut": "Cutting",
+  "Maintenance": "Pemeliharaan",
+  "Bulk": "Bulking",
+  "Protein: {0} to {1} g a day": "Protein: {0} sampai {1} g per hari",
+  "Needs your height, weight and age.": "Perlu tinggi, berat, dan usiamu.",
+  "Mifflin-St Jeor formula. Cut is 20 % under maintenance, bulk 10 % over.": "Rumus Mifflin-St Jeor. Cutting 20 % di bawah pemeliharaan, bulking 10 % di atasnya.",
+}
