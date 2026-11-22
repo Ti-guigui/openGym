@@ -36,6 +36,8 @@ const BY_ANIM = {
   'etirement-quadriceps': ['1059'], 'etirement-ischios-assis': ['0692'], 'etirement-mollet-mur': ['1377'], 'etirement-pectoraux': ['1271'],
   'etirement-triceps': ['0643'], 'etirement-epaule-croise': ['0669'], 'posture-enfant': ['0945'], 'cobra': ['1482'], 'papillon': ['1494', '1169'],
   'genou-poitrine': ['1810'],
+  'chien-tete-en-bas': ['3469', '0949'], 'pigeon': ['1943', '6761'], 'pliure-avant': ['0959', '0789'], 'torsion-allongee': ['1491', '3639'],
+  'etirement-poignets': ['0561'], 'fessier-figure-4': ['1056'],
 }
 export const ANIM_3D = Object.fromEntries(Object.entries(BY_ANIM).flatMap(([anim, ids]) => ids.map(id => [id, anim])))
 

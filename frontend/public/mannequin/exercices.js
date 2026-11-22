@@ -1737,6 +1737,66 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
       ...tenue(P(30, false), { ...P(110, true), colonne: col(6, 24, 30) }) } });
 }
 
+/* ---------- LOT 9 pour l'appli : étirements (suite) ---------- */
+{ // Chien tête en bas : mains et pieds au sol, bassin au plus haut ; on part genoux pliés, talons levés
+  const P = (y, z, pitch, ay, pied, pole) => ({ racine: { p: [0, y, z], r: [pitch, 0, 0] }, colonne: col(0, 0, 0),
+    bras: bras2({ ik: [20, 3, 64], pole: [0.3, 0, -1], main: MAIN_SOL }), jambes: jambes2({ ik: [12, ay, -52], pole, pied }) });
+  const plie = P(74, 4, 122, 13, [35, 0, 0], [0, -1, 1]), tendu = P(84, 0, 136, 8, PIED_PLAT(4), [0, 0, 1]);
+  E("chien-tete-en-bas", { nom: "Chien tête en bas", vue: "profil", camera: { cible: [0, 50, 5], dist: 420, el: 8 }, ombre: [0, 5, 70, 160],
+    accessoires: [{ type: "tapis", p0: [0, 0, 5] }], recalageDe: "chien-tete-en-bas",
+    muscles: { p: ["ischios", "mollets"], s: ["dorsaux", "deltoides", "fessiers"] }, ...tenue(plie, tendu),
+    erreur: { texte: "le dos s'arrondit pour garder les jambes tendues : allonger le dos d'abord, quitte à plier les genoux.", zone: ["lombaires"],
+      ...tenue(plie, { ...copie(tendu), racine: { p: [0, 78, 4], r: [128, 0, 0] }, colonne: col(24, 16, 14) }) } });
+}
+{ // Pigeon : jambe gauche repliée devant, tibia en travers ; jambe droite tendue derrière ; buste qui se penche
+  const P = (y, pitch, lomb) => ({ racine: { p: [0, y, 0], r: [pitch, 0, 0] }, colonne: col(lomb, lomb * 0.6, 6),
+    bras: bras2({ ik: [22, 3, 26], pole: [0.3, 0, -1], main: MAIN_SOL }),
+    jambes: { G: { ik: [-12, 6, 26], pole: [1, 0.2, 0.4], pied: [0, -60, 70] }, D: { ik: [-12, 6, -74], pole: [0, -1, 0], pied: [160, 0, 0] } } });
+  E("pigeon", { nom: "Pigeon (étirement des fessiers)", vue: "3/4", camera: { cible: [0, 30, 0], dist: 400, el: 14 }, ombre: [0, -15, 90, 170],
+    accessoires: [{ type: "tapis", p0: [0, 0, -10] }], recalageDe: "pigeon",
+    muscles: { p: ["fessiers"], s: ["flechisseurs", "adducteurs"] }, ...tenue(P(40, 4, 0), P(40, 30, 14)),
+    erreur: { texte: "le bassin bascule sur le côté de la jambe pliée : l'étirement passe dans le dos au lieu de la hanche.", zone: ["lombaires"],
+      ...tenue(P(40, 4, 0), { ...P(42, 18, 28), racine: { p: [0, 42, 0], r: [18, 0, 14] } }) } });
+}
+{ // Pliure avant debout : jambes tendues, le buste descend depuis les hanches, bras qui pendent vers les pieds
+  const P = (y, z, pitch, lomb, flex) => ({ racine: { p: [0, y, z], r: [pitch, 0, 0] }, colonne: col(lomb, lomb * 0.7, lomb * 0.6),
+    bras: bras2({ fk: { flex, abd: 6 }, coude: 8 }), jambes: copie(DEBOUT) });
+  E("pliure-avant", { nom: "Pliure avant debout (ischio-jambiers)", vue: "profil", camera: { cible: [0, 70, 0], dist: 440, el: 6 }, ombre: [0, 0, 70, 90],
+    recalageDe: "pliure-avant", muscles: { p: ["ischios", "lombaires"], s: ["mollets", "fessiers"] }, ...tenue(P(99, 0, 0, 0, 4), P(94, -12, 70, 20, 30)),
+    erreur: { texte: "les genoux plient et le dos s'enroule d'un coup : on descend plus bas mais on étire beaucoup moins les ischios.", zone: ["lombaires"],
+      ...tenue(P(99, 0, 0, 0, 4), { ...P(84, -10, 55, 38, 40), jambes: jambes2({ ik: [12, 8, 3], pole: [0.2, 0, 1], pied: PIED_PLAT(6) }) }) } });
+}
+{ // Torsion allongée : sur le dos, bras en croix, les deux genoux pliés tombent ensemble sur le côté gauche
+  const k0 = EXERCICES["pont-fessier"].cles[0];
+  const P = (x, pole, cou = 0) => ({ racine: copie(k0.racine), colonne: col(0, 0, cou), bras: bras2({ fk: { flex: 0, abd: 85 }, coude: 5 }),
+    jambes: { G: { ik: [15 + x, 8 + Math.abs(x) * 0.25, 46], pole, pied: PIED_PLAT(0) }, D: { ik: [-15 + x, 8 + Math.abs(x) * 0.35, 46], pole, pied: PIED_PLAT(0) } } });
+  E("torsion-allongee", { nom: "Torsion allongée (genoux sur le côté)", vue: "3/4", camera: { cible: [0, 20, 5], dist: 380, el: 30 }, ombre: [0, 0, 120, 180],
+    accessoires: [{ type: "tapis", p0: [0, 0, 0] }], recalageDe: "torsion-allongee",
+    muscles: { p: ["obliques", "lombaires"], s: ["fessiers", "pectoraux"] }, ...tenue(P(0, [0.15, 1, 0]), P(24, [1, -0.2, 0.2], -6)),
+    erreur: { texte: "l'épaule opposée décolle du sol pour suivre les genoux : la colonne ne tourne plus.", zone: ["obliques"],
+      ...tenue(P(0, [0.15, 1, 0]), { ...P(24, [1, -0.2, 0.2], -6), bras: { G: { fk: { flex: 0, abd: 85 }, coude: 5 }, D: { fk: { flex: 60, abd: 20 }, coude: 30 } } }) } });
+}
+{ // Poignets à quatre pattes : doigts tournés vers les genoux, on recule doucement le bassin
+  const k0 = EXERCICES["bird-dog"].cles[0];
+  const MAINS = bras2({ ik: [17, 3, 44], pole: [0, 0, 1], main: [90, 0, 0] });
+  const P = (z, pitch) => ({ ...copie(k0), racine: { p: [0, 48, z], r: [pitch, 0, 0] }, bras: copie(MAINS) });
+  E("etirement-poignets", { nom: "Étirement des poignets à quatre pattes", vue: "profil", camera: { cible: [0, 30, 15], dist: 340, el: 14 }, ombre: [0, 0, 70, 200],
+    accessoires: [{ type: "tapis", p0: [0, 0, 0] }], recalageDe: "etirement-poignets",
+    muscles: { p: ["avant-bras"], s: ["biceps"] }, ...tenue(P(0, 90), P(-10, 98)),
+    erreur: { texte: "reculer trop loin d'un coup, coudes pliés : le poignet est tiré brusquement au lieu de s'étirer.", zone: ["avant-bras"], ...tenue(P(0, 90), P(-18, 104)) } });
+}
+{ // Fessier en figure 4, allongé : cheville droite posée sur le genou gauche, pied gauche au sol
+  const k0 = EXERCICES["pont-fessier"].cles[0];
+  const croise = { ik: [9, 44, 27], pole: [-1, 0.3, 0.1], pied: [0, 0, -40] };
+  const P = (D, z = 50) => ({ racine: copie(k0.racine), colonne: col(0, 0, 0), bras: copie(k0.bras),
+    jambes: { G: { ik: [15, 8, z], pole: [0.15, 1, 0], pied: PIED_PLAT(0) }, D } });
+  E("fessier-figure-4", { nom: "Fessier en figure 4 (allongé)", vue: "3/4", camera: { cible: [0, 25, 10], dist: 340, el: 20 }, ombre: [0, 0, 80, 180],
+    accessoires: [{ type: "tapis", p0: [0, 0, 0] }], recalageDe: "fessier-figure-4",
+    muscles: { p: ["fessiers"], s: ["adducteurs", "lombaires"] }, ...tenue(P(copie(k0.jambes.D)), P(croise, 46)),
+    erreur: { texte: "le bassin tourne et le genou croisé se referme : la fesse ne s'étire plus.", zone: ["fessiers"],
+      ...tenue(P(copie(k0.jambes.D)), P({ ...croise, pole: [-0.2, 1, 0.1] }, 46)) } });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
