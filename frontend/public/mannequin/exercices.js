@@ -1646,6 +1646,97 @@ const TIBIAS = ["chevilleG", "chevilleG", "chevilleG", "chevilleG", "genouG", "c
   });
 }
 
+/* ---------- LOT 8 pour l'appli : étirements (postures tenues : on entre, on tient, on revient) ---------- */
+const TENIR = [[0, "Entrer doucement dans la posture"], [0.25, "Tenir 20 à 30 s, respirer lentement"], [0.8, "Revenir sans à-coup"]];
+const tenue = (neutre, etire, autres = {}) => ({ duree: 8, reps: 2, affiche: 0.5, tempo: TENIR, ...autres,
+  cles: [{ ...copie(neutre), t: 0 }, { ...copie(etire), t: 0.25 }, { ...copie(etire), t: 0.8 }, { ...copie(neutre), t: 0.95 }] });
+const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
+{ // Quadriceps debout : la main droite ramène le talon droit vers la fesse, genoux serrés
+  const P = (talon, flex = 0, lomb = 0) => ({ racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne: col(lomb, 0, 0),
+    bras: talon ? { G: { fk: { flex: 75, abd: 25 }, coude: 10 }, D: { ik: [-12, 84, -24], pole: [-0.3, 0, -1], ...PRISE } } : copie(BRAS_BAS),
+    jambes: talon ? { G: copie(DEBOUT.G), D: { fk: { flex, abd: 1 }, genou: 148, cheville: 30 } } : copie(DEBOUT) });
+  E("etirement-quadriceps", { nom: "Étirement des quadriceps debout", vue: "profil", camera: { cible: [0, 95, 0], dist: 440, el: 6 }, ombre: [0, 0, 70, 70],
+    muscles: { p: ["quadriceps"], s: ["flechisseurs"] }, ...tenue(P(false), P(true, -4)),
+    erreur: { texte: "le genou part vers l'avant et le dos se creuse : l'étirement du quadriceps disparaît.", zone: ["lombaires"], ...tenue(P(false), P(true, 30, -14)) } });
+}
+{ // Ischio-jambiers assis, une jambe : jambe gauche tendue, plante du pied droit contre la cuisse gauche, buste penché depuis les hanches
+  const P = (pitch, lomb, bras) => ({ racine: { p: [0, 12, 0], r: [-8 + pitch, 0, 0] }, colonne: col(lomb, lomb * 0.8, 6),
+    bras: bras2({ ik: [10, bras ? 15 : 20, bras || 22], pole: [1, -1, 0] }),   // mains posées sur le tibia de la jambe tendue
+    jambes: { G: { fk: { flex: 85 + pitch, abd: 4 }, genou: 0, cheville: -5 }, D: { ik: [2, 7, 32], pole: [-1, 0.2, 0.3], pied: [10, 50, 30] } } });   // cheville contre l'intérieur de la cuisse gauche, genou vers la droite
+  E("etirement-ischios-assis", { nom: "Étirement des ischio-jambiers assis (une jambe)", vue: "profil", camera: { cible: [0, 30, 25], dist: 380, el: 10 },
+    ombre: [0, 25, 70, 140], accessoires: [{ type: "tapis", p0: [0, 0, 25] }],
+    muscles: { p: ["ischios"], s: ["mollets", "lombaires"] }, ...tenue(P(0, 0, 0), P(32, 10, 50)),
+    erreur: { texte: "le dos s'enroule pour aller chercher le pied : ce sont les lombaires qui tirent, pas les ischios.", zone: ["lombaires"], ...tenue(P(0, 0, 0), P(10, 34, 44)) } });
+}
+{ // Mollet contre un mur : mains au mur, jambe arrière tendue talon au sol, genou avant plié
+  const P = (z, pitch, kz) => ({ racine: { p: [0, 92, z], r: [pitch, 0, 0] }, colonne: col(0, 0, -6),
+    bras: bras2({ ik: [22, 132, 44], pole: [0.4, -1, -0.4], ...PRISE, doigts: 10, phal: 10, pouce: 20 }),
+    jambes: { G: { ik: [12, 8, kz], pole: [0.2, 0, 1], pied: PIED_PLAT(6) }, D: { ik: [-12, 8, -38], pole: [-0.2, 0, 1], pied: PIED_PLAT(-6) } } });
+  E("etirement-mollet-mur", { nom: "Étirement du mollet contre un mur", vue: "profil", camera: { cible: [0, 90, 10], dist: 470, el: 6 }, ombre: [0, 0, 80, 120],
+    accessoires: [{ type: "mur", p0: [0, 0, 58], l: 120, h: 180 }], recalageDe: "etirement-mollet-mur",
+    muscles: { p: ["mollets"], s: ["ischios"] }, ...tenue(P(0, 12, 22), P(10, 22, 26)),
+    erreur: { texte: "le talon arrière décolle : le mollet n'est plus étiré.", zone: ["mollets"],
+      ...tenue(P(0, 12, 22), { ...P(10, 22, 26), jambes: { G: { ik: [12, 8, 26], pole: [0.2, 0, 1], pied: PIED_PLAT(6) }, D: { ik: [-12, 16, -34], pole: [-0.2, 0, 1], pied: [35, -6, 0] } } }) } });
+}
+{ // Pectoraux : mains jointes dans le dos, on ouvre la poitrine en levant légèrement les mains vers l'arrière
+  const P = (y, z, thorax, cou = 0) => ({ racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne: col(0, thorax, cou),
+    bras: bras2({ ik: [5, y, z], pole: [1, 0, -0.3], ...PRISE }), jambes: copie(DEBOUT) });
+  E("etirement-pectoraux", { nom: "Étirement des pectoraux (mains jointes dans le dos)", vue: "3/4", camera: { cible: [0, 115, 0], dist: 420, el: 6 }, ombre: [0, 0, 70, 70],
+    muscles: { p: ["pectoraux", "deltoides"], s: ["biceps"] }, ...tenue(P(84, -16, 0), P(92, -30, -8, -4)),
+    erreur: { texte: "le buste se penche en avant pour monter les mains : la poitrine se ferme au lieu de s'ouvrir.", zone: ["lombaires"],
+      ...tenue(P(84, -16, 0), { ...P(102, -34, 14, 10), racine: { p: [0, 99, 0], r: [22, 0, 0] } }) } });
+}
+{ // Triceps au-dessus de la tête : main droite derrière la nuque, la main gauche pousse doucement le coude droit
+  const P = (etire, lomb = 0) => ({ racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne: col(lomb, 0, 4), jambes: copie(DEBOUT),
+    bras: etire ? { D: { fk: { flex: 172, abd: 12 }, coude: 150 }, G: { ik: [-9, 176, 1], pole: [1, 0.2, 0.3], doigts: 30, phal: 30 } } : copie(BRAS_BAS) });
+  E("etirement-triceps", { nom: "Étirement des triceps au-dessus de la tête", vue: "3/4", camera: { cible: [0, 130, 0], dist: 440, el: 6 }, ombre: [0, 0, 70, 70],
+    muscles: { p: ["triceps"], s: ["dorsaux"] }, ...tenue(P(false), P(true)),
+    erreur: { texte: "le dos se cambre et la tête part en avant : l'épaule compense et le triceps s'étire peu.", zone: ["lombaires"], ...tenue(P(false), P(true, -16)) } });
+}
+{ // Épaule : bras droit tendu en travers de la poitrine, l'avant-bras gauche le rapproche
+  const P = (etire, x = 24) => ({ racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne: col(0, 0, 0), jambes: copie(DEBOUT),
+    bras: etire ? { D: { ik: [x, 135, 20], pole: [0, -1, 0], doigts: 20, phal: 20 }, G: { ik: [x - 14, 131, 26], pole: [1, -1, 0], doigts: 40, phal: 40 } } : copie(BRAS_BAS) });
+  E("etirement-epaule-croise", { nom: "Étirement de l'épaule, bras croisé", vue: "3/4", camera: { cible: [0, 125, 0], dist: 420, el: 6 }, ombre: [0, 0, 70, 70],
+    muscles: { p: ["deltoides"], s: ["trapezes", "dorsaux"] }, ...tenue(P(false), P(true)),
+    erreur: { texte: "le bras passe trop haut, vers le cou : l'épaule se coince au lieu de s'étirer.", zone: ["trapezes"], ...tenue(P(false), { ...P(true, 18), bras: { D: { ik: [18, 152, 18], pole: [0, -1, 0] }, G: { ik: [4, 146, 24], pole: [1, -1, 0] } } }) } });
+}
+{ // Posture de l'enfant : assis sur les talons, buste posé sur les cuisses, bras allongés devant au sol
+  const P = (pitch, y, z, lomb, bx) => ({ racine: { p: [0, y, z], r: [pitch, 0, 0] }, colonne: col(lomb, lomb, lomb > 20 ? 20 : 18),
+    bras: bras2({ ik: [17, 3, bx], pole: [0, 1, 0.3], main: MAIN_SOL }),
+    jambes: jambes2({ ik: [10, 7, -18], pole: [0, -1, 1], pied: [165, 0, 0] }) });
+  E("posture-enfant", { nom: "Posture de l'enfant", vue: "profil", camera: { cible: [0, 30, 15], dist: 360, el: 10 }, ombre: [0, 10, 70, 160],
+    accessoires: [{ type: "tapis", p0: [0, 0, 10] }], recalageDe: "posture-enfant",
+    muscles: { p: ["dorsaux", "lombaires"], s: ["fessiers", "deltoides"] }, ...tenue(P(40, 40, 6, 6, 52), P(68, 27, -6, 26, 82)),
+    erreur: { texte: "les fesses décollent des talons et les bras se plient : le dos ne s'allonge plus.", zone: ["lombaires"], ...tenue(P(40, 40, 6, 6, 52), P(62, 38, 6, 14, 58)) } });
+}
+{ // Cobra : allongé sur le ventre, les mains sous les épaules poussent le buste vers le haut, bassin au sol
+  const P = (lomb, thorax, cou, bz) => ({ racine: { p: [0, 10, 0], r: [90, 0, 0] }, colonne: col(lomb, thorax, cou),
+    bras: bras2({ ik: [18, 3, bz], pole: [0, 0, -1], main: MAIN_SOL }), jambes: jambes2({ fk: { flex: 0, abd: 4 }, genou: 0, cheville: 60 }) });
+  E("cobra", { nom: "Cobra (extension du dos)", vue: "profil", camera: { cible: [0, 25, 20], dist: 380, el: 10 }, ombre: [0, 0, 70, 190],
+    accessoires: [{ type: "tapis", p0: [0, 0, 0] }], recalageDe: "cobra",
+    muscles: { p: ["abdominaux", "flechisseurs"], s: ["pectoraux"] }, ...tenue(P(0, 0, -10, 40), P(-30, -22, -12, 34)),
+    erreur: { texte: "la tête part en arrière et les épaules montent vers les oreilles : la nuque se tasse.", zone: ["trapezes"], ...tenue(P(0, 0, -10, 40), P(-34, -26, -40, 34)) } });
+}
+{ // Papillon : assis droit, plantes des pieds jointes, les genoux descendent vers le sol
+  const P = (genouY, pitch = -4) => ({ racine: { p: [0, 12, 0], r: [pitch, 0, 0] }, colonne: col(-2, 0, 0),
+    bras: bras2({ ik: [6, 13, 35], pole: [1, -0.3, 0], ...PRISE }), jambes: jambes2({ ik: [4, 7, 33], pole: [1, genouY, 0.2], pied: [0, 0, 60] }) });
+  E("papillon", { nom: "Papillon (étirement des adducteurs)", vue: "face", camera: { cible: [0, 30, 15], dist: 360, el: 16 }, ombre: [0, 15, 90, 90],
+    accessoires: [{ type: "tapis", p0: [0, 0, 15] }], recalageDe: "papillon",
+    muscles: { p: ["adducteurs"], s: ["fessiers"] }, ...tenue(P(1.2), P(0.2, 8)),
+    erreur: { texte: "le dos s'arrondit et la tête descend : on force sur le dos au lieu d'ouvrir les hanches.", zone: ["lombaires"], ...tenue(P(1.2), { ...P(0.5, 20), colonne: col(24, 20, 20) }) } });
+}
+{ // Genou vers la poitrine, allongé : les deux mains ramènent le genou droit, la jambe gauche reste au sol
+  const k0 = EXERCICES["pont-fessier"].cles[0];
+  const P = (flex, mains) => ({ racine: copie(k0.racine), colonne: col(0, 0, 0),
+    bras: mains ? { G: { ik: [-2, 55, -12], pole: [1, -1, 0], doigts: 70, phal: 80 }, D: { ik: [-16, 55, -12], pole: [-1, -1, 0], doigts: 70, phal: 80 } } : copie(k0.bras),   // les deux mains sur le genou droit
+    jambes: { G: { fk: { flex: 2, abd: 3 }, genou: 2, cheville: 10 }, D: mains ? { fk: { flex, abd: 2 }, genou: 125, cheville: 10 } : copie(k0.jambes.D) } });   // départ : pied droit à plat au sol
+  E("genou-poitrine", { nom: "Genou vers la poitrine (allongé)", vue: "profil", camera: { cible: [0, 25, 5], dist: 330, el: 12 }, ombre: [0, 0, 70, 180],
+    accessoires: [{ type: "tapis", p0: [0, 0, 0] }], recalageDe: "genou-poitrine",
+    muscles: { p: ["fessiers", "lombaires"], s: ["ischios"] }, ...tenue(P(30, false), P(118, true)),
+    erreur: { texte: "la tête et les épaules décollent pour tirer le genou : la nuque se crispe.", zone: ["trapezes"],
+      ...tenue(P(30, false), { ...P(110, true), colonne: col(6, 24, 30) }) } });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
