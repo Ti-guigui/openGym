@@ -1169,6 +1169,98 @@ const TIBIAS = ["chevilleG", "chevilleG", "chevilleG", "chevilleG", "genouG", "c
     () => ({ fk: { flex: 2, abd: 7 }, coude: 4, prono: -85, ...PRISE }));   // bras pendants, haltères le long des jambes
 }
 
+/* ---------- LOT 2 pour l'appli : poses nouvelles ou fortement modifiées ---------- */
+{ // Développé militaire à la barre : la barre part du haut de la poitrine et passe devant le visage (la tête recule un peu)
+  const P = (t, y, z, cou = 0, lomb = 0) => ({ t, racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne: col(lomb, lomb * 0.6, cou),
+    bras: bras2({ ik: [24, y, z], pole: [1, -1, 0.2], ...PRISE }), jambes: DEBOUT });
+  const bas = P(0, 146, 16, -8), mi = P(0.18, 170, 13, -10), haut = P(0.4, 197, 1);
+  E("developpe-militaire-barre", {
+    nom: "Développé militaire à la barre", duree: 3.5, reps: 8, affiche: 0.4, vue: "3/4",
+    camera: { cible: [0, 125, 0], dist: 440, el: 6 }, ombre: [0, 0, 80, 80], accessoires: [{ type: "barre-olympique", main: "2" }],
+    muscles: { p: ["deltoides", "triceps"], s: ["trapezes", "pectoraux", "abdominaux"] },
+    tempo: [[0, "Pousser · 1 s, la tête recule"], [0.4, "Barre au-dessus de la tête"], [0.5, "Redescendre en 2 s"]],
+    cles: [bas, mi, haut, { ...copie(haut), t: 0.5 }, { ...copie(mi), t: 0.75 }, { ...copie(bas), t: 0.95 }],
+    erreur: { texte: "le bas du dos se creuse pour faire passer la barre : ce sont les lombaires qui prennent.", zone: ["lombaires"],
+      cles: [P(0, 146, 18, -8, -16), P(0.18, 170, 16, -8, -20), P(0.4, 196, 8, 0, -24), P(0.5, 196, 8, 0, -24), P(0.75, 170, 16, -8, -20), P(0.95, 146, 18, -8, -16)] }
+  });
+}
+{ // Écarté couché aux haltères : bras presque tendus qui s'ouvrent en arc au-dessus de la poitrine
+  const dc = EXERCICES["developpe-couche"].cles[0];
+  const P = (t, x, y, coudes = 1) => ({ t, racine: copie(dc.racine), colonne: copie(dc.colonne), jambes: copie(dc.jambes),
+    bras: bras2({ ik: [x, y, -36], pole: [1, -coudes, 0], ...PRISE }) });
+  const haut = P(0, 11, 112), bas = P(0.45, 58, 78);
+  E("ecarte-halteres", {
+    nom: "Écarté couché aux haltères", duree: 3.5, reps: 12, affiche: 0.45, vue: "3/4",
+    camera: { cible: [0, 70, -10], dist: 440, el: 22 }, ombre: [0, -15, 110, 200], accessoires: [EXERCICES["developpe-couche"].accessoires[0], ...HALTERES],
+    muscles: { p: ["pectoraux"], s: ["deltoides", "biceps"] },
+    tempo: [[0, "Ouvrir en arc · 2 s"], [0.45, "Étirement de la poitrine"], [0.55, "Refermer en serrant · 1 s"]],
+    cles: [haut, bas, { ...copie(bas), t: 0.55 }, { ...copie(haut), t: 0.95 }],
+    erreur: { texte: "descendre trop bas, bras tendus : l'avant de l'épaule est tiré au-delà de ce qu'il supporte.", zone: ["deltoides"],
+      cles: [haut, P(0.45, 66, 64, 0.2), P(0.55, 66, 64, 0.2), { ...copie(haut), t: 0.95 }] }
+  });
+}
+{ // Relevés de genoux et de jambes, suspendu à la barre : mêmes mains que la traction, bras tendus
+  const tr = EXERCICES["traction"], base = tr.cles[0];
+  const H = (t, hanches, genoux, pitch = 0) => ({ ...copie(base), t, racine: { p: [...base.racine.p], r: [base.racine.r[0] + pitch, 0, 0] },
+    jambes: jambes2({ fk: { flex: hanches, abd: 2 }, genou: genoux, cheville: -20 }) });
+  const def = (nom, haut) => ({
+    nom, duree: 3.5, reps: 10, affiche: 0.42, vue: "profil",
+    camera: { cible: [0, 128, 0], dist: 560, el: 3 }, ombre: [0, 0, 90, 90], accessoires: copie(tr.accessoires),
+    muscles: { p: ["abdominaux", "flechisseurs"], s: ["avant-bras", "dorsaux", "quadriceps"] },
+    tempo: [[0, "Monter sans se balancer · 1,5 s"], [0.45, "Tenir en haut"], [0.55, "Redescendre en 2 s"]],
+    cles: [H(0, 6, 15), haut, { ...copie(haut), t: 0.55 }, H(0.95, 6, 15)],
+    erreur: { texte: "se balancer d'avant en arrière : l'élan soulève les jambes à la place des abdominaux.", zone: ["lombaires"],
+      cles: [H(0, -10, 25, 12), { ...copie(haut), racine: { ...copie(haut.racine), r: [haut.racine.r[0] - 14, 0, 0] } }, H(0.6, 30, 40, -10), H(0.95, -10, 25, 12)] }
+  });
+  E("releve-genoux-suspendu", def("Relevé de genoux suspendu", H(0.45, 100, 105, -4)));
+  E("releve-jambes-suspendu", def("Relevé de jambes suspendu", H(0.45, 88, 6, -8)));
+}
+{ // Dips aux barres parallèles : bras tendus en haut, buste un peu penché en bas, genoux pliés
+  const BARRES = machine([{ c: [2.4, 60], p: [25, 111, 5], r: [90, 0, 0], m: "acier" }, { c: [2.4, 60], p: [-25, 111, 5], r: [90, 0, 0], m: "acier" },
+    { b: [5, 111, 5], p: [25, 55.5, 32] }, { b: [5, 111, 5], p: [-25, 55.5, 32] }, { b: [5, 111, 5], p: [25, 55.5, -22] }, { b: [5, 111, 5], p: [-25, 55.5, -22] }]);
+  const P = (t, y, pitch, z = 0, hy = 118) => ({ t, racine: { p: [0, y, z], r: [pitch, 0, 0] }, colonne: col(0, pitch * 0.3, -6),
+    bras: bras2({ ik: [24, hy, 5], pole: [0.2, 0, -1], ...PRISE }), jambes: jambes2({ fk: { flex: 15, abd: 2 }, genou: 85, cheville: -25 }) });
+  const haut = P(0, 124, 4, -2), bas = P(0.45, 95, 16, -6);
+  E("dips-barres", {
+    nom: "Dips aux barres parallèles", duree: 3.5, reps: 8, affiche: 0.4, vue: "3/4",
+    camera: { cible: [0, 110, 0], dist: 500, el: 6 }, ombre: [0, 5, 90, 100], accessoires: [BARRES],
+    muscles: { p: ["triceps", "pectoraux"], s: ["deltoides", "abdominaux"] },
+    tempo: [[0, "Descendre en 2 s, coudes vers l'arrière"], [0.45, "Bras à angle droit"], [0.55, "Pousser · 1 s"]],
+    cles: [haut, bas, { ...copie(bas), t: 0.55 }, { ...copie(haut), t: 0.95 }],
+    erreur: { texte: "descendre trop bas, épaules qui roulent en avant : l'avant de l'épaule est écrasé.", zone: ["deltoides"],
+      cles: [haut, P(0.45, 82, 24, -9, 119.5), P(0.55, 82, 24, -9, 119.5), { ...copie(haut), t: 0.95 }] }
+  });
+}
+{ // Split squat : pieds fixes, un devant, un derrière sur la pointe ; le bassin descend tout droit
+  const brasL = b => bras2({ fk: { flex: 8 + 26 * b, abd: 14 }, coude: 25 + 45 * b });
+  const avant = { ik: [13, 8, 6], pole: [0.2, 0, 1], pied: PIED_PLAT(10) };
+  const P = (t, y, ay, pied, pitch = 5) => { const b = (84 - y) / 26; return { t, racine: { p: [0, y, -24], r: [pitch, 0, 0] }, colonne: col(-2, 1, 0),
+    bras: brasL(b), jambes: { G: avant, D: { ik: [-13, ay, -58], pole: [0, -0.2, 1], pied: [pied, -4, 0] } } }; };
+  const haut = P(0, 84, 14, 45), bas = P(0.45, 58, 16, 72);
+  E("split-squat", {
+    nom: "Split squat (fente statique)", duree: 4, reps: 8, affiche: 0.45, vue: "profil",
+    camera: { cible: [0, 75, -20], dist: 430, el: 6 }, ombre: [0, -25, 90, 160],
+    muscles: { p: ["quadriceps", "fessiers"], s: ["ischios", "adducteurs", "mollets", "abdominaux"] },
+    tempo: [[0, "Descendre tout droit · 2 s"], [0.45, "Genou arrière près du sol"], [0.55, "Pousser sur le talon avant"]],
+    cles: [haut, bas, { ...copie(bas), t: 0.55 }, { ...copie(haut), t: 0.95 }],
+    erreur: { texte: "le buste plonge en avant : le dos travaille et le genou avant part loin devant.", zone: ["lombaires"],
+      cles: [haut, P(0.45, 60, 16, 72, 28), P(0.55, 60, 16, 72, 28), { ...copie(haut), t: 0.95 }] }
+  });
+}
+{ // Goblet squat : le squat capté (CMU), un haltère tenu à deux mains contre la poitrine
+  const sq = EXERCICES["squat"];
+  const goblet = cles => cles.map(k => {
+    const n = copie(k), a = (n.racine.r[0] + n.colonne.lomb.flex + n.colonne.thorax.flex) * D, [, py, pz] = n.racine.p;
+    n.bras = bras2({ ik: [15, py + 36 * Math.cos(a) + 2, pz + 36 * Math.sin(a) + 24], pole: [1, -1, 0.2], ...PRISE });
+    return n;
+  });
+  E("goblet-squat", {
+    ...copie(sq), recalageDe: "squat", nom: "Goblet squat (haltère contre la poitrine)", reps: 10, accessoires: [{ type: "haltere", main: "2" }],
+    muscles: { p: ["quadriceps", "fessiers"], s: ["ischios", "adducteurs", "abdominaux", "deltoides", "biceps"] },
+    cles: goblet(sq.cles), erreur: { ...copie(sq.erreur), cles: goblet(sq.erreur.cles) }
+  });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -1179,7 +1271,8 @@ const ORIENTATION = {
   "hip-thrust": BAS, "hip-thrust-machine": BAS, "triceps-poulie": [0, -0.7, -0.7], "kickback-machine": BAS, "chest-press": DEDANS,
   "fentes-halteres": DEDANS, "souleve-roumain-halteres": ARRIERE, "rowing-haltere": [DEDANS, "G"], "rowing-assis": DEDANS,
   "face-pull": DEDANS, "oiseau-machine": DEDANS, "elevations-laterales": [-0.6, -0.8, 0],
-  "developpe-couche-halteres": AVANT, "traction-supination": ARRIERE, "rowing-halteres": DEDANS, "souleve-roumain-barre": ARRIERE
+  "developpe-couche-halteres": AVANT, "traction-supination": ARRIERE, "rowing-halteres": DEDANS, "souleve-roumain-barre": ARRIERE,
+  "developpe-militaire-barre": AVANT, "ecarte-halteres": [-0.7, 0.7, 0], "dips-barres": DEDANS, "goblet-squat": DEDANS
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];

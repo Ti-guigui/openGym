@@ -21,6 +21,8 @@ const BY_ANIM = {
   // variants made for the app (atelier PR #86)
   'curl-marteau': ['0313'], 'curl-barre': ['0031'], 'developpe-couche-halteres': ['0289'], 'pompe-diamant': ['0283'],
   'traction-supination': ['1326'], 'rowing-halteres': ['0293'], 'souleve-roumain-barre': ['0085'], 'squat-bulgare-halteres': ['2290'],
+  'developpe-militaire-barre': ['1162'], 'ecarte-halteres': ['0308'], 'releve-genoux-suspendu': ['9819'], 'releve-jambes-suspendu': ['0472'],
+  'dips-barres': ['0251', '0814'], 'split-squat': ['0781'], 'goblet-squat': ['1760'],
 }
 export const ANIM_3D = Object.fromEntries(Object.entries(BY_ANIM).flatMap(([anim, ids]) => ids.map(id => [id, anim])))
 
