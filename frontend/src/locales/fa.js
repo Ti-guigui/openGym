@@ -1,5 +1,8 @@
 // Persian UI strings. Keys are the English source strings.
 export default {
+  // --- 3D mannequin from the Atelier ---
+  "Show in 2D": "نمایش دوبعدی",
+  "Show in 3D": "نمایش سه‌بعدی",
   // --- Settings first screen in groups (#1105) ---
   "Watches": "ساعت‌ها",
   "Set once": "یک‌بار تنظیم",

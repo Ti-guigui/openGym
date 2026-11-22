@@ -1,5 +1,8 @@
 // Simplified Chinese UI strings. Keys are the English source strings (see lib/i18n.js).
 export default {
+  // --- 3D mannequin from the Atelier ---
+  "Show in 2D": "以 2D 显示",
+  "Show in 3D": "以 3D 显示",
   // --- Settings first screen in groups (#1105) ---
   "Watches": "手表",
   "Set once": "设置一次",

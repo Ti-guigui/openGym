@@ -1,5 +1,8 @@
 // Bengali UI strings. Keys are the English source strings (see lib/i18n.js).
 export default {
+  // --- 3D mannequin from the Atelier ---
+  "Show in 2D": "2D-তে দেখুন",
+  "Show in 3D": "3D-তে দেখুন",
   // --- Settings first screen in groups (#1105) ---
   "Watches": "ঘড়ি",
   "Set once": "একবার সেট করুন",

@@ -1,0 +1,11 @@
+Cartes d'anatomie et corps des exercices de L'Atelier : relief.webp, zones.png, athlete-homme.bin, athlete-femme.bin, affiches/*.webp.
+
+Ces fichiers sont dérivés de :
+- Z-Anatomy, The libre 3D atlas of anatomy, CC BY-SA 4.0 : https://www.z-anatomy.com/
+- BodyParts3D, The Database Center for Life Science, CC BY-SA 2.1 Japon : https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html
+- corps MPFB / MakeHuman, CC0.
+
+Modifications : muscles recalés sur le corps du mannequin, projetés sur sa peau et transformés en cartes (mannequin/outils/atlas.py, recale.py, cuire.py).
+Seuls des muscles squelettiques et des os repères de l'atlas ont servi.
+
+Ces fichiers dérivés sont diffusés sous la même licence, CC BY-SA 4.0 : https://creativecommons.org/licenses/by-sa/4.0/

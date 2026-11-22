@@ -61,6 +61,16 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
      dans les 25 fichiers de langue.
 7. **Docker.** `docker-compose.yml` construit des images locales (`tiguiguifit-*`) au lieu de
    télécharger celles d'openGym.
+8. **Mannequin 3D de L'Atelier.** Le lecteur 3D du site (dépôt `atelier`, dossier `mannequin/`)
+   est copié dans `frontend/public/mannequin/` :
+   - 66 exercices animés en 3D, reliés aux exercices du catalogue dans
+     `frontend/src/lib/mannequin3d.js` (test : `mannequin3d.test.js`) ;
+   - affichage : `frontend/src/components/Mannequin3D.jsx`, branché dans `Media.jsx`. Bouton
+     « Voir en 2D / Voir en 3D » (choix gardé sur l'appareil, clé `mq:2d`). Les petites vues
+     (superséries, animation réduite) gardent l'animation 2D ;
+   - après une modification des animations sur le site : `cd frontend; node scripts/sync-mannequin.mjs`
+     (le dépôt `atelier` doit être à côté d'`openGym`), puis reconstruire et republier ;
+   - les textes du lecteur sont en français seulement ; crédits (Z-Anatomy, CMU, three.js) dans `NOTICE.md`.
 
 ## Règles à respecter
 

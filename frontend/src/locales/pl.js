@@ -1,5 +1,8 @@
 // Polish UI strings. Keys are the English source strings (see lib/i18n.js).
 export default {
+  // --- 3D mannequin from the Atelier ---
+  "Show in 2D": "Pokaż w 2D",
+  "Show in 3D": "Pokaż w 3D",
   // --- Settings first screen in groups (#1105) ---
   "Watches": "Zegarki",
   "Set once": "Ustaw raz",

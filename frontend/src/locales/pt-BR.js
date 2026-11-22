@@ -4,6 +4,9 @@
 import pt from './pt.js'
 
 export const PT_BR_OVERRIDES = {
+  // --- 3D mannequin from the Atelier ---
+  "Show in 2D": "Ver em 2D",
+  "Show in 3D": "Ver em 3D",
   // --- Settings first screen in groups (#1105); "Watches" (Relógios) is inherited ---
   "Set once": "Configurar uma vez",
   "Connections": "Conexões",

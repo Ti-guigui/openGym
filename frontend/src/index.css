@@ -1377,6 +1377,17 @@ button.whdr-gym{color:var(--acc-ink);cursor:pointer}
 .exmedia .gifhint{inset-inline-end:9px}
 .exmedia .giftoggle{inset-inline-start:9px}
 .exmedia .gifhint .icn,.exmedia .giftoggle .icn{font-size:var(--fs-footnote)}
+/* The 3D mannequin (components/Mannequin3D.jsx): the player's own CSS (public/mannequin/mannequin.css)
+   reads these variables, so it takes the app's colours. */
+.mq-wrap{margin-bottom:12px}
+.mq-host figure.mq{margin:0;padding:0;border:0;background:none;
+  --line:var(--sep);--ink:var(--label);--ink-soft:var(--label-2);--paper:var(--bg-el);--paper-2:transparent;
+  --accent:var(--acc);--accent-ink:var(--on-acc);--r:var(--r-lg)}
+.mq-wrap .exmedia{margin-bottom:0}
+.mq-switches{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.mq-switch{display:inline-flex;align-items:center;gap:4px;min-height:32px;padding:5px 12px;border:1px solid var(--sep);
+  border-radius:99px;background:var(--bg-el);color:var(--label);font-size:var(--fs-caption);font-weight:500;cursor:pointer}
+.mq-switch .icn{font-size:var(--fs-footnote)}
 /* your own photo or video on a built-in exercise (lib/ex-media.js): the switch to the animation
    sits top-end on the picture, clear of the play hint and the minimize toggle at the bottom */
 .own-wrap{position:relative}

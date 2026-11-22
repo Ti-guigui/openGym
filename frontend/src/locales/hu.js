@@ -1,5 +1,8 @@
 // Hungarian UI strings. Keys are the English source strings (see lib/i18n.js).
 export default {
+  // --- 3D mannequin from the Atelier ---
+  "Show in 2D": "Megjelenítés 2D-ben",
+  "Show in 3D": "Megjelenítés 3D-ben",
   // --- Settings first screen in groups (#1105) ---
   "Watches": "Órák",
   "Set once": "Egyszer beállítandó",

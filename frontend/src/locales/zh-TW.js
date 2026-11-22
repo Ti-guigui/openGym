@@ -1,4 +1,7 @@
 export default {
+  // --- 3D mannequin from the Atelier ---
+  "Show in 2D": "以 2D 顯示",
+  "Show in 3D": "以 3D 顯示",
   // --- Settings first screen in groups (#1105) ---
   "Watches": "手錶",
   "Set once": "設定一次",

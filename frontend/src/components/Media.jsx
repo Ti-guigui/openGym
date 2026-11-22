@@ -11,6 +11,8 @@ import { youtubeId, youtubeLinks } from '../lib/youtube.js'
 import { useAnimSources } from './Animations.jsx'
 import { OwnMediaFlip } from './OwnExerciseMedia.jsx'
 import { exMediaOf } from '../lib/ex-media.js'
+import { anim3dOf } from '../lib/mannequin3d.js'
+import Mannequin3D from './Mannequin3D.jsx'
 
 // Your own photo or video on this built-in exercise (lib/ex-media.js), or null. The raw entry is
 // selected, then read, so the store hands back the same value until it changes.
@@ -35,9 +37,34 @@ export default function Media(p) {
     {custom ? <CustomMedia {...p} />
       : own && (own.show === 'own' || !p.ex?.gif)
         ? <div className="own-wrap"><CustomMedia {...p} ex={{ ...p.ex, custom: true, media: own.m, url: undefined }} />{flip}</div>
-        : own ? <div className="own-wrap"><BuiltinMedia {...p} />{flip}</div> : <BuiltinMedia {...p} />}
+        : own ? <div className="own-wrap"><BuiltinMedia {...p} />{flip}</div> : <BuiltinOr3D {...p} />}
     {(!p.minimizable || size !== 'off') && links.map(url => <LinkCard key={url} url={url} compact={p.compact} mini={p.minimizable && size === 'mini'} />)}
   </>
+}
+
+// The 3D mannequin for the exercises it covers (lib/mannequin3d.js), with a switch back to the
+// usual animation; the choice is kept on this device. Small spots (superset cards, a minimized
+// workout animation) keep the usual animation: the player needs its room for its controls.
+const PREF_2D = 'mq:2d'
+function BuiltinOr3D(p) {
+  const gifSize = useStore(s => s.S.gifSize)
+  const update = useStore(s => s.update)
+  const [in3d, setIn3d] = useState(() => { try { return localStorage.getItem(PREF_2D) !== '1' } catch { return true } })
+  const anim = anim3dOf(p.ex)
+  if (!anim || p.compact || (p.minimizable && gifSize === 'mini')) return <BuiltinMedia {...p} />
+  if (p.minimizable && gifSize === 'off') return null
+  const flip = () => {
+    setIn3d(!in3d)
+    try { localStorage.setItem(PREF_2D, in3d ? '1' : '0') } catch { /* private mode: not kept */ }
+  }
+  return <div className="mq-wrap" id={p.id}>
+    {in3d ? <Mannequin3D anim={anim} label={exerciseNameFor(p.ex)} /> : <BuiltinMedia {...p} id={undefined} />}
+    <div className="mq-switches">
+      <button type="button" className="mq-switch" onClick={flip}>{in3d ? t('Show in 2D') : t('Show in 3D')}</button>
+      {in3d && p.minimizable && <button type="button" className="mq-switch" onClick={() => update(s => { s.gifSize = 'mini' })}
+        aria-label={nameIn(p.sayAs || exerciseNameText(p.ex), t('Minimize'))}><Icon name="minimize" />{t('Minimize')}</button>}
+    </div>
+  </div>
 }
 
 // Big autoplaying animation; tap toggles to the still frame. `compact` shrinks it (superset cards).

@@ -44,6 +44,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
+## 3D mannequin (Ti Guigui FIT)
+
+`frontend/public/mannequin/` is the 3D exercise player of L'Atelier (github.com/Ti-guigui/atelier),
+copied by `frontend/scripts/sync-mannequin.mjs`. Its parts and their licences:
+
+- **three.js**, MIT licence: `public/mannequin/LICENSE-three.txt`.
+- **Bodies, muscle maps and posters** (`athlete-*.bin`, `relief.webp`, `zones.png`, `affiches/`):
+  derived from Z-Anatomy (CC BY-SA 4.0, https://www.z-anatomy.com/), BodyParts3D (The Database
+  Center for Life Science, CC BY-SA 2.1 Japan) and MPFB / MakeHuman bodies (CC0). Shared under
+  CC BY-SA 4.0; details in `public/mannequin/LICENCE-anatomie.txt`.
+- **Some movements** (squat, lunges, jumping jacks, deadlift rhythm) come from the CMU Graphics Lab
+  Motion Capture Database (http://mocap.cs.cmu.edu/), created with funding from NSF EIA-0196217.
+- The player code and the animations themselves are L'Atelier's own work.
+
 ## Exercise media (stills and animations)
 
 The exercise stills and animations in `catalogue/media/` (and inside the published container
