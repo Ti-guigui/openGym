@@ -9,11 +9,22 @@
 // to zero is a stamped entry too, never a deleted key, or the other device's copy would bring it back.
 
 export const GLASS_ML = 250
-// shortcut: fixed goal of 8 glasses (2 L), add a setting if people want their own.
+// The daily goal is S.waterGoal, a plain setting (synced whole like any other); unset is 8 (2 L).
 export const WATER_GOAL = 8
+export const WATER_GOAL_MIN = 1
+export const WATER_GOAL_MAX = 20
 export const WATER_MAX = 30
 
 const isMap = v => !!v && typeof v === 'object' && !Array.isArray(v)
+
+/** A goal as stored: a whole number of glasses from WATER_GOAL_MIN to WATER_GOAL_MAX. */
+export function clampGoal(n) {
+  const v = Math.round(Number(n))
+  return Number.isFinite(v) ? Math.min(Math.max(v, WATER_GOAL_MIN), WATER_GOAL_MAX) : WATER_GOAL
+}
+
+/** The daily goal in glasses: S.waterGoal when set, else WATER_GOAL. */
+export const waterGoalOf = S => (S?.waterGoal == null ? WATER_GOAL : clampGoal(S.waterGoal))
 
 /** Glasses logged on `iso`: a whole number from 0 to WATER_MAX, whatever junk is stored. */
 export function waterOf(S, iso) {

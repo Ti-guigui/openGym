@@ -5961,4 +5961,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "ภูมิใจกับวันที่คุณฝึกทั้งที่ไม่อยาก",
   "Consistency beats intensity.": "ความสม่ำเสมอชนะความหนัก",
   "Today's effort is next month's warm-up.": "ความพยายามวันนี้คือการวอร์มอัปของเดือนหน้า",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} แก้ว",
+  "{0} glasses": "{0} แก้ว",
 }

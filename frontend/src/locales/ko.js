@@ -5950,4 +5950,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "하기 싫은데도 운동한 날을 자랑스러워하세요.",
   "Consistency beats intensity.": "꾸준함이 강도를 이겨요.",
   "Today's effort is next month's warm-up.": "오늘의 노력이 다음 달의 워밍업이에요.",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0}잔",
+  "{0} glasses": "{0}잔",
 }

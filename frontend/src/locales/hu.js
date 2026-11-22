@@ -5953,4 +5953,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "Légy büszke azokra a napokra, amikor kedv nélkül is edzettél.",
   "Consistency beats intensity.": "A rendszeresség legyőzi az intenzitást.",
   "Today's effort is next month's warm-up.": "A mai erőfeszítés a jövő hónap bemelegítése.",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} pohár",
+  "{0} glasses": "{0} pohár",
 }

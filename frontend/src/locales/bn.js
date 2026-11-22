@@ -6029,4 +6029,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "যেদিন ইচ্ছে ছাড়াই অনুশীলন করেছেন, সেই দিনগুলোর জন্য গর্ব করুন।",
   "Consistency beats intensity.": "নিয়মিততা তীব্রতাকে হারায়।",
   "Today's effort is next month's warm-up.": "আজকের পরিশ্রম আগামী মাসের ওয়ার্ম-আপ।",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} গ্লাস",
+  "{0} glasses": "{0} গ্লাস",
 }

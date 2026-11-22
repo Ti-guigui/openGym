@@ -4379,6 +4379,9 @@ export const PT_BR_OVERRIDES = {
   "Be proud of the days you trained when you didn't want to.": "Tenha orgulho dos dias em que treinou sem vontade.",
   "Consistency beats intensity.": "Constância vence intensidade.",
   "Today's effort is next month's warm-up.": "O esforço de hoje é o aquecimento do mês que vem.",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} copo",
+  "{0} glasses": "{0} copos",
 }
 
 export default { ...pt, ...PT_BR_OVERRIDES }

@@ -5950,4 +5950,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "Sois fier des jours où tu t’es entraîné sans en avoir envie.",
   "Consistency beats intensity.": "La régularité bat l’intensité.",
   "Today's effort is next month's warm-up.": "L’effort d’aujourd’hui, c’est l’échauffement du mois prochain.",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} verre",
+  "{0} glasses": "{0} verres",
 }

@@ -5997,4 +5997,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "Var stolt över dagarna du tränade utan att vilja.",
   "Consistency beats intensity.": "Regelbundenhet slår intensitet.",
   "Today's effort is next month's warm-up.": "Dagens ansträngning är nästa månads uppvärmning.",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} glas",
+  "{0} glasses": "{0} glas",
 }

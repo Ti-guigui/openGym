@@ -5946,4 +5946,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "Didžiuokis dienomis, kai treniravaisi nenorėdamas.",
   "Consistency beats intensity.": "Pastovumas nugali intensyvumą.",
   "Today's effort is next month's warm-up.": "Šiandienos pastangos yra kito mėnesio apšilimas.",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} stiklinė",
+  "{0} glasses": { one: "{0} stiklinė", few: "{0} stiklinės", many: "{0} stiklinės", other: "{0} stiklinių" },
 }

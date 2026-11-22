@@ -108,6 +108,8 @@ export const DEF = {
   dayForm: {},
   // Glasses of water per day (Ti Guigui FIT): { [iso]: { n, _ts } } (lib/water.js), merged per day like dayNotes.
   water: {},
+  // The daily water goal in glasses (lib/water.js waterGoalOf); null is 8.
+  waterGoal: null,
   // Supplements (Ti Guigui FIT, lib/supps.js): the ones on the card, and what was taken per day
   // ({ [iso]: { ids, _ts } }, merged per day like water).
   suppList: [], supps: {},

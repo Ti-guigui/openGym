@@ -34,7 +34,9 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
      portugais du Brésil, ils sont dans `PT_BR_OVERRIDES` de `pt-BR.js`.
 4. **La carte Eau** (Accueil, sous le poids, avec le module Corps) :
    - les verres par jour sont dans `S.water = { 'AAAA-MM-JJ': { n, _ts } }`, lus et écrits par
-     `frontend/src/lib/water.js` (tests dans `water.test.js`). Objectif fixe : 8 verres de 250 ml ;
+     `frontend/src/lib/water.js` (tests dans `water.test.js`). Verres de 250 ml ;
+   - l'objectif est `S.waterGoal` (1 à 20 verres, vide = 8), réglable avec le bouton cible de la
+     carte ; c'est un réglage simple, synchronisé comme les autres ;
    - la synchro jour par jour passe par `STAMPED_MAPS` et `OWN_MERGE`, dans
      `frontend/src/lib/sync-merge.js` **et** `api/sync-stamps.js` (les deux listes doivent rester
      identiques) ;
@@ -91,5 +93,4 @@ docker compose down           # arrêter l'appli
 
 ## Idées pour la suite (pas encore faites)
 
-- Choisir son propre objectif d'eau (aujourd'hui fixé à 8 verres)
 - Ajouter ses propres compléments (aujourd'hui une liste fixe de 6)

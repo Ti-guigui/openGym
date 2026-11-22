@@ -5950,4 +5950,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "उन दिनों पर गर्व करें जब मन न होते हुए भी आपने ट्रेनिंग की।",
   "Consistency beats intensity.": "नियमितता तीव्रता से बेहतर है।",
   "Today's effort is next month's warm-up.": "आज की मेहनत अगले महीने का वार्म-अप है।",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} गिलास",
+  "{0} glasses": "{0} गिलास",
 }

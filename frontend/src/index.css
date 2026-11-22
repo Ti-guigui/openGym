@@ -4240,6 +4240,8 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 .water-dots{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 6px}
 .water-dot{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--blue);opacity:.45}
 .water-dot.on{background:var(--blue);opacity:1}
+.water-goal{gap:8px;margin-top:10px}
+.water-goal-n{min-width:7.5em;text-align:center;font-weight:600}
 /* Supplements card (Ti Guigui FIT, components/SuppsCard.jsx): the run of days after the name */
 .supps-chips{margin-top:10px}
 .supp-run{display:inline-flex;align-items:center;gap:2px;font-size:.8125rem;font-weight:600;color:var(--orange)}

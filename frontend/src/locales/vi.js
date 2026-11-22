@@ -5916,4 +5916,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "Hãy tự hào về những ngày bạn tập dù không muốn.",
   "Consistency beats intensity.": "Đều đặn thắng cường độ.",
   "Today's effort is next month's warm-up.": "Nỗ lực hôm nay là bài khởi động của tháng sau.",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} ly",
+  "{0} glasses": "{0} ly",
 }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { waterOf, withWater, WATER_MAX } from './water.js'
+import { waterOf, withWater, WATER_MAX, waterGoalOf, clampGoal, WATER_GOAL, WATER_GOAL_MIN, WATER_GOAL_MAX } from './water.js'
 import { mergeStampedMap } from './sync-merge.js'
 
 describe('water', () => {
@@ -19,6 +19,17 @@ describe('water', () => {
   it('keeps the other days and stamps the changed one', () => {
     const m = withWater({ a: { n: 3, _ts: 1 } }, 'b', 4, 9)
     expect(m).toEqual({ a: { n: 3, _ts: 1 }, b: { n: 4, _ts: 9 } })
+  })
+
+  it('reads the goal: 8 when unset, the stored number otherwise, kept within 1..20', () => {
+    expect(waterGoalOf({})).toBe(WATER_GOAL)
+    expect(waterGoalOf({ waterGoal: null })).toBe(WATER_GOAL)
+    expect(waterGoalOf({ waterGoal: 12 })).toBe(12)
+    expect(waterGoalOf({ waterGoal: 0.4 })).toBe(WATER_GOAL_MIN)
+    expect(waterGoalOf({ waterGoal: 99 })).toBe(WATER_GOAL_MAX)
+    expect(waterGoalOf({ waterGoal: 'junk' })).toBe(WATER_GOAL)
+    expect(clampGoal(-5)).toBe(WATER_GOAL_MIN)
+    expect(clampGoal(6.6)).toBe(7)
   })
 
   it('merges per day: each device keeps its own day, the same day keeps the later count', () => {

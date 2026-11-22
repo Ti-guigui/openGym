@@ -6005,4 +6005,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "افخر بالأيام التي تمرنت فيها دون رغبة.",
   "Consistency beats intensity.": "الاستمرارية تتفوق على الشدة.",
   "Today's effort is next month's warm-up.": "جهد اليوم هو إحماء الشهر القادم.",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} كوب",
+  "{0} glasses": "{0} أكواب",
 }

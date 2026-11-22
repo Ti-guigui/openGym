@@ -5943,4 +5943,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "為那些不想練卻還是練了的日子驕傲。",
   "Consistency beats intensity.": "堅持勝過強度。",
   "Today's effort is next month's warm-up.": "今天的努力，是下個月的熱身。",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} 杯",
+  "{0} glasses": "{0} 杯",
 }

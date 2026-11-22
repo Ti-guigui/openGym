@@ -5954,4 +5954,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "Гордись днями, когда тренировался без желания.",
   "Consistency beats intensity.": "Регулярность побеждает интенсивность.",
   "Today's effort is next month's warm-up.": "Сегодняшнее усилие станет разминкой через месяц.",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} стакан",
+  "{0} glasses": { one: "{0} стакан", few: "{0} стакана", many: "{0} стаканов", other: "{0} стакана" },
 }

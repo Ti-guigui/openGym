@@ -5916,4 +5916,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "به روزهایی که بی‌میل تمرین کردی افتخار کن.",
   "Consistency beats intensity.": "استمرار بر شدت پیروز است.",
   "Today's effort is next month's warm-up.": "تلاش امروز گرم‌کردنِ ماه بعد است.",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} لیوان",
+  "{0} glasses": "{0} لیوان",
 }

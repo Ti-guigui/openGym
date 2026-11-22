@@ -5916,4 +5916,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "Buď hrdý na dny, kdy jsi trénoval bez chuti.",
   "Consistency beats intensity.": "Pravidelnost poráží intenzitu.",
   "Today's effort is next month's warm-up.": "Dnešní úsilí je rozcvička příštího měsíce.",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} sklenice",
+  "{0} glasses": { one: "{0} sklenice", few: "{0} sklenice", many: "{0} sklenice", other: "{0} sklenic" },
 }

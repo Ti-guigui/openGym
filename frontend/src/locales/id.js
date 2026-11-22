@@ -5915,4 +5915,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "Banggalah pada hari-hari kamu berlatih meski tidak ingin.",
   "Consistency beats intensity.": "Konsistensi mengalahkan intensitas.",
   "Today's effort is next month's warm-up.": "Usaha hari ini adalah pemanasan bulan depan.",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} gelas",
+  "{0} glasses": "{0} gelas",
 }

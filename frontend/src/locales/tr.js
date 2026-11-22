@@ -5950,4 +5950,7 @@ export default {
   "Be proud of the days you trained when you didn't want to.": "İstemediğin halde antrenman yaptığın günlerle gurur duy.",
   "Consistency beats intensity.": "İstikrar yoğunluğu yener.",
   "Today's effort is next month's warm-up.": "Bugünkü çaba gelecek ayın ısınması.",
+  // --- Water goal (Ti Guigui FIT) ---
+  "{0} glass": "{0} bardak",
+  "{0} glasses": "{0} bardak",
 }
