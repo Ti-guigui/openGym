@@ -1423,6 +1423,97 @@ const TIBIAS = ["chevilleG", "chevilleG", "chevilleG", "chevilleG", "genouG", "c
   });
 }
 
+/* ---------- LOT 5 pour l'appli : grands classiques de musculation ---------- */
+{
+  const bras = (cles, f) => cles && cles.map(k => { const n = copie(k); for (const c of ["G", "D"]) if (n.bras?.[c]) n.bras[c] = f(n.bras[c], c === "G" ? 1 : -1, n); return n; });
+  const variante = (id, base, def, f = b => b) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: bras(b.cles, f), clesFemme: bras(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: bras(e.cles, f), clesFemme: bras(e.clesFemme, f) } });
+    if (!EXERCICES[id].clesFemme) delete EXERCICES[id].clesFemme;
+    if (e && !e.clesFemme) delete EXERCICES[id].erreur.clesFemme;
+  };
+  variante("developpe-couche-serre", "developpe-couche", { nom: "Développé couché prise serrée", muscles: { p: ["triceps", "pectoraux"], s: ["deltoides", "avant-bras"] } },
+    (b, s) => ({ ...b, ik: [15 * s, b.ik[1], b.ik[2]], pole: [0.5 * s, -1, 0.6] }));     // mains à la largeur des épaules, coudes le long du corps
+  variante("developpe-incline-barre", "developpe-incline", { nom: "Développé incliné à la barre", accessoires: [EXERCICES["developpe-incline"].accessoires[0], { type: "barre-olympique", main: "2" }] },
+    (b, s) => ({ ...b, ik: [28 * s, b.ik[1], b.ik[2]] }));
+  // Good morning : la charnière du roumain, barre sur les trapèzes (bras du squat barre), nuque neutre
+  const sq = EXERCICES["squat-barre"].cles[0].bras;
+  variante("good-morning", "souleve-roumain", { nom: "Good morning à la barre", reps: 10, accessoires: [{ type: "barre-olympique", main: "2" }],
+    muscles: { p: ["ischios", "lombaires"], s: ["fessiers", "abdominaux", "trapezes"] } }, (b, s) => copie(s > 0 ? sq.G : sq.D));
+  for (const o of [EXERCICES["good-morning"], EXERCICES["good-morning"].erreur]) for (const k of o.cles) if (k.colonne?.cou) k.colonne.cou.flex = Math.max(k.colonne.cou.flex || 0, -4);
+  // Front squat : le squat capté, barre posée sur l'avant des épaules, coudes hauts
+  const AVANT_EP = bras2({ fk: { flex: 92, abd: 22 }, coude: 150, ...PRISE });
+  variante("front-squat", "squat", { nom: "Front squat (barre devant)", reps: 8, accessoires: [{ type: "barre-olympique", main: "2" }],
+    muscles: { p: ["quadriceps", "fessiers"], s: ["abdominaux", "adducteurs", "lombaires", "trapezes"] } }, (b, s) => copie(s > 0 ? AVANT_EP.G : AVANT_EP.D));
+}
+{ // Rowing debout (tirage menton) : la barre monte le long du corps jusqu'au bas de la poitrine, coudes plus hauts que les mains
+  const P = (t, y, z, lomb = 0) => ({ t, racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne: col(lomb, 0, 0), bras: bras2({ ik: [12, y, z], pole: [1, 1, -0.3], ...PRISE }), jambes: DEBOUT });
+  const bas = P(0, 86, 17), haut = P(0.4, 132, 17);
+  E("rowing-debout", {
+    nom: "Rowing debout à la barre (tirage menton)", duree: 3.5, reps: 12, affiche: 0.4, vue: "3/4",
+    camera: { cible: [0, 115, 0], dist: 420, el: 6 }, ombre: [0, 0, 80, 80], accessoires: [{ type: "barre-olympique", main: "2" }],
+    muscles: { p: ["deltoides", "trapezes"], s: ["biceps", "avant-bras"] },
+    tempo: [[0, "Monter la barre le long du corps · 1 s"], [0.4, "Coudes à hauteur d'épaules"], [0.5, "Redescendre en 2 s"]],
+    cles: [bas, haut, { ...copie(haut), t: 0.5 }, { ...copie(bas), t: 0.95 }],
+    erreur: { texte: "monter la barre jusqu'au menton en se cambrant : les épaules se coincent et le bas du dos compense.", zone: ["lombaires", "trapezes"],
+      cles: [bas, P(0.4, 150, 14, -16), P(0.5, 150, 14, -16), { ...copie(bas), t: 0.95 }] }
+  });
+}
+{ // Allongé sur le banc plat : barre au front (skull crusher) et pull-over à l'haltère
+  const dc = EXERCICES["developpe-couche"], k0 = dc.cles[0];
+  const L = (t, x, y, z, pole) => ({ t, racine: copie(k0.racine), colonne: copie(k0.colonne), jambes: copie(k0.jambes), bras: bras2({ ik: [x, y, z], pole, ...PRISE }) });
+  const coudes = [0.2, 1, 0.3];               // coudes pointés vers le plafond
+  const hautF = L(0, 12, 112, -38, coudes), basF = L(0.45, 12, 82, -62, coudes);
+  E("barre-front", {
+    nom: "Barre au front (skull crusher)", duree: 3.5, reps: 10, affiche: 0.45, vue: "3/4",
+    camera: { cible: [0, 75, -20], dist: 430, el: 18 }, ombre: [0, -15, 90, 200], accessoires: [dc.accessoires[0], { type: "barre-olympique", main: "2" }],
+    muscles: { p: ["triceps"], s: ["avant-bras", "deltoides"] },
+    tempo: [[0, "Plier les coudes · 2 s, la barre vient au-dessus du front"], [0.45, "Coudes fixes"], [0.55, "Tendre les bras · 1 s"]],
+    cles: [hautF, basF, { ...copie(basF), t: 0.55 }, { ...copie(hautF), t: 0.95 }],
+    erreur: { texte: "les coudes s'écartent et partent vers la tête : les épaules prennent le relais des triceps.", zone: ["deltoides"],
+      cles: [hautF, L(0.45, 16, 86, -72, [1, 0.6, -0.4]), L(0.55, 16, 86, -72, [1, 0.6, -0.4]), { ...copie(hautF), t: 0.95 }] }
+  });
+  const hautP = L(0, 12, 112, -36, [1, 0, 0]), basP = L(0.45, 12, 76, -98, [1, -0.2, 0]);
+  E("pullover-haltere", {
+    nom: "Pull-over à l'haltère", duree: 4, reps: 12, affiche: 0.45, vue: "3/4",
+    camera: { cible: [0, 75, -30], dist: 450, el: 18 }, ombre: [0, -25, 90, 220], accessoires: [dc.accessoires[0], { type: "haltere", main: "2" }],
+    muscles: { p: ["dorsaux", "pectoraux"], s: ["triceps", "abdominaux", "deltoides"] },
+    tempo: [[0, "Descendre derrière la tête · 2 s, bras presque tendus"], [0.45, "Étirement"], [0.55, "Ramener au-dessus de la poitrine"]],
+    cles: [hautP, basP, { ...copie(basP), t: 0.55 }, { ...copie(hautP), t: 0.95 }],
+    erreur: { texte: "le bas du dos se creuse quand l'haltère passe derrière la tête : les côtes s'ouvrent au lieu des épaules.", zone: ["lombaires"],
+      cles: [hautP, { ...L(0.45, 12, 72, -106, [1, -0.2, 0]), colonne: col(-6, -6, 10) }, { ...L(0.55, 12, 72, -106, [1, -0.2, 0]), colonne: col(-6, -6, 10) }, { ...copie(hautP), t: 0.95 }] }
+  });
+}
+{ // Crunch au sol : genoux pliés, les épaules décollent en enroulant le haut du dos, bras tendus vers les genoux
+  const k0 = EXERCICES["pont-fessier"].cles[0];
+  const P = (t, lomb, thorax, cou, flex = 25) => ({ t, racine: copie(k0.racine), colonne: col(lomb, thorax, cou), jambes: copie(k0.jambes), bras: bras2({ fk: { flex, abd: 10 }, coude: 8 }) });
+  const bas = P(0, 0, 0, 0, 20), haut = P(0.4, 8, 32, 12, 45);
+  E("crunch", {
+    nom: "Crunch au sol", duree: 3, reps: 15, affiche: 0.4, vue: "profil", recalageDe: "pont-fessier",
+    camera: { cible: [0, 25, 5], dist: 300, el: 10 }, ombre: [0, 0, 70, 180], accessoires: [{ type: "tapis", p0: [0, 0, 0] }],
+    muscles: { p: ["abdominaux"], s: ["obliques"] },
+    tempo: [[0, "Enrouler le haut du dos · 1 s"], [0.4, "Serrer les abdos"], [0.5, "Redescendre en 2 s"]],
+    cles: [bas, haut, { ...copie(haut), t: 0.5 }, { ...copie(bas), t: 0.95 }],
+    erreur: { texte: "tirer sur la nuque pour monter : le cou se plie et les abdominaux travaillent peu.", zone: ["trapezes"],
+      cles: [bas, P(0.4, 2, 16, 40, 30), P(0.5, 2, 16, 40, 30), { ...copie(bas), t: 0.95 }] }
+  });
+}
+{ // Extension des triceps à la nuque : un haltère à deux mains, bras à la verticale, seuls les avant-bras bougent
+  const P = (t, coude, flex = 168, lomb = 0) => ({ t, racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne: col(lomb, lomb * 0.5, 4),
+    bras: bras2({ fk: { flex, abd: 9 }, coude, ...PRISE }), jambes: DEBOUT });
+  const haut = P(0, 8), bas = P(0.45, 125);
+  E("extension-triceps-nuque", {
+    nom: "Extension des triceps à la nuque (haltère)", duree: 3.5, reps: 12, affiche: 0.4, vue: "3/4",
+    camera: { cible: [0, 135, 0], dist: 440, el: 4 }, ombre: [0, 0, 70, 70], accessoires: [{ type: "haltere", main: "2" }],
+    muscles: { p: ["triceps"], s: ["deltoides", "abdominaux"] },
+    tempo: [[0, "Descendre l'haltère derrière la tête · 2 s"], [0.45, "Coudes vers le plafond"], [0.55, "Tendre les bras · 1 s"]],
+    cles: [haut, bas, { ...copie(bas), t: 0.55 }, { ...copie(haut), t: 0.95 }],
+    erreur: { texte: "les coudes s'écartent et le dos se cambre : les épaules et les lombaires aident.", zone: ["lombaires", "deltoides"],
+      cles: [haut, { ...P(0.45, 115, 150, -14), bras: bras2({ fk: { flex: 150, abd: 30 }, coude: 115, ...PRISE }) }, { ...P(0.55, 115, 150, -14), bras: bras2({ fk: { flex: 150, abd: 30 }, coude: 115, ...PRISE }) }, { ...copie(haut), t: 0.95 }] }
+  });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -1435,7 +1526,9 @@ const ORIENTATION = {
   "face-pull": DEDANS, "oiseau-machine": DEDANS, "elevations-laterales": [-0.6, -0.8, 0],
   "developpe-couche-halteres": AVANT, "traction-supination": ARRIERE, "rowing-halteres": DEDANS, "souleve-roumain-barre": ARRIERE,
   "developpe-militaire-barre": AVANT, "ecarte-halteres": [-0.7, 0.7, 0], "dips-barres": DEDANS, "goblet-squat": DEDANS,
-  "pont-fessier-barre": BAS, "hip-thrust-une-jambe": BAS, "souleve-terre-kettlebell": ARRIERE, "rowing-kettlebell": [DEDANS, "G"], "goblet-squat-kettlebell": DEDANS
+  "pont-fessier-barre": BAS, "hip-thrust-une-jambe": BAS, "souleve-terre-kettlebell": ARRIERE, "rowing-kettlebell": [DEDANS, "G"], "goblet-squat-kettlebell": DEDANS,
+  "developpe-couche-serre": AVANT, "developpe-incline-barre": AVANT, "good-morning": AVANT, "front-squat": [0, 1, 0.3],
+  "rowing-debout": ARRIERE, "barre-front": AVANT, "pullover-haltere": DEDANS
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
@@ -1446,10 +1539,22 @@ for (const [id, v] of Object.entries(ORIENTATION)) {
 }
 
 /* Poignet plié vers l'arrière (degrés négatifs) quand la rotation seule ne suffit pas : barre sur le dos, sur les hanches, poignées verticales. */
-const POIGNET = { "pont-fessier-barre": -30, "hip-thrust-une-jambe": -30, "squat-barre": -40, "smith-squat": -40, "pec-deck": -40, "tirage-vertical": -20, "hip-thrust": -30, "hip-thrust-machine": -30,
+const POIGNET = { "good-morning": -40, "front-squat": -40, "pont-fessier-barre": -30, "hip-thrust-une-jambe": -30, "squat-barre": -40, "smith-squat": -40, "pec-deck": -40, "tirage-vertical": -20, "hip-thrust": -30, "hip-thrust-machine": -30,
   "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "oiseau-machine": -40 };
 for (const [id, w] of Object.entries(POIGNET)) for (const o of [EXERCICES[id], EXERCICES[id].erreur]) for (const k of (o && o.cles) || [])
   for (const c of ["G", "D"]) if (k.bras && k.bras[c]) k.bras[c].poignet = w;
+
+/* Variantes pour l'appli : poses propres au mannequin femme (tête plus en arrière avec le chignon, poitrine plus large),
+   et orientation des mains / poignet aussi sur ces poses-là (les tables ci-dessus ne lisent que ex.cles). */
+for (const [id, f] of [["good-morning", k => { k.colonne.cou.flex = Math.max(k.colonne.cou.flex || 0, 14); }],
+  ["rowing-debout", k => { for (const c of ["G", "D"]) k.bras[c].ik[2] += 3; }]])
+  for (const o of [EXERCICES[id], EXERCICES[id].erreur]) o.clesFemme = o.cles.map(k => { const n = copie(k); f(n); return n; });
+for (const id of ["pont-fessier-barre", "good-morning", "rowing-debout"]) for (const o of [EXERCICES[id], EXERCICES[id].erreur]) {
+  if (!o?.clesFemme) continue;
+  o.clesFemme.forEach((k, i) => { for (const c of ["G", "D"]) { const ref = o.cles[i]?.bras?.[c], b = k.bras?.[c]; if (!ref || !b) continue;
+    for (const champ of ["paume", "poignet"]) if (ref[champ] !== undefined) b[champ] = copie(ref[champ]);
+    if (ref.paume) { delete b.prono; delete b.main; delete b.auto; } } });
+}
 
 /* Recalage automatique (mannequin/outils/verifier.js --recaler [ids] homme|femme) : hauteur et inclinaison du corps, et appuis en
    cinématique inverse, ajustés image clé par image clé et pour chaque mannequin, afin que mains et pieds touchent leur surface
