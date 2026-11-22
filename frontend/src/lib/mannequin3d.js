@@ -4,7 +4,7 @@ const BY_ANIM = {
   'planche': ['0463'], 'planche-laterale': ['0715'], 'dead-bug': ['0276', '1243'], 'bird-dog': ['1241', '3141'],
   'hollow': ['1246'], 'squat': ['1197', '3948'], 'fente-arriere': ['1581'], 'squat-bulgare': ['3743'],
   'pont-fessier': ['2471'], 'mollets': ['3018'], 'pompe': ['0662'], 'pompe-genoux': ['3211'],
-  'rowing-table': ['0499', '2298'], 'traction': ['0652'], 'dips': ['0129'], 'montees-genoux': ['3556'],
+  'rowing-table': ['0499', '2298', '3381'], 'traction': ['0652'], 'dips': ['0129'], 'montees-genoux': ['3556'],
   'chat-vache': ['4580', '1051'], 'fente-rotation': ['1688'], 'course': ['0685', '4004'], 'talons-fesses': ['3037'],
   'sauts-chevilles': ['9070'], 'pompe-inclinee': ['0493'], 'pompe-pike': ['2921'], 'superman': ['3436'],
   'chaise-mur': ['7557'], 'releve-jambes': ['1163'], 'mountain-climber': ['0630'], 'burpee': ['1160'],
@@ -25,6 +25,8 @@ const BY_ANIM = {
   'dips-barres': ['0251', '0814'], 'split-squat': ['0781'], 'goblet-squat': ['1760'],
   'elevation-laterale-poulie': ['0178', '0192'], 'oiseau-halteres': ['0380', '0383'], 'fente-avant': ['0612', '3470'],
   'step-up': ['0431'], 'leg-curl-allonge': ['0586'], 'swing-kettlebell': ['0549'],
+  'pont-fessier-barre': ['1409', '2964'], 'hip-thrust-une-jambe': ['1061'], 'souleve-terre-kettlebell': ['3322'], 'rowing-kettlebell': ['0541'],
+  'goblet-squat-kettlebell': ['0534'], 'dips-chaises': ['3387'], 'fente-croisee': ['3769'], 'l-sit': ['3419'], 'etirement-flechisseurs': ['1053'],
 }
 export const ANIM_3D = Object.fromEntries(Object.entries(BY_ANIM).flatMap(([anim, ids]) => ids.map(id => [id, anim])))
 

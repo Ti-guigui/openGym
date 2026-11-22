@@ -1359,6 +1359,70 @@ const TIBIAS = ["chevilleG", "chevilleG", "chevilleG", "chevilleG", "genouG", "c
   });
 }
 
+/* ---------- LOT 4 pour l'appli ---------- */
+{
+  const KETTLE = main => machine([{ c: [8.5, 15], p: [0, -12, 0], m: "fonte" }, { b: [14, 2.4, 2.4], p: [0, 0, 0], m: "fonte" },
+    { b: [2.4, 6, 2.4], p: [6, -4, 0], m: "fonte" }, { b: [2.4, 6, 2.4], p: [-6, -4, 0], m: "fonte" }], { main });
+  const bras = (cles, f) => cles && cles.map(k => { const n = copie(k); for (const c of ["G", "D"]) if (n.bras?.[c]) n.bras[c] = f(n.bras[c], c === "G" ? 1 : -1, n); return n; });
+  const jambes = (cles, f) => cles && cles.map(k => { const n = copie(k); n.jambes = f(n.jambes, n); return n; });
+  const variante = (id, base, def, f = b => b, fj = null) => {
+    const b = EXERCICES[base], e = b.erreur, g = c => { const r = bras(c, f); return fj ? jambes(r, fj) : r; };
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: g(b.cles), clesFemme: g(b.clesFemme),
+      erreur: e && { ...copie(e), cles: g(e.cles), clesFemme: g(e.clesFemme) } });
+    if (!EXERCICES[id].clesFemme) delete EXERCICES[id].clesFemme;
+    if (e && !e.clesFemme) delete EXERCICES[id].erreur.clesFemme;
+  };
+  // Pont fessier à la barre : la barre posée sur les hanches, tenue des deux mains (comme le hip thrust)
+  variante("pont-fessier-barre", "pont-fessier", { nom: "Pont fessier à la barre", accessoires: [{ type: "tapis", p0: [0, 0, 0] }, { type: "barre-olympique", main: "2" }],
+    muscles: { p: ["fessiers"], s: ["ischios", "lombaires", "abdominaux", "avant-bras"] } },
+    (b, s, n) => ({ ik: [30 * s, n.racine.p[1] + 17, n.racine.p[2] + 6], pole: [0.5 * s, 1, 0], ...PRISE }));
+  // Hip thrust sur une jambe : la droite tendue dans le prolongement de la cuisse
+  variante("hip-thrust-une-jambe", "hip-thrust", { nom: "Hip thrust sur une jambe à la barre", muscles: { p: ["fessiers"], s: ["ischios", "quadriceps", "abdominaux", "flechisseurs"] } },
+    b => b, (j, n) => ({ G: j.G, D: { ik: [-14, n.racine.p[1] + 8, n.racine.p[2] + 86], pole: [0, 1, 0], pied: [-15, 0, 0] } }));
+  // Kettlebell : soulevé de terre (charnière de hanche), rowing un bras, goblet squat tenu par la poignée
+  variante("souleve-terre-kettlebell", "souleve-roumain", { nom: "Soulevé de terre à la kettlebell", reps: 10, accessoires: [KETTLE("2")] },
+    (b, s) => ({ ...b, ...PRISE, ik: [6 * s, b.ik[1] + 2, b.ik[2] + 15] }));   // assez devant pour que la kettlebell passe devant les cuisses
+  variante("rowing-kettlebell", "rowing-haltere", { nom: "Rowing kettlebell à un bras", accessoires: [EXERCICES["rowing-haltere"].accessoires[0], KETTLE("G")] });
+  variante("goblet-squat-kettlebell", "goblet-squat", { nom: "Goblet squat à la kettlebell", accessoires: [KETTLE("2")] },
+    (b, s) => ({ ...b, ik: [6 * s, b.ik[1] - 9, b.ik[2] + 8] }));   // tenue plus loin et plus bas : la cloche pend devant la poitrine, sous le menton
+  // Dips entre deux chaises : une main sur chaque chaise, de part et d'autre des hanches
+  variante("dips-chaises", "dips", { nom: "Dips entre deux chaises", accessoires: [{ type: "chaise", p0: [44, 0, -2], ry: -90 }, { type: "chaise", p0: [-44, 0, -2], ry: 90 }] },
+    (b, s) => ({ ...b, ik: [31 * s, b.ik[1] + 4, -2] }));
+  // Fente croisée (curtsey) : la jambe qui recule passe derrière l'autre
+  const croise = (j) => { const o = copie(j); for (const c of ["G", "D"]) { const m = o[c]; if (m.ik && m.ik[2] < -20) m.ik[0] = (c === "D" ? 1 : -1) * 9; } return o; };
+  variante("fente-croisee", "fente-arriere", { nom: "Fente croisée (curtsey)", muscles: { p: ["fessiers", "quadriceps"], s: ["adducteurs", "ischios", "mollets", "abdominaux"] } }, b => b, croise);
+}
+{ // L-sit au sol : mains à plat près des hanches, bassin décollé, jambes tendues à l'horizontale
+  const MAINS = bras2({ ik: [21, 5, 2], pole: [0, 0, -1], main: MAIN_SOL });
+  const P = (t, y, flex, cou = -6) => ({ t, racine: { p: [0, y, 0], r: [-4, 0, 0] }, colonne: col(8, 6, cou), bras: MAINS,
+    jambes: jambes2({ fk: { flex, abd: 3 }, genou: 2, cheville: 30 }) });
+  const assis = P(0, 13, 86), tenu = P(0.25, 19, 90);
+  E("l-sit", {
+    nom: "L-sit au sol", duree: 6, reps: 3, affiche: 0.5, vue: "profil",
+    camera: { cible: [0, 35, 20], dist: 360, el: 8 }, ombre: [0, 20, 70, 130], accessoires: [{ type: "tapis", p0: [0, 0, 20] }],
+    muscles: { p: ["abdominaux", "flechisseurs", "triceps"], s: ["quadriceps", "deltoides", "dorsaux"] },
+    tempo: [[0, "Pousser dans les mains, décoller les fesses"], [0.25, "Tenir · jambes tendues"], [0.8, "Reposer doucement"]],
+    cles: [assis, tenu, { ...copie(tenu), t: 0.8 }, { ...copie(assis), t: 0.95 }],
+    erreur: { texte: "les genoux plient et les épaules remontent vers les oreilles : les bras ne poussent plus.", zone: ["trapezes"],
+      cles: [assis, { ...P(0.25, 17, 80, 4), jambes: jambes2({ fk: { flex: 115, abd: 3 }, genou: 45, cheville: 20 }) }, { ...P(0.8, 17, 80, 4), jambes: jambes2({ fk: { flex: 115, abd: 3 }, genou: 45, cheville: 20 }) }, { ...copie(assis), t: 0.95 }] }
+  });
+}
+{ // Étirement des fléchisseurs de hanche, un genou au sol : le bassin avance doucement
+  const brasH = z => bras2({ ik: [19, 64, z + 2], pole: [1, 0, -0.6] });     // mains sur les hanches
+  const avant = { ik: [13, 8, 10], pole: [0.2, 0, 1], pied: PIED_PLAT(10) }, genou = { ik: [-13, 7, -58], pole: [0, -1, 0.3], pied: [-30, -4, 0] };
+  const P = (t, z, pitch = 0) => ({ t, racine: { p: [0, 58, z], r: [pitch, 0, 0] }, colonne: col(-4, 2, 0), bras: brasH(z), jambes: { G: avant, D: genou } });
+  const recule = P(0, -26, 2), avance = P(0.4, -16, -4);
+  E("etirement-flechisseurs", {
+    nom: "Étirement des fléchisseurs de hanche (un genou au sol)", duree: 6, reps: 4, affiche: 0.45, vue: "profil",
+    camera: { cible: [0, 55, -20], dist: 420, el: 6 }, ombre: [0, -25, 90, 160], accessoires: [{ type: "tapis", p0: [0, 0, -25] }],
+    muscles: { p: ["flechisseurs"], s: ["quadriceps", "fessiers"] },
+    tempo: [[0, "Serrer la fesse du genou au sol"], [0.4, "Avancer le bassin · tenir"], [0.75, "Revenir doucement"]],
+    cles: [recule, avance, { ...copie(avance), t: 0.75 }, { ...copie(recule), t: 0.95 }],
+    erreur: { texte: "le bas du dos se creuse au lieu d'avancer le bassin : l'étirement part dans les lombaires.", zone: ["lombaires"],
+      cles: [recule, { ...P(0.4, -20, 8), colonne: col(-24, -8, -6) }, { ...P(0.75, -20, 8), colonne: col(-24, -8, -6) }, { ...copie(recule), t: 0.95 }] }
+  });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -1370,7 +1434,8 @@ const ORIENTATION = {
   "fentes-halteres": DEDANS, "souleve-roumain-halteres": ARRIERE, "rowing-haltere": [DEDANS, "G"], "rowing-assis": DEDANS,
   "face-pull": DEDANS, "oiseau-machine": DEDANS, "elevations-laterales": [-0.6, -0.8, 0],
   "developpe-couche-halteres": AVANT, "traction-supination": ARRIERE, "rowing-halteres": DEDANS, "souleve-roumain-barre": ARRIERE,
-  "developpe-militaire-barre": AVANT, "ecarte-halteres": [-0.7, 0.7, 0], "dips-barres": DEDANS, "goblet-squat": DEDANS
+  "developpe-militaire-barre": AVANT, "ecarte-halteres": [-0.7, 0.7, 0], "dips-barres": DEDANS, "goblet-squat": DEDANS,
+  "pont-fessier-barre": BAS, "hip-thrust-une-jambe": BAS, "souleve-terre-kettlebell": ARRIERE, "rowing-kettlebell": [DEDANS, "G"], "goblet-squat-kettlebell": DEDANS
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
@@ -1381,7 +1446,7 @@ for (const [id, v] of Object.entries(ORIENTATION)) {
 }
 
 /* Poignet plié vers l'arrière (degrés négatifs) quand la rotation seule ne suffit pas : barre sur le dos, sur les hanches, poignées verticales. */
-const POIGNET = { "squat-barre": -40, "smith-squat": -40, "pec-deck": -40, "tirage-vertical": -20, "hip-thrust": -30, "hip-thrust-machine": -30,
+const POIGNET = { "pont-fessier-barre": -30, "hip-thrust-une-jambe": -30, "squat-barre": -40, "smith-squat": -40, "pec-deck": -40, "tirage-vertical": -20, "hip-thrust": -30, "hip-thrust-machine": -30,
   "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "oiseau-machine": -40 };
 for (const [id, w] of Object.entries(POIGNET)) for (const o of [EXERCICES[id], EXERCICES[id].erreur]) for (const k of (o && o.cles) || [])
   for (const c of ["G", "D"]) if (k.bras && k.bras[c]) k.bras[c].poignet = w;
