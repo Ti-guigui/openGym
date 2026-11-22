@@ -1514,6 +1514,80 @@ const TIBIAS = ["chevilleG", "chevilleG", "chevilleG", "chevilleG", "genouG", "c
   });
 }
 
+/* ---------- LOT 6 pour l'appli ---------- */
+{
+  const bras = (cles, f) => cles && cles.map(k => { const n = copie(k); for (const c of ["G", "D"]) if (n.bras?.[c]) n.bras[c] = f(n.bras[c], c === "G" ? 1 : -1, n); return n; });
+  const corps = (cles, f) => cles && cles.map(k => { const n = copie(k); f(n); return n; });
+  const variante = (id, base, def, f = b => b, fk = null) => {
+    const b = EXERCICES[base], e = b.erreur, g = c => { const r = bras(c, f); return fk ? corps(r, fk) : r; };
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: g(b.cles), clesFemme: g(b.clesFemme),
+      erreur: e && { ...copie(e), cles: g(e.cles), clesFemme: g(e.clesFemme) } });
+    if (!EXERCICES[id].clesFemme) delete EXERCICES[id].clesFemme;
+    if (e && !EXERCICES[id].erreur.clesFemme) delete EXERCICES[id].erreur.clesFemme;
+  };
+  // Élévation frontale : le geste des élévations latérales, mais les bras montent devant
+  variante("elevation-frontale", "elevations-laterales", { nom: "Élévation frontale aux haltères", vue: "3/4", muscles: { p: ["deltoides"], s: ["pectoraux", "trapezes"] } },
+    b => { const n = { ...b, fk: { flex: b.fk.abd + 2, abd: 8 } }; delete n.prono; return n; });
+  variante("tirage-vertical-serre", "tirage-vertical", { nom: "Tirage vertical prise serrée neutre" }, (b, s) => ({ ...b, ik: [9 * s, b.ik[1], b.ik[2]] }));
+  // Développé épaules assis : bras du développé militaire, assis sur un banc à dossier droit
+  const ASSIS_J = jambes2({ ik: [17, 8, 50], pole: [0.3, 0, 1], pied: PIED_PLAT(8) });
+  variante("developpe-epaules-assis", "developpe-militaire", { nom: "Développé épaules assis aux haltères", recalageDe: "developpe-epaules-assis",
+    camera: { cible: [0, 95, 5], dist: 430, el: 6 }, ombre: [0, 5, 80, 110], accessoires: [{ type: "banc", dossier: 82, ry: 0, p0: [0, 0, 2] }, ...HALTERES] },
+    b => ({ ...b, ik: [b.ik[0], b.ik[1] - 45, b.ik[2]] }), n => { n.racine.p = [0, 54, 6]; n.racine.r = [-4, 0, 0]; n.jambes = copie(ASSIS_J);
+      n.colonne.lomb.flex = Math.max(n.colonne.lomb.flex, 0); n.colonne.thorax.flex = Math.max(n.colonne.thorax.flex, 0); });   // assis contre le dossier : pas de cambrure possible
+  EXERCICES["developpe-epaules-assis"].erreur.texte = "les haltères partent devant le visage et les coudes avancent : l'avant de l'épaule prend toute la charge.";
+  EXERCICES["developpe-epaules-assis"].erreur.zone = ["deltoides"];
+  // Squat sumo : pieds larges et ouverts, le reste du squat capté
+  variante("squat-sumo", "squat", { nom: "Squat sumo", recalageDe: "squat-sumo", muscles: { p: ["adducteurs", "fessiers", "quadriceps"], s: ["ischios", "lombaires", "abdominaux"] } },
+    b => b, n => { const G = { ...n.jambes.G, ik: [27, n.jambes.G.ik[1], n.jambes.G.ik[2]], pole: [0.9, 0, 1], pied: [n.jambes.G.pied?.[0] || 0, 38, 0] }; n.jambes = { G, D: miroir(G) }; n.racine.p[1] -= 2; });   // pieds écartés : le bassin descend un peu
+}
+{ // Squat sauté : la descente du squat, puis une impulsion qui décolle les pieds du sol
+  const sq = EXERCICES["squat"].cles, debout = sq[0], bas = sq.reduce((a, k) => (k.racine.p[1] < a.racine.p[1] ? k : a));
+  const K = (k, t) => ({ ...copie(k), t });
+  const envol = { ...copie(debout), t: 0.55, racine: { p: [0, 113, 1], r: [-2, 0, 0] }, bras: bras2({ fk: { flex: 150, abd: 10 }, coude: 10 }),
+    jambes: jambes2({ fk: { flex: 2, abd: 3 }, genou: 6, cheville: 35 }) };
+  const pointes = t => ({ ...copie(debout), t, racine: { p: [0, 105, 1], r: [0, 0, 0] }, bras: bras2({ fk: { flex: 120, abd: 10 }, coude: 10 }),
+    jambes: jambes2({ ik: [13, 17, 4], pole: [0.3, 0, 1], pied: [35, 14, 0] }) });   // impulsion et réception sur la pointe des pieds
+  const reception = { ...K(bas, 0.75), racine: { ...copie(bas.racine), p: [bas.racine.p[0], bas.racine.p[1] + 14, bas.racine.p[2] * 0.6] } };
+  E("squat-saute", {
+    nom: "Squat sauté", duree: 2, reps: 10, affiche: 0.55, vue: "3/4",
+    camera: { cible: [0, 90, 0], dist: 440, el: 6 }, ombre: [0, 0, 80, 80],
+    muscles: { p: ["quadriceps", "fessiers"], s: ["mollets", "ischios", "abdominaux"] },
+    tempo: [[0, "Descendre"], [0.35, "Pousser fort dans le sol"], [0.55, "En l'air, corps gainé"], [0.75, "Réception genoux souples"]],
+    cles: [K(debout, 0), K(bas, 0.35), pointes(0.46), envol, pointes(0.64), reception, K(debout, 0.95)],
+    erreur: { texte: "se réceptionner jambes tendues : le choc remonte dans les genoux et le dos.", zone: ["quadriceps", "lombaires"],
+      cles: [K(debout, 0), K(bas, 0.35), pointes(0.46), envol, pointes(0.64), K(debout, 0.75), K(debout, 0.95)] }
+  });
+}
+{ // Rotation russe : assis buste en arrière, pieds au sol, les mains jointes passent d'un côté à l'autre
+  const P = (t, rot) => ({ t, racine: { p: [0, 13, 0], r: [-32, 0, 0] }, colonne: col(10, 8, 6, rot),
+    bras: bras2({ fk: { flex: 55, abd: -32 }, coude: 82, doigts: 70, phal: 80, pouce: 60 }), jambes: jambes2({ ik: [12, 8, 46], pole: [0.2, 1, 0.2], pied: PIED_PLAT(6) }) });
+  E("russian-twist", {
+    nom: "Rotation russe (russian twist)", duree: 3, reps: 10, affiche: 0.2, vue: "3/4",
+    camera: { cible: [0, 35, 15], dist: 360, el: 12 }, ombre: [0, 15, 70, 120], accessoires: [{ type: "tapis", p0: [0, 0, 10] }],
+    muscles: { p: ["obliques", "abdominaux"], s: ["flechisseurs", "lombaires"] },
+    tempo: [[0, "Tourner les épaules vers la gauche"], [0.5, "Puis vers la droite, dos droit"]],
+    cles: [P(0, 0), P(0.22, 40), P(0.3, 40), P(0.5, 0), P(0.72, -40), P(0.8, -40)],
+    erreur: { texte: "le dos s'arrondit et seuls les bras bougent : les obliques ne tournent pas le buste.", zone: ["lombaires"],
+      cles: [{ ...P(0, 0), colonne: col(30, 24, 18, 0) }, { ...P(0.22, 8), colonne: col(30, 24, 18, 8), bras: bras2({ fk: { flex: 62, abd: 30 }, coude: 55 }) },
+        { ...P(0.5, 0), colonne: col(30, 24, 18, 0) }, { ...P(0.72, -8), colonne: col(30, 24, 18, -8), bras: bras2({ fk: { flex: 62, abd: -10 }, coude: 55 }) }] }
+  });
+}
+{ // Donkey kick à quatre pattes : le genou droit plié à 90° pousse le talon vers le plafond
+  const k0 = EXERCICES["bird-dog"].cles[0];
+  const P = (t, D, lomb = 0) => ({ ...copie(k0), t, colonne: col(lomb, 0, -12), jambes: { G: copie(k0.jambes.G), D } });
+  const haut = { fk: { flex: -12, abd: 2 }, genou: 92, cheville: 5 };
+  E("donkey-kick", {
+    nom: "Donkey kick (à quatre pattes)", duree: 3, reps: 12, affiche: 0.4, vue: "profil",
+    camera: { cible: [0, 50, 0], dist: 380, el: 12 }, ombre: [0, 0, 70, 200], accessoires: [{ type: "tapis", p0: [0, 0, 0] }],
+    muscles: { p: ["fessiers"], s: ["ischios", "lombaires", "abdominaux"] },
+    tempo: [[0, "Pousser le talon vers le plafond · 1 s"], [0.4, "Serrer la fesse"], [0.5, "Revenir sans poser le genou"]],
+    cles: [P(0, copie(k0.jambes.D)), P(0.4, haut), P(0.5, haut), P(0.95, copie(k0.jambes.D))],
+    erreur: { texte: "le bas du dos se creuse pour monter plus haut : ce sont les lombaires qui travaillent.", zone: ["lombaires"],
+      cles: [P(0, copie(k0.jambes.D)), P(0.4, { ...haut, fk: { flex: -30, abd: 2 } }, -22), P(0.5, { ...haut, fk: { flex: -30, abd: 2 } }, -22), P(0.95, copie(k0.jambes.D))] }
+  });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -1528,7 +1602,8 @@ const ORIENTATION = {
   "developpe-militaire-barre": AVANT, "ecarte-halteres": [-0.7, 0.7, 0], "dips-barres": DEDANS, "goblet-squat": DEDANS,
   "pont-fessier-barre": BAS, "hip-thrust-une-jambe": BAS, "souleve-terre-kettlebell": ARRIERE, "rowing-kettlebell": [DEDANS, "G"], "goblet-squat-kettlebell": DEDANS,
   "developpe-couche-serre": AVANT, "developpe-incline-barre": AVANT, "good-morning": AVANT, "front-squat": [0, 1, 0.3],
-  "rowing-debout": ARRIERE, "barre-front": AVANT, "pullover-haltere": DEDANS
+  "rowing-debout": ARRIERE, "barre-front": AVANT, "pullover-haltere": DEDANS,
+  "tirage-vertical-serre": DEDANS, "developpe-epaules-assis": AVANT
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];

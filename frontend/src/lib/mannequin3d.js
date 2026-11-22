@@ -29,6 +29,8 @@ const BY_ANIM = {
   'goblet-squat-kettlebell': ['0534'], 'dips-chaises': ['3387'], 'fente-croisee': ['3769'], 'l-sit': ['3419'], 'etirement-flechisseurs': ['1053'],
   'developpe-couche-serre': ['0030'], 'developpe-incline-barre': ['0047'], 'good-morning': ['0044'], 'front-squat': ['0042'],
   'rowing-debout': ['0120'], 'barre-front': ['0060', '0061'], 'pullover-haltere': ['0375'], 'crunch': ['0274'], 'extension-triceps-nuque': ['0430'],
+  'elevation-frontale': ['0310'], 'tirage-vertical-serre': ['1047', '7583'], 'developpe-epaules-assis': ['0405'], 'squat-sumo': ['1064'],
+  'squat-saute': ['0514'], 'russian-twist': ['0687'],
 }
 export const ANIM_3D = Object.fromEntries(Object.entries(BY_ANIM).flatMap(([anim, ids]) => ids.map(id => [id, anim])))
 

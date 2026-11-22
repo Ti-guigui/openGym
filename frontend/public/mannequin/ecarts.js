@@ -2,6 +2,7 @@
 export const ECARTS = {
   "homme": {
     "curl-biceps": {"normal":[{"bras.G":{"abd":9,"flex":0},"bras.D":{"abd":9,"flex":0}},null,{"bras.G":{"abd":15,"flex":10},"bras.D":{"abd":15,"flex":10}},{"bras.G":{"abd":9,"flex":0},"bras.D":{"abd":9,"flex":0}}],"erreur":[{"bras.G":{"abd":9,"flex":0},"bras.D":{"abd":9,"flex":0}},null,{"bras.G":{"abd":15,"flex":-10},"bras.D":{"abd":15,"flex":-10}},{"bras.G":{"abd":9,"flex":0},"bras.D":{"abd":9,"flex":0}}]},
+    "developpe-epaules-assis": {"normal":[{"bras.G":[3,3,0],"bras.D":[-3,3,0]},{"bras.G":[0,3,0],"bras.D":[0,3,0]},{"bras.G":[6,3,0],"bras.D":[-6,3,0]},{"bras.G":[3,0,0],"bras.D":[-3,0,0]}],"erreur":[{"bras.G":[0,3,3],"bras.D":[0,3,3]},null,{"bras.G":[3,0,0],"bras.D":[-3,0,0]},null]},
     "developpe-incline": {"normal":[{"bras.G":[3,0,0],"bras.D":[-3,0,0]},null,{"bras.G":[0,0,3],"bras.D":[0,0,3]},null],"erreur":[{"bras.G":[0,3,0],"bras.D":[0,3,0]},{"bras.G":[0,0,3],"bras.D":[0,0,3]},{"bras.G":[0,3,3],"bras.D":[0,3,3]},null]},
     "developpe-incline-barre": {"normal":[{"bras.G":[0,6,-3],"bras.D":[0,6,-3]},{"bras.G":[-3,3,-3],"bras.D":[3,3,-3]},{"bras.G":[0,3,0],"bras.D":[0,3,0]},null],"erreur":[{"bras.G":[-3,0,-6],"bras.D":[3,0,-6]},{"bras.G":[3,3,0],"bras.D":[-3,3,0]},{"bras.G":[0,-3,-6],"bras.D":[0,-3,-6]},{"bras.G":[0,-3,-3],"bras.D":[0,-3,-3]}]},
     "developpe-militaire": {"normal":[{"bras.G":[3,3,-3],"bras.D":[-3,3,-3]},{"bras.G":[0,0,-3],"bras.D":[0,0,-3]},{"bras.G":[6,3,0],"bras.D":[-6,3,0]},{"bras.G":[3,0,0],"bras.D":[-3,0,0]}]},
@@ -21,6 +22,7 @@ export const ECARTS = {
   "femme": {
     "curl-biceps": {"normal":[{"bras.G":{"abd":12,"flex":0},"bras.D":{"abd":12,"flex":0}},{"bras.G":{"abd":12,"flex":5},"bras.D":{"abd":12,"flex":5}},{"bras.G":{"abd":15,"flex":5},"bras.D":{"abd":15,"flex":5}},{"bras.G":{"abd":9,"flex":0},"bras.D":{"abd":9,"flex":0}}],"erreur":[{"bras.G":{"abd":12,"flex":0},"bras.D":{"abd":12,"flex":0}},{"bras.G":{"abd":6,"flex":0},"bras.D":{"abd":6,"flex":0}},null,{"bras.G":{"abd":9,"flex":5},"bras.D":{"abd":9,"flex":5}}]},
     "curl-marteau": {"normal":[null,{"bras.G":{"abd":3,"flex":0},"bras.D":{"abd":3,"flex":0}},{"bras.G":{"abd":3,"flex":0},"bras.D":{"abd":3,"flex":0}},null],"erreur":[{"bras.G":{"abd":3,"flex":0},"bras.D":{"abd":3,"flex":0}},null,null,null]},
+    "developpe-epaules-assis": {"normal":[{"bras.G":[3,6,0],"bras.D":[-3,6,0]},{"bras.G":[0,3,0],"bras.D":[0,3,0]},{"bras.G":[6,3,0],"bras.D":[-6,3,0]},{"bras.G":[3,0,0],"bras.D":[-3,0,0]}],"erreur":[{"bras.G":[3,6,0],"bras.D":[-3,6,0]},null,{"bras.G":[6,0,0],"bras.D":[-6,0,0]},null]},
     "developpe-incline-barre": {"erreur":[{"bras.G":[-3,3,3],"bras.D":[3,3,3]},{"bras.G":[0,-6,0],"bras.D":[0,-6,0]},{"bras.G":[0,-6,0],"bras.D":[0,-6,0]},{"bras.G":[0,3,-6],"bras.D":[0,3,-6]}]},
     "developpe-militaire": {"normal":[{"bras.G":[3,3,0],"bras.D":[-3,3,0]},null,{"bras.G":[6,0,3],"bras.D":[-6,0,3]},{"bras.G":[3,0,0],"bras.D":[-3,0,0]}]},
     "face-pull": {"normal":[null,null,{"bras.G":[-3,0,0],"bras.D":[3,0,0]},null]},
