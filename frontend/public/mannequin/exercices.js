@@ -1261,6 +1261,104 @@ const TIBIAS = ["chevilleG", "chevilleG", "chevilleG", "chevilleG", "genouG", "c
   });
 }
 
+/* ---------- LOT 3 pour l'appli ---------- */
+{ // Élévation latérale à la poulie basse, un bras : le câble part de la poulie placée de l'autre côté et passe devant le corps
+  const el = EXERCICES["elevations-laterales"], APPUI = { fk: { flex: 8, abd: 28 }, coude: 35 };   // main droite posée vers la colonne
+  const unBras = cles => cles.map(k => { const n = copie(k); n.bras.G.fk.flex = Math.max(n.bras.G.fk.flex, 22); n.bras.D = copie(APPUI); return n; });
+  E("elevation-laterale-poulie", {
+    ...copie(el), recalageDe: "elevations-laterales", nom: "Élévation latérale à la poulie basse (un bras)", vue: "3/4",
+    camera: { cible: [0, 110, 0], dist: 460, el: 6 }, ombre: [-10, 0, 110, 80],
+    accessoires: [{ type: "poulie", h: 18, p0: [-48, 0, 8] }, { type: "cable", de: [-44, 18, 12], main: "G", poignee: 10 }],
+    cles: unBras(el.cles), erreur: { ...copie(el.erreur), cles: unBras(el.erreur.cles) }
+  });
+}
+{ // Oiseau buste penché aux haltères : même buste que le rowing, les bras s'ouvrent sur les côtés, coudes légèrement fléchis
+  const rb = EXERCICES["rowing-barre"].cles[0];
+  const P = (t, flex, abd, coude = 18, cou = -20) => ({ t, racine: copie(rb.racine), colonne: col(0, 0, cou), jambes: copie(rb.jambes),
+    bras: bras2({ fk: { flex, abd }, coude, prono: 90, ...PRISE }) });
+  const bas = P(0, 48, 10), haut = P(0.4, 18, 80, 22);
+  E("oiseau-halteres", {
+    nom: "Oiseau buste penché aux haltères", duree: 3.5, reps: 12, affiche: 0.4, vue: "3/4", recalageDe: "rowing-barre",
+    camera: { cible: [0, 90, 5], dist: 440, el: 8 }, ombre: [0, 0, 100, 110], accessoires: HALTERES,
+    muscles: { p: ["deltoides", "trapezes"], s: ["dorsaux", "lombaires", "ischios"] },
+    tempo: [[0, "Ouvrir les bras sur les côtés · 1 s"], [0.4, "Serrer les omoplates"], [0.5, "Redescendre en 2 s"]],
+    cles: [bas, haut, { ...copie(haut), t: 0.5 }, { ...copie(bas), t: 0.95 }],
+    erreur: { texte: "le buste se redresse et donne de l'élan : les bras montent avec le dos au lieu des épaules.", zone: ["lombaires"],
+      cles: [bas, { ...P(0.4, 25, 84, 30, -10), racine: { ...copie(rb.racine), r: [rb.racine.r[0] - 22, 0, 0] } }, { ...P(0.5, 25, 84, 30, -10), racine: { ...copie(rb.racine), r: [rb.racine.r[0] - 22, 0, 0] } }, { ...copie(bas), t: 0.95 }] }
+  });
+}
+{ // Fente avant : la phase basse captée (CMU) de la fente arrière, déplacée pour que le pied arrière reste en place
+  const fa = EXERCICES["fente-arriere"], k0 = fa.cles[0];
+  const bas = fa.cles.filter(k => k.t < 0.5 && k.jambes.D.ik && k.jambes.D.ik[2] < -40);
+  const t0 = bas[0].t, t1 = bas[bas.length - 1].t, dz = 3 - bas[0].jambes.D.ik[2];
+  const capte = bas.map(k => { const n = copie(k); n.t = 0.3 + 0.42 * (k.t - t0) / (t1 - t0); n.racine.p[2] += dz; n.jambes.G.ik[2] += dz; n.jambes.D.ik[2] += dz; return n; });
+  const debout = t => ({ ...copie(k0), t });
+  const pas = t => { const n = debout(t); n.racine.p = [0, 95, 16]; n.racine.r = [3, 0, 0]; n.jambes.G = { ik: [13, 22, 40], pole: [0.2, 0, 1], pied: [-15, 10, 0] }; return n; };
+  const penche = cles => cles.map(k => { const n = copie(k); n.racine.r[0] += 22; return n; });
+  E("fente-avant", {
+    nom: "Fente avant", duree: 4, reps: 8, affiche: 0.5, vue: "profil",
+    camera: { cible: [0, 80, 25], dist: 440, el: 6 }, ombre: [0, 30, 90, 170],
+    muscles: { p: ["quadriceps", "fessiers"], s: ["ischios", "adducteurs", "mollets", "abdominaux"] },
+    tempo: [[0, "Grand pas en avant"], [0.3, "Descendre le genou arrière"], [0.72, "Pousser sur le talon avant pour revenir"], [0.95, "Debout"]],
+    cles: [debout(0), pas(0.15), ...capte, pas(0.85), debout(0.97)],
+    erreur: { texte: "le buste plonge en avant à la réception : le dos encaisse et le genou avant part loin devant.", zone: ["lombaires"],
+      cles: [debout(0), pas(0.15), ...penche(capte), pas(0.85), debout(0.97)] }
+  });
+}
+{ // Montée sur banc aux haltères : le pied gauche reste sur la boîte, le droit monte puis redescend
+  const BOITE = machine([{ b: [50, 44, 40], p: [0, 22, 36] }]);
+  const G = { ik: [12, 52, 34], pole: [0.2, 0, 1], pied: PIED_PLAT(6) };
+  const BAS = bras2({ fk: { flex: 2, abd: 7 }, coude: 4, prono: -85, ...PRISE });
+  const P = (t, y, z, pitch, D) => ({ t, racine: { p: [0, y, z], r: [pitch, 0, 0] }, colonne: col(0, 0, -4), bras: copie(BAS), jambes: { G: copie(G), D } });
+  const sol = { ik: [-12, 8, -8], pole: [-0.2, 0, 1], pied: PIED_PLAT(-6) }, monte = { ik: [-12, 40, -10], pole: [-0.2, 0, 1], pied: [20, -4, 0] },
+    dessus = { ik: [-12, 52, 32], pole: [-0.2, 0, 1], pied: PIED_PLAT(-6) };
+  const auDessus = { ik: [-12, 64, 12], pole: [-0.2, 0, 1], pied: [10, -4, 0] };
+  const depart = P(0, 96, 2, 14, sol), haut = P(0.4, 139, 30, 0, dessus);
+  E("step-up", {
+    nom: "Montée sur banc aux haltères (step-up)", duree: 4, reps: 8, affiche: 0.25, vue: "profil",
+    camera: { cible: [0, 100, 20], dist: 480, el: 6 }, ombre: [0, 20, 90, 120], accessoires: [BOITE, ...HALTERES],
+    muscles: { p: ["quadriceps", "fessiers"], s: ["ischios", "mollets", "avant-bras", "abdominaux"] },
+    tempo: [[0, "Pousser sur le pied posé sur le banc · 1,5 s"], [0.4, "Debout sur le banc"], [0.55, "Redescendre en contrôlant · 2 s"]],
+    // le pied droit passe au-dessus du bord de la boîte (au-dessus) au lieu de couper son coin
+    cles: [depart, P(0.15, 116, 18, 9, monte), P(0.28, 132, 26, 3, auDessus), haut, { ...copie(haut), t: 0.55 }, P(0.66, 132, 26, 3, auDessus), P(0.8, 116, 18, 9, monte), { ...copie(depart), t: 0.95 }],
+    erreur: { texte: "pousser avec la jambe restée au sol : c'est elle qui fait le travail, pas celle posée sur le banc.", zone: ["mollets"],
+      cles: [depart, P(0.15, 120, 14, 20, { ik: [-12, 24, -6], pole: [-0.2, 0, 1], pied: [40, -4, 0] }), P(0.28, 132, 26, 3, auDessus), haut, { ...copie(haut), t: 0.55 }, P(0.66, 132, 26, 3, auDessus), P(0.8, 116, 18, 9, monte), { ...copie(depart), t: 0.95 }] }
+  });
+}
+{ // Leg curl allongé : à plat ventre sur la machine, le boudin derrière les chevilles monte vers les fesses
+  const MOLLET = ["genouG", "chevilleG", -11];
+  const MACHINE = machine([{ b: [40, 7, 88], p: [0, 58, -6], m: "cuir" }, { b: [8, 54, 8], p: [0, 27, 30] }, { b: [8, 54, 8], p: [0, 27, -36] },
+    { b: [60, 4, 30], p: [0, 2, 30] }, { b: [60, 4, 30], p: [0, 2, -36] }, { c: [1.6, 50], p: [0, 44, 40], r: [0, 0, 90], m: "acier" }]);
+  const P = (t, g, hanches = 0, pitch = 90) => ({ t, racine: { p: [0, 72, 0], r: [pitch, 0, 0] }, colonne: col(0, 0, 18),
+    bras: bras2({ ik: [22, 47, 40], pole: [1, 0, -0.3], ...PRISE }), jambes: jambes2({ fk: { flex: hanches, abd: 3 }, genou: g, cheville: 10 }) });
+  E("leg-curl-allonge", {
+    nom: "Leg curl allongé", duree: 3.5, reps: 12, affiche: 0.4, vue: "3/4",
+    camera: { cible: [0, 70, -10], dist: 470, el: 14 }, ombre: [0, -10, 90, 200],
+    accessoires: [MACHINE, machine([{ c: [5, 40], r: [0, 0, 90], m: "cuir" }], { suit: TIBIAS, perp: MOLLET })],
+    muscles: { p: ["ischios"], s: ["mollets", "fessiers"] },
+    tempo: [[0, "Ramener les talons vers les fesses · 1 s"], [0.4, "Tenir 1 s, hanches collées"], [0.5, "Redescendre en 2 s"]],
+    cles: [P(0, 6), P(0.4, 115), P(0.5, 115), P(0.95, 6)],
+    erreur: { texte: "les hanches décollent du banc pour finir le mouvement : le bas du dos se cambre.", zone: ["lombaires"],
+      cles: [P(0, 6), P(0.4, 100, 14, 83), P(0.5, 100, 14, 83), P(0.95, 6)] }
+  });
+}
+{ // Swing kettlebell : charnière de hanche, la kettlebell passe entre les cuisses puis monte à hauteur d'épaules
+  const KB = machine([{ c: [8.5, 15], p: [0, -12, 0], m: "fonte" }, { b: [14, 2.4, 2.4], p: [0, 0, 0], m: "fonte" }, { b: [2.4, 6, 2.4], p: [6, -4, 0], m: "fonte" }, { b: [2.4, 6, 2.4], p: [-6, -4, 0], m: "fonte" }], { main: "2" });
+  const J = jambes2({ ik: [17, 8, 4], pole: [0.35, 0, 1], pied: PIED_PLAT(10) });
+  const P = (t, y, z, pitch, hy, hz, lomb = 0) => ({ t, racine: { p: [0, y, z], r: [pitch, 0, 0] }, colonne: col(lomb, 0, -pitch * 0.25),
+    bras: bras2({ ik: [5, hy, hz], pole: [0.3, -0.2, -1], ...PRISE }), jambes: J });
+  const bas = P(0, 86, -16, 58, 52, -14), mi = P(0.22, 95, -6, 22, 92, 34), haut = P(0.45, 99, 0, -3, 140, 50);
+  E("swing-kettlebell", {
+    nom: "Swing kettlebell", duree: 1.8, reps: 15, affiche: 0.45, vue: "profil",
+    camera: { cible: [0, 95, 10], dist: 470, el: 6 }, ombre: [0, 0, 90, 110], accessoires: [KB],
+    muscles: { p: ["fessiers", "ischios"], s: ["lombaires", "abdominaux", "deltoides", "avant-bras"] },
+    tempo: [[0, "Pousser les hanches vers l'avant"], [0.45, "Bras tendus, la kettlebell flotte"], [0.55, "Laisser redescendre, hanches en arrière"]],
+    cles: [bas, mi, haut, { ...copie(haut), t: 0.52 }, { ...copie(mi), t: 0.75 }, { ...copie(bas), t: 0.95 }],
+    erreur: { texte: "squatter au lieu de plier les hanches et lever avec les bras : les épaules tirent, les fessiers ne poussent pas.", zone: ["deltoides", "quadriceps"],
+      cles: [P(0, 70, -10, 25, 40, 2, 10), P(0.22, 88, -4, 12, 100, 36), P(0.45, 97, 0, -6, 150, 40, -10), P(0.52, 97, 0, -6, 150, 40, -10), P(0.75, 88, -4, 12, 100, 36), P(0.95, 70, -10, 25, 40, 2, 10)] }
+  });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
