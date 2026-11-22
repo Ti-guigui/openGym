@@ -10,6 +10,7 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
 - **Base :** fork de [openGym](https://github.com/DuarteSantos8/openGym), sous licence AGPL-3.0
 - **Fork :** https://github.com/Ti-guigui/openGym, branche `main`
 - **Utilisation :** sous Windows, avec Docker Desktop, sur http://localhost:8080
+- **Sur téléphone (hors ligne) :** https://ti-guigui-fit.kit-de-survie.workers.dev, à ajouter à l'écran d'accueil. Mode invité seulement (pas de serveur derrière) : les données restent sur le téléphone, sans synchro avec le PC.
 
 ## Ce qui a été modifié par rapport à openGym
 
@@ -90,6 +91,13 @@ docker compose down           # arrêter l'appli
 
 - **Sauvegarde :** copier le dossier `C:\Users\Ti Guigui\openGym\data`.
 - **Si la nouvelle version ne s'affiche pas :** faire Ctrl+F5 dans le navigateur.
+- **Mettre à jour la version téléphone** (Cloudflare, config `cloudflare/app.jsonc`) :
+
+  ```powershell
+  cd "$HOME\openGymrontend"; npm run build; cd ..
+  node scripts/catalogue/stage-media.mjs frontend/dist
+  npx wrangler deploy -c cloudflare/app.jsonc
+  ```
 
 ## Idées pour la suite (pas encore faites)
 
