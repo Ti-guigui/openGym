@@ -83,6 +83,17 @@ describe('sw.js install and activate', () => {
     expect(await globalThis.caches.keys()).toContain('opengym-rt-oldbuild')
   })
 
+  it('a static host that redirects index.html to the app folder still installs', async () => {
+    await loadSW()
+    globalThis.self.registration.scope = 'https://gym.test/'
+    globalThis.fetch = async u => (String(u) === 'index.html'
+      ? { ok: true, status: 200, redirected: true, url: 'https://gym.test/', text: async () => shellHtml }
+      : { ok: true, status: 200, redirected: false, clone() { return this } })
+
+    await fire('install')
+    expect((await globalThis.caches.open(CACHE)).keys()).toContain('index.html')
+  })
+
   it('a server that is restarting fails the install rather than cache its error page', async () => {
     await loadSW()
     await previousBuild()

@@ -52,7 +52,9 @@ async function precache() {
   // Cloudflare Access; docs/SELF_HOSTING.md) sends its login page once the session there expires.
   // Throwing fails the install, which is the only thing that keeps the build already
   // on this device, and its cache, in place; a returned-quietly install activates and sweeps.
-  if (!res.ok || res.redirected) throw new Error('precache: index.html ' + res.status + (res.redirected ? ' redirected' : ''))
+  // A redirect to the app's own folder is fine: static hosts (Cloudflare Pages) send index.html to "./".
+  const offsite = res.redirected && !(res.url && res.url === self.registration.scope)
+  if (!res.ok || offsite) throw new Error('precache: index.html ' + res.status + (res.redirected ? ' redirected' : ''))
   const html = await res.text()
   const refs = [...new Set([...html.matchAll(/(?:src|href)="([^"]+)"/g)].map(m => m[1])
     .filter(u => /\.(?:js|css|png|svg|webmanifest|json)(?:\?|$)/.test(u) && !/^(?:https?:)?\/\//.test(u)))]
