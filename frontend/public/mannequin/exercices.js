@@ -1140,6 +1140,35 @@ const TIBIAS = ["chevilleG", "chevilleG", "chevilleG", "chevilleG", "genouG", "c
   });
 }
 
+/* ---------- VARIANTES (demandées pour l'appli Ti Guigui FIT) ----------
+   Même mouvement qu'un exercice existant : on copie ses images clés (et son recalage) et on ne change que les bras
+   (prise, écart des mains) et le matériel tenu. */
+{
+  const bras = (cles, f) => cles && cles.map(k => { const n = copie(k); for (const c of ["G", "D"]) if (n.bras?.[c]) n.bras[c] = f(n.bras[c], c === "G" ? 1 : -1); return n; });
+  const variante = (id, base, def, f = b => b) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: bras(b.cles, f), clesFemme: bras(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: bras(e.cles, f), clesFemme: bras(e.clesFemme, f) } });
+    if (!EXERCICES[id].clesFemme) delete EXERCICES[id].clesFemme;
+    if (e && !e.clesFemme) delete EXERCICES[id].erreur.clesFemme;
+  };
+  variante("curl-marteau", "curl-biceps", { nom: "Curl marteau aux haltères", muscles: { p: ["biceps", "avant-bras"], s: ["deltoides"] } },
+    b => ({ ...b, prono: 90, fk: { ...b.fk, abd: 9 } }));              // pouces vers le haut tout le long, haltères écartés des cuisses
+  variante("curl-barre", "curl-biceps", { nom: "Curl à la barre", accessoires: [{ type: "barre-olympique", main: "2" }] },
+    b => ({ ...b, fk: { ...b.fk, abd: 9, flex: Math.max(b.fk.flex, 5) }, coude: Math.max(b.coude, 20) }));   // mains à la largeur des épaules ; coudes un peu fléchis en bas : la barre reste devant les cuisses
+  variante("developpe-couche-halteres", "developpe-couche",
+    { nom: "Développé couché aux haltères", accessoires: [EXERCICES["developpe-couche"].accessoires[0], ...HALTERES] });
+  variante("pompe-diamant", "pompe", { nom: "Pompe diamant (mains rapprochées)", muscles: { p: ["triceps", "pectoraux"], s: ["deltoides", "abdominaux", "avant-bras"] } },
+    (b, s) => ({ ...b, ik: [7 * s, b.ik[1], b.ik[2]], pole: [b.pole[0] * 0.4, b.pole[1], b.pole[2]] }));   // mains sous la poitrine, coudes le long du corps
+  variante("traction-supination", "traction", { recalageDe: "traction-supination", nom: "Traction en supination (chin-up)", muscles: { p: ["dorsaux", "biceps"], s: ["avant-bras", "trapezes", "abdominaux"] } },
+    (b, s) => ({ ...b, ik: [24 * s, b.ik[1], b.ik[2]] }));            // prise plus serrée, poignets devant la barre ; paumes vers soi : table ORIENTATION
+  variante("rowing-halteres", "rowing-barre", { nom: "Rowing buste penché aux haltères", accessoires: HALTERES });
+  variante("souleve-roumain-barre", "souleve-roumain", { nom: "Soulevé de terre roumain à la barre", reps: 8, accessoires: [{ type: "barre-olympique", main: "2" }] },
+    (b, s) => ({ ...b, ...PRISE, ik: [22 * s, b.ik[1] + 4, b.ik[2] + 13] }));   // la barre glisse le long des cuisses
+  variante("squat-bulgare-halteres", "squat-bulgare", { nom: "Squat bulgare aux haltères", accessoires: [...EXERCICES["squat-bulgare"].accessoires, ...HALTERES] },
+    () => ({ fk: { flex: 2, abd: 7 }, coude: 4, prono: -85, ...PRISE }));   // bras pendants, haltères le long des jambes
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -1149,7 +1178,8 @@ const ORIENTATION = {
   "squat-barre": AVANT, "smith-squat": AVANT, "pec-deck": DEDANS, "vis-a-vis": DEDANS, "rowing-barre": ARRIERE, "souleve-de-terre": ARRIERE,
   "hip-thrust": BAS, "hip-thrust-machine": BAS, "triceps-poulie": [0, -0.7, -0.7], "kickback-machine": BAS, "chest-press": DEDANS,
   "fentes-halteres": DEDANS, "souleve-roumain-halteres": ARRIERE, "rowing-haltere": [DEDANS, "G"], "rowing-assis": DEDANS,
-  "face-pull": DEDANS, "oiseau-machine": DEDANS, "elevations-laterales": [-0.6, -0.8, 0]
+  "face-pull": DEDANS, "oiseau-machine": DEDANS, "elevations-laterales": [-0.6, -0.8, 0],
+  "developpe-couche-halteres": AVANT, "traction-supination": ARRIERE, "rowing-halteres": DEDANS, "souleve-roumain-barre": ARRIERE
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];

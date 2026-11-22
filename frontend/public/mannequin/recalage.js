@@ -58,6 +58,7 @@ export const RECALAGE = {
     "tirage-vertical": {"normal":[{"ik":{"jambes.G":3.9,"jambes.D":3.8}},{"ik":{"jambes.G":3.9,"jambes.D":3.8}},{"ik":{"jambes.G":3.9,"jambes.D":3.8}},{"ik":{"jambes.G":3.9,"jambes.D":3.8}}],"erreur":[{"ik":{"jambes.G":3.9,"jambes.D":3.8}},{"ik":{"jambes.G":3.9,"jambes.D":3.8}},{"ik":{"jambes.G":3.9,"jambes.D":3.8}},{"ik":{"jambes.G":3.9,"jambes.D":3.8}}]},
     "traction": {"normal":[{},{},{}],"erreur":[{},{},{},{},{}]},
     "traction-assistee": {"normal":[{"dy":-8,"ik":{"bras.G":1.5,"bras.D":1.5}},{"ik":{"bras.G":4.1,"bras.D":4.2}},{"ik":{"bras.G":4.1,"bras.D":4.2}}],"erreur":[{"dy":-8,"ik":{"bras.G":1.5,"bras.D":1.5}},{"ik":{"bras.G":4.1,"bras.D":4.2}},{"ik":{"bras.G":4.1,"bras.D":4.2}},{"ik":{"bras.G":4.1,"bras.D":4.2}},{"dy":-8,"ik":{"bras.G":1.7,"bras.D":1.7}}]},
+    "traction-supination": {"normal":[{},{},{}],"erreur":[{"dy":8,"ik":{"bras.G":1.6,"bras.D":1.6}},{},{"dy":4.5,"ik":{"bras.G":0.9,"bras.D":0.8}},{"dy":4.5,"ik":{"bras.G":0.9,"bras.D":0.8}},{"dy":8,"ik":{"bras.G":1.8,"bras.D":1.8}}]},
     "triceps-poulie": {"normal":[{},{},{},{}],"erreur":[{},{},{},{}]},
     "vis-a-vis": {"normal":[{},{},{},{}],"erreur":[{},{},{},{}]}
   },
@@ -119,6 +120,7 @@ export const RECALAGE = {
     "tirage-vertical": {"normal":[{"ik":{"jambes.G":2.9,"jambes.D":2.9}},{"ik":{"jambes.G":2.9,"jambes.D":2.9}},{"ik":{"jambes.G":2.9,"jambes.D":2.9}},{"ik":{"jambes.G":2.9,"jambes.D":2.9}}],"erreur":[{"ik":{"jambes.G":2.9,"jambes.D":2.9}},{"ik":{"jambes.G":2.9,"jambes.D":2.9}},{"ik":{"jambes.G":2.9,"jambes.D":2.9}},{"ik":{"jambes.G":2.9,"jambes.D":2.9}}]},
     "traction": {"normal":[{},{},{}],"erreur":[{},{},{},{},{}]},
     "traction-assistee": {"normal":[{"dy":-8,"ik":{"bras.G":0.8,"bras.D":0.8}},{"ik":{"bras.G":3.5,"bras.D":3.4}},{"ik":{"bras.G":3.5,"bras.D":3.4}}],"erreur":[{"dy":-8,"ik":{"bras.G":0.8,"bras.D":0.8}},{"ik":{"bras.G":3.5,"bras.D":3.4}},{"ik":{"bras.G":3.5,"bras.D":3.4}},{"ik":{"bras.G":3.5,"bras.D":3.4}},{"dy":-8,"ik":{"bras.G":0.8,"bras.D":0.8}}]},
+    "traction-supination": {"normal":[{},{},{}],"erreur":[{},{},{},{},{}]},
     "triceps-poulie": {"normal":[{},{},{},{}],"erreur":[{},{},{},{}]},
     "vis-a-vis": {"normal":[{},{},{},{}],"erreur":[{},{},{},{}]}
   }
