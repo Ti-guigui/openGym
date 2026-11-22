@@ -1588,6 +1588,64 @@ const TIBIAS = ["chevilleG", "chevilleG", "chevilleG", "chevilleG", "genouG", "c
   });
 }
 
+/* ---------- LOT 7 pour l'appli ---------- */
+{
+  const bras = (cles, f) => cles && cles.map(k => { const n = copie(k); for (const c of ["G", "D"]) if (n.bras?.[c]) n.bras[c] = f(n.bras[c], c === "G" ? 1 : -1, n); return n; });
+  const variante = (id, base, def, f = b => b) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: bras(b.cles, f), erreur: e && { ...copie(e), cles: bras(e.cles, f) } });
+    delete EXERCICES[id].clesFemme; if (EXERCICES[id].erreur) delete EXERCICES[id].erreur.clesFemme;
+  };
+  variante("pompe-large", "pompe", { nom: "Pompe mains larges", muscles: { p: ["pectoraux"], s: ["triceps", "deltoides", "abdominaux"] } },
+    (b, s) => ({ ...b, ik: [38 * s, b.ik[1], b.ik[2]], pole: [b.pole[0] * 1.6, b.pole[1], b.pole[2]] }));
+  variante("curl-inverse", "curl-barre", { nom: "Curl inversé à la barre (prise en pronation)", muscles: { p: ["avant-bras", "biceps"], s: ["deltoides"] } },
+    b => ({ ...b, prono: 180 }));                                     // paumes vers le bas tout le long
+}
+{ // Crunch inversé : allongé, genoux pliés au-dessus des hanches ; le bassin s'enroule et décolle un peu
+  const k0 = EXERCICES["pont-fessier"].cles[0];
+  const P = (t, flex, lomb = 0) => ({ t, racine: copie(k0.racine), colonne: col(lomb, 0, 0), bras: copie(k0.bras), jambes: jambes2({ fk: { flex, abd: 4 }, genou: 98, cheville: 10 }) });
+  const bas = P(0, 82), haut = P(0.4, 112, 0);
+  E("crunch-inverse", {
+    nom: "Crunch inversé", duree: 3, reps: 15, affiche: 0.4, vue: "profil",
+    camera: { cible: [0, 25, 5], dist: 320, el: 10 }, ombre: [0, 0, 70, 180], accessoires: [{ type: "tapis", p0: [0, 0, 0] }],
+    muscles: { p: ["abdominaux"], s: ["flechisseurs", "obliques"] },
+    tempo: [[0, "Ramener les genoux vers la poitrine · 1 s"], [0.4, "Le bassin décolle à peine"], [0.5, "Redescendre en 2 s, sans poser les pieds"]],
+    cles: [bas, haut, { ...copie(haut), t: 0.5 }, { ...copie(bas), t: 0.95 }],
+    erreur: { texte: "balancer les jambes avec élan : ce sont les fléchisseurs de hanche qui travaillent, pas les abdominaux.", zone: ["flechisseurs"],
+      cles: [P(0, 60), P(0.4, 110, 2), P(0.5, 110, 2), P(0.95, 60)] }
+  });
+}
+{ // Kickback triceps aux haltères : buste penché, bras collé le long du buste, seul l'avant-bras se tend vers l'arrière
+  const rb = EXERCICES["rowing-barre"].cles[0];
+  const P = (t, coude, flex = -12) => ({ t, racine: { ...copie(rb.racine), r: [60, 0, 0] }, colonne: col(0, 0, -24), jambes: copie(rb.jambes),
+    bras: bras2({ fk: { flex, abd: 7 }, coude, prono: 90, ...PRISE }) });
+  const plie = P(0, 95, -24), tendu = P(0.4, 5, -26);
+  E("kickback-triceps", {
+    nom: "Kickback triceps aux haltères", duree: 3, reps: 12, affiche: 0.4, vue: "profil", recalageDe: "kickback-triceps",
+    camera: { cible: [0, 90, 0], dist: 430, el: 8 }, ombre: [0, 0, 90, 110], accessoires: HALTERES,
+    muscles: { p: ["triceps"], s: ["deltoides", "lombaires"] },
+    tempo: [[0, "Tendre le bras vers l'arrière · 1 s"], [0.4, "Serrer le triceps"], [0.5, "Revenir à 90° en 2 s"]],
+    cles: [plie, tendu, { ...copie(tendu), t: 0.5 }, { ...copie(plie), t: 0.95 }],
+    erreur: { texte: "le coude descend et le bras se balance : l'épaule fait le mouvement à la place du triceps.", zone: ["deltoides"],
+      cles: [P(0, 95, 25), P(0.4, 20, -30), P(0.5, 20, -30), P(0.95, 95, 25)] }
+  });
+}
+{ // Fente latérale : la jambe gauche part sur le côté, la hanche recule et descend, la jambe droite reste tendue
+  const BR = bras2({ fk: { flex: 70, abd: 8 }, coude: 20 });
+  const P = (t, x, y, z, pitch, G, D = { ik: [-22, 8, 3], pole: [-0.2, 0, 1], pied: PIED_PLAT(-8) }) => ({ t, racine: { p: [x, y, z], r: [pitch, 0, 0] }, colonne: col(4, 4, -6), bras: BR, jambes: { G, D } });
+  const pose = { ik: [72, 8, 4], pole: [0.4, 0, 1], pied: PIED_PLAT(18) }, vol = { ik: [45, 20, 5], pole: [0.4, 0, 1], pied: [10, 12, 0] }, rest = { ik: [18, 8, 3], pole: [0.2, 0, 1], pied: PIED_PLAT(8) };
+  const debout = P(0, -2, 98, 0, 0, rest), bas = P(0.45, 40, 70, -10, 25, pose);
+  E("fente-laterale", {
+    nom: "Fente latérale", duree: 4, reps: 8, affiche: 0.45, vue: "face",
+    camera: { cible: [25, 80, 0], dist: 500, el: 8 }, ombre: [28, 0, 150, 80],
+    muscles: { p: ["quadriceps", "fessiers", "adducteurs"], s: ["ischios", "mollets", "abdominaux"] },
+    tempo: [[0, "Grand pas sur le côté"], [0.45, "Hanche en arrière, genou au-dessus du pied"], [0.55, "Pousser pour revenir"]],
+    cles: [debout, P(0.2, 14, 95, -2, 8, vol), bas, { ...copie(bas), t: 0.55 }, P(0.8, 14, 95, -2, 8, vol), { ...copie(debout), t: 0.95 }],
+    erreur: { texte: "le genou rentre vers l'intérieur et le buste reste droit : le genou encaisse au lieu de la hanche.", zone: ["adducteurs"],
+      cles: [debout, P(0.2, 14, 95, -2, 8, vol), P(0.45, 40, 68, -4, 6, { ...pose, pole: [-0.4, 0, 1] }), P(0.55, 40, 68, -4, 6, { ...pose, pole: [-0.4, 0, 1] }), P(0.8, 14, 95, -2, 8, vol), { ...copie(debout), t: 0.95 }] }
+  });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
