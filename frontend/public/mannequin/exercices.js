@@ -2701,6 +2701,28 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   V("squat-sumo-goblet", "squat-sumo", "Squat sumo goblet, haltère", H, HALT);
 }
 
+/* ---------- LOT 37 pour l'appli : squat sur banc et chaise au mur en goblet, soulevé de terre sumo à la kettlebell ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const V = (id, base, nom, f, def = {}) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  const goblet = n => { const a = ((n.racine.r[0] || 0) + (n.colonne.lomb?.flex || 0) + (n.colonne.thorax?.flex || 0)) * D, [, y, z] = n.racine.p;
+    n.bras = bras2({ ik: [15, y + 38 * Math.cos(a), z + 24 * Math.cos(a) + 42 * Math.sin(a)], pole: [1, -1, 0.2], ...PRISE }); };
+  const HALTERE = { type: "haltere", main: "2" };
+  V("squat-banc-goblet", "squat-banc-halteres", "Squat sur banc goblet (haltère contre la poitrine)", goblet,
+    { accessoires: [EXERCICES["squat-banc-halteres"].accessoires[0], HALTERE] });
+  V("chaise-mur-goblet", "chaise-mur", "Chaise au mur avec un haltère contre la poitrine", goblet, { accessoires: [EXERCICES["chaise-mur"].accessoires[0], HALTERE] });
+  // Soulevé de terre sumo : la charge entre les jambes, mains rapprochées
+  const KETTLE = main => machine([{ c: [8.5, 15], p: [0, -12, 0], m: "fonte" }, { b: [14, 2.4, 2.4], p: [0, 0, 0], m: "fonte" },
+    { b: [2.4, 6, 2.4], p: [6, -4, 0], m: "fonte" }, { b: [2.4, 6, 2.4], p: [-6, -4, 0], m: "fonte" }], { main });
+  const serre = x => n => { for (const c of ["G", "D"]) n.bras[c].ik[0] = Math.sign(n.bras[c].ik[0]) * x; };
+  V("souleve-terre-sumo-kettlebell", "souleve-terre-sumo", "Soulevé de terre sumo à la kettlebell", n => { serre(6)(n); for (const c of ["G", "D"]) n.bras[c].ik[2] += 5; }, { accessoires: [KETTLE("2")] });   // la kettlebell passe devant les cuisses
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2737,7 +2759,7 @@ const ORIENTATION = {
   "developpe-couche-smith-inverse": ARRIERE, "developpe-incline-smith-inverse": ARRIERE, "rowing-serre-smith": ARRIERE, "rowing-large-smith": ARRIERE,
   "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT, "kickback-assis": DEDANS, "kickback-assis-un-bras": [DEDANS, "G"], "split-squat-barre": AVANT, "fente-croisee-halteres": DEDANS, "fente-laterale-halteres": DEDANS, "fente-laterale-barre": AVANT, "pullover-barre": AVANT, "hip-thrust-haltere": BAS, "hip-thrust-une-jambe-haltere": BAS, "pont-fessier-haltere": BAS, "fente-avant-kettlebells": DEDANS,
   "squat-sumo-kettlebell": ARRIERE, "squat-sumo-haltere": ARRIERE, "squat-sumo-barre": AVANT, "fente-avant-front": [0, 1, 0.3], "fente-arriere-front": [0, 1, 0.3], "split-squat-front": [0, 1, 0.3],
-  "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS,
+  "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "souleve-terre-sumo-kettlebell": ARRIERE,
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
