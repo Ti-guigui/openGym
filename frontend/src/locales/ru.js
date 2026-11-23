@@ -610,6 +610,7 @@ export default {
   'Passkeys use {0}. No passwords to remember.': 'Ключи доступа используют {0}. Никаких паролей запоминать не надо.',
   // --- password sign-in (#118) ---
   'Sign in with password': 'Войти по паролю',
+  'Privacy policy': 'Политика конфиденциальности',
   'Password': 'Пароль',
   'Passkey': 'Ключ доступа',
   'Passkeys use {0}. A password works too, where passkeys do not.': 'Ключи доступа используют {0}. Где они не работают, подойдёт и пароль.',

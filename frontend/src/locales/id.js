@@ -648,6 +648,7 @@ export default {
   "Continue without account": "Lanjutkan tanpa akun",
   "Passkeys use {0}. No passwords to remember.": "Kunci sandi menggunakan {0}. Tidak ada kata sandi yang perlu diingat.",
   "Sign in with password": "Masuk dengan kata sandi",
+  "Privacy policy": "Kebijakan privasi",
   "Password": "Kata sandi",
   "Passkey": "Kunci sandi",
   "Passkeys use {0}. A password works too, where passkeys do not.": "Kunci sandi menggunakan {0}. Kata sandi juga bisa digunakan jika kunci sandi tidak didukung.",

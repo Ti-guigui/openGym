@@ -47,6 +47,8 @@ export function relayBridge ({ call = api, doc = globalThis.document, pollMs = R
       try {
         // Nobody signed in: no server to ask (a guest, the phone on its own).
         if (!signedIn()) throw new Error('signed out')
+        // The Cloudflare Pages server (functions/) has no watch relay: don't spend requests on it.
+        if (import.meta.env.VITE_LOCAL_ONLY === '1') throw new Error('no relay')
         const r = await call('/api/watch/events')
         paired = Number(r?.paired) > 0
         return { supported: true, paired, installed: paired, activated: true, reachable: paired && now() - (Number(r?.seen) || 0) < REACHABLE_MS }

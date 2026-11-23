@@ -1792,6 +1792,7 @@ export default {
   'Not scored': 'Не оцінено',
   // --- v1.3.9: password sign-in next to passkeys, admin reset codes (#118) ---
   'Sign in with password': 'Увійти з паролем',
+  'Privacy policy': 'Політика конфіденційності',
   'Password': 'Пароль',
   'Passkey': 'Ключ доступу',
   'Passkeys use {0}. A password works too, where passkeys do not.': 'Ключі доступу використовують {0}. Там, де вони не працюють, підійде й пароль.',

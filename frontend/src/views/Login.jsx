@@ -13,7 +13,7 @@ import { effectiveLang } from '../lib/default-lang.js'
 
 const LOCAL_ONLY = import.meta.env.VITE_LOCAL_ONLY === '1'
 import { askAddDeviceData } from '../sheets.jsx'
-import { passwordOn, PasswordRegisterForm, openPasswordSignIn } from '../components/PasswordAuth.jsx'
+import { passwordOn, PasswordRegisterForm, openPasswordSignIn, openPasswordRegister } from '../components/PasswordAuth.jsx'
 import { openDeviceLinkRedeem } from '../components/Passkeys.jsx'
 import { openLostAccess } from '../components/LostAccess.jsx'
 import { oidcOn, oidcOnly, oidcLabel, startWebSignIn, oidcArrival, clearOidcArrival, oidcErrorText } from '../lib/oidc.js'
@@ -118,13 +118,18 @@ export default function Login() {
   </>
   const wrap = { display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '78vh', textAlign: 'center' }
 
-  // Cloudflare Pages build (npm run build:pages): no server, so no account buttons that cannot work.
+  // Cloudflare Pages build (npm run build:pages): the server there (functions/) only knows name + password.
   if (LOCAL_ONLY) return (
     <div className="narrow" style={wrap}>
       {head}
       <div className="muted" style={{ marginBottom: 30 }}>{t('Your workouts. Your weights. Your profile.')}</div>
-      <Button variant="primary" icon="play" onClick={() => setGuest(true)}>{t('Continue without account')}</Button>
+      <Button variant="primary" icon="key" onClick={() => openPasswordSignIn()}>{t('Sign in with password')}</Button>
+      <div style={{ height: 10 }} />
+      <Button icon="plusCircle" onClick={() => openPasswordRegister()}>{t('Create new profile')}</Button>
+      <div style={{ height: 10 }} />
+      <Button icon="play" onClick={() => setGuest(true)}>{t('Continue without account')}</Button>
       <div className="dim small" style={{ marginTop: 22, lineHeight: 1.5 }}>{t('Guest data stays on this device, so export a backup now and then!')}</div>
+      <a className="dim small" href="/confidentialite" style={{ marginTop: 14 }}>{t('Privacy policy')}</a>
     </div>
   )
 

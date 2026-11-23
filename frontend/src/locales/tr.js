@@ -618,6 +618,7 @@ export default {
   'Passkeys use {0}. No passwords to remember.': 'Geçiş anahtarları {0} kullanır. Hatırlanacak şifre yok.',
   // --- password sign-in (#118) ---
   'Sign in with password': 'Şifreyle giriş yap',
+  'Privacy policy': 'Gizlilik politikası',
   'Password': 'Şifre',
   'Passkey': 'Geçiş anahtarı',
   'Passkeys use {0}. A password works too, where passkeys do not.': 'Geçiş anahtarları {0} kullanır. Çalışmadıkları yerde şifre de olur.',

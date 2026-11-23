@@ -90,7 +90,21 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
 
 ## Version utilisée (depuis le 23/11/2026)
 
-L'appli s'utilise sur **https://ti-guigui-fit.pages.dev** (Cloudflare Pages) : tous les téléphones, partout, même hors connexion. Mode invité : chaque téléphone garde ses propres données.
+L'appli s'utilise sur **https://ti-guigui-fit.pages.dev** (Cloudflare Pages) : tous les téléphones, partout, même hors connexion.
+Comptes (depuis le 23/11/2026) : un surnom et un mot de passe, rien d'autre (pas d'e-mail). Le petit serveur est dans `functions/api/[[path]].js`, les comptes et les séances dans la base Cloudflare D1 `ti-guigui-fit` (tables dans `migrations/`). On retrouve ses séances sur n'importe quel téléphone. Le mode invité existe toujours (données gardées sur le téléphone).
+Ce que ce serveur ne fait pas : passkeys, e-mail, montre, notifications push, coach. Le mot de passe se change dans Réglages → Compte. Politique de confidentialité : `frontend/public/confidentialite.html` (https://ti-guigui-fit.pages.dev/confidentialite), sans aucun nom ; à mettre à jour si on ajoute un service ou une donnée. 10 mauvais mots de passe d'affilée bloquent le compte 15 minutes.
+Administration (Réglages → Compte → Tableau d'administration, réservé aux comptes admin) : liste des comptes et code de réinitialisation (une fois, 24 h) pour un mot de passe oublié. La personne le saisit via « Se connecter avec un mot de passe » → « Tu as un code de réinitialisation… ». Le compte « Ti Guigui » est admin. Rendre un autre compte admin :
+`npx wrangler d1 execute ti-guigui-fit --remote --command "UPDATE users SET admin = 1 WHERE name_key = 'pseudo en minuscules'"`
+
+- **Mise en place, une seule fois :**
+
+  ```powershell
+  cd "$HOME\openGym"
+  npx wrangler d1 create ti-guigui-fit          # recopier le "database_id" affiché dans wrangler.toml
+  npx wrangler d1 migrations apply ti-guigui-fit --remote
+  ```
+
+- **Tester en local :** `npx wrangler d1 migrations apply ti-guigui-fit --local` une fois, puis `npx wrangler pages dev --port 8788` après `npm run build:pages`, et ouvrir http://localhost:8788.
 La version Docker du PC est arrêtée (`docker compose down`) ; le dossier `data` reste en sauvegarde. Pour la relancer : `docker compose up -d`.
 
 ## Commandes Windows (PowerShell)
@@ -115,6 +129,7 @@ docker compose down           # arrêter l'appli
   ```
 
   `--force` est nécessaire : sans lui, wrangler essaie de transformer le projet Pages en Worker et échoue.
+  La dernière commande se lance depuis `openGym` (pas `frontend`) : c'est là qu'elle trouve `functions/` (le serveur des comptes) et `wrangler.toml` (la base D1).
 
 ## Idées pour la suite (pas encore faites)
 

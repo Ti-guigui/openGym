@@ -629,6 +629,7 @@ export default {
   'Continue without account': 'Tiếp tục mà không cần tài khoản',
   'Passkeys use {0}. No passwords to remember.': 'Passkey sử dụng {0}. Không cần ghi nhớ mật khẩu.',
   'Sign in with password': 'Đăng nhập bằng mật khẩu',
+  'Privacy policy': 'Chính sách quyền riêng tư',
   'Password': 'Mật khẩu',
   'Passkey': 'Passkey',
   'Passkeys use {0}. A password works too, where passkeys do not.': 'Passkey sử dụng {0}. Bạn cũng có thể dùng mật khẩu ở nơi không hỗ trợ passkey.',

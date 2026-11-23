@@ -629,6 +629,7 @@ export default {
   'Continue without account': 'Pokračovat bez účtu',
   'Passkeys use {0}. No passwords to remember.': 'Přístupové klíče používají {0}. Žádná hesla k zapamatování.',
   'Sign in with password': 'Přihlásit se heslem',
+  'Privacy policy': 'Zásady ochrany osobních údajů',
   'Password': 'Heslo',
   'Passkey': 'Přístupový klíč',
   'Passkeys use {0}. A password works too, where passkeys do not.': 'Přístupové klíče používají {0}. Kde nefungují, poslouží i heslo.',

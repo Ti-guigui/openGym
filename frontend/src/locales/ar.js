@@ -1850,6 +1850,7 @@ export default {
   'Not scored': 'لم يُقيَّم',
   // --- v1.3.9: password sign-in next to passkeys, admin reset codes (#118) ---
   'Sign in with password': 'تسجيل الدخول بكلمة المرور',
+  'Privacy policy': 'سياسة الخصوصية',
   'Password': 'كلمة المرور',
   'Passkey': 'مفتاح المرور',
   'Passkeys use {0}. A password works too, where passkeys do not.': 'تستخدم مفاتيح المرور {0}. وتعمل كلمة المرور أيضًا حيث لا تعمل مفاتيح المرور.',

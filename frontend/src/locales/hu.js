@@ -623,6 +623,7 @@ export default {
   'Passkeys use {0}. No passwords to remember.': 'A jelszókulcs ezt használja: {0}. Nincs megjegyzendő jelszó.',
   // --- password sign-in (#118) ---
   'Sign in with password': 'Bejelentkezés jelszóval',
+  'Privacy policy': 'Adatvédelmi irányelvek',
   'Password': 'Jelszó',
   'Passkey': 'Jelszókulcs',
   'Passkeys use {0}. A password works too, where passkeys do not.': 'A jelszókulcs ezt használja: {0}. Ahol nem működik, jelszóval is megy.',

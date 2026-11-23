@@ -119,13 +119,13 @@ export function PasswordSignInSheet({ close, onPasskey }) {
   }
   return <>
     <h3>{reset ? t('Reset your password') : t('Sign in with password')}</h3>
-    <div className="muted small" style={{ marginBottom: 14 }}>{reset
+    {(reset || import.meta.env.VITE_LOCAL_ONLY !== '1') && <div className="muted small" style={{ marginBottom: 14 }}>{reset
       ? t('Enter the code your admin gave you and choose a new password. It signs you out everywhere else.')
-      : t('Use your profile name (or the e-mail you added to it) and your password.')}</div>
+      : t('Use your profile name (or the e-mail you added to it) and your password.')}</div>}
     <form onSubmit={submit} noValidate>
       {/* One field for both: the server looks an entry with an "@" up as an e-mail first. Not
           type="email", which would refuse a plain name. */}
-      <input ref={nameRef} className="input" name="username" autoComplete="username" placeholder={t('Name or e-mail')} maxLength={254}
+      <input ref={nameRef} className="input" name="username" autoComplete="username" placeholder={import.meta.env.VITE_LOCAL_ONLY === '1' ? t('Your name') : t('Name or e-mail')} maxLength={254}
         value={name} onChange={e => setName(e.target.value)} {...field} />
       <div style={{ height: 10 }} />
       {reset ? <>
@@ -188,10 +188,13 @@ export function PasswordRegisterForm({ close, inviteOnly, name, setName, code, s
   return <form onSubmit={submit} noValidate>
     <input className="input" name="username" autoComplete="username" placeholder={t('Your name')} maxLength={40}
       value={name} onChange={e => setName(e.target.value)} {...field} />
-    <div style={{ height: 10 }} />
-    <input className="input" type="email" name="email" autoComplete="email" inputMode="email" placeholder={t('E-mail (optional)')} maxLength={254}
-      value={email} onChange={e => setEmail(e.target.value)} {...field} />
-    <div className="dim small" style={{ marginTop: 6 }}>{t('Lets you sign in with it instead of your name. Nothing is ever sent to it.')}</div>
+    {/* The Cloudflare Pages build asks for no personal data at all. */}
+    {import.meta.env.VITE_LOCAL_ONLY !== '1' && <>
+      <div style={{ height: 10 }} />
+      <input className="input" type="email" name="email" autoComplete="email" inputMode="email" placeholder={t('E-mail (optional)')} maxLength={254}
+        value={email} onChange={e => setEmail(e.target.value)} {...field} />
+      <div className="dim small" style={{ marginTop: 6 }}>{t('Lets you sign in with it instead of your name. Nothing is ever sent to it.')}</div>
+    </>}
     {inviteOnly && <>
       <div style={{ height: 10 }} />
       <input className="input" placeholder={t('Invite code')} maxLength={40} value={code}
@@ -208,6 +211,9 @@ export function PasswordRegisterForm({ close, inviteOnly, name, setName, code, s
     {err && <div className="small" role="alert" style={errStyle}>{err}</div>}
     <div style={{ height: 12 }} />
     <Button type="submit" variant="primary" disabled={busy}>{t('Create profile')}</Button>
+    {import.meta.env.VITE_LOCAL_ONLY === '1' && <div style={{ marginTop: 12, textAlign: 'center' }}>
+      <a className="dim small" href="/confidentialite" target="_blank" rel="noopener">{t('Privacy policy')}</a>
+    </div>}
   </form>
 }
 
@@ -342,7 +348,7 @@ export function PasswordRow({ version = 0 }) {
       onClick={blocked ? undefined : () => ui().openSheet(close => <PasswordSheet status={st} close={close} done={load} />)} />
     {/* The server only signs in by an address that belongs to a profile with a password, so
         without one the row is left out; one already saved stays reachable to change or remove. */}
-    {(st.set || st.email) && <EmailRow status={st} done={load} />}
+    {(st.set || st.email) && import.meta.env.VITE_LOCAL_ONLY !== '1' && <EmailRow status={st} done={load} />}
   </>
 }
 
@@ -372,7 +378,8 @@ export function PasswordSheet({ status, close, done }) {
   return <>
     <h3>{status.set ? t('Change password') : t('Set a password')}</h3>
     <div className="muted small" style={{ marginBottom: 14 }}>
-      {t('Sign in as “{0}” with it on devices where passkeys do not work. Saving signs you out everywhere else, and paired phones have to be paired again.', status.name)}
+      {import.meta.env.VITE_LOCAL_ONLY === '1' ? t('Ends this profile’s sessions on all your devices.')
+        : t('Sign in as “{0}” with it on devices where passkeys do not work. Saving signs you out everywhere else, and paired phones have to be paired again.', status.name)}
     </div>
     <form onSubmit={ev => { ev.preventDefault(); save(!status.set) }} noValidate>
       {/* Tells a password manager which account the new password belongs to. */}

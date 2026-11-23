@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fr" translate="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confidentialité · Ti Guigui FIT</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { --bg: #f6f6f8; --fg: #1c1c22; --muted: #5c5c68; --card: #fff; --line: #e2e2e8; --acc: #6d4aff; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #111116; --fg: #ececf1; --muted: #a2a2b0; --card: #1b1b22; --line: #2c2c36; --acc: #a48bff; } }
+  body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.6rem; margin: 8px 0 4px; }
+  h2 { font-size: 1.1rem; margin: 28px 0 6px; }
+  p, li { color: var(--fg); }
+  .muted { color: var(--muted); font-size: .9rem; }
+  ul { padding-left: 1.2em; }
+  a { color: var(--acc); }
+  .back { display: inline-block; margin-bottom: 12px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 16px; margin-top: 16px; }
+</style>
+</head>
+<body>
+<main>
+  <a class="back" href="/">← Retour à l'appli</a>
+  <h1>Politique de confidentialité</h1>
+  <p class="muted">Ti Guigui FIT · mise à jour le 23 novembre 2026</p>
+
+  <div class="card">
+    <p><strong>En bref :</strong> on te demande seulement un surnom et un mot de passe. Pas d'e-mail, pas de nom, pas de numéro de téléphone. Pas de publicité, pas de mesure d'audience, pas de revente de données.</p>
+  </div>
+
+  <h2>Qui s'occupe de l'appli</h2>
+  <p>Ti Guigui FIT est une appli d'entraînement gérée à titre personnel, sans but commercial. Pour toute question sur tes données, adresse-toi à la personne qui t'a donné le lien de l'appli.</p>
+
+  <h2>Ce qui est enregistré</h2>
+  <ul>
+    <li><strong>Ton surnom</strong>, que tu choisis librement. Pas besoin de mettre ton vrai nom.</li>
+    <li><strong>Ton mot de passe</strong>, jamais en clair : seule une empreinte chiffrée (PBKDF2) est gardée. Personne ne peut le lire, même pas la personne qui gère l'appli.</li>
+    <li><strong>Ce que tu enregistres dans l'appli</strong> quand tu es connecté : séances, charges, plans, poids du corps, mesures, notes et réglages. Ça sert uniquement à te les rendre sur tes appareils.</li>
+    <li><strong>Un cookie de connexion</strong>, pour que tu restes connecté (90 jours au plus). C'est le seul cookie, et il est nécessaire au fonctionnement.</li>
+    <li>Le nombre de mauvais mots de passe tapés d'affilée, pour bloquer le compte 15 minutes après 10 essais ratés.</li>
+  </ul>
+
+  <h2>Sans compte</h2>
+  <p>Avec « Continuer sans compte », rien n'est envoyé : tout reste dans ton téléphone. Pense à exporter une sauvegarde de temps en temps.</p>
+
+  <h2>Où sont les données</h2>
+  <p>L'appli est hébergée par <strong>Cloudflare</strong> (Cloudflare Pages). Les comptes et les séances sont dans une base Cloudflare D1 située en Europe de l'Ouest. Comme tout hébergeur, Cloudflare voit l'adresse IP de ton appareil pour livrer les pages et protéger le site. L'appli elle-même ne garde pas ton adresse IP.</p>
+  <p>Une copie de tes données reste aussi dans ton téléphone, pour que l'appli marche sans connexion.</p>
+
+  <h2>Services extérieurs</h2>
+  <p>Aucun, sauf si tu choisis de regarder une vidéo YouTube dans la fiche d'un exercice : à ce moment-là, YouTube (Google) reçoit l'adresse de ton appareil. Rien n'est chargé depuis YouTube tant que tu n'appuies pas sur la vidéo.</p>
+
+  <h2>Combien de temps</h2>
+  <p>Tes données restent tant que ton compte existe. Quand tu le supprimes, elles sont effacées tout de suite de la base. Les copies de secours automatiques de Cloudflare peuvent les garder encore jusqu'à 30 jours, puis elles disparaissent.</p>
+
+  <h2>Tes droits</h2>
+  <ul>
+    <li><strong>Récupérer tes données :</strong> Réglages → Données et sauvegarde → exporter une sauvegarde.</li>
+    <li><strong>Changer ton mot de passe :</strong> Réglages → Compte → Mot de passe.</li>
+    <li><strong>Tout effacer :</strong> Réglages → Compte → Supprimer mon compte.</li>
+  </ul>
+  <p>Tu peux aussi poser toute question ou demande (accès, correction, effacement) à la personne qui t'a donné le lien de l'appli. Si tu penses que tes droits ne sont pas respectés, tu peux t'adresser à la CNIL (cnil.fr).</p>
+</main>
+</body>
+</html>

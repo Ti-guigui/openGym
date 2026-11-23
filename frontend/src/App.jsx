@@ -92,6 +92,8 @@ function lazyView(load) {
   }
 }
 const Admin = lazyView(() => import('./views/Admin.jsx'))
+// Cloudflare Pages build: its server (functions/) only lists accounts and makes reset codes.
+const AdminComptes = lazyView(() => import('./views/AdminComptes.jsx'))
 const CoachChat = lazyView(() => import('./views/CoachChat.jsx'))
 const Connect = lazyView(() => import('./views/Connect.jsx'))
 const Measurements = lazyView(() => import('./views/Measurements.jsx'))
@@ -430,7 +432,7 @@ function Shell() {
       {isOn(S, 'coach') && <Route path="/coach/setup" element={<CoachSetup />} />}
       {/* Until boot has asked /api/me, the cached user may be from before an admin grant (or there is
           none yet): a reload on /admin waits for the answer instead of bouncing to Home. */}
-      <Route path="/admin" element={user?.admin ? <Admin /> : ready ? <Navigate to="/home" replace /> : null} />
+      <Route path="/admin" element={user?.admin ? (import.meta.env.VITE_LOCAL_ONLY === '1' ? <AdminComptes /> : <Admin />) : ready ? <Navigate to="/home" replace /> : null} />
       {/* The dashboard decides for itself once the config is in, so a deep link survives the boot. */}
       {user && <Route path="/trainer" element={<Trainer />} />}
       {user && <Route path="/trainer/m/:id" element={<Trainer />} />}

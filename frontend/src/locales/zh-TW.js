@@ -614,6 +614,7 @@ export default {
   'Passkeys use {0}. No passwords to remember.': '通行密鑰採用 {0}。不用再記密碼。',
   // --- password sign-in (#118) ---
   'Sign in with password': '使用密碼登入',
+  'Privacy policy': '隱私權政策',
   'Password': '密碼',
   'Passkey': '通行密鑰',
   'Passkeys use {0}. A password works too, where passkeys do not.': '通行密鑰採用 {0}。在不支援通行密鑰的環境中，也可以使用密碼登入。',

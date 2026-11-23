@@ -632,6 +632,7 @@ export default {
   'Passkeys use {0}. No passwords to remember.': 'Passkeys använder {0}. Inga lösenord att komma ihåg.',
   // --- password sign-in (#118) ---
   'Sign in with password': 'Logga in med lösenord',
+  'Privacy policy': 'Integritetspolicy',
   'Password': 'Lösenord',
   'Passkey': 'Passkey',
   'Passkeys use {0}. A password works too, where passkeys do not.': 'Passkeys använder {0}. Ett lösenord fungerar också där passkeys inte gör det.',

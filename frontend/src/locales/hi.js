@@ -618,6 +618,7 @@ export default {
   'Passkeys use {0}. No passwords to remember.': 'पासकी {0} का उपयोग करती हैं। कोई पासवर्ड याद नहीं रखना।',
   // --- password sign-in (#118) ---
   'Sign in with password': 'पासवर्ड से साइन इन करें',
+  'Privacy policy': 'गोपनीयता नीति',
   'Password': 'पासवर्ड',
   'Passkey': 'पासकी',
   'Passkeys use {0}. A password works too, where passkeys do not.': 'पासकी {0} का उपयोग करती हैं। जहाँ वे काम नहीं करतीं, वहाँ पासवर्ड भी चलता है।',

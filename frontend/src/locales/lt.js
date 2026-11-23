@@ -629,6 +629,7 @@ export default {
   "Continue without account": "Tęsti be paskyros",
   "Passkeys use {0}. No passwords to remember.": "Prisijungimą su prieigos raktu patvirtinate {0}. Nereikia prisiminti slaptažodžių.",
   "Sign in with password": "Prisijungti su slaptažodžiu",
+  "Privacy policy": "Privatumo politika",
   "Password": "Slaptažodis",
   "Passkey": "Prieigos raktas",
   "Passkeys use {0}. A password works too, where passkeys do not.": "Prisijungimą su prieigos raktu patvirtinate {0}. Jei prieigos raktai nepalaikomi, galite naudoti slaptažodį.",

@@ -618,6 +618,7 @@ export default {
   'Passkeys use {0}. No passwords to remember.': '패스키는 {0}을(를) 사용해요. 외울 비밀번호가 없어요.',
   // --- password sign-in (#118) ---
   'Sign in with password': '비밀번호로 로그인',
+  'Privacy policy': '개인정보 처리방침',
   'Password': '비밀번호',
   'Passkey': '패스키',
   'Passkeys use {0}. A password works too, where passkeys do not.': '패스키는 {0}을(를) 사용합니다. 패스키가 작동하지 않는 곳에서는 비밀번호도 됩니다.',

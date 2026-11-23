@@ -1,0 +1,13 @@
+# Cloudflare Pages project ti-guigui-fit: the app (frontend/dist) plus the account API in functions/.
+# The opengym.ch failover Worker has its own config: cloudflare/wrangler.jsonc.
+name = "ti-guigui-fit"
+pages_build_output_dir = "frontend/dist"
+compatibility_date = "2026-10-01"
+# api/password.js (reused for the password rules) imports node:crypto.
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ti-guigui-fit"
+database_id = "d188129e-0f22-41dd-858b-24ea8fa40afb"
+migrations_dir = "migrations"

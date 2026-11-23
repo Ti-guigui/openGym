@@ -445,7 +445,8 @@ export default function Settings({ page = null, find = null, via = null, entryKe
   })
   const signOutEverywhere = () => confirmSheet({
     title: t('Sign out everywhere?'),
-    message: t('Signs this profile out on every device, including this one. Phones paired with it are disconnected and have to be paired again. Your passkeys keep working, so you can sign in with them again anytime.') + running(),
+    message: (import.meta.env.VITE_LOCAL_ONLY === '1' ? t('Ends this profile’s sessions on all your devices.')
+      : t('Signs this profile out on every device, including this one. Phones paired with it are disconnected and have to be paired again. Your passkeys keep working, so you can sign in with them again anytime.')) + running(),
     confirmText: t('Sign out everywhere'), danger: true,
     onConfirm: () => leave('everywhere', t('Signed out on all devices')),
   })
@@ -1396,11 +1397,14 @@ export default function Settings({ page = null, find = null, via = null, entryKe
           {user.admin && <Row icon="crown" iconTint="var(--indigo)" title={t('Admin dashboard')} accessory="chevron" onClick={() => nav('/admin')} />}
           {pageVisible('trainer', ctx) && <Row icon="personCircle" iconTint="var(--acc)" title={t('Trainer & gym')} subtitle={t('Who sees what of your training')} accessory="chevron" onClick={() => nav('/settings/trainer')} />}
           {pageVisible('trainer', ctx) && showsDashboard(config) && <Row icon="clipboard" iconTint="var(--orange)" title={t('Trainer dashboard')} subtitle={t('The people you train, and how they are doing')} accessory="chevron" onClick={() => nav('/trainer')} />}
-          <PasskeysRow state={passkeys.st} changed={credsChanged} />
-          <OidcRow state={passkeys.st} changed={credsChanged} />
-          <DeviceLinkRow state={passkeys.st} />
-          <Row icon="qr" iconTint="var(--blue)" title={t('Pair the mobile app')} subtitle={t('Connect the openGym app on your phone to this account.')} accessory="chevron"
-            onClick={() => useUI.getState().openSheet(close => <PairSheet close={close} />)} />
+          {/* The Cloudflare Pages server (functions/) only signs in with name + password (which it can change). */}
+          {import.meta.env.VITE_LOCAL_ONLY !== '1' && <>
+            <PasskeysRow state={passkeys.st} changed={credsChanged} />
+            <OidcRow state={passkeys.st} changed={credsChanged} />
+            <DeviceLinkRow state={passkeys.st} />
+            <Row icon="qr" iconTint="var(--blue)" title={t('Pair the mobile app')} subtitle={t('Connect the openGym app on your phone to this account.')} accessory="chevron"
+              onClick={() => useUI.getState().openSheet(close => <PairSheet close={close} />)} />
+          </>}
           {pwOn && <PasswordRow version={credsV} />}
           <Row icon="signOut" iconTint="var(--red)" title={t('Sign out')} danger onClick={signOutHere} />
           <Row icon="shield" iconTint="var(--red)" title={t('Sign out everywhere')} subtitle={t('Ends this profile’s sessions on all your devices.')} danger onClick={signOutEverywhere} />
@@ -1451,7 +1455,7 @@ export default function Settings({ page = null, find = null, via = null, entryKe
   }
 
   /* ---------------- the root ---------------- */
-  return <SettingsRoot ctx={ctx} preview={preview} open={open} user={user} sync={sync} entryKey={entryKey}
+  return <SettingsRoot ctx={ctx} preview={preview} open={open} user={user} sync={sync} entryKey={entryKey} signOut={signOutHere}
     home={() => nav('/home')} go={(hit) => {
       if (hit.page === 'coach') { nav('/coach/setup'); return }
       if (hit.route) { nav(hit.route); return }
@@ -1459,7 +1463,7 @@ export default function Settings({ page = null, find = null, via = null, entryKe
     }} />
 }
 
-function SettingsRoot({ ctx, preview, open, user, sync, home, go, entryKey }) {
+function SettingsRoot({ ctx, preview, open, user, sync, home, go, entryKey, signOut }) {
   // The router's key for this history entry, taken once. From the router rather than
   // window.history: drawn under an edge swipe back the page is the entry before the current one.
   const [key] = useState(() => (entryKey && entryKey !== 'default' && entryKey !== 'back-preview' ? entryKey : window.history.state?.key || null))
@@ -1519,6 +1523,10 @@ function SettingsRoot({ ctx, preview, open, user, sync, home, go, entryKey }) {
             accessory="chevron" onClick={() => nav('/assistants')} className="sp-root-row" />}
         </Section>
       ))}
+      {/* Cloudflare Pages build: signing out sits on the root too, not only under Account. */}
+      {import.meta.env.VITE_LOCAL_ONLY === '1' && user && <Section>
+        <Row icon="signOut" iconTint="var(--red)" title={t('Sign out')} danger onClick={signOut} className="sp-root-row" />
+      </Section>}
       <div className="dim small sp-version">{APP_NAME} v{__APP_VERSION__}</div>
     </>}
   </div>

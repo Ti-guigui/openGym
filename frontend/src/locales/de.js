@@ -632,6 +632,7 @@ export default {
   'Passkeys use {0}. No passwords to remember.': 'Passkeys nutzen {0}. Keine Passwörter zum Merken.',
   // --- password sign-in (#118) ---
   'Sign in with password': 'Mit Passwort anmelden',
+  'Privacy policy': 'Datenschutzerklärung',
   'Password': 'Passwort',
   'Passkey': 'Passkey',
   'Passkeys use {0}. A password works too, where passkeys do not.': 'Passkeys nutzen {0}. Wo sie nicht funktionieren, geht auch ein Passwort.',

@@ -1245,6 +1245,7 @@ export const PT_BR_OVERRIDES = {
   'Sign in with passkey': 'Entrar com chave de acesso',
   // --- password sign-in (#118) ---
   'Sign in with password': 'Entrar com senha',
+  'Privacy policy': 'Política de privacidade',
   'Password': 'Senha',
   'Passkey': 'Chave de acesso',
   'Passkeys use {0}. A password works too, where passkeys do not.': 'As chaves de acesso usam {0}. Onde elas não funcionam, uma senha também serve.',

@@ -618,6 +618,7 @@ export default {
   'Passkeys use {0}. No passwords to remember.': 'Klucze dostępu korzystają z: {0}. Żadnych haseł do zapamiętania.',
   // --- password sign-in (#118) ---
   'Sign in with password': 'Zaloguj się hasłem',
+  'Privacy policy': 'Polityka prywatności',
   'Password': 'Hasło',
   'Passkey': 'Klucz dostępu',
   'Passkeys use {0}. A password works too, where passkeys do not.': 'Klucze dostępu korzystają z: {0}. Tam, gdzie nie działają, możesz użyć hasła.',

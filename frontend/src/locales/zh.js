@@ -618,6 +618,7 @@ export default {
   'Passkeys use {0}. No passwords to remember.': '通行密钥使用{0}。不用再记密码。',
   // --- password sign-in (#118) ---
   'Sign in with password': '用密码登录',
+  'Privacy policy': '隐私政策',
   'Password': '密码',
   'Passkey': '通行密钥',
   'Passkeys use {0}. A password works too, where passkeys do not.': '通行密钥使用{0}。在通行密钥无法使用的地方，也可以用密码。',

@@ -623,6 +623,7 @@ export default {
   'Passkeys use {0}. No passwords to remember.': 'พาสคีย์ใช้ {0} ไม่ต้องจำรหัสผ่านอีกต่อไป',
   // --- password sign-in (#118) ---
   'Sign in with password': 'เข้าสู่ระบบด้วยรหัสผ่าน',
+  'Privacy policy': 'นโยบายความเป็นส่วนตัว',
   'Password': 'รหัสผ่าน',
   'Passkey': 'พาสคีย์',
   'Passkeys use {0}. A password works too, where passkeys do not.': 'พาสคีย์ใช้ {0} ในที่ที่พาสคีย์ใช้ไม่ได้ ใช้รหัสผ่านก็ได้',

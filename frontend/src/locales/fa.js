@@ -1816,6 +1816,7 @@ export default {
   "Log the anchor lift to score this one.": "برای امتیازدهی به این حرکت، ابتدا حرکت مرجع را ثبت کنید.",
   "Not scored": "بدون امتیاز",
   "Sign in with password": "با رمز ورود وارد شوید",
+  "Privacy policy": "سیاست حفظ حریم خصوصی",
   "Password": "رمز عبور",
   "Passkey": "کلید عبور",
   "Passkeys use {0}. A password works too, where passkeys do not.": "کلیدهای عبور از {0} استفاده می‌کنند. رمز عبور نیز کار می‌کند، جایی که کلیدهای عبور این کار را نمی‌کنند.",

@@ -644,6 +644,7 @@ export default {
   "Continue without account": "Fortsæt uden konto",
   "Passkeys use {0}. No passwords to remember.": "Adgangsnøgler bruger {0}. Ingen adgangskoder at huske.",
   "Sign in with password": "Log ind med adgangskode",
+  "Privacy policy": "Privatlivspolitik",
   "Password": "Adgangskode",
   "Passkey": "Adgangsnøgle",
   "Passkeys use {0}. A password works too, where passkeys do not.": "Adgangsnøgler bruger {0}. En adgangskode virker også, hvor adgangsnøgler ikke gør.",
