@@ -2369,6 +2369,43 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     muscles: { p: ["deltoides", "trapezes"], s: ["dorsaux", "biceps", "lombaires"] }, f: n => { for (const c of ["G", "D"]) n.bras[c].ik[0] += Math.sign(n.bras[c].ik[0]) * 12; } });
 }
 
+/* ---------- LOT 24 pour l'appli : mollets assis à la barre, développé aux kettlebells, curl à la poulie à un bras ---------- */
+{ // Mollets assis : assis au bout d'un banc, barre posée sur les cuisses près des genoux ; les talons montent, l'avant du pied reste au sol
+  const S = Math.sin, C = Math.cos;
+  const P = (t, a) => {          // a : angle du pied (degrés), talon levé ; la cheville tourne autour de l'avant du pied
+    const r = a * D, dy = 13 * S(r) - 8 * (1 - C(r));        // la barre monte avec les genoux
+    return { t, racine: { p: [0, 54, 4], r: [-2, 0, 0] }, colonne: col(0, 0, 0),
+      bras: bras2({ ik: [26, 67 + dy, 36], pole: [1, -0.5, -0.3], ...PRISE }),
+      jambes: jambes2({ ik: [20, 8 + dy, 48 + 13 * (1 - C(r))], pole: [0.3, 0, 1], pied: [a, 8, 0] }) };
+  };
+  E("mollets-assis-barre", {
+    nom: "Mollets assis, barre sur les cuisses", duree: 3, reps: 15, affiche: 0.4, vue: "profil", recalageDe: "mollets-assis-barre",
+    camera: { cible: [0, 50, 20], dist: 380, el: 8 }, ombre: [0, 20, 80, 120],
+    accessoires: [{ type: "banc", l: 60, ry: 90, p0: [0, 0, -4] }, { type: "barre-olympique", main: "2" }],
+    muscles: { p: ["mollets"], s: [] },
+    tempo: [[0, "Monter les talons · 1 s"], [0.4, "Tenir 1 s en haut"], [0.55, "Descendre lentement · 2 s"]],
+    cles: [P(0, 0), P(0.4, 32), P(0.55, 32), P(0.95, 0)],
+    erreur: { texte: "monter à peine les talons, par petits rebonds : le mollet ne travaille que sur un bout du mouvement.", zone: ["mollets"],
+      cles: [P(0, 10), P(0.2, 16), P(0.3, 10), P(0.5, 16), P(0.7, 10), P(0.95, 10)] }
+  });
+}
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const KETTLE_DOS = main => machine([{ c: [8.5, 15], p: [0, -4, -14], m: "fonte" }, { b: [14, 2.4, 2.4], p: [0, 0, 0], m: "fonte" },
+    { b: [2.4, 2.4, 9], p: [6, -2, -5], m: "fonte" }, { b: [2.4, 2.4, 9], p: [-6, -2, -5], m: "fonte" }], { main });
+  const b = EXERCICES["developpe-militaire"];
+  E("developpe-kettlebell", { ...copie(b), recalageDe: "developpe-militaire", nom: "Développé militaire debout aux kettlebells", accessoires: [KETTLE_DOS("G"), KETTLE_DOS("D")],
+    cles: appl(b.cles, () => { }), clesFemme: appl(b.clesFemme, () => { }) });
+  delete EXERCICES["developpe-kettlebell"].erreur;     // dos cambré : l'avant-bras penché passerait dans la kettlebell (voir lot 21)
+  if (!EXERCICES["developpe-kettlebell"].clesFemme) delete EXERCICES["developpe-kettlebell"].clesFemme;
+  // Curl à la poulie basse à un bras : une seule poignée dans la main gauche, la main droite pend le long du corps
+  const c = EXERCICES["curl-poulie"], LIBRE = bras2({ fk: { flex: 6, abd: 8 }, coude: 10 }).D, g = n => { n.bras.D = copie(LIBRE); };
+  E("curl-poulie-un-bras", { ...copie(c), recalageDe: c.recalageDe || "curl-poulie", nom: "Curl à la poulie basse à un bras",
+    accessoires: c.accessoires.map(a => a.type === "cable" ? { type: "cable", de: a.de, main: "G" } : copie(a)),
+    cles: appl(c.cles, g), clesFemme: appl(c.clesFemme, g), erreur: c.erreur && { ...copie(c.erreur), cles: appl(c.erreur.cles, g), clesFemme: appl(c.erreur.clesFemme, g) } });
+  for (const o of [EXERCICES["curl-poulie-un-bras"], EXERCICES["curl-poulie-un-bras"].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2402,7 +2439,8 @@ const ORIENTATION = {
   "developpe-neutre-un-bras": [DEDANS, "G"], "developpe-kettlebell-un-bras": [AVANT, "G"], "developpe-kettlebell-alterne": AVANT,
   "developpe-kettlebell-assis": AVANT, "rowing-kettlebell-alterne": DEDANS,
   "militaire-smith": AVANT, "developpe-assis-smith": AVANT, "rowing-debout-smith": ARRIERE, "souleve-de-terre-smith": ARRIERE, "developpe-incline-smith": AVANT,
-  "developpe-couche-smith-inverse": ARRIERE, "developpe-incline-smith-inverse": ARRIERE, "rowing-serre-smith": ARRIERE, "rowing-large-smith": ARRIERE
+  "developpe-couche-smith-inverse": ARRIERE, "developpe-incline-smith-inverse": ARRIERE, "rowing-serre-smith": ARRIERE, "rowing-large-smith": ARRIERE,
+  "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
