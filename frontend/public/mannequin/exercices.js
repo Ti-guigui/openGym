@@ -2461,6 +2461,30 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     n => { for (const c of ["G", "D"]) if (n.bras[c].fk.flex > 60) n.bras[c].fk.flex = 165; }, { muscles: { p: ["deltoides"], s: ["trapezes", "pectoraux", "abdominaux"] } });
 }
 
+/* ---------- LOT 27 pour l'appli : flexions et extensions des poignets, assis, avant-bras posés sur les cuisses ---------- */
+{
+  const ASSIS = jambes2({ ik: [20, 8, 48], pole: [0.3, 0, 1], pied: PIED_PLAT(8) }), BANC_ASSIS = { type: "banc", l: 60, ry: 90, p0: [0, 0, -4] };
+  // buste penché en avant, les mains dépassent des genoux ; seul le poignet bouge (w : degrés, négatif = main qui tombe vers le sol)
+  const P = (t, w, prono, x) => ({ t, racine: { p: [0, 54, 4], r: [22, 0, 0] }, colonne: col(4, 0, -10),
+    bras: bras2({ ik: [x, 63, 56], pole: [0.4, -1, -0.3], prono, poignet: w, ...PRISE }), jambes: copie(ASSIS) });
+  const poignets = (id, nom, prono, barre, muscles) => {
+    const s = prono ? -1 : 1, x = barre ? 15 : 13;     // paumes en bas : la main monte en extension (poignet négatif)
+    E(id, { nom, duree: 2.5, reps: 15, affiche: 0.4, vue: "profil", recalageDe: id,
+      camera: { cible: [0, 60, 30], dist: 330, el: 12 }, ombre: [0, 20, 70, 110],
+      accessoires: [BANC_ASSIS, ...(barre ? [{ type: "barre-olympique", main: "2" }] : HALTERES)], muscles,
+      tempo: [[0, "Enrouler les poignets · 1 s"], [0.4, "Serrer en haut"], [0.5, "Redescendre en 1,5 s"]],
+      cles: [P(0, -35 * s, prono, x), P(0.4, 40 * s, prono, x), P(0.5, 40 * s, prono, x), P(0.95, -35 * s, prono, x)],
+      erreur: { texte: "les avant-bras se soulèvent des cuisses : ce sont les bras qui montent la charge, plus les poignets.", zone: ["biceps"],
+        cles: [P(0, -10 * s, prono, x), { ...P(0.4, 20 * s, prono, x), bras: bras2({ ik: [x, 72, 54], pole: [0.4, -1, -0.3], prono, poignet: 20 * s, ...PRISE }) },
+          { ...P(0.5, 20 * s, prono, x), bras: bras2({ ik: [x, 72, 54], pole: [0.4, -1, -0.3], prono, poignet: 20 * s, ...PRISE }) }, P(0.95, -10 * s, prono, x)] } });
+  };
+  const AV = { p: ["avant-bras"], s: [] };
+  poignets("curl-poignets", "Flexion des poignets aux haltères, assis", 0, false, AV);
+  poignets("curl-poignets-inverse", "Extension des poignets aux haltères (paumes en bas), assis", 180, false, AV);
+  poignets("curl-poignets-barre", "Flexion des poignets à la barre, assis", 0, true, AV);
+  poignets("curl-poignets-inverse-barre", "Extension des poignets à la barre (paumes en bas), assis", 180, true, AV);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
