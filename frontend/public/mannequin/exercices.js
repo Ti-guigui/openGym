@@ -2804,6 +2804,15 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     B(T, 10, 15), B(T, 82, 15), decolle);
 }
 
+/* ---------- LOT 43 pour l'appli : élévation frontale en supination ---------- */
+{
+  const b = EXERCICES["elevation-frontale"], appl = (cles, f) => cles && cles.map(k => { const n = copie(k); f(n); return n; });
+  const sup = n => { for (const c of ["G", "D"]) { n.bras[c].prono = 0; n.bras[c].fk.abd = Math.max(n.bras[c].fk.abd || 0, 14); } };   // paumes vers l'avant, haltères en travers
+  E("elevation-frontale-supination", { ...copie(b), recalageDe: b.recalageDe || "elevation-frontale", nom: "Élévation frontale paumes vers le haut",
+    cles: appl(b.cles, sup), clesFemme: appl(b.clesFemme, sup), erreur: b.erreur && { ...copie(b.erreur), cles: appl(b.erreur.cles, sup), clesFemme: appl(b.erreur.clesFemme, sup) } });
+  for (const o of [EXERCICES["elevation-frontale-supination"], EXERCICES["elevation-frontale-supination"].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
