@@ -2013,6 +2013,53 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     cles: da.cles.map((k, i) => { const n = copie(k); if (i > 0 && i < da.cles.length - 1) for (const c of ["G", "D"]) n.bras[c].ik[2] += 14; return n; }) };
 }
 
+/* ---------- LOT 14 pour l'appli : squats sur banc, au-dessus de la tête et sautés, prises serrées et larges, tirage bras tendus ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const V = (id, base, def, f) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  const BARRE = EXERCICES["squat-barre"].cles[0].bras, BARRE_OLY = { type: "barre-olympique", main: "2" };
+  const nuque = n => { if (n.colonne?.cou) n.colonne.cou.flex = Math.max(n.colonne.cou.flex || 0, -4); };
+  const ecarte = dx => n => { for (const c of ["G", "D"]) { const b = n.bras?.[c]; if (b?.ik) b.ik[0] += Math.sign(b.ik[0]) * dx; } };
+  // Squat sur banc : on descend jusqu'à effleurer le banc placé derrière (les fesses s'arrêtent à la hauteur de l'assise)
+  const BANC_SQ = { type: "banc", l: 60, ry: 90, p0: [0, 0, -30] }, surBanc = n => { n.racine.p[1] = Math.max(n.racine.p[1], 58); };
+  V("squat-banc-barre", "squat-barre", { nom: "Squat sur banc, barre sur le dos", recalageDe: "squat-banc-barre", accessoires: [BANC_SQ, BARRE_OLY] }, surBanc);
+  V("squat-banc-halteres", "squat-halteres", { nom: "Squat sur banc aux haltères", recalageDe: "squat-banc-halteres", accessoires: [BANC_SQ, ...HALTERES] }, surBanc);
+  // Squat barre au-dessus de la tête : bras tendus et verticaux quelle que soit l'inclinaison du buste, prise large
+  V("squat-barre-tete", "squat", { nom: "Squat barre au-dessus de la tête (overhead squat)", reps: 6, accessoires: [BARRE_OLY],
+    muscles: { p: ["quadriceps", "fessiers"], s: ["deltoides", "trapezes", "abdominaux", "lombaires"] } },
+    n => { n.bras = bras2({ ik: [42, n.racine.p[1] + 96, 2], pole: [1, -0.3, -0.2], ...PRISE }); });   // barre à bout de bras, au-dessus du milieu des pieds
+  // Squat sauté avec barre sur le dos
+  V("squat-saute-barre", "squat-saute", { nom: "Squat sauté avec barre", reps: 6, accessoires: [BARRE_OLY],
+    muscles: { p: ["quadriceps", "fessiers"], s: ["mollets", "ischios", "abdominaux", "trapezes"] } }, n => { n.bras = copie(BARRE); nuque(n); });
+  // Prises : rowing buste penché serré, tirage vertical en supination, rowing assis prise large
+  V("rowing-barre-serre", "rowing-barre", { nom: "Rowing barre prise serrée" },   // mains rapprochées : la barre s'arrête 3 cm plus tôt devant le ventre
+    n => { ecarte(-8)(n); for (const c of ["G", "D"]) n.bras[c].ik[2] += 3; });
+  V("tirage-vertical-supination", "tirage-vertical", { nom: "Tirage vertical en supination", muscles: { p: ["dorsaux", "biceps"], s: ["trapezes", "avant-bras"] } },
+    n => { for (const c of ["G", "D"]) n.bras[c].ik[0] = Math.sign(n.bras[c].ik[0]) * 16; });
+  const ra = EXERCICES["rowing-assis"].accessoires;
+  V("rowing-assis-large", "rowing-assis", { nom: "Rowing assis à la poulie, prise large", accessoires: [ra[0], ra[1], { ...copie(ra[2]), poignee: 64 }],
+    muscles: { p: ["trapezes", "dorsaux", "deltoides"], s: ["biceps", "lombaires"] } }, ecarte(12));
+  // Tirage bras tendus à la poulie haute : bras presque tendus, la barre descend en arc des épaules aux cuisses
+  const tp = EXERCICES["triceps-poulie"].cles[0];
+  const T = (t, flex, coude = 6) => ({ ...copie(tp), t, racine: { p: [0, 97, -6], r: [18, 0, 0] }, colonne: col(0, 0, -8),
+    bras: bras2({ fk: { flex, abd: 10 }, coude, prono: 80, ...PRISE }) });
+  E("tirage-bras-tendus", {
+    nom: "Tirage bras tendus à la poulie haute", duree: 3, reps: 12, affiche: 0.4, vue: "profil",
+    camera: { cible: [0, 115, 2], dist: 480, el: 6 }, ombre: [0, 15, 90, 120],
+    accessoires: [{ type: "poulie", h: 205, p0: [0, 0, 62] }, { type: "cable", de: [0, 205, 68], main: "2", poignee: 60 }],
+    muscles: { p: ["dorsaux"], s: ["triceps", "abdominaux", "trapezes"] },
+    tempo: [[0, "Descendre la barre en arc, bras tendus · 1 s"], [0.4, "Barre contre les cuisses"], [0.5, "Remonter en 2 s jusqu'aux yeux"]],
+    cles: [T(0, 118), T(0.4, 12), T(0.5, 12), T(0.95, 118)],
+    erreur: { texte: "les coudes se plient et poussent vers le bas : c'est un exercice de triceps, plus de dorsaux.", zone: ["triceps"],
+      cles: [T(0, 90, 70), T(0.4, 14, 10), T(0.5, 14, 10), T(0.95, 90, 70)] }
+  });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2033,7 +2080,9 @@ const ORIENTATION = {
   "souleve-terre-halteres": DEDANS, "souleve-terre-sumo": ARRIERE, "squat-halteres": DEDANS, "rowing-debout-poulie": ARRIERE,
   "elevation-frontale-barre": BAS, "elevation-frontale-poulie": BAS, "squat-large-barre": AVANT,
   "step-up-barre": AVANT, "squat-serre-barre": AVANT, "developpe-couche-large": AVANT, "rowing-debout-large": ARRIERE,
-  "triceps-poulie-supination": [0, 0.7, 0.7], "developpe-assis-barre": AVANT
+  "triceps-poulie-supination": [0, 0.7, 0.7], "developpe-assis-barre": AVANT,
+  "squat-banc-barre": AVANT, "squat-banc-halteres": DEDANS, "squat-saute-barre": AVANT, "squat-barre-tete": [0, 1, 0],
+  "rowing-barre-serre": ARRIERE, "tirage-vertical-supination": ARRIERE, "rowing-assis-large": BAS, "tirage-bras-tendus": [0, -0.7, -0.7]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
@@ -2046,7 +2095,7 @@ for (const [id, v] of Object.entries(ORIENTATION)) {
 /* Poignet plié vers l'arrière (degrés négatifs) quand la rotation seule ne suffit pas : barre sur le dos, sur les hanches, poignées verticales. */
 const POIGNET = { "good-morning": -40, "front-squat": -40, "pont-fessier-barre": -30, "hip-thrust-une-jambe": -30, "squat-barre": -40, "smith-squat": -40, "pec-deck": -40, "tirage-vertical": -20, "hip-thrust": -30, "hip-thrust-machine": -30,
   "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "oiseau-machine": -40, "fente-arriere-barre": -40, "fente-avant-barre": -40, "squat-large-barre": -40,
-  "step-up-barre": -40, "squat-serre-barre": -40 };
+  "step-up-barre": -40, "squat-serre-barre": -40, "squat-banc-barre": -40, "squat-saute-barre": -40 };
 for (const [id, w] of Object.entries(POIGNET)) for (const o of [EXERCICES[id], EXERCICES[id].erreur]) for (const k of (o && o.cles) || [])
   for (const c of ["G", "D"]) if (k.bras && k.bras[c]) k.bras[c].poignet = w;
 
