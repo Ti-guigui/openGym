@@ -2485,6 +2485,30 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   poignets("curl-poignets-inverse-barre", "Extension des poignets à la barre (paumes en bas), assis", 180, true, AV);
 }
 
+/* ---------- LOT 28 pour l'appli : poignets en prise neutre, curl concentré assis ---------- */
+{
+  const ASSIS = jambes2({ ik: [20, 8, 48], pole: [0.3, 0, 1], pied: PIED_PLAT(8) }), BANC_ASSIS = { type: "banc", l: 60, ry: 90, p0: [0, 0, -4] };
+  // Poignets en prise neutre (pouces en haut) : la main monte et descend sur le côté (même pose que le lot 27)
+  const P = (t, w) => ({ t, racine: { p: [0, 54, 4], r: [22, 0, 0] }, colonne: col(4, 0, -10),
+    bras: bras2({ ik: [13, 63, 56], pole: [0.4, -1, -0.3], prono: 90, poignet: w, ...PRISE }), jambes: copie(ASSIS) });
+  E("curl-poignets-neutre", { ...copie(EXERCICES["curl-poignets"]), recalageDe: "curl-poignets", nom: "Flexion des poignets en prise neutre, assis",
+    cles: [P(0, -30), P(0.4, 35), P(0.5, 35), P(0.95, -30)], erreur: undefined });
+  delete EXERCICES["curl-poignets-neutre"].erreur;
+  // Curl concentré : assis jambes écartées, buste penché, le coude gauche calé contre l'intérieur de la cuisse ; la main droite sur l'autre genou
+  const JAMBES = jambes2({ ik: [38, 8, 44], pole: [0.7, 0, 1], pied: PIED_PLAT(18) });   // pieds bien écartés : l'haltère descend entre les tibias
+  const C = (t, coude, prono, flex = 32) => ({ t, racine: { p: [0, 54, 4], r: [32, 0, 0] }, colonne: col(6, 0, -14),
+    bras: { G: { fk: { flex, abd: -14 }, coude, prono, ...PRISE }, D: { ik: [-24, 58, 40], pole: [-1, -0.5, -0.3], prono: -60 } }, jambes: copie(JAMBES) });
+  const conc = (id, nom, prono, muscles) => E(id, {
+    nom, duree: 3.5, reps: 10, affiche: 0.4, vue: "3/4", recalageDe: id,
+    camera: { cible: [0, 60, 20], dist: 360, el: 12 }, ombre: [0, 20, 80, 110], accessoires: [BANC_ASSIS, { type: "haltere", main: "G" }], muscles,
+    tempo: [[0, "Monter l'haltère vers l'épaule · 1 s"], [0.4, "Serrer le biceps"], [0.5, "Redescendre en 2 s, bras tendu"]],
+    cles: [C(0, 6, prono), C(0.4, 135, prono), C(0.5, 135, prono), C(0.95, 6, prono)],
+    erreur: { texte: "le coude quitte la cuisse et l'épaule tire vers l'arrière : le biceps n'est plus isolé.", zone: ["deltoides"],
+      cles: [C(0, 6, prono), C(0.4, 120, prono, 70), C(0.5, 120, prono, 70), C(0.95, 6, prono)] } });
+  conc("curl-concentration", "Curl concentré assis, haltère", 0, { p: ["biceps"], s: ["avant-bras"] });
+  conc("curl-concentration-inverse", "Curl concentré assis en prise inversée", 180, { p: ["avant-bras", "biceps"], s: [] });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
