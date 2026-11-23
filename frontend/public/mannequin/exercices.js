@@ -1797,6 +1797,83 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
       ...tenue(P(copie(k0.jambes.D)), P({ ...croise, pole: [-0.2, 1, 0.1] }, 46)) } });
 }
 
+/* ---------- LOT 10 pour l'appli : charges sur des mouvements existants, relevé de buste, pompe déclinée ---------- */
+{ // Variantes : mêmes appuis que l'exercice d'origine (recalageDe), seuls les bras et la charge changent
+  const brasDe = (cles, f) => cles && cles.map(k => { const n = copie(k); n.bras = f(n.bras); return n; });
+  const V = (id, base, def, f) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: brasDe(b.cles, f), clesFemme: brasDe(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: brasDe(e.cles, f), clesFemme: brasDe(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  const cote = (bras, f) => ({ G: f(bras.G, 1), D: f(bras.D, -1) });
+  // barre sur les trapèzes (bras du squat barre) : la nuque reste neutre, la tête en arrière irait dans la barre
+  const BARRE = EXERCICES["squat-barre"].cles[0].bras, BAS = bras2({ fk: { flex: 2, abd: 7 }, coude: 4, prono: -85, ...PRISE });
+  const nuque = id => { for (const o of [EXERCICES[id], EXERCICES[id].erreur]) for (const k of [...(o.cles || []), ...(o.clesFemme || [])])
+    if (k.colonne?.cou) k.colonne.cou.flex = Math.max(k.colonne.cou.flex || 0, -4); };
+  const BARRE_DOS = { accessoires: [{ type: "barre-olympique", main: "2" }] };
+  V("fente-arriere-barre", "fente-arriere", { nom: "Fente arrière, barre sur le dos", ...BARRE_DOS,
+    muscles: { p: ["quadriceps", "fessiers"], s: ["ischios", "adducteurs", "mollets", "abdominaux", "trapezes"] } }, () => copie(BARRE));
+  V("fente-avant-barre", "fente-avant", { nom: "Fente avant, barre sur le dos", ...BARRE_DOS,
+    muscles: { p: ["quadriceps", "fessiers"], s: ["ischios", "adducteurs", "mollets", "abdominaux", "trapezes"] } }, () => copie(BARRE));
+  nuque("fente-arriere-barre"); nuque("fente-avant-barre");
+  V("fente-avant-halteres", "fente-avant", { nom: "Fente avant avec haltères", accessoires: HALTERES,
+    muscles: { p: ["quadriceps", "fessiers"], s: ["ischios", "adducteurs", "mollets", "avant-bras", "trapezes"] } }, () => copie(BAS));
+  V("rowing-debout-halteres", "rowing-debout", { nom: "Rowing debout aux haltères", accessoires: HALTERES },
+    b => cote(b, (m, s) => ({ ...m, ik: [16 * s, m.ik[1], m.ik[2]] })));      // haltères un peu plus écartés que la barre
+  V("souleve-terre-halteres", "souleve-de-terre", { nom: "Soulevé de terre aux haltères", reps: 8, accessoires: HALTERES },
+    b => cote(b, (m, s) => ({ ...m, ik: [28 * s, m.ik[1], m.ik[2] - 4] })));  // haltères le long des jambes, paumes face à face (table ORIENTATION)
+}
+{ // Soulevé de terre sumo : pieds larges et pointes ouvertes, mains entre les genoux, buste plus droit que le soulevé classique
+  const sdt = EXERCICES["souleve-de-terre"];
+  const sumo = cles => cles.map(k => {
+    const n = copie(k); n.racine.r[0] *= 0.72; n.racine.p[2] *= 0.6; n.racine.p[1] -= 3 + (99 - n.racine.p[1]) * 0.12;   // pieds écartés : la jambe descend moins bas
+    n.jambes = jambes2({ ik: [30, 8, 3], pole: [0.8, 0, 0.6], pied: PIED_PLAT(30) });
+    n.bras.G.ik[0] = 14; n.bras.D.ik[0] = -14; return n;
+  });
+  E("souleve-terre-sumo", {
+    ...copie(sdt), recalageDe: "souleve-terre-sumo", nom: "Soulevé de terre sumo", ombre: [0, 0, 110, 110],
+    muscles: { p: ["fessiers", "quadriceps", "adducteurs"], s: ["ischios", "lombaires", "trapezes", "avant-bras"] },
+    tempo: [[0, "Genoux ouverts vers les pointes, pousser le sol"], [0.3, "La barre monte tout droit"], [0.5, "Hanches en avant, debout"], [0.6, "Redescendre en ouvrant les genoux"]],
+    cles: sumo(sdt.cles),
+    erreur: { texte: "les genoux rentrent vers l'intérieur en poussant : ils doivent rester dans l'axe des pieds.", zone: ["adducteurs", "quadriceps"],
+      cles: sumo(sdt.cles).map(k => { if (k.racine.p[1] < 95) for (const [c, s] of [["G", 1], ["D", -1]]) { k.jambes[c].pole = [-0.15 * s, 0, 1]; k.bras[c].ik[2] += 2; } return k; }) }
+  });
+}
+{ // Relevé de buste (sit-up) : pieds à plat, le buste s'enroule puis monte jusqu'à la verticale, bras croisés sur la poitrine
+  const k0 = EXERCICES["pont-fessier"].cles[0], BRAS = bras2({ fk: { flex: 35, abd: 0, rot: -70 }, coude: 135 });
+  const P = (t, monte, lomb, thorax, cou, piedY = 8) => ({ t, racine: { p: [...k0.racine.p], r: [k0.racine.r[0] + monte, 0, 0] }, colonne: col(lomb, thorax, cou),
+    bras: copie(BRAS), jambes: jambes2({ ik: [15, piedY, 50], pole: [0.15, 1, 0], pied: PIED_PLAT(0) }) });
+  const bas = P(0, 0, 0, 0, 0), enroule = P(0.18, 12, 10, 26, 14), haut = P(0.42, 62, 6, 12, 6);
+  E("sit-up", {
+    nom: "Relevé de buste (sit-up)", duree: 3.5, reps: 12, affiche: 0.42, vue: "profil",
+    camera: { cible: [0, 35, 5], dist: 330, el: 8 }, ombre: [0, 0, 70, 180], accessoires: [{ type: "tapis", p0: [0, 0, 0] }],
+    muscles: { p: ["abdominaux", "flechisseurs"], s: ["obliques"] },
+    tempo: [[0, "Enrouler le haut du dos"], [0.18, "Monter jusqu'à la verticale · 1,5 s"], [0.55, "Redescendre en 2 s, vertèbre par vertèbre"]],
+    cles: [bas, enroule, haut, { ...copie(haut), t: 0.55 }, { ...copie(enroule), t: 0.8 }, { ...copie(bas), t: 0.95 }],
+    erreur: { texte: "monter dos plat d'un coup de reins : ce sont les fléchisseurs de hanche qui tirent et le bas du dos se creuse.", zone: ["lombaires", "flechisseurs"],
+      cles: [bas, P(0.18, 22, -4, 0, 10), P(0.3, 40, -5, 0, 8), P(0.42, 58, -6, 0, 6), P(0.55, 58, -6, 0, 6), P(0.67, 40, -5, 0, 8), P(0.8, 22, -4, 0, 10), { ...copie(bas), t: 0.95 }] }
+  });
+}
+{ // Pompe déclinée : pieds sur un banc, le corps descend tête vers le bas ; même mains que la pompe au sol
+  const HP = 45, ha = HP + 14, za = -82;
+  const P = (t, hs, affaisse = 0) => {
+    const a = appui(hs, ha, 43, 91, za);
+    return { t, racine: { p: [0, a.y - affaisse, a.z], r: [a.pitch - affaisse * 0.25, 0, 0] }, colonne: col(-affaisse * 1.2, 0, -10),
+      bras: bras2({ ik: [24, 3, 42], pole: [0.6, 0.15, -1], main: MAIN_SOL }), jambes: jambes2({ ik: [10, ha, za], pole: [0, -1, 0], pied: PIED_ORTEILS }) };
+  };
+  E("pompe-declinee", {
+    nom: "Pompe déclinée (pieds sur un banc)", duree: 3.5, reps: 10, affiche: 0.45, vue: "profil",
+    camera: { cible: [0, 40, -10], dist: 420, el: 12 }, ombre: [0, -10, 80, 240],
+    accessoires: [{ type: "tapis", p0: [0, 0, 20] }, { type: "marche", p0: [0, 0, -88], h: HP, p: 36, l: 64 }],
+    muscles: { p: ["pectoraux", "deltoides"], s: ["triceps", "abdominaux"] },
+    tempo: [[0, "Descente · 2 s"], [0.5, "Poitrine à un poing du sol"], [0.6, "Pousser · 1 s"]],
+    cles: [P(0, 57), P(0.2, 42), P(0.5, 20), P(0.6, 20), P(0.85, 42)],
+    erreur: { texte: "le bassin tombe vers le sol : le bas du dos se creuse au lieu de rester gainé.", zone: ["lombaires"],
+      cles: [P(0, 57, 8), P(0.2, 43, 10), P(0.5, 22, 12), P(0.6, 22, 12), P(0.85, 43, 10)] }
+  });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -1812,7 +1889,9 @@ const ORIENTATION = {
   "pont-fessier-barre": BAS, "hip-thrust-une-jambe": BAS, "souleve-terre-kettlebell": ARRIERE, "rowing-kettlebell": [DEDANS, "G"], "goblet-squat-kettlebell": DEDANS,
   "developpe-couche-serre": AVANT, "developpe-incline-barre": AVANT, "good-morning": AVANT, "front-squat": [0, 1, 0.3],
   "rowing-debout": ARRIERE, "barre-front": AVANT, "pullover-haltere": DEDANS,
-  "tirage-vertical-serre": DEDANS, "developpe-epaules-assis": AVANT
+  "tirage-vertical-serre": DEDANS, "developpe-epaules-assis": AVANT,
+  "fente-arriere-barre": AVANT, "fente-avant-barre": AVANT, "fente-avant-halteres": DEDANS, "rowing-debout-halteres": ARRIERE,
+  "souleve-terre-halteres": DEDANS, "souleve-terre-sumo": ARRIERE
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
@@ -1824,7 +1903,7 @@ for (const [id, v] of Object.entries(ORIENTATION)) {
 
 /* Poignet plié vers l'arrière (degrés négatifs) quand la rotation seule ne suffit pas : barre sur le dos, sur les hanches, poignées verticales. */
 const POIGNET = { "good-morning": -40, "front-squat": -40, "pont-fessier-barre": -30, "hip-thrust-une-jambe": -30, "squat-barre": -40, "smith-squat": -40, "pec-deck": -40, "tirage-vertical": -20, "hip-thrust": -30, "hip-thrust-machine": -30,
-  "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "oiseau-machine": -40 };
+  "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "oiseau-machine": -40, "fente-arriere-barre": -40, "fente-avant-barre": -40 };
 for (const [id, w] of Object.entries(POIGNET)) for (const o of [EXERCICES[id], EXERCICES[id].erreur]) for (const k of (o && o.cles) || [])
   for (const c of ["G", "D"]) if (k.bras && k.bras[c]) k.bras[c].poignet = w;
 
