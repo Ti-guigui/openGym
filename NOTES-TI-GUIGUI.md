@@ -109,7 +109,7 @@ docker compose down           # arrêter l'appli
 - **Mettre à jour la version téléphone** (Cloudflare Pages, projet `ti-guigui-fit`) :
 
   ```powershell
-  cd "$HOME\openGym\frontend"; npm run build; cd ..
+  cd "$HOME\openGym\frontend"; npm run build:pages; cd ..
   node scripts/catalogue/stage-media.mjs frontend/dist
   npx wrangler pages deploy frontend/dist --project-name ti-guigui-fit --branch main --commit-dirty=true --force
   ```

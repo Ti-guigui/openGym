@@ -10,6 +10,8 @@ import BrandLogo from '../components/BrandLogo.jsx'
 import { Button, Segmented, Section, SelectRow } from '../components/ui.jsx'
 import { LANGS } from '../lib/i18n-core.js'
 import { effectiveLang } from '../lib/default-lang.js'
+
+const LOCAL_ONLY = import.meta.env.VITE_LOCAL_ONLY === '1'
 import { askAddDeviceData } from '../sheets.jsx'
 import { passwordOn, PasswordRegisterForm, openPasswordSignIn } from '../components/PasswordAuth.jsx'
 import { openDeviceLinkRedeem } from '../components/Passkeys.jsx'
@@ -115,6 +117,16 @@ export default function Login() {
     </div>
   </>
   const wrap = { display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '78vh', textAlign: 'center' }
+
+  // Cloudflare Pages build (npm run build:pages): no server, so no account buttons that cannot work.
+  if (LOCAL_ONLY) return (
+    <div className="narrow" style={wrap}>
+      {head}
+      <div className="muted" style={{ marginBottom: 30 }}>{t('Your workouts. Your weights. Your profile.')}</div>
+      <Button variant="primary" icon="play" onClick={() => setGuest(true)}>{t('Continue without account')}</Button>
+      <div className="dim small" style={{ marginTop: 22, lineHeight: 1.5 }}>{t('Guest data stays on this device, so export a backup now and then!')}</div>
+    </div>
+  )
 
   // Demo build: no backend to sign in against — the only way in is the local guest profile.
   if (DEMO) return (
