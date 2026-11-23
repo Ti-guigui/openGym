@@ -2771,6 +2771,20 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   for (const k of EXERCICES["developpe-genoux-un-bras-kettlebell"].cles) if (k.bras.G.ik[1] < 115) k.bras.G.ik[2] += 4;   // en bas, la kettlebell reste derrière le poignet sans toucher le bras
 }
 
+/* ---------- LOT 41 pour l'appli : écarté incliné aux haltères ---------- */
+{ // Même banc et même corps que le développé incliné ; les bras s'ouvrent en arc, coudes légèrement fléchis
+  const b = EXERCICES["developpe-incline"];
+  const K = (k, t, x, y, z) => ({ ...copie(k), t, bras: bras2({ ik: [x, y, z], pole: [1, -1, 0], ...PRISE }) });
+  const fly = cles => cles && [K(cles[0], 0, 11, 128, -12), K(cles[1], 0.4, 54, 98, -16), K(cles[2], 0.5, 54, 98, -16), K(cles[3], 0.95, 11, 128, -12)];
+  E("ecarte-incline", { ...copie(b), recalageDe: b.recalageDe || "developpe-incline", nom: "Écarté incliné aux haltères",
+    muscles: { p: ["pectoraux"], s: ["deltoides", "biceps"] },
+    tempo: [[0, "Ouvrir les bras en arc · 2 s"], [0.4, "Étirement des pectoraux"], [0.5, "Refermer en serrant · 1 s"]],
+    cles: fly(b.cles), clesFemme: fly(b.clesFemme), erreur: b.erreur && { ...copie(b.erreur), texte: "les coudes se plient et les bras descendent trop bas : l'avant de l'épaule est étiré sous charge.", zone: ["deltoides"],
+      cles: [K(b.cles[0], 0, 11, 128, -12), K(b.cles[1], 0.4, 50, 84, -20), K(b.cles[2], 0.5, 50, 84, -20), K(b.cles[3], 0.95, 11, 128, -12)] } });
+  if (!EXERCICES["ecarte-incline"].clesFemme) delete EXERCICES["ecarte-incline"].clesFemme;
+  delete EXERCICES["ecarte-incline"].erreur.clesFemme;
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2807,7 +2821,7 @@ const ORIENTATION = {
   "developpe-couche-smith-inverse": ARRIERE, "developpe-incline-smith-inverse": ARRIERE, "rowing-serre-smith": ARRIERE, "rowing-large-smith": ARRIERE,
   "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT, "kickback-assis": DEDANS, "kickback-assis-un-bras": [DEDANS, "G"], "split-squat-barre": AVANT, "fente-croisee-halteres": DEDANS, "fente-laterale-halteres": DEDANS, "fente-laterale-barre": AVANT, "pullover-barre": AVANT, "hip-thrust-haltere": BAS, "hip-thrust-une-jambe-haltere": BAS, "pont-fessier-haltere": BAS, "fente-avant-kettlebells": DEDANS,
   "squat-sumo-kettlebell": ARRIERE, "squat-sumo-haltere": ARRIERE, "squat-sumo-barre": AVANT, "fente-avant-front": [0, 1, 0.3], "fente-arriere-front": [0, 1, 0.3], "split-squat-front": [0, 1, 0.3],
-  "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "developpe-genoux-un-bras": [AVANT, "G"], "developpe-genoux-un-bras-kettlebell": [AVANT, "G"], "souleve-terre-sumo-kettlebell": ARRIERE,
+  "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "developpe-genoux-un-bras": [AVANT, "G"], "ecarte-incline": [-0.7, 0.7, 0], "developpe-genoux-un-bras-kettlebell": [AVANT, "G"], "souleve-terre-sumo-kettlebell": ARRIERE,
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
