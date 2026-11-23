@@ -2293,6 +2293,42 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   for (const o of [EXERCICES["elevation-frontale-alterne"], EXERCICES["elevation-frontale-alterne"].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
 }
 
+/* ---------- LOT 21 pour l'appli : développés et rowing à la kettlebell, développé prise neutre à un bras ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const KETTLE = main => machine([{ c: [8.5, 15], p: [0, -12, 0], m: "fonte" }, { b: [14, 2.4, 2.4], p: [0, 0, 0], m: "fonte" },
+    { b: [2.4, 6, 2.4], p: [6, -4, 0], m: "fonte" }, { b: [2.4, 6, 2.4], p: [-6, -4, 0], m: "fonte" }], { main });
+  // développés : la kettlebell repose derrière le poignet, sur le dos de l'avant-bras (elle ne pend pas sous la main)
+  const KETTLE_DOS = main => machine([{ c: [8.5, 15], p: [0, -4, -14], m: "fonte" }, { b: [14, 2.4, 2.4], p: [0, 0, 0], m: "fonte" },
+    { b: [2.4, 2.4, 9], p: [6, -2, -5], m: "fonte" }, { b: [2.4, 2.4, 9], p: [-6, -2, -5], m: "fonte" }], { main });
+  const LIBRE = bras2({ fk: { flex: 6, abd: 8 }, coude: 10 }).D;
+  // copie de l'exercice ; f modifie chaque image clé ; kettle : chaque haltère devient une kettlebell tenue par la même main
+  const V = (id, base, nom, { f = () => { }, unBras = false, kettle = false, cles: tr = c => c } = {}) => {
+    const b = EXERCICES[base], e = b.erreur, g = n => { if (unBras) n.bras.D = copie(LIBRE); f(n); };
+    let acc = (b.accessoires || []).filter(a => !(unBras && a.type === "haltere" && a.main === "D"));
+    if (kettle) acc = acc.map(a => a.type === "haltere" ? (kettle === "dos" ? KETTLE_DOS : KETTLE)(a.main) : a);
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, accessoires: acc,
+      cles: tr(appl(b.cles, g)), clesFemme: tr(appl(b.clesFemme, g)), erreur: e && { ...copie(e), cles: tr(appl(e.cles, g)), clesFemme: tr(appl(e.clesFemme, g)) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  const alterne = cles => {      // images clés 0 = bas, 1 = haut ; un bras après l'autre
+    if (!cles) return cles;
+    const bas = cles[0], haut = cles[1];
+    const K = (t, g, d) => ({ ...copie(g || d ? haut : bas), t, bras: { G: copie((g ? haut : bas).bras.G), D: copie((d ? haut : bas).bras.D) } });
+    return [K(0, 0, 0), K(0.2, 1, 0), K(0.25, 1, 0), K(0.475, 0, 0), K(0.5, 0, 0), K(0.7, 0, 1), K(0.75, 0, 1), K(0.975, 0, 0)];
+  };
+  const TEMPO_ALT = verbe => [[0, verbe + " le bras gauche · 1 s"], [0.25, "Redescendre en 2 s"], [0.5, verbe + " le bras droit · 1 s"], [0.75, "Redescendre en 2 s"]];
+  V("developpe-neutre-un-bras", "developpe-militaire-neutre", "Développé debout à un bras, prise neutre", { unBras: true });
+  V("developpe-kettlebell-un-bras", "developpe-militaire", "Développé debout à un bras, kettlebell", { unBras: true, kettle: "dos" });
+  V("developpe-kettlebell-alterne", "developpe-militaire-alterne", "Développé debout alterné aux kettlebells", { kettle: "dos" });
+  V("developpe-kettlebell-assis", "developpe-epaules-assis", "Développé assis aux kettlebells", { kettle: "dos" });
+  V("rowing-kettlebell-alterne", "rowing-halteres", "Rowing buste penché alterné aux kettlebells", { kettle: true, cles: alterne,
+    f: n => { for (const c of ["G", "D"]) { const b = n.bras[c]; if (b.ik) b.ik[0] += Math.sign(b.ik[0]) * 5; } } });   // la kettlebell pend plus bas que l'haltère : mains écartées des cuisses
+  // développés à la kettlebell : pas de version « erreur » (dos cambré, l'avant-bras penché passe dans la kettlebell posée derrière le poignet)
+  for (const id of ["developpe-kettlebell-un-bras", "developpe-kettlebell-alterne", "developpe-kettlebell-assis"]) delete EXERCICES[id].erreur;
+  Object.assign(EXERCICES["rowing-kettlebell-alterne"], { recalageDe: "rowing-kettlebell-alterne", duree: EXERCICES["rowing-halteres"].duree * 2, affiche: 0.2, tempo: TEMPO_ALT("Tirer") });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2322,7 +2358,9 @@ const ORIENTATION = {
   "kickback-haltere": [DEDANS, "G"], "kickback-halteres-debout": DEDANS,
   "mollets-barre": AVANT, "squat-bulgare-barre": AVANT, "rowing-barre-supination": AVANT,
   "developpe-militaire-neutre": DEDANS, "developpe-epaules-assis-neutre": DEDANS, "developpe-militaire-alterne": AVANT,
-  "developpe-militaire-un-bras": [AVANT, "G"], "rowing-debout-un-bras": [ARRIERE, "G"]
+  "developpe-militaire-un-bras": [AVANT, "G"], "rowing-debout-un-bras": [ARRIERE, "G"],
+  "developpe-neutre-un-bras": [DEDANS, "G"], "developpe-kettlebell-un-bras": [AVANT, "G"], "developpe-kettlebell-alterne": AVANT,
+  "developpe-kettlebell-assis": AVANT, "rowing-kettlebell-alterne": DEDANS
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];

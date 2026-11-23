@@ -67,6 +67,8 @@ const BY_ANIM = {
   'elevation-frontale-assis': ['0392'], 'elevation-frontale-assis-alterne': ['0387'],
   'developpe-militaire-un-bras': ['0361'], 'elevation-laterale-un-bras': ['0355'], 'rowing-debout-un-bras': ['0363'], 'curl-inverse-un-bras': ['0425'],
   'elevation-frontale-alterne': ['0415'],
+  'developpe-neutre-un-bras': ['0424'], 'developpe-kettlebell-un-bras': ['0539'], 'developpe-kettlebell-alterne': ['0520'],
+  'developpe-kettlebell-assis': ['0546'], 'rowing-kettlebell-alterne': ['0522'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {
