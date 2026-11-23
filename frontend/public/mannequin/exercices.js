@@ -2207,6 +2207,29 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   });
 }
 
+/* ---------- LOT 18 pour l'appli : barre sur le dos (mollets, squat bulgare), curl inversé à la barre, rowing en supination ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const V = (id, base, def, f) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  const BARRE = EXERCICES["squat-barre"].cles[0].bras, BARRE_OLY = { type: "barre-olympique", main: "2" };
+  const dos = n => { n.bras = copie(BARRE); if (n.colonne?.cou) n.colonne.cou.flex = Math.max(n.colonne.cou.flex || 0, -4); };   // nuque neutre sous la barre
+  V("mollets-barre", "mollets", { nom: "Mollets debout, barre sur le dos", accessoires: [EXERCICES["mollets"].accessoires[0], BARRE_OLY],
+    muscles: { p: ["mollets"], s: ["trapezes", "abdominaux"] } }, dos);
+  V("squat-bulgare-barre", "squat-bulgare", { nom: "Squat bulgare, barre sur le dos", accessoires: [EXERCICES["squat-bulgare"].accessoires[0], BARRE_OLY],
+    muscles: { p: ["quadriceps", "fessiers"], s: ["adducteurs", "ischios", "abdominaux", "trapezes"] } }, dos);
+  // Curl inversé à la barre : paumes vers le bas tout le long
+  V("curl-inverse-barre", "curl-barre", { nom: "Curl inversé à la barre (prise en pronation)", muscles: { p: ["avant-bras", "biceps"], s: ["deltoides"] } },
+    n => { for (const c of ["G", "D"]) n.bras[c].prono = 180; });
+  // Rowing barre en supination : paumes vers l'avant (table ORIENTATION), mains un peu plus serrées, coudes le long du corps
+  V("rowing-barre-supination", "rowing-barre", { nom: "Rowing barre buste penché en supination", muscles: { p: ["dorsaux", "biceps"], s: ["trapezes", "lombaires", "ischios", "avant-bras"] } },
+    n => { for (const c of ["G", "D"]) { const b = n.bras?.[c]; if (b?.ik) { b.ik[0] -= Math.sign(b.ik[0]) * 4; b.ik[2] += 3; } } });   // la barre s'arrête 3 cm devant le ventre
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2233,7 +2256,8 @@ const ORIENTATION = {
   "squat-vitesse-barre": AVANT, "good-morning-assis": AVANT,
   "mollets-halteres": DEDANS, "developpe-epaules-assis-alterne": AVANT, "developpe-couche-smith": AVANT, "developpe-couche-serre-smith": AVANT,
   "extension-triceps-halteres": DEDANS, "squat-saute-halteres": DEDANS, "traction-assistee-supination": ARRIERE, "traction-mixte": [ARRIERE, "G"],
-  "kickback-haltere": [DEDANS, "G"], "kickback-halteres-debout": DEDANS
+  "kickback-haltere": [DEDANS, "G"], "kickback-halteres-debout": DEDANS,
+  "mollets-barre": AVANT, "squat-bulgare-barre": AVANT, "rowing-barre-supination": AVANT
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
@@ -2246,7 +2270,8 @@ for (const [id, v] of Object.entries(ORIENTATION)) {
 /* Poignet plié vers l'arrière (degrés négatifs) quand la rotation seule ne suffit pas : barre sur le dos, sur les hanches, poignées verticales. */
 const POIGNET = { "good-morning": -40, "front-squat": -40, "pont-fessier-barre": -30, "hip-thrust-une-jambe": -30, "squat-barre": -40, "smith-squat": -40, "pec-deck": -40, "tirage-vertical": -20, "hip-thrust": -30, "hip-thrust-machine": -30,
   "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "oiseau-machine": -40, "fente-arriere-barre": -40, "fente-avant-barre": -40, "squat-large-barre": -40,
-  "step-up-barre": -40, "squat-serre-barre": -40, "squat-banc-barre": -40, "squat-saute-barre": -40, "squat-vitesse-barre": -40, "good-morning-assis": -40 };
+  "step-up-barre": -40, "squat-serre-barre": -40, "squat-banc-barre": -40, "squat-saute-barre": -40, "squat-vitesse-barre": -40, "good-morning-assis": -40,
+  "mollets-barre": -40, "squat-bulgare-barre": -40 };
 for (const [id, w] of Object.entries(POIGNET)) for (const o of [EXERCICES[id], EXERCICES[id].erreur]) for (const k of (o && o.cles) || [])
   for (const c of ["G", "D"]) if (k.bras && k.bras[c]) k.bras[c].poignet = w;
 
