@@ -2350,6 +2350,25 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     for (const c of ["G", "D"]) k.bras[c].ik[1] = Math.max(k.bras[c].ik[1], 94);
 }
 
+/* ---------- LOT 23 pour l'appli : Smith machine, prises inversées et rowings ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const RAILS = (z, h) => machine([{ b: [8, h, 8], p: [92, h / 2, z] }, { b: [8, h, 8], p: [-92, h / 2, z] }, { b: [200, 8, 8], p: [0, h, z] }]);
+  const V = (id, base, nom, { z, h, f = () => { }, muscles } = {}) => {
+    const b = EXERCICES[base], e = b.erreur, g = n => { for (const c of ["G", "D"]) { if (z !== undefined) n.bras[c].ik[2] = z; } f(n); };
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, ...(muscles && { muscles }), accessoires: [...copie(b.accessoires), ...(z !== undefined ? [RAILS(z, h)] : [])],
+      cles: appl(b.cles, g), clesFemme: appl(b.clesFemme, g), erreur: e && { ...copie(e), cles: appl(e.cles, g), clesFemme: appl(e.clesFemme, g) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  // Prise inversée (paumes vers le visage) : même trajet, l'orientation des mains change (table ORIENTATION)
+  V("developpe-couche-smith-inverse", "developpe-couche-smith", "Développé couché prise inversée à la Smith machine", { muscles: { p: ["pectoraux", "triceps"], s: ["deltoides", "biceps"] } });
+  V("developpe-incline-smith-inverse", "developpe-incline-smith", "Développé incliné prise inversée à la Smith machine", { muscles: { p: ["pectoraux", "triceps"], s: ["deltoides", "biceps"] } });
+  // Rowings buste penché : la barre monte à la verticale entre les rails
+  V("rowing-serre-smith", "rowing-barre-serre", "Rowing buste penché prise serrée à la Smith machine", { z: 10, h: 200 });
+  V("rowing-large-smith", "rowing-barre", "Rowing buste penché prise large à la Smith machine (arrière d'épaules)", { z: 10, h: 200,
+    muscles: { p: ["deltoides", "trapezes"], s: ["dorsaux", "biceps", "lombaires"] }, f: n => { for (const c of ["G", "D"]) n.bras[c].ik[0] += Math.sign(n.bras[c].ik[0]) * 12; } });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2382,7 +2401,8 @@ const ORIENTATION = {
   "developpe-militaire-un-bras": [AVANT, "G"], "rowing-debout-un-bras": [ARRIERE, "G"],
   "developpe-neutre-un-bras": [DEDANS, "G"], "developpe-kettlebell-un-bras": [AVANT, "G"], "developpe-kettlebell-alterne": AVANT,
   "developpe-kettlebell-assis": AVANT, "rowing-kettlebell-alterne": DEDANS,
-  "militaire-smith": AVANT, "developpe-assis-smith": AVANT, "rowing-debout-smith": ARRIERE, "souleve-de-terre-smith": ARRIERE, "developpe-incline-smith": AVANT
+  "militaire-smith": AVANT, "developpe-assis-smith": AVANT, "rowing-debout-smith": ARRIERE, "souleve-de-terre-smith": ARRIERE, "developpe-incline-smith": AVANT,
+  "developpe-couche-smith-inverse": ARRIERE, "developpe-incline-smith-inverse": ARRIERE, "rowing-serre-smith": ARRIERE, "rowing-large-smith": ARRIERE
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
