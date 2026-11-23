@@ -2230,6 +2230,41 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     n => { for (const c of ["G", "D"]) { const b = n.bras?.[c]; if (b?.ik) { b.ik[0] -= Math.sign(b.ik[0]) * 4; b.ik[2] += 3; } } });   // la barre s'arrête 3 cm devant le ventre
 }
 
+/* ---------- LOT 19 pour l'appli : développés en prise neutre et alterné, élévations frontales assis ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const V = (id, base, def, f) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  const alterne = cles => {      // images clés 0 = bas, 1 = haut de l'exercice d'origine ; un bras après l'autre
+    if (!cles) return cles;
+    const bas = cles[0], haut = cles[1];
+    const K = (t, g, d) => ({ ...copie(g || d ? haut : bas), t, bras: { G: copie((g ? haut : bas).bras.G), D: copie((d ? haut : bas).bras.D) } });
+    return [K(0, 0, 0), K(0.2, 1, 0), K(0.25, 1, 0), K(0.475, 0, 0), K(0.5, 0, 0), K(0.7, 0, 1), K(0.75, 0, 1), K(0.975, 0, 0)];
+  };
+  const ALT = (id, base, nom, tempo) => {
+    const b = EXERCICES[base];
+    E(id, { ...copie(b), recalageDe: id, nom, duree: b.duree * 2, affiche: 0.2, tempo,
+      cles: alterne(b.cles), clesFemme: alterne(b.clesFemme), erreur: b.erreur && { ...copie(b.erreur), cles: alterne(b.erreur.cles), clesFemme: alterne(b.erreur.clesFemme) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  // Prise neutre : paumes face à face (table ORIENTATION), même trajet
+  V("developpe-militaire-neutre", "developpe-militaire", { nom: "Développé debout aux haltères, prise neutre" }, () => { });
+  V("developpe-epaules-assis-neutre", "developpe-epaules-assis", { nom: "Développé épaules assis, prise neutre" }, () => { });
+  ALT("developpe-militaire-alterne", "developpe-militaire", "Développé debout alterné aux haltères",
+    [[0, "Pousser le bras gauche · 1 s"], [0.25, "Redescendre en 2 s"], [0.5, "Pousser le bras droit · 1 s"], [0.75, "Redescendre en 2 s"]]);
+  // Élévation frontale assis au bout d'un banc (même assise que les élévations latérales assis)
+  const ASSIS = jambes2({ ik: [20, 8, 48], pole: [0.3, 0, 1], pied: PIED_PLAT(8) }), BANC_ASSIS = { type: "banc", l: 60, ry: 90, p0: [0, 0, -4] };
+  V("elevation-frontale-assis", "elevation-frontale", { nom: "Élévation frontale assis aux haltères", recalageDe: "elevation-frontale-assis",
+    camera: { cible: [0, 95, 0], dist: 420, el: 6 }, accessoires: [BANC_ASSIS, ...HALTERES] },
+    n => { n.racine.p = [0, 54, 4]; n.racine.r = [-2, 0, 0]; n.jambes = copie(ASSIS); for (const c of ["G", "D"]) n.bras[c].fk.abd = Math.max(n.bras[c].fk.abd || 0, 32); });   // haltères écartés des cuisses
+  ALT("elevation-frontale-assis-alterne", "elevation-frontale-assis", "Élévation frontale assis alternée",
+    [[0, "Monter le bras gauche · 1 s"], [0.25, "Redescendre en 2 s"], [0.5, "Monter le bras droit · 1 s"], [0.75, "Redescendre en 2 s"]]);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2257,7 +2292,8 @@ const ORIENTATION = {
   "mollets-halteres": DEDANS, "developpe-epaules-assis-alterne": AVANT, "developpe-couche-smith": AVANT, "developpe-couche-serre-smith": AVANT,
   "extension-triceps-halteres": DEDANS, "squat-saute-halteres": DEDANS, "traction-assistee-supination": ARRIERE, "traction-mixte": [ARRIERE, "G"],
   "kickback-haltere": [DEDANS, "G"], "kickback-halteres-debout": DEDANS,
-  "mollets-barre": AVANT, "squat-bulgare-barre": AVANT, "rowing-barre-supination": AVANT
+  "mollets-barre": AVANT, "squat-bulgare-barre": AVANT, "rowing-barre-supination": AVANT,
+  "developpe-militaire-neutre": DEDANS, "developpe-epaules-assis-neutre": DEDANS, "developpe-militaire-alterne": AVANT
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
