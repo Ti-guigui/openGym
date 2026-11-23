@@ -19,7 +19,7 @@ describe('3D animations table', () => {
   it('gives nothing for custom or unknown exercises', () => {
     expect(anim3dOf({ id: '0662' })).toBe('pompe')
     expect(anim3dOf({ id: '0662', custom: true })).toBe(null)
-    expect(anim3dOf({ id: '0001' })).toBe(null)
+    expect(anim3dOf({ id: '0002' })).toBe(null)   // 45° side bend: the mannequin has no lateral spine bend
     expect(anim3dOf(null)).toBe(null)
   })
 })

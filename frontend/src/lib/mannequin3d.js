@@ -20,7 +20,7 @@ const BY_ANIM = {
   'hack-squat': ['0743'], 'presse-horizontale': ['2951', '3768'], 'hip-thrust-machine': ['2146', '2743'], 'kickback-machine': ['1037'],
   // variants made for the app (atelier PR #86)
   'curl-marteau': ['0313'], 'curl-barre': ['0031'], 'developpe-couche-halteres': ['0289'], 'pompe-diamant': ['0283', '0259'],
-  'traction-supination': ['1326'], 'rowing-halteres': ['0293'], 'souleve-roumain-barre': ['0085'], 'squat-bulgare-halteres': ['2290'],
+  'traction-supination': ['1326', '0140'], 'rowing-halteres': ['0293'], 'souleve-roumain-barre': ['0085'], 'squat-bulgare-halteres': ['2290'],
   'developpe-militaire-barre': ['1162'], 'ecarte-halteres': ['0308'], 'releve-genoux-suspendu': ['9819'], 'releve-jambes-suspendu': ['0472'],
   'dips-barres': ['0251', '0814'], 'split-squat': ['0781'], 'goblet-squat': ['1760'],
   'elevation-laterale-poulie': ['0178', '0192'], 'oiseau-halteres': ['0380', '0383'], 'fente-avant': ['0612', '3470'],
@@ -53,6 +53,9 @@ const BY_ANIM = {
   // atelier lot 14
   'squat-banc-barre': ['0026'], 'squat-banc-halteres': ['0291'], 'squat-barre-tete': ['0069'], 'squat-saute-barre': ['0053'],
   'rowing-barre-serre': ['0062'], 'tirage-vertical-supination': ['0245'], 'rowing-assis-large': ['0218'], 'tirage-bras-tendus': ['0238'],
+  // atelier lot 15
+  'curl-alterne': ['0285'], 'curl-marteau-alterne': ['6147'], 'curl-assis-alterne': ['3761'], 'squat-vitesse-barre': ['0101'],
+  'sit-up-3-4': ['0001'], 'planche-laterale-genoux': ['0133'], 'good-morning-assis': ['0090'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {
