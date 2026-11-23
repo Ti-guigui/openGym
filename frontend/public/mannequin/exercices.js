@@ -2654,6 +2654,34 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     { accessoires: [KETTLE("G"), KETTLE("D")] });
 }
 
+/* ---------- LOT 35 pour l'appli : squats sumo chargés, fentes et split squat en front rack ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const V = (id, base, nom, f, def = {}) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  const KETTLE = main => machine([{ c: [8.5, 15], p: [0, -12, 0], m: "fonte" }, { b: [14, 2.4, 2.4], p: [0, 0, 0], m: "fonte" },
+    { b: [2.4, 6, 2.4], p: [6, -4, 0], m: "fonte" }, { b: [2.4, 6, 2.4], p: [-6, -4, 0], m: "fonte" }], { main });
+  // Squat sumo : la charge pend entre les jambes, bras tendus, mains rapprochées
+  const PEND = n => { const a = (n.racine.r[0] || 0) + (n.colonne.lomb?.flex || 0) + (n.colonne.thorax?.flex || 0);
+    n.bras = bras2({ fk: { flex: a + 14, abd: -7 }, coude: 4, prono: -85, ...PRISE }); };   // la charge passe devant les cuisses
+  V("squat-sumo-kettlebell", "squat-sumo", "Squat sumo à la kettlebell", PEND, { accessoires: [KETTLE("2")] });
+  V("squat-sumo-haltere", "squat-sumo", "Squat sumo à l'haltère", PEND, { accessoires: [{ type: "haltere", main: "2" }] });
+  const BARRE = EXERCICES["squat-barre"].cles[0].bras, FRONT = EXERCICES["front-squat"].cles[0].bras, BARRE_OLY = { type: "barre-olympique", main: "2" };
+  const nuque = n => { if (n.colonne?.cou) n.colonne.cou.flex = Math.max(n.colonne.cou.flex || 0, -4); };
+  V("squat-sumo-barre", "squat-sumo", "Squat sumo, barre sur le dos", n => { n.bras = copie(BARRE); if (n.colonne?.cou) n.colonne.cou.flex = Math.max(n.colonne.cou.flex || 0, 4); }, { accessoires: [BARRE_OLY] });
+  for (const [o, src] of [[EXERCICES["squat-sumo-barre"], EXERCICES["squat-sumo"]], [EXERCICES["squat-sumo-barre"].erreur, EXERCICES["squat-sumo"].erreur]])
+    o.clesFemme = appl(src.cles, n => { n.bras = copie(BARRE); nuque(n); });    // femme (chignon) : nuque neutre ; homme : menton rentré
+  // Front rack : la barre repose sur l'avant des épaules, coudes hauts (bras du front squat)
+  const rack = n => { n.bras = copie(FRONT); if (n.colonne?.cou) n.colonne.cou.flex = Math.min(n.colonne.cou.flex || 0, -8); };   // menton relevé au-dessus de la barre
+  V("fente-avant-front", "fente-avant", "Fente avant, barre devant (front rack)", rack, { accessoires: [BARRE_OLY] });
+  V("fente-arriere-front", "fente-arriere", "Fente arrière, barre devant (front rack)", rack, { accessoires: [BARRE_OLY] });
+  V("split-squat-front", "split-squat", "Split squat, barre devant (front rack)", rack, { accessoires: [BARRE_OLY] });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2689,6 +2717,7 @@ const ORIENTATION = {
   "militaire-smith": AVANT, "developpe-assis-smith": AVANT, "rowing-debout-smith": ARRIERE, "souleve-de-terre-smith": ARRIERE, "developpe-incline-smith": AVANT,
   "developpe-couche-smith-inverse": ARRIERE, "developpe-incline-smith-inverse": ARRIERE, "rowing-serre-smith": ARRIERE, "rowing-large-smith": ARRIERE,
   "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT, "kickback-assis": DEDANS, "kickback-assis-un-bras": [DEDANS, "G"], "split-squat-barre": AVANT, "fente-croisee-halteres": DEDANS, "fente-laterale-halteres": DEDANS, "fente-laterale-barre": AVANT, "pullover-barre": AVANT, "hip-thrust-haltere": BAS, "hip-thrust-une-jambe-haltere": BAS, "pont-fessier-haltere": BAS, "fente-avant-kettlebells": DEDANS,
+  "squat-sumo-kettlebell": ARRIERE, "squat-sumo-haltere": ARRIERE, "squat-sumo-barre": AVANT, "fente-avant-front": [0, 1, 0.3], "fente-arriere-front": [0, 1, 0.3], "split-squat-front": [0, 1, 0.3],
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
@@ -2704,7 +2733,8 @@ const POIGNET = { "good-morning": -40, "front-squat": -40, "pont-fessier-barre":
   "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "oiseau-machine": -40, "fente-arriere-barre": -40, "fente-avant-barre": -40, "squat-large-barre": -40,
   "step-up-barre": -40, "squat-serre-barre": -40, "squat-banc-barre": -40, "squat-saute-barre": -40, "squat-vitesse-barre": -40, "good-morning-assis": -40,
   "mollets-barre": -40, "squat-bulgare-barre": -40, "split-squat-barre": -40, "fente-laterale-barre": -40,
-  "hip-thrust-haltere": -30, "hip-thrust-une-jambe-haltere": -30, "pont-fessier-haltere": -30 };
+  "hip-thrust-haltere": -30, "hip-thrust-une-jambe-haltere": -30, "pont-fessier-haltere": -30,
+  "squat-sumo-barre": -40, "fente-avant-front": -40, "fente-arriere-front": -40, "split-squat-front": -40 };
 for (const [id, w] of Object.entries(POIGNET)) for (const o of [EXERCICES[id], EXERCICES[id].erreur]) for (const k of (o && o.cles) || [])
   for (const c of ["G", "D"]) if (k.bras && k.bras[c]) k.bras[c].poignet = w;
 
@@ -2713,7 +2743,7 @@ for (const [id, w] of Object.entries(POIGNET)) for (const o of [EXERCICES[id], E
 for (const [id, f] of [["good-morning", k => { k.colonne.cou.flex = Math.max(k.colonne.cou.flex || 0, 14); }],
   ["rowing-debout", k => { for (const c of ["G", "D"]) k.bras[c].ik[2] += 3; }]])
   for (const o of [EXERCICES[id], EXERCICES[id].erreur]) o.clesFemme = o.cles.map(k => { const n = copie(k); f(n); return n; });
-for (const id of ["pont-fessier-barre", "good-morning", "rowing-debout"]) for (const o of [EXERCICES[id], EXERCICES[id].erreur]) {
+for (const id of ["pont-fessier-barre", "good-morning", "rowing-debout", "pont-fessier-haltere", "squat-sumo-barre"]) for (const o of [EXERCICES[id], EXERCICES[id].erreur]) {
   if (!o?.clesFemme) continue;
   o.clesFemme.forEach((k, i) => { for (const c of ["G", "D"]) { const ref = o.cles[i]?.bras?.[c], b = k.bras?.[c]; if (!ref || !b) continue;
     for (const champ of ["paume", "poignet"]) if (ref[champ] !== undefined) b[champ] = copie(ref[champ]);
