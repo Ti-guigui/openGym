@@ -2509,6 +2509,37 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   conc("curl-concentration-inverse", "Curl concentré assis en prise inversée", 180, { p: ["avant-bras", "biceps"], s: [] });
 }
 
+/* ---------- LOT 29 pour l'appli : kickbacks assis, curl concentré debout ---------- */
+{
+  const ASSIS = jambes2({ ik: [20, 8, 48], pole: [0.3, 0, 1], pied: PIED_PLAT(8) }), BANC_ASSIS = { type: "banc", l: 60, ry: 90, p0: [0, 0, -4] };
+  // Kickback assis au bout du banc, buste penché : le haut du bras reste le long du corps, le coude se tend vers l'arrière
+  const KB = (coude, flex = -24) => ({ fk: { flex, abd: 26 }, coude, prono: 0, ...PRISE });   // assis, les cuisses sont sous les mains : bras plus en arrière et écartés
+  const APPUI = { ik: [-16, 60, 30], pole: [-1, -0.5, 0], prono: -60 };      // main droite posée sur la cuisse droite
+  const S = (t, coude, flex, unBras) => ({ t, racine: { p: [0, 54, 4], r: [40, 0, 0] }, colonne: col(6, 0, -14),
+    bras: unBras ? { G: KB(coude, flex), D: copie(APPUI) } : bras2(KB(coude, flex)), jambes: copie(ASSIS) });
+  const kick = (id, nom, unBras) => E(id, {
+    nom, duree: 3, reps: 12, affiche: 0.4, vue: "profil", recalageDe: id,
+    camera: { cible: [0, 70, 10], dist: 380, el: 8 }, ombre: [0, 10, 80, 120],
+    accessoires: [BANC_ASSIS, ...(unBras ? [{ type: "haltere", main: "G" }] : HALTERES)], muscles: { p: ["triceps"], s: ["deltoides"] },
+    tempo: [[0, "Tendre le coude vers l'arrière · 1 s"], [0.4, "Bras tendu, serrer"], [0.5, "Revenir en 2 s"]],
+    cles: [S(0, 80, -24, unBras), S(0.4, 6, -24, unBras), S(0.5, 6, -24, unBras), S(0.95, 80, -24, unBras)],
+    erreur: { texte: "le coude descend et le bras balance : c'est l'épaule qui lance l'haltère, pas le triceps qui tend le bras.", zone: ["deltoides"],
+      cles: [S(0, 80, -8, unBras), S(0.4, 20, -36, unBras), S(0.5, 20, -36, unBras), S(0.95, 80, -8, unBras)] } });
+  kick("kickback-assis", "Kickback assis aux haltères, buste penché", false);
+  kick("kickback-assis-un-bras", "Kickback assis à un bras", true);
+  // Curl concentré debout : buste penché, le bras gauche pend à la verticale et seul le coude plie ; la main droite sur le genou droit
+  const K0 = EXERCICES["kickback-halteres-debout"].cles[0];
+  const C = (t, coude, flex = 45) => ({ ...copie(K0), t, bras: { G: { fk: { flex, abd: -4 }, coude, prono: 0, ...PRISE }, D: { ik: [-14, 54, 18], pole: [-1, -0.5, 0], prono: -60 } } });
+  E("curl-concentration-debout", {
+    nom: "Curl concentré debout, buste penché", duree: 3.5, reps: 10, affiche: 0.4, vue: "3/4", recalageDe: "curl-concentration-debout",
+    camera: { cible: [0, 85, 10], dist: 430, el: 8 }, ombre: [0, 0, 90, 110], accessoires: [{ type: "haltere", main: "G" }],
+    muscles: { p: ["biceps"], s: ["avant-bras", "lombaires"] },
+    tempo: [[0, "Monter l'haltère vers l'épaule · 1 s"], [0.4, "Serrer le biceps"], [0.5, "Redescendre en 2 s, bras tendu"]],
+    cles: [C(0, 6), C(0.4, 135), C(0.5, 135), C(0.95, 6)],
+    erreur: { texte: "le coude part vers l'avant : l'épaule aide et le biceps travaille moins.", zone: ["deltoides"],
+      cles: [C(0, 6), C(0.4, 120, 78), C(0.5, 120, 78), C(0.95, 6)] } });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2543,7 +2574,7 @@ const ORIENTATION = {
   "developpe-kettlebell-assis": AVANT, "rowing-kettlebell-alterne": DEDANS,
   "militaire-smith": AVANT, "developpe-assis-smith": AVANT, "rowing-debout-smith": ARRIERE, "souleve-de-terre-smith": ARRIERE, "developpe-incline-smith": AVANT,
   "developpe-couche-smith-inverse": ARRIERE, "developpe-incline-smith-inverse": ARRIERE, "rowing-serre-smith": ARRIERE, "rowing-large-smith": ARRIERE,
-  "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT,
+  "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT, "kickback-assis": DEDANS, "kickback-assis-un-bras": [DEDANS, "G"],
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
