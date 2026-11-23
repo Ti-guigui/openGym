@@ -45,7 +45,8 @@ function mount(el) {
   act(() => root.render(el))
   return host
 }
-const buttons = host => [...host.querySelectorAll('button')].map(b => b.textContent)
+// the language row at the top of the screen is a button too; these tests are about the ways in
+const buttons = host => [...host.querySelectorAll('button')].map(b => b.textContent).filter(x => !x.startsWith('Language'))
 const button = (host, text) => [...host.querySelectorAll('button')].find(b => b.textContent === text)
 
 beforeEach(() => { mocks.webauthn = true; mocks.config = null; mocks.sheets.length = 0 })

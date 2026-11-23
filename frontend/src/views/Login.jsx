@@ -7,7 +7,9 @@ import { DEMO, REPO } from '../lib/demo.js'
 import { guestAllowed } from '../lib/guest.js'
 import { useState, useRef, useEffect } from 'react'
 import BrandLogo from '../components/BrandLogo.jsx'
-import { Button, Segmented } from '../components/ui.jsx'
+import { Button, Segmented, Section, SelectRow } from '../components/ui.jsx'
+import { LANGS } from '../lib/i18n-core.js'
+import { effectiveLang } from '../lib/default-lang.js'
 import { askAddDeviceData } from '../sheets.jsx'
 import { passwordOn, PasswordRegisterForm, openPasswordSignIn } from '../components/PasswordAuth.jsx'
 import { openDeviceLinkRedeem } from '../components/Passkeys.jsx'
@@ -97,9 +99,20 @@ export default function Login() {
     try { const u = await passkeyLogin(); setUser(u, { adopt: true }); await adoptProfile(askAddDeviceData); useUI.getState().toast(t('Welcome back, {0}', u.name)) }
     catch (e) { if (e.name !== 'NotAllowedError' && e.name !== 'AbortError') useUI.getState().toast(passkeyError(e, t('Sign-in failed'))) }
   }
+  // A new phone guesses its language from the browser: the first screen lets you pick it before
+  // anything else, written like Settings → Language (kept for the profile made next).
+  const S = useStore(s => s.S)
+  const update = useStore(s => s.update)
   const head = <>
     {/* The official lockup (assets/logo), not an icon from the app's set. */}
     <h1 style={{ margin: '0 0 10px', display: 'flex', justifyContent: 'center' }}><BrandLogo size={36} /></h1>
+    <div style={{ textAlign: 'start', marginBottom: 6 }}>
+      <Section>
+        <SelectRow icon="globe" iconTint="var(--blue)" title={t('Language')}
+          value={effectiveLang(S, config)} onChange={v => update(s => { s.lang = v; s.langAuto = false })}
+          options={Object.entries(LANGS).map(([k, name]) => ({ value: k, label: name }))} />
+      </Section>
+    </div>
   </>
   const wrap = { display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '78vh', textAlign: 'center' }
 
