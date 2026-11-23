@@ -2540,6 +2540,29 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
       cles: [C(0, 6), C(0.4, 120, 78), C(0.5, 120, 78), C(0.95, 6)] } });
 }
 
+/* ---------- LOT 30 pour l'appli : extensions des triceps au-dessus de la tête (un bras, barre, assis) ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const V = (id, base, nom, f, def = {}) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  const ASSIS = jambes2({ ik: [20, 8, 48], pole: [0.3, 0, 1], pied: PIED_PLAT(8) }), BANC_ASSIS = { type: "banc", l: 60, ry: 90, p0: [0, 0, -4] };
+  const assis = n => { n.racine.p = [0, 54, 4]; n.racine.r = [-2, 0, 0]; n.jambes = copie(ASSIS); };
+  const LIBRE = bras2({ fk: { flex: 6, abd: 8 }, coude: 10 }).D;
+  const barre = n => { for (const c of ["G", "D"]) n.bras[c].fk.abd = 17; };      // mains à la largeur des épaules sur la barre
+  const BARRE = { type: "barre-olympique", main: "2" }, b = "extension-triceps-nuque";
+  V("extension-nuque-un-bras", b, "Extension des triceps à un bras au-dessus de la tête", n => { n.bras.D = copie(LIBRE); }, { accessoires: [{ type: "haltere", main: "G" }] });
+  V("extension-nuque-barre", b, "Extension des triceps à la barre au-dessus de la tête", barre, { accessoires: [BARRE] });
+  V("extension-nuque-assis", b, "Extension des triceps assis, haltère à deux mains", assis,
+    { recalageDe: "extension-nuque-assis", accessoires: [BANC_ASSIS, { type: "haltere", main: "2" }], camera: { cible: [0, 95, 0], dist: 420, el: 6 } });
+  V("extension-nuque-barre-assis", b, "Extension des triceps assis à la barre", n => { assis(n); barre(n); },
+    { recalageDe: "extension-nuque-barre-assis", accessoires: [BANC_ASSIS, BARRE], camera: { cible: [0, 95, 0], dist: 420, el: 6 } });
+  delete EXERCICES["extension-nuque-assis"].erreur;    // assis, la version « erreur » fait passer l'haltère dans les avant-bras (homme)
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
