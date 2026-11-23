@@ -90,6 +90,7 @@ const BY_ANIM = {
   'fente-avant-front': ['3399', '4382', '4409'], 'fente-arriere-front': ['4390'], 'split-squat-front': ['4397'],
   'split-squat-goblet': ['3691', '5028'], 'fente-croisee-goblet': ['3683'], 'squat-bulgare-goblet': ['7549'], 'squat-sumo-goblet': ['7547'],
   'squat-banc-goblet': ['3692'], 'chaise-mur-goblet': ['7559'], 'souleve-terre-sumo-kettlebell': ['4046'], 'planche-inversee': ['0867', '4934'], 'crunch-poulie-genoux': ['0175', '11270', '5741'],
+  'developpe-genoux-un-bras': ['11017'], 'developpe-genoux-un-bras-kettlebell': ['2932'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {

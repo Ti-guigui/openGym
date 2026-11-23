@@ -2755,6 +2755,22 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
       cles: [P(0, 8, 0, 4, 0), P(0.2, 17, 1, 5, 0), P(0.4, 26, 2, 6, 0), P(0.5, 26, 2, 6, 0), P(0.7, 17, 1, 5, 0), P(0.95, 8, 0, 4, 0)] } });
 }
 
+/* ---------- LOT 40 pour l'appli : développé à un bras à genoux (haltère, kettlebell) ---------- */
+{ // Même pose à genoux que le crunch à la poulie (lot 39), buste droit ; les mains descendent d'autant que le bassin (99 -> 52 cm)
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const genoux = n => { n.racine.p = [0, 52, 0]; n.racine.r = [0, 0, 0]; n.colonne = col(0, 2, 0);
+    n.jambes = jambes2({ fk: { flex: 0, abd: 4 }, genou: 104, cheville: 40 });
+    for (const c of ["G", "D"]) if (n.bras[c].ik) n.bras[c].ik[1] -= 47; };
+  const KETTLE_DOS = main => machine([{ c: [8.5, 15], p: [0, -4, -14], m: "fonte" }, { b: [14, 2.4, 2.4], p: [0, 0, 0], m: "fonte" },
+    { b: [2.4, 2.4, 9], p: [6, -2, -5], m: "fonte" }, { b: [2.4, 2.4, 9], p: [-6, -2, -5], m: "fonte" }], { main });
+  const V = (id, base, nom, acc) => { const b = EXERCICES[base];
+    E(id, { ...copie(b), recalageDe: id, nom, camera: { cible: [0, 80, 0], dist: 420, el: 6 }, accessoires: acc, cles: appl(b.cles, genoux) });
+    delete EXERCICES[id].clesFemme; delete EXERCICES[id].erreur; };   // l'erreur debout (dos cambré) ne se transpose pas à genoux
+  V("developpe-genoux-un-bras", "developpe-militaire-un-bras", "Développé à un bras à genoux, haltère", [{ type: "haltere", main: "G" }]);
+  V("developpe-genoux-un-bras-kettlebell", "developpe-kettlebell-un-bras", "Développé à un bras à genoux, kettlebell", [KETTLE_DOS("G")]);
+  for (const k of EXERCICES["developpe-genoux-un-bras-kettlebell"].cles) if (k.bras.G.ik[1] < 115) k.bras.G.ik[2] += 4;   // en bas, la kettlebell reste derrière le poignet sans toucher le bras
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2791,7 +2807,7 @@ const ORIENTATION = {
   "developpe-couche-smith-inverse": ARRIERE, "developpe-incline-smith-inverse": ARRIERE, "rowing-serre-smith": ARRIERE, "rowing-large-smith": ARRIERE,
   "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT, "kickback-assis": DEDANS, "kickback-assis-un-bras": [DEDANS, "G"], "split-squat-barre": AVANT, "fente-croisee-halteres": DEDANS, "fente-laterale-halteres": DEDANS, "fente-laterale-barre": AVANT, "pullover-barre": AVANT, "hip-thrust-haltere": BAS, "hip-thrust-une-jambe-haltere": BAS, "pont-fessier-haltere": BAS, "fente-avant-kettlebells": DEDANS,
   "squat-sumo-kettlebell": ARRIERE, "squat-sumo-haltere": ARRIERE, "squat-sumo-barre": AVANT, "fente-avant-front": [0, 1, 0.3], "fente-arriere-front": [0, 1, 0.3], "split-squat-front": [0, 1, 0.3],
-  "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "souleve-terre-sumo-kettlebell": ARRIERE,
+  "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "developpe-genoux-un-bras": [AVANT, "G"], "developpe-genoux-un-bras-kettlebell": [AVANT, "G"], "souleve-terre-sumo-kettlebell": ARRIERE,
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
