@@ -1,14 +1,14 @@
 // Catalogue exercises that have a 3D animation from the Atelier player (public/mannequin/, copied
 // by scripts/sync-mannequin.mjs). Key: the player's exercise id; value: the catalogue ids it shows.
 const BY_ANIM = {
-  'planche': ['0463'], 'planche-laterale': ['0715'], 'dead-bug': ['0276', '1243'], 'bird-dog': ['1241', '3141'],
+  'planche': ['0463'], 'planche-laterale': ['0715', '0706'], 'dead-bug': ['0276', '1243'], 'bird-dog': ['1241', '3141'],
   'hollow': ['1246'], 'squat': ['1197', '3948'], 'fente-arriere': ['1581'], 'squat-bulgare': ['3743'],
   'pont-fessier': ['2471', '0145', '0486'], 'mollets': ['3018'], 'pompe': ['0662'], 'pompe-genoux': ['3211'],
   'rowing-table': ['0499', '2298', '3381'], 'traction': ['0652'], 'dips': ['0129'], 'montees-genoux': ['3556'],
   'chat-vache': ['4580', '1051'], 'fente-rotation': ['1688'], 'course': ['0685', '4004'], 'talons-fesses': ['3037'],
   'sauts-chevilles': ['9070'], 'pompe-inclinee': ['0493'], 'pompe-pike': ['2921'], 'superman': ['3436'],
   'chaise-mur': ['7557'], 'releve-jambes': ['1163'], 'mountain-climber': ['0630'], 'burpee': ['1160'],
-  'jumping-jack': ['3094'], 'souleve-roumain': ['5555'], 'curl-biceps': ['0294'], 'developpe-couche': ['0025'],
+  'jumping-jack': ['3094'], 'souleve-roumain': ['5555'], 'curl-biceps': ['0294', '0416'], 'developpe-couche': ['0025'],
   'developpe-incline': ['0314'], 'rowing-haltere': ['0292', '2393'], 'tirage-vertical': ['2291', '2330', '0198', '0150'],
   'rowing-barre': ['0027'], 'souleve-de-terre': ['0032'], 'developpe-militaire': ['0426'], 'elevations-laterales': ['0334'],
   'triceps-poulie': ['0201', '0241', '0200'], 'squat-barre': ['0043', '3593'], 'fentes-halteres': ['0381'], 'souleve-roumain-halteres': ['1459'],
@@ -19,9 +19,9 @@ const BY_ANIM = {
   'smith-squat': ['0770', '3281'], 'curl-poulie': ['0868'], 'mollets-machine': ['0605'], 'traction-assistee': ['0017'],
   'hack-squat': ['0743'], 'presse-horizontale': ['2951', '3768'], 'hip-thrust-machine': ['2146', '2743'], 'kickback-machine': ['1037'],
   // variants made for the app (atelier PR #86)
-  'curl-marteau': ['0313'], 'curl-barre': ['0031'], 'developpe-couche-halteres': ['0289'], 'pompe-diamant': ['0283', '0259'],
-  'traction-supination': ['1326', '0140'], 'rowing-halteres': ['0293'], 'souleve-roumain-barre': ['0085'], 'squat-bulgare-halteres': ['2290'],
-  'developpe-militaire-barre': ['1162'], 'ecarte-halteres': ['0308'], 'releve-genoux-suspendu': ['9819'], 'releve-jambes-suspendu': ['0472'],
+  'curl-marteau': ['0313'], 'curl-barre': ['0031', '0447'], 'developpe-couche-halteres': ['0289'], 'pompe-diamant': ['0283', '0259'],
+  'traction-supination': ['1326', '0140', '0674'], 'rowing-halteres': ['0293'], 'souleve-roumain-barre': ['0085'], 'squat-bulgare-halteres': ['2290'],
+  'developpe-militaire-barre': ['1162'], 'ecarte-halteres': ['0308'], 'releve-genoux-suspendu': ['9819'], 'releve-jambes-suspendu': ['0472', '0475'],
   'dips-barres': ['0251', '0814'], 'split-squat': ['0781'], 'goblet-squat': ['1760'],
   'elevation-laterale-poulie': ['0178', '0192'], 'oiseau-halteres': ['0380', '0383'], 'fente-avant': ['0612', '3470'],
   'step-up': ['0431'], 'leg-curl-allonge': ['0586'], 'swing-kettlebell': ['0549'],
@@ -56,6 +56,9 @@ const BY_ANIM = {
   // atelier lot 15
   'curl-alterne': ['0285'], 'curl-marteau-alterne': ['6147'], 'curl-assis-alterne': ['3761'], 'squat-vitesse-barre': ['0101'],
   'sit-up-3-4': ['0001'], 'planche-laterale-genoux': ['0133'], 'good-morning-assis': ['0090'],
+  // atelier lot 16
+  'elevations-laterales-assis': ['0396'], 'developpe-epaules-assis-alterne': ['0388'], 'mollets-halteres': ['0417'], 'curl-inverse-halteres': ['0429'],
+  'curl-barre-serre': ['0446'], 'pompe-inclinee-serree': ['0490'], 'developpe-couche-smith': ['0748'], 'developpe-couche-serre-smith': ['0751'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {

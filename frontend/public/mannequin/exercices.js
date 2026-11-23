@@ -2117,6 +2117,50 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   });
 }
 
+/* ---------- LOT 16 pour l'appli : assis aux haltères, mollets aux haltères, curls inversé et serré, pompe inclinée serrée, développé couché à la Smith ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const V = (id, base, def, f) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  const alterne = cles => {
+    if (!cles) return cles;
+    const bas = cles[0], haut = cles[1];
+    const K = (t, g, d) => ({ ...copie(g || d ? haut : bas), t, bras: { G: copie((g ? haut : bas).bras.G), D: copie((d ? haut : bas).bras.D) } });
+    return [K(0, 0, 0), K(0.2, 1, 0), K(0.25, 1, 0), K(0.475, 0, 0), K(0.5, 0, 0), K(0.7, 0, 1), K(0.75, 0, 1), K(0.975, 0, 0)];
+  };
+  // Assis au bout d'un banc plat (comme le good morning assis)
+  const ASSIS = jambes2({ ik: [20, 8, 48], pole: [0.3, 0, 1], pied: PIED_PLAT(8) }), BANC_ASSIS = { type: "banc", l: 60, ry: 90, p0: [0, 0, -4] };
+  const assis = n => { n.racine.p = [0, 54, 4]; n.racine.r = [-2, 0, 0]; n.jambes = copie(ASSIS); };
+  V("elevations-laterales-assis", "elevations-laterales", { nom: "Élévations latérales assis", recalageDe: "elevations-laterales-assis",
+    camera: { cible: [0, 95, 0], dist: 420, el: 6 }, accessoires: [BANC_ASSIS, ...HALTERES] },   // assis, les cuisses sont sous les mains : bras écartés au départ
+    n => { assis(n); for (const c of ["G", "D"]) n.bras[c].fk.abd = Math.max(n.bras[c].fk.abd || 0, 24); });
+  const b = EXERCICES["developpe-epaules-assis"];
+  E("developpe-epaules-assis-alterne", { ...copie(b), recalageDe: "developpe-epaules-assis-alterne", nom: "Développé épaules assis alterné", duree: b.duree * 2, affiche: 0.2,
+    tempo: [[0, "Pousser le bras gauche · 1 s"], [0.25, "Redescendre en 2 s"], [0.5, "Pousser le bras droit · 1 s"], [0.75, "Redescendre en 2 s"]],
+    cles: alterne(b.cles), erreur: { ...copie(b.erreur), cles: alterne(b.erreur.cles) } });
+  delete EXERCICES["developpe-epaules-assis-alterne"].clesFemme; delete EXERCICES["developpe-epaules-assis-alterne"].erreur.clesFemme;
+  // Mollets sur une marche, un haltère dans chaque main, bras pendants
+  V("mollets-halteres", "mollets", { nom: "Mollets debout aux haltères", accessoires: [EXERCICES["mollets"].accessoires[0], ...HALTERES], muscles: { p: ["mollets"], s: ["avant-bras", "trapezes"] } },
+    n => { n.bras = bras2({ fk: { flex: 2, abd: 14 }, coude: 4, prono: -85, ...PRISE }); });
+  // Curl inversé aux haltères (paumes vers le bas), curl barre prise serrée
+  V("curl-inverse-halteres", "curl-biceps", { nom: "Curl inversé aux haltères (prise en pronation)", muscles: { p: ["avant-bras", "biceps"], s: ["deltoides"] } },
+    n => { for (const c of ["G", "D"]) { n.bras[c].prono = 180; n.bras[c].fk.abd = Math.max(n.bras[c].fk.abd || 0, 17); } });
+  V("curl-barre-serre", "curl-barre", { nom: "Curl barre EZ prise serrée" }, n => { for (const c of ["G", "D"]) n.bras[c].fk.abd = Math.max((n.bras[c].fk.abd || 0) - 5, 2); });
+  // Pompe inclinée mains serrées : mains rapprochées sur le banc, coudes le long du corps
+  V("pompe-inclinee-serree", "pompe-inclinee", { nom: "Pompe inclinée mains serrées", muscles: { p: ["triceps", "pectoraux"], s: ["deltoides", "abdominaux"] } },
+    n => { for (const c of ["G", "D"]) { const m = n.bras[c]; m.ik[0] = Math.sign(m.ik[0]) * 9; m.pole[0] *= 0.4; } });
+  // Développé couché à la Smith machine : la barre monte et descend à la verticale entre deux rails
+  const RAILS = machine([{ b: [8, 135, 8], p: [92, 67, -37] }, { b: [8, 135, 8], p: [-92, 67, -37] }, { b: [200, 8, 8], p: [0, 135, -37] }]);
+  const verticale = n => { for (const c of ["G", "D"]) n.bras[c].ik[2] = -37; };
+  const dc = EXERCICES["developpe-couche"].accessoires;
+  V("developpe-couche-smith", "developpe-couche", { nom: "Développé couché à la Smith machine", accessoires: [...copie(dc), RAILS] }, verticale);
+  V("developpe-couche-serre-smith", "developpe-couche-serre", { nom: "Développé couché prise serrée à la Smith machine", accessoires: [...copie(EXERCICES["developpe-couche-serre"].accessoires), RAILS] }, verticale);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2140,7 +2184,8 @@ const ORIENTATION = {
   "triceps-poulie-supination": [0, 0.7, 0.7], "developpe-assis-barre": AVANT,
   "squat-banc-barre": AVANT, "squat-banc-halteres": DEDANS, "squat-saute-barre": AVANT, "squat-barre-tete": [0, 1, 0],
   "rowing-barre-serre": ARRIERE, "tirage-vertical-supination": ARRIERE, "rowing-assis-large": BAS, "tirage-bras-tendus": [0, -0.7, -0.7],
-  "squat-vitesse-barre": AVANT, "good-morning-assis": AVANT
+  "squat-vitesse-barre": AVANT, "good-morning-assis": AVANT,
+  "mollets-halteres": DEDANS, "developpe-epaules-assis-alterne": AVANT, "developpe-couche-smith": AVANT, "developpe-couche-serre-smith": AVANT
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
