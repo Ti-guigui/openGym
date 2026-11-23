@@ -2265,6 +2265,34 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     [[0, "Monter le bras gauche · 1 s"], [0.25, "Redescendre en 2 s"], [0.5, "Monter le bras droit · 1 s"], [0.75, "Redescendre en 2 s"]]);
 }
 
+/* ---------- LOT 20 pour l'appli : exercices à un bras (haltère dans la main gauche), élévation frontale alternée ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const LIBRE = bras2({ fk: { flex: 6, abd: 8 }, coude: 10 }).D;     // la main droite, vide, pend le long du corps
+  const UN = (id, base, nom) => {
+    const b = EXERCICES[base], e = b.erreur, f = n => { n.bras.D = copie(LIBRE); };
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, accessoires: [...(b.accessoires || []).filter(a => a.type !== "haltere"), { type: "haltere", main: "G" }],
+      cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f), erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  UN("developpe-militaire-un-bras", "developpe-militaire", "Développé debout à un bras, haltère");
+  UN("elevation-laterale-un-bras", "elevations-laterales", "Élévation latérale à un bras, haltère");
+  UN("rowing-debout-un-bras", "rowing-debout-halteres", "Rowing debout à un bras, haltère");
+  UN("curl-inverse-un-bras", "curl-inverse-halteres", "Curl inversé à un bras, haltère");
+  // Élévation frontale debout alternée (images clés 0 = bas, 1 = haut de l'élévation frontale)
+  const alterne = cles => {
+    if (!cles) return cles;
+    const bas = cles[0], haut = cles[1];
+    const K = (t, g, d) => ({ ...copie(g || d ? haut : bas), t, bras: { G: copie((g ? haut : bas).bras.G), D: copie((d ? haut : bas).bras.D) } });
+    return [K(0, 0, 0), K(0.2, 1, 0), K(0.25, 1, 0), K(0.475, 0, 0), K(0.5, 0, 0), K(0.7, 0, 1), K(0.75, 0, 1), K(0.975, 0, 0)];
+  };
+  const b = EXERCICES["elevation-frontale"];
+  E("elevation-frontale-alterne", { ...copie(b), recalageDe: "elevation-frontale-alterne", nom: "Élévation frontale alternée aux haltères", duree: b.duree * 2, affiche: 0.2,
+    tempo: [[0, "Monter le bras gauche · 1 s"], [0.25, "Redescendre en 2 s"], [0.5, "Monter le bras droit · 1 s"], [0.75, "Redescendre en 2 s"]],
+    cles: alterne(b.cles), clesFemme: alterne(b.clesFemme), erreur: b.erreur && { ...copie(b.erreur), cles: alterne(b.erreur.cles), clesFemme: alterne(b.erreur.clesFemme) } });
+  for (const o of [EXERCICES["elevation-frontale-alterne"], EXERCICES["elevation-frontale-alterne"].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2293,7 +2321,8 @@ const ORIENTATION = {
   "extension-triceps-halteres": DEDANS, "squat-saute-halteres": DEDANS, "traction-assistee-supination": ARRIERE, "traction-mixte": [ARRIERE, "G"],
   "kickback-haltere": [DEDANS, "G"], "kickback-halteres-debout": DEDANS,
   "mollets-barre": AVANT, "squat-bulgare-barre": AVANT, "rowing-barre-supination": AVANT,
-  "developpe-militaire-neutre": DEDANS, "developpe-epaules-assis-neutre": DEDANS, "developpe-militaire-alterne": AVANT
+  "developpe-militaire-neutre": DEDANS, "developpe-epaules-assis-neutre": DEDANS, "developpe-militaire-alterne": AVANT,
+  "developpe-militaire-un-bras": [AVANT, "G"], "rowing-debout-un-bras": [ARRIERE, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
