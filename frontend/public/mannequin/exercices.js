@@ -2329,6 +2329,27 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   Object.assign(EXERCICES["rowing-kettlebell-alterne"], { recalageDe: "rowing-kettlebell-alterne", duree: EXERCICES["rowing-halteres"].duree * 2, affiche: 0.2, tempo: TEMPO_ALT("Tirer") });
 }
 
+/* ---------- LOT 22 pour l'appli : la Smith machine (barre guidée à la verticale entre deux rails) ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  // rails à la profondeur z de la barre, assez hauts pour le point le plus haut du mouvement
+  const RAILS = (z, h) => machine([{ b: [8, h, 8], p: [92, h / 2, z] }, { b: [8, h, 8], p: [-92, h / 2, z] }, { b: [200, 8, 8], p: [0, h, z] }]);
+  const SMITH = (id, base, nom, z, h) => {
+    const b = EXERCICES[base], e = b.erreur, f = n => { for (const c of ["G", "D"]) n.bras[c].ik[2] = z; };
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, accessoires: [...copie(b.accessoires), RAILS(z, h)],
+      cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f), erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  SMITH("militaire-smith", "developpe-militaire-barre", "Développé militaire debout à la Smith machine", 18, 225);
+  SMITH("developpe-assis-smith", "developpe-assis-barre", "Développé épaules assis à la Smith machine", 21, 180);
+  SMITH("rowing-debout-smith", "rowing-debout", "Rowing debout à la Smith machine", 21, 175);
+  SMITH("souleve-de-terre-smith", "souleve-de-terre", "Soulevé de terre à la Smith machine", 14, 225);
+  SMITH("developpe-incline-smith", "developpe-incline-barre", "Développé incliné à la Smith machine", -13, 165);
+  // la barre guidée arrive plus haut sur la poitrine : elle s'arrête 3 cm plus haut que la barre libre
+  for (const o of [EXERCICES["developpe-incline-smith"], EXERCICES["developpe-incline-smith"].erreur]) for (const k of [...(o.cles || []), ...(o.clesFemme || [])])
+    for (const c of ["G", "D"]) k.bras[c].ik[1] = Math.max(k.bras[c].ik[1], 94);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2360,7 +2381,8 @@ const ORIENTATION = {
   "developpe-militaire-neutre": DEDANS, "developpe-epaules-assis-neutre": DEDANS, "developpe-militaire-alterne": AVANT,
   "developpe-militaire-un-bras": [AVANT, "G"], "rowing-debout-un-bras": [ARRIERE, "G"],
   "developpe-neutre-un-bras": [DEDANS, "G"], "developpe-kettlebell-un-bras": [AVANT, "G"], "developpe-kettlebell-alterne": AVANT,
-  "developpe-kettlebell-assis": AVANT, "rowing-kettlebell-alterne": DEDANS
+  "developpe-kettlebell-assis": AVANT, "rowing-kettlebell-alterne": DEDANS,
+  "militaire-smith": AVANT, "developpe-assis-smith": AVANT, "rowing-debout-smith": ARRIERE, "souleve-de-terre-smith": ARRIERE, "developpe-incline-smith": AVANT
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
