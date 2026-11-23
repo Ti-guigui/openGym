@@ -41,6 +41,9 @@ const BY_ANIM = {
   // atelier lot 10
   'fente-arriere-barre': ['0078'], 'fente-avant-barre': ['0054'], 'fente-avant-halteres': ['0336'], 'rowing-debout-halteres': ['0437'],
   'souleve-terre-halteres': ['0300'], 'souleve-terre-sumo': ['0117'], 'sit-up': ['0736'], 'pompe-declinee': ['0279'],
+  // atelier lot 11
+  'curl-marteau-poulie': ['0166'], 'curl-inverse-poulie': ['0206'], 'rowing-debout-poulie': ['0246'], 'elevation-frontale-barre': ['0041'],
+  'squat-halteres': ['0413'], 'step-up-sans-poids': ['0801'], 'curl-assis': ['0391'], 'pont-fessier-une-jambe': ['0726'],
 }
 export const ANIM_3D = Object.fromEntries(Object.entries(BY_ANIM).flatMap(([anim, ids]) => ids.map(id => [id, anim])))
 

@@ -1874,6 +1874,45 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   });
 }
 
+/* ---------- LOT 11 pour l'appli : poulie, barre, haltères et variantes au poids du corps ---------- */
+{
+  const appl = (cles, f) => cles && cles.map(k => { const n = copie(k); f(n); return n; });
+  const V = (id, base, def, f) => {   // f(image clé) modifie bras, corps ou jambes ; normale et erreur, homme et femme
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  const deuxBras = f => n => { for (const [c, s] of [["G", 1], ["D", -1]]) n.bras[c] = f(n.bras[c], s, n); };
+  const POULIE = EXERCICES["curl-poulie"].accessoires;
+  V("curl-marteau-poulie", "curl-poulie", { nom: "Curl marteau à la poulie (corde)", muscles: { p: ["biceps", "avant-bras"], s: ["deltoides"] } },
+    deuxBras(b => ({ ...b, prono: 90, fk: { ...b.fk, flex: Math.min(b.fk.flex, 30) } })));   // erreur : coudes moins avancés, la main resterait dans la pile                              // pouces vers le haut, comme avec une corde
+  V("curl-inverse-poulie", "curl-poulie", { nom: "Curl inversé à la poulie basse", muscles: { p: ["avant-bras", "biceps"], s: ["deltoides"] } },
+    deuxBras(b => ({ ...b, prono: 180, fk: { ...b.fk, flex: Math.min(b.fk.flex, 30) } })));                             // paumes vers le bas
+  V("rowing-debout-poulie", "rowing-debout", { nom: "Rowing debout à la poulie basse", vue: "profil", camera: { cible: [0, 115, 15], dist: 440, el: 6 },
+    accessoires: [POULIE[0], { type: "cable", de: [0, 22, 44], main: "2", poignee: 30 }] }, deuxBras(b => ({ ...b, ik: [b.ik[0], b.ik[1], b.ik[2] + 4] })));
+  V("elevation-frontale-barre", "elevation-frontale", { nom: "Élévation frontale à la barre", accessoires: [{ type: "barre-olympique", main: "2" }] },
+    deuxBras(b => ({ ...b, fk: { ...b.fk, abd: 9 }, prono: 0, ...PRISE })));   // mains à la largeur des épaules, paumes vers le bas
+  // Squat aux haltères : le squat capté, bras pendants à la verticale quel que soit le penché du buste
+  V("squat-halteres", "squat", { nom: "Squat aux haltères", reps: 10, accessoires: HALTERES,
+    muscles: { p: ["quadriceps", "fessiers"], s: ["ischios", "adducteurs", "avant-bras", "trapezes", "abdominaux"] } },
+    n => { const a = n.racine.r[0] + n.colonne.lomb.flex + n.colonne.thorax.flex; n.bras = bras2({ fk: { flex: a + 2, abd: 12 }, coude: 4, prono: -85, ...PRISE }); });
+  // Step-up au poids du corps : même montée, bras libres qui accompagnent
+  V("step-up-sans-poids", "step-up", { nom: "Montée sur banc (step-up)", accessoires: [EXERCICES["step-up"].accessoires[0]],
+    muscles: { p: ["quadriceps", "fessiers"], s: ["ischios", "mollets", "abdominaux"] } },
+    n => { n.bras = bras2({ fk: { flex: 8, abd: 10 }, coude: 25 }); });
+  // Curl assis aux haltères : les bras du curl debout, assis au bout d'un banc plat
+  const ASSIS = jambes2({ ik: [17, 8, 50], pole: [0.3, 0, 1], pied: PIED_PLAT(8) });
+  V("curl-assis", "curl-biceps", { nom: "Curl biceps assis aux haltères", recalageDe: "curl-assis", camera: { cible: [0, 90, 5], dist: 400, el: 6 },
+    ombre: [0, 5, 80, 110], accessoires: [{ type: "banc", ry: 0, p0: [0, 0, 2] }, ...HALTERES] },
+    n => { n.racine.p = [0, 54, 6]; n.racine.r = [n.colonne.lomb.flex < 0 ? -10 : 0, 0, 0]; n.jambes = copie(ASSIS);
+      for (const c of ["G", "D"]) n.bras[c].fk.abd = 19; });           // haltères à côté du banc, pas dedans
+  // Pont fessier sur une jambe : la jambe droite tendue dans l'axe de la cuisse gauche
+  V("pont-fessier-une-jambe", "pont-fessier", { nom: "Pont fessier sur une jambe", reps: 10, recalageDe: "pont-fessier-une-jambe",
+    muscles: { p: ["fessiers"], s: ["ischios", "lombaires", "abdominaux", "obliques"] } },
+    n => { n.jambes.D = { fk: { flex: 30 + 1.5 * (n.racine.r[0] + 90), abd: -4 }, genou: 2, cheville: 15 }; });   // levée de 30° au sol, dans l'axe du corps en haut
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -1891,7 +1930,8 @@ const ORIENTATION = {
   "rowing-debout": ARRIERE, "barre-front": AVANT, "pullover-haltere": DEDANS,
   "tirage-vertical-serre": DEDANS, "developpe-epaules-assis": AVANT,
   "fente-arriere-barre": AVANT, "fente-avant-barre": AVANT, "fente-avant-halteres": DEDANS, "rowing-debout-halteres": ARRIERE,
-  "souleve-terre-halteres": DEDANS, "souleve-terre-sumo": ARRIERE
+  "souleve-terre-halteres": DEDANS, "souleve-terre-sumo": ARRIERE, "squat-halteres": DEDANS, "rowing-debout-poulie": ARRIERE,
+  "elevation-frontale-barre": BAS
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
