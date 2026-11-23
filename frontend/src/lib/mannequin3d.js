@@ -88,6 +88,7 @@ const BY_ANIM = {
   'fente-avant-kettlebells': ['3574', '5336'],
   'squat-sumo-kettlebell': ['4089', '5073'], 'squat-sumo-haltere': ['5121', '2323'], 'squat-sumo-barre': ['1063'],
   'fente-avant-front': ['3399', '4382', '4409'], 'fente-arriere-front': ['4390'], 'split-squat-front': ['4397'],
+  'split-squat-goblet': ['3691', '5028'], 'fente-croisee-goblet': ['3683'], 'squat-bulgare-goblet': ['7549'], 'squat-sumo-goblet': ['7547'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {

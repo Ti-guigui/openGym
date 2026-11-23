@@ -2682,6 +2682,25 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   V("split-squat-front", "split-squat", "Split squat, barre devant (front rack)", rack, { accessoires: [BARRE_OLY] });
 }
 
+/* ---------- LOT 36 pour l'appli : prise goblet (haltère ou kettlebell contre la poitrine) sur fentes et squats ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const V = (id, base, nom, f, def = {}) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  // Mains devant la poitrine (repère du goblet squat), suivant l'inclinaison du buste : haut 38 cm au-dessus du bassin, 24 cm devant
+  const goblet = (x, h, d) => n => { const a = ((n.racine.r[0] || 0) + (n.colonne.lomb?.flex || 0) + (n.colonne.thorax?.flex || 0)) * D, [, y, z] = n.racine.p;
+    n.bras = bras2({ ik: [x, y + h * Math.cos(a), z + d * Math.cos(a) + (h + 4) * Math.sin(a)], pole: [1, -1, 0.2], ...PRISE }); };
+  const H = goblet(15, 38, 24), HALT = { accessoires: [{ type: "haltere", main: "2" }] };
+  V("split-squat-goblet", "split-squat", "Split squat goblet (haltère contre la poitrine)", H, HALT);
+  V("fente-croisee-goblet", "fente-croisee", "Fente croisée goblet, haltère", H, HALT);
+  V("squat-bulgare-goblet", "squat-bulgare", "Squat bulgare goblet, haltère", H, { accessoires: [EXERCICES["squat-bulgare"].accessoires[0], { type: "haltere", main: "2" }] });
+  V("squat-sumo-goblet", "squat-sumo", "Squat sumo goblet, haltère", H, HALT);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2718,6 +2737,7 @@ const ORIENTATION = {
   "developpe-couche-smith-inverse": ARRIERE, "developpe-incline-smith-inverse": ARRIERE, "rowing-serre-smith": ARRIERE, "rowing-large-smith": ARRIERE,
   "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT, "kickback-assis": DEDANS, "kickback-assis-un-bras": [DEDANS, "G"], "split-squat-barre": AVANT, "fente-croisee-halteres": DEDANS, "fente-laterale-halteres": DEDANS, "fente-laterale-barre": AVANT, "pullover-barre": AVANT, "hip-thrust-haltere": BAS, "hip-thrust-une-jambe-haltere": BAS, "pont-fessier-haltere": BAS, "fente-avant-kettlebells": DEDANS,
   "squat-sumo-kettlebell": ARRIERE, "squat-sumo-haltere": ARRIERE, "squat-sumo-barre": AVANT, "fente-avant-front": [0, 1, 0.3], "fente-arriere-front": [0, 1, 0.3], "split-squat-front": [0, 1, 0.3],
+  "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS,
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
