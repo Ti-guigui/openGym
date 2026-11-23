@@ -2785,6 +2785,25 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   delete EXERCICES["ecarte-incline"].erreur.clesFemme;
 }
 
+/* ---------- LOT 42 pour l'appli : allongé sur le ventre sur un banc incliné (rowing, oiseau) ---------- */
+{ // Banc incliné retourné : la poitrine repose sur le dossier, les pieds au sol derrière ; les bras pendent à la verticale (flex = inclinaison)
+  const T = 58, BANC = { type: "banc", dossier: 30, ry: 0, p0: [0, 0, 0] };
+  const P = (t, bras) => ({ t, racine: { p: [0, 62, -18], r: [T, 0, 0] }, colonne: col(0, -2, -22), bras,
+    jambes: jambes2({ ik: [16, 11, -72], pole: [0.2, 0, -1], pied: PIED_ORTEILS }) });
+  const B = (flex, abd, coude, prono = 0) => bras2({ fk: { flex, abd }, coude, prono, ...PRISE });
+  const ex = (id, nom, acc, muscles, tempo, bas, haut, faux) => E(id, {
+    nom, duree: 3.5, reps: 12, affiche: 0.4, vue: "profil", recalageDe: id,
+    camera: { cible: [0, 60, -5], dist: 430, el: 10 }, ombre: [0, -10, 80, 160], accessoires: [BANC, ...acc], muscles, tempo,
+    cles: [P(0, bas), P(0.4, haut), P(0.5, haut), P(0.95, bas)],
+    erreur: { texte: faux, zone: ["lombaires", "trapezes"], cles: [P(0, bas), { ...P(0.4, haut), colonne: col(-14, -10, -30) }, { ...P(0.5, haut), colonne: col(-14, -10, -30) }, P(0.95, bas)] } });
+  const T1 = [[0, "Tirer · 1 s"], [0.4, "Serrer en haut"], [0.5, "Redescendre en 2 s"]];
+  const decolle = "la poitrine décolle du banc et le dos se cambre : l'élan du buste remplace le travail des bras et du dos.";
+  ex("rowing-incline-halteres", "Rowing sur banc incliné aux haltères", HALTERES, { p: ["dorsaux", "trapezes"], s: ["biceps", "deltoides"] }, T1,
+    B(T, 12, 4), B(-8, 16, 100), decolle);
+  ex("oiseau-incline", "Oiseau sur banc incliné aux haltères", HALTERES, { p: ["deltoides"], s: ["trapezes"] }, T1,
+    B(T, 10, 15), B(T, 82, 15), decolle);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2821,7 +2840,7 @@ const ORIENTATION = {
   "developpe-couche-smith-inverse": ARRIERE, "developpe-incline-smith-inverse": ARRIERE, "rowing-serre-smith": ARRIERE, "rowing-large-smith": ARRIERE,
   "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT, "kickback-assis": DEDANS, "kickback-assis-un-bras": [DEDANS, "G"], "split-squat-barre": AVANT, "fente-croisee-halteres": DEDANS, "fente-laterale-halteres": DEDANS, "fente-laterale-barre": AVANT, "pullover-barre": AVANT, "hip-thrust-haltere": BAS, "hip-thrust-une-jambe-haltere": BAS, "pont-fessier-haltere": BAS, "fente-avant-kettlebells": DEDANS,
   "squat-sumo-kettlebell": ARRIERE, "squat-sumo-haltere": ARRIERE, "squat-sumo-barre": AVANT, "fente-avant-front": [0, 1, 0.3], "fente-arriere-front": [0, 1, 0.3], "split-squat-front": [0, 1, 0.3],
-  "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "developpe-genoux-un-bras": [AVANT, "G"], "ecarte-incline": [-0.7, 0.7, 0], "developpe-genoux-un-bras-kettlebell": [AVANT, "G"], "souleve-terre-sumo-kettlebell": ARRIERE,
+  "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "developpe-genoux-un-bras": [AVANT, "G"], "ecarte-incline": [-0.7, 0.7, 0], "rowing-incline-halteres": DEDANS, "oiseau-incline": DEDANS, "developpe-genoux-un-bras-kettlebell": [AVANT, "G"], "souleve-terre-sumo-kettlebell": ARRIERE,
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
