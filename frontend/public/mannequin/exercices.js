@@ -2723,6 +2723,21 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   V("souleve-terre-sumo-kettlebell", "souleve-terre-sumo", "Soulevé de terre sumo à la kettlebell", n => { serre(6)(n); for (const c of ["G", "D"]) n.bras[c].ik[2] += 5; }, { accessoires: [KETTLE("2")] });   // la kettlebell passe devant les cuisses
 }
 
+/* ---------- LOT 38 pour l'appli : planche inversée ---------- */
+{ // Planche inversée : sur le dos, appui sur les talons et les mains sous les épaules (doigts vers les pieds), corps aligné
+  const P = (t, y, pitch, lomb = 0) => ({ t, racine: { p: [0, y, -6], r: [pitch, 0, 0] }, colonne: col(lomb, 0, 6),
+    bras: bras2({ ik: [17, 3, -70], pole: [0.1, 1, 0.4], main: MAIN_SOL }),
+    jambes: jambes2({ ik: [10, 7, 84], pole: [0, 1, 0], pied: [-20, 0, 0] }) });
+  E("planche-inversee", {
+    nom: "Planche inversée", duree: 8, reps: 2, affiche: 0.5, vue: "profil", recalageDe: "planche-inversee",
+    camera: { cible: [0, 30, 5], dist: 400, el: 8 }, ombre: [0, 5, 80, 190], accessoires: [{ type: "tapis", p0: [0, 0, 0] }],
+    muscles: { p: ["fessiers", "ischios"], s: ["deltoides", "triceps", "lombaires", "abdominaux"] },
+    tempo: [[0, "Tenir · bassin haut, corps aligné"]],
+    cles: [P(0, 32, -81), P(0.95, 32, -81)],
+    erreur: { texte: "le bassin s'affaisse vers le sol : les fessiers lâchent et le bas du dos se creuse.", zone: ["fessiers", "lombaires"],
+      cles: [P(0, 24, -78, 12), P(0.95, 24, -78, 12)] } });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
