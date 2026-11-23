@@ -2563,6 +2563,31 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   delete EXERCICES["extension-nuque-assis"].erreur;    // assis, la version « erreur » fait passer l'haltère dans les avant-bras (homme)
 }
 
+/* ---------- LOT 31 pour l'appli : mollets sur une jambe, curl Zottman ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const V = (id, base, nom, f, def = {}) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: id, nom, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  // Mollets sur une jambe : la jambe droite plie, le pied droit passe derrière la cheville gauche
+  const uneJambe = n => { n.jambes.D = { fk: { flex: 4, abd: 2 }, genou: 75, cheville: 10 }; };
+  V("mollets-une-jambe", "mollets", "Mollets sur une jambe, sur une marche", uneJambe, { recalageDe: "mollets" });   // la jambe d'appui fait le même trajet
+  const LIBRE = bras2({ fk: { flex: 6, abd: 8 }, coude: 10 }).D;
+  V("mollets-une-jambe-haltere", "mollets-halteres", "Mollets sur une jambe, haltère dans la main", n => { uneJambe(n); n.bras.D = copie(LIBRE); n.bras.G.fk.abd = 20; },
+    { recalageDe: "mollets", accessoires: [EXERCICES["mollets"].accessoires[0], { type: "haltere", main: "G" }] });
+  // Curl Zottman : monter paumes vers le haut, tourner en haut, redescendre paumes vers le bas, retourner en bas
+  const zot = n => { for (const c of ["G", "D"]) { n.bras[c].fk.abd = Math.max(n.bras[c].fk.abd, 17); if (n.t >= 0.45) n.bras[c].prono = 180; } };   // haltère en travers : bras écartés des cuisses
+  E("curl-zottman", { ...copie(EXERCICES["curl-marteau"]), recalageDe: EXERCICES["curl-marteau"].recalageDe || "curl-biceps", nom: "Curl Zottman aux haltères",
+    muscles: { p: ["biceps", "avant-bras"], s: ["deltoides"] },
+    tempo: [[0, "Monter paumes vers le haut · 1 s"], [0.4, "En haut, tourner les paumes vers le bas"], [0.5, "Redescendre en 2 s, paumes en bas"]],
+    cles: appl(EXERCICES["curl-marteau"].cles, n => { for (const c of ["G", "D"]) n.bras[c].prono = 0; zot(n); }),
+    erreur: { ...copie(EXERCICES["curl-marteau"].erreur), cles: appl(EXERCICES["curl-marteau"].erreur.cles, n => { for (const c of ["G", "D"]) n.bras[c].prono = 0; zot(n); }) } });
+  delete EXERCICES["curl-zottman"].clesFemme; delete EXERCICES["curl-zottman"].erreur.clesFemme;
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
