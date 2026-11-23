@@ -2631,6 +2631,29 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     { accessoires: [copie(EXERCICES["pullover-haltere"].accessoires[0]), { type: "barre-olympique", main: "2" }] });
 }
 
+/* ---------- LOT 34 pour l'appli : hip thrust et pont fessier à l'haltère, fente avant aux kettlebells ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const V = (id, base, nom, f, def = {}) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  // Un haltère posé en travers des hanches, tenu par les deux mains rapprochées (au lieu de la barre)
+  const haltere = n => { const bas = n.t < 0.2 || n.t > 0.8;     // en bas, les cuisses remontent vers l'haltère : il passe plus haut
+    for (const c of ["G", "D"]) { const b = n.bras[c]; b.ik[0] = Math.sign(b.ik[0]) * 17; b.ik[1] += bas ? 14 : 8; if (bas) b.ik[2] -= 4; } };   // mains sur les disques, haltère au-dessus des hanches
+  const avec = base => [...EXERCICES[base].accessoires.filter(a => a.type !== "barre-olympique"), { type: "haltere", main: "2" }];
+  V("hip-thrust-haltere", "hip-thrust", "Hip thrust à l'haltère", haltere, { accessoires: avec("hip-thrust") });
+  V("hip-thrust-une-jambe-haltere", "hip-thrust-une-jambe", "Hip thrust sur une jambe à l'haltère", haltere, { accessoires: avec("hip-thrust-une-jambe") });
+  V("pont-fessier-haltere", "pont-fessier-barre", "Pont fessier à l'haltère", haltere, { accessoires: avec("pont-fessier-barre") });
+  // Fente avant aux kettlebells : bras pendants, une kettlebell dans chaque main
+  const KETTLE = main => machine([{ c: [8.5, 15], p: [0, -12, 0], m: "fonte" }, { b: [14, 2.4, 2.4], p: [0, 0, 0], m: "fonte" },
+    { b: [2.4, 6, 2.4], p: [6, -4, 0], m: "fonte" }, { b: [2.4, 6, 2.4], p: [-6, -4, 0], m: "fonte" }], { main });
+  V("fente-avant-kettlebells", "fente-avant-halteres", "Fente avant aux kettlebells", n => { for (const c of ["G", "D"]) n.bras[c].fk.abd = 17; },
+    { accessoires: [KETTLE("G"), KETTLE("D")] });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2665,7 +2688,7 @@ const ORIENTATION = {
   "developpe-kettlebell-assis": AVANT, "rowing-kettlebell-alterne": DEDANS,
   "militaire-smith": AVANT, "developpe-assis-smith": AVANT, "rowing-debout-smith": ARRIERE, "souleve-de-terre-smith": ARRIERE, "developpe-incline-smith": AVANT,
   "developpe-couche-smith-inverse": ARRIERE, "developpe-incline-smith-inverse": ARRIERE, "rowing-serre-smith": ARRIERE, "rowing-large-smith": ARRIERE,
-  "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT, "kickback-assis": DEDANS, "kickback-assis-un-bras": [DEDANS, "G"], "split-squat-barre": AVANT, "fente-croisee-halteres": DEDANS, "fente-laterale-halteres": DEDANS, "fente-laterale-barre": AVANT, "pullover-barre": AVANT,
+  "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT, "kickback-assis": DEDANS, "kickback-assis-un-bras": [DEDANS, "G"], "split-squat-barre": AVANT, "fente-croisee-halteres": DEDANS, "fente-laterale-halteres": DEDANS, "fente-laterale-barre": AVANT, "pullover-barre": AVANT, "hip-thrust-haltere": BAS, "hip-thrust-une-jambe-haltere": BAS, "pont-fessier-haltere": BAS, "fente-avant-kettlebells": DEDANS,
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
@@ -2680,7 +2703,8 @@ for (const [id, v] of Object.entries(ORIENTATION)) {
 const POIGNET = { "good-morning": -40, "front-squat": -40, "pont-fessier-barre": -30, "hip-thrust-une-jambe": -30, "squat-barre": -40, "smith-squat": -40, "pec-deck": -40, "tirage-vertical": -20, "hip-thrust": -30, "hip-thrust-machine": -30,
   "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "oiseau-machine": -40, "fente-arriere-barre": -40, "fente-avant-barre": -40, "squat-large-barre": -40,
   "step-up-barre": -40, "squat-serre-barre": -40, "squat-banc-barre": -40, "squat-saute-barre": -40, "squat-vitesse-barre": -40, "good-morning-assis": -40,
-  "mollets-barre": -40, "squat-bulgare-barre": -40, "split-squat-barre": -40, "fente-laterale-barre": -40 };
+  "mollets-barre": -40, "squat-bulgare-barre": -40, "split-squat-barre": -40, "fente-laterale-barre": -40,
+  "hip-thrust-haltere": -30, "hip-thrust-une-jambe-haltere": -30, "pont-fessier-haltere": -30 };
 for (const [id, w] of Object.entries(POIGNET)) for (const o of [EXERCICES[id], EXERCICES[id].erreur]) for (const k of (o && o.cles) || [])
   for (const c of ["G", "D"]) if (k.bras && k.bras[c]) k.bras[c].poignet = w;
 
