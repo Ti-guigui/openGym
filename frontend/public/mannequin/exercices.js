@@ -2406,6 +2406,31 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   for (const o of [EXERCICES["curl-poulie-un-bras"], EXERCICES["curl-poulie-un-bras"].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
 }
 
+/* ---------- LOT 25 pour l'appli : développés aux haltères en prise neutre, serrée et à un bras, crunch bras tendus ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const V = (id, base, nom, f = () => { }, def = {}) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  const x = dx => n => { for (const c of ["G", "D"]) n.bras[c].ik[0] = Math.sign(n.bras[c].ik[0]) * dx; };
+  // Prise neutre (paumes face à face, table ORIENTATION) : couché et incliné
+  V("developpe-couche-neutre", "developpe-couche-halteres", "Développé couché aux haltères, prise neutre");
+  V("developpe-incline-neutre", "developpe-incline", "Développé incliné aux haltères, prise neutre");
+  // Prise serrée : les haltères se touchent presque au-dessus de la poitrine, coudes le long du corps
+  V("developpe-couche-serre-halteres", "developpe-couche-halteres", "Développé couché serré aux haltères",
+    n => { x(11)(n); for (const c of ["G", "D"]) { n.bras[c].ik[1] = Math.max(n.bras[c].ik[1], 82); n.bras[c].ik[2] = Math.max(n.bras[c].ik[2], -43); } },   // haltères serrés : ils s'arrêtent au-dessus du sternum
+    { muscles: { p: ["triceps", "pectoraux"], s: ["deltoides"] } });
+  // Un bras : la main droite, vide, repose le long du corps sur le banc
+  const LIBRE = bras2({ fk: { flex: 0, abd: 14 }, coude: 5 }).D;
+  V("developpe-couche-un-bras", "developpe-couche-halteres", "Développé couché à un bras, haltère", n => { n.bras.D = copie(LIBRE); },
+    { accessoires: EXERCICES["developpe-couche-halteres"].accessoires.filter(a => a.main !== "D") });
+  // Crunch bras tendus au-dessus de la tête : les bras restent dans l'axe du buste
+  V("crunch-bras-tendus", "crunch", "Crunch bras tendus au-dessus de la tête", n => { n.bras = bras2({ fk: { flex: 165, abd: 12 }, coude: 4 }); });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2440,7 +2465,8 @@ const ORIENTATION = {
   "developpe-kettlebell-assis": AVANT, "rowing-kettlebell-alterne": DEDANS,
   "militaire-smith": AVANT, "developpe-assis-smith": AVANT, "rowing-debout-smith": ARRIERE, "souleve-de-terre-smith": ARRIERE, "developpe-incline-smith": AVANT,
   "developpe-couche-smith-inverse": ARRIERE, "developpe-incline-smith-inverse": ARRIERE, "rowing-serre-smith": ARRIERE, "rowing-large-smith": ARRIERE,
-  "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT
+  "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT,
+  "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
