@@ -88,6 +88,11 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
   npm run build && node scripts/check-bundle-syntax.mjs
   ```
 
+## Version utilisée (depuis le 23/11/2026)
+
+L'appli s'utilise sur **https://ti-guigui-fit.pages.dev** (Cloudflare Pages) : tous les téléphones, partout, même hors connexion. Mode invité : chaque téléphone garde ses propres données.
+La version Docker du PC est arrêtée (`docker compose down`) ; le dossier `data` reste en sauvegarde. Pour la relancer : `docker compose up -d`.
+
 ## Commandes Windows (PowerShell)
 
 Docker Desktop doit être ouvert, avec « Engine running » affiché.
