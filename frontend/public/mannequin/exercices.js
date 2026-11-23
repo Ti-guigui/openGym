@@ -2738,6 +2738,23 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
       cles: [P(0, 24, -78, 12), P(0.95, 24, -78, 12)] } });
 }
 
+/* ---------- LOT 39 pour l'appli : crunch à genoux à la poulie haute ---------- */
+{ // À genoux face à la poulie, la corde tenue de chaque côté de la tête ; le buste s'enroule vers les genoux, les hanches restent fixes
+  const MACH = copie(EXERCICES["curl-poulie"].accessoires[0]);
+  const P = (t, pitch, lomb, thorax, cou) => ({ t, racine: { p: [0, 52, -36], r: [pitch, 0, 0] }, colonne: col(lomb, thorax, cou),
+    bras: bras2({ fk: { flex: 150, abd: 18 }, coude: 135, prono: 90, ...PRISE }),
+    jambes: jambes2({ fk: { flex: pitch, abd: 4 }, genou: pitch + 98, cheville: 40 }) });   // cuisses verticales quel que soit le bassin
+  E("crunch-poulie-genoux", {
+    nom: "Crunch à genoux à la poulie haute", duree: 3, reps: 15, affiche: 0.4, vue: "profil", recalageDe: "crunch-poulie-genoux",
+    camera: { cible: [0, 70, 15], dist: 430, el: 8 }, ombre: [0, 10, 80, 120],
+    accessoires: [MACH, { type: "cable", de: [0, 215, 44], main: "2" }],
+    muscles: { p: ["abdominaux"], s: ["obliques"] },
+    tempo: [[0, "Enrouler le buste vers les genoux · 1 s"], [0.4, "Serrer les abdominaux"], [0.5, "Remonter en 2 s"]],
+    cles: [P(0, 8, 0, 4, 0), P(0.4, 14, 26, 34, 18), P(0.5, 14, 26, 34, 18), P(0.95, 8, 0, 4, 0)],
+    erreur: { texte: "les hanches reculent et le buste reste droit : on tire avec les bras et le poids du corps, pas avec les abdominaux.", zone: ["deltoides"],
+      cles: [P(0, 8, 0, 4, 0), P(0.2, 17, 1, 5, 0), P(0.4, 26, 2, 6, 0), P(0.5, 26, 2, 6, 0), P(0.7, 17, 1, 5, 0), P(0.95, 8, 0, 4, 0)] } });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
