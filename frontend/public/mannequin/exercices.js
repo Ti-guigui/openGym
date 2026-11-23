@@ -1913,6 +1913,70 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     n => { n.jambes.D = { fk: { flex: 30 + 1.5 * (n.racine.r[0] + 90), abd: -4 }, genou: 2, cheville: 15 }; });   // levée de 30° au sol, dans l'axe du corps en haut
 }
 
+/* ---------- LOT 12 pour l'appli : squat large, poulie, pupitre, abdos allongés, pompe au mur, bateau ---------- */
+{
+  const appl = (cles, f) => cles && cles.map(k => { const n = copie(k); f(n); return n; });
+  const V = (id, base, def, f) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  // Squat large à la barre : le squat sumo, barre sur les trapèzes, nuque neutre
+  const BARRE = EXERCICES["squat-barre"].cles[0].bras;
+  V("squat-large-barre", "squat-sumo", { nom: "Squat large, barre sur le dos", reps: 8, accessoires: [{ type: "barre-olympique", main: "2" }],
+    muscles: { p: ["adducteurs", "fessiers", "quadriceps"], s: ["ischios", "lombaires", "abdominaux", "trapezes"] } },
+    n => { n.bras = copie(BARRE); if (n.colonne?.cou) n.colonne.cou.flex = Math.max(n.colonne.cou.flex || 0, -4); });
+  // Élévation frontale à la poulie basse : dos à la machine, le câble passe entre les jambes
+  V("elevation-frontale-poulie", "elevation-frontale-barre", { nom: "Élévation frontale à la poulie basse", vue: "profil", camera: { cible: [0, 115, 0], dist: 470, el: 6 },
+    ombre: [0, -15, 90, 140], accessoires: [machine(PILE(0, -50)), { type: "cable", de: [0, 22, -44], main: "2", poignee: 30 }] }, () => { });
+}
+{ // Allongé sur le dos, jambes tendues décollées du sol : battements (haut-bas) et ciseaux (croisés)
+  const k0 = EXERCICES["pont-fessier"].cles[0];
+  const L = (t, g, d, lomb = 0) => ({ t, racine: copie(k0.racine), colonne: col(lomb, 0, 8), bras: copie(k0.bras), jambes: { G: g, D: d } });
+  const J = (flex, abd = 3) => ({ fk: { flex, abd }, genou: 2, cheville: 25 }), Jd = (flex, abd = 3) => ({ fk: { flex, abd: -abd }, genou: 2, cheville: 25 });
+  const abdos = { muscles: { p: ["abdominaux", "flechisseurs"], s: ["quadriceps", "obliques"] }, vue: "profil", camera: { cible: [0, 25, 20], dist: 340, el: 12 },
+    ombre: [0, 0, 70, 200], accessoires: [{ type: "tapis", p0: [0, 0, 0] }] };
+  E("battements-jambes", { ...abdos, nom: "Battements de jambes (flutter kicks)", duree: 1, reps: 20, affiche: 0.25, recalageDe: "battements-jambes",
+    tempo: [[0, "Petits battements rapides, jambes tendues"], [0.5, "Bas du dos collé au sol"]],
+    cles: [L(0, J(22), Jd(8)), L(0.5, J(8), Jd(22))],
+    erreur: { texte: "le bas du dos se creuse et décolle du sol : ce sont les lombaires qui souffrent, pas les abdominaux qui travaillent.", zone: ["lombaires"],
+      cles: [L(0, J(10), Jd(-4), -14), L(0.5, J(-4), Jd(10), -14)] } });
+  E("ciseaux-allonge", { ...abdos, nom: "Ciseaux allongé (jambes croisées)", duree: 1.6, reps: 12, affiche: 0.25, recalageDe: "ciseaux-allonge", vue: "3/4",
+    camera: { cible: [0, 25, 20], dist: 340, el: 30 },
+    tempo: [[0, "Ouvrir les jambes"], [0.25, "Croiser, jambe gauche dessus"], [0.5, "Ouvrir"], [0.75, "Croiser, jambe droite dessus"]],
+    cles: [L(0, J(12, 24), Jd(12, 24)), L(0.25, J(16, -9), Jd(8, -9)), L(0.5, J(12, 24), Jd(12, 24)), L(0.75, J(8, -9), Jd(16, -9))],
+    erreur: { texte: "les jambes descendent trop bas et le dos se creuse : le bas du dos prend le relais des abdominaux.", zone: ["lombaires"],
+      cles: [L(0, J(2, 24), Jd(2, 24), -14), L(0.25, J(6, -9), Jd(-2, -9), -14), L(0.5, J(2, 24), Jd(2, 24), -14), L(0.75, J(-2, -9), Jd(6, -9), -14)] } });
+}
+{ // Pompe contre le mur : debout penché, mains au mur à hauteur d'épaules, le corps reste droit des chevilles aux épaules
+  const MAIN_MUR = [0, 0, 0], MUR = 100, J = jambes2({ ik: [12, 8, 0], pole: [0.2, 0, 1], pied: PIED_PLAT(6) });
+  const P = (t, th, affaisse = 0) => ({ t, racine: { p: [0, 8 + 88 * cos(th) - affaisse, 88 * sin(th)], r: [th - affaisse, 0, 0] }, colonne: col(-affaisse * 1.5, 0, -6),
+    bras: bras2({ ik: [24, 136, MUR - 8], pole: [0.8, -0.3, -0.4], main: MAIN_MUR, doigts: 10, phal: 10, pouce: 20 }), jambes: J });
+  E("pompe-mur", {
+    nom: "Pompe contre le mur", duree: 3, reps: 15, affiche: 0.45, vue: "profil",
+    camera: { cible: [0, 100, 40], dist: 460, el: 6 }, ombre: [0, 20, 80, 140], accessoires: [machine([{ b: [60, 200, 4], p: [0, 100, MUR + 2] }])],
+    muscles: { p: ["pectoraux", "triceps"], s: ["deltoides", "abdominaux"] },
+    tempo: [[0, "Plier les coudes, la poitrine vers le mur · 2 s"], [0.45, "Nez près du mur"], [0.55, "Pousser · 1 s"]],
+    cles: [P(0, 18), P(0.45, 27), P(0.55, 27), P(0.95, 18)],
+    erreur: { texte: "le bassin part en avant et le dos se creuse : le corps n'est plus gainé d'un bloc.", zone: ["lombaires"],
+      cles: [P(0, 18), P(0.45, 25, 8), P(0.55, 25, 8), P(0.95, 18)] }
+  });
+}
+{ // Posture du bateau : en équilibre sur les fesses, buste incliné en arrière, jambes levées, bras tendus vers l'avant
+  const P = (assis) => assis
+    ? { racine: { p: [0, 10, 0], r: [-8, 0, 0] }, colonne: col(0, 4, -4), bras: bras2({ fk: { flex: 40, abd: 12 }, coude: 15 }),
+        jambes: jambes2({ ik: [12, 8, 46], pole: [0.2, 1, 0.3], pied: PIED_PLAT(0) }) }
+    : { racine: { p: [0, 10, 0], r: [-32, 0, 0] }, colonne: col(0, 2, -8), bras: bras2({ fk: { flex: 62, abd: 10 }, coude: 4 }),
+        jambes: jambes2({ fk: { flex: 108, abd: 4 }, genou: 20, cheville: 15 }) };
+  const creuse = { ...P(false), colonne: col(16, 20, 14) };
+  E("bateau", { nom: "Posture du bateau (gainage assis)", vue: "profil", camera: { cible: [0, 35, 15], dist: 330, el: 8 }, ombre: [0, 0, 70, 140],
+    accessoires: [{ type: "tapis", p0: [0, 0, 0] }], recalageDe: "bateau",
+    muscles: { p: ["abdominaux", "flechisseurs"], s: ["obliques", "quadriceps", "lombaires"] }, ...tenue(P(true), P(false)),
+    erreur: { texte: "le dos s'arrondit et la poitrine se ferme : on s'affaisse au lieu de gainer, le bas du dos encaisse.", zone: ["lombaires"],
+      ...tenue(P(true), creuse) } });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -1931,7 +1995,7 @@ const ORIENTATION = {
   "tirage-vertical-serre": DEDANS, "developpe-epaules-assis": AVANT,
   "fente-arriere-barre": AVANT, "fente-avant-barre": AVANT, "fente-avant-halteres": DEDANS, "rowing-debout-halteres": ARRIERE,
   "souleve-terre-halteres": DEDANS, "souleve-terre-sumo": ARRIERE, "squat-halteres": DEDANS, "rowing-debout-poulie": ARRIERE,
-  "elevation-frontale-barre": BAS
+  "elevation-frontale-barre": BAS, "elevation-frontale-poulie": BAS, "squat-large-barre": AVANT
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
@@ -1943,7 +2007,7 @@ for (const [id, v] of Object.entries(ORIENTATION)) {
 
 /* Poignet plié vers l'arrière (degrés négatifs) quand la rotation seule ne suffit pas : barre sur le dos, sur les hanches, poignées verticales. */
 const POIGNET = { "good-morning": -40, "front-squat": -40, "pont-fessier-barre": -30, "hip-thrust-une-jambe": -30, "squat-barre": -40, "smith-squat": -40, "pec-deck": -40, "tirage-vertical": -20, "hip-thrust": -30, "hip-thrust-machine": -30,
-  "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "oiseau-machine": -40, "fente-arriere-barre": -40, "fente-avant-barre": -40 };
+  "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "oiseau-machine": -40, "fente-arriere-barre": -40, "fente-avant-barre": -40, "squat-large-barre": -40 };
 for (const [id, w] of Object.entries(POIGNET)) for (const o of [EXERCICES[id], EXERCICES[id].erreur]) for (const k of (o && o.cles) || [])
   for (const c of ["G", "D"]) if (k.bras && k.bras[c]) k.bras[c].poignet = w;
 

@@ -44,6 +44,9 @@ const BY_ANIM = {
   // atelier lot 11
   'curl-marteau-poulie': ['0166'], 'curl-inverse-poulie': ['0206'], 'rowing-debout-poulie': ['0246'], 'elevation-frontale-barre': ['0041'],
   'squat-halteres': ['0413'], 'step-up-sans-poids': ['0801'], 'curl-assis': ['0391'], 'pont-fessier-une-jambe': ['0726'],
+  // atelier lot 12
+  'squat-large-barre': ['0124'], 'elevation-frontale-poulie': ['0162'], 'battements-jambes': ['0459'], 'ciseaux-allonge': ['0622'],
+  'pompe-mur': ['0659'], 'bateau': ['0136'],
 }
 export const ANIM_3D = Object.fromEntries(Object.entries(BY_ANIM).flatMap(([anim, ids]) => ids.map(id => [id, anim])))
 
