@@ -1977,6 +1977,42 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
       ...tenue(P(true), creuse) } });
 }
 
+/* ---------- LOT 13 pour l'appli : prises larges, step-up et squat serré à la barre, poulie en supination, développé assis à la barre ---------- */
+{
+  const appl = (cles, f) => cles && cles.map(k => { const n = copie(k); f(n); return n; });
+  const V = (id, base, def, f) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  const BARRE = EXERCICES["squat-barre"].cles[0].bras, BARRE_OLY = { type: "barre-olympique", main: "2" };
+  const nuque = n => { if (n.colonne?.cou) n.colonne.cou.flex = Math.max(n.colonne.cou.flex || 0, -4); };
+  const ecarte = dx => n => { for (const c of ["G", "D"]) { const b = n.bras?.[c]; if (b?.ik) b.ik[0] += Math.sign(b.ik[0]) * dx; } };
+  // Step-up et squat pieds serrés : barre sur les trapèzes, nuque neutre
+  V("step-up-barre", "step-up", { nom: "Montée sur banc avec barre (step-up)", accessoires: [EXERCICES["step-up"].accessoires[0], BARRE_OLY],
+    muscles: { p: ["quadriceps", "fessiers"], s: ["ischios", "mollets", "abdominaux", "trapezes"] } }, n => { n.bras = copie(BARRE); nuque(n); });
+  V("squat-serre-barre", "squat-barre", { nom: "Squat pieds serrés, barre sur le dos",
+    muscles: { p: ["quadriceps"], s: ["fessiers", "ischios", "lombaires", "abdominaux", "trapezes"] } },
+    n => { for (const c of ["G", "D"]) if (n.jambes?.[c]?.ik) n.jambes[c].ik[0] *= 0.6; });
+  // Prises larges : les mains s'écartent sur la barre
+  V("developpe-couche-large", "developpe-couche", { nom: "Développé couché prise large", muscles: { p: ["pectoraux"], s: ["deltoides", "triceps"] } }, ecarte(12));
+  V("rowing-debout-large", "rowing-debout", { nom: "Rowing debout prise large", muscles: { p: ["deltoides", "trapezes"], s: ["biceps", "avant-bras"] } }, ecarte(12));
+  V("curl-barre-large", "curl-barre", { nom: "Curl à la barre prise large" }, n => { for (const c of ["G", "D"]) if (n.bras?.[c]?.fk) n.bras[c].fk.abd += 9; });
+  // Extension à la poulie haute en supination : paumes vers le haut (table ORIENTATION)
+  V("triceps-poulie-supination", "triceps-poulie", { nom: "Extension des triceps à la poulie en supination" }, () => { });
+  // Développé assis à la barre : le développé militaire, assis contre un dossier droit (pas de cambrure possible)
+  const ASSIS_J = jambes2({ ik: [17, 8, 50], pole: [0.3, 0, 1], pied: PIED_PLAT(8) });
+  V("developpe-assis-barre", "developpe-militaire-barre", { nom: "Développé épaules assis à la barre", recalageDe: "developpe-assis-barre",
+    camera: { cible: [0, 95, 5], dist: 440, el: 6 }, ombre: [0, 5, 80, 110], accessoires: [{ type: "banc", dossier: 82, ry: 0, p0: [0, 0, 2] }, BARRE_OLY] },
+    // assis 6 cm plus en avant : la barre aussi ; la tête ne recule pas, le dossier est derrière
+    n => { for (const c of ["G", "D"]) { n.bras[c].ik[1] -= 45; n.bras[c].ik[2] += 6; } n.colonne.cou.flex = Math.max(n.colonne.cou.flex || 0, 0); n.racine.p = [0, 54, 6]; n.racine.r = [-4, 0, 0]; n.jambes = copie(ASSIS_J);
+      n.colonne.lomb.flex = Math.max(n.colonne.lomb.flex, 0); n.colonne.thorax.flex = Math.max(n.colonne.thorax.flex, 0); });
+  const da = EXERCICES["developpe-assis-barre"];
+  da.erreur = { texte: "la barre part devant le visage et les coudes avancent : l'avant de l'épaule prend toute la charge.", zone: ["deltoides"],
+    cles: da.cles.map((k, i) => { const n = copie(k); if (i > 0 && i < da.cles.length - 1) for (const c of ["G", "D"]) n.bras[c].ik[2] += 14; return n; }) };
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -1995,7 +2031,9 @@ const ORIENTATION = {
   "tirage-vertical-serre": DEDANS, "developpe-epaules-assis": AVANT,
   "fente-arriere-barre": AVANT, "fente-avant-barre": AVANT, "fente-avant-halteres": DEDANS, "rowing-debout-halteres": ARRIERE,
   "souleve-terre-halteres": DEDANS, "souleve-terre-sumo": ARRIERE, "squat-halteres": DEDANS, "rowing-debout-poulie": ARRIERE,
-  "elevation-frontale-barre": BAS, "elevation-frontale-poulie": BAS, "squat-large-barre": AVANT
+  "elevation-frontale-barre": BAS, "elevation-frontale-poulie": BAS, "squat-large-barre": AVANT,
+  "step-up-barre": AVANT, "squat-serre-barre": AVANT, "developpe-couche-large": AVANT, "rowing-debout-large": ARRIERE,
+  "triceps-poulie-supination": [0, 0.7, 0.7], "developpe-assis-barre": AVANT
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
@@ -2007,7 +2045,8 @@ for (const [id, v] of Object.entries(ORIENTATION)) {
 
 /* Poignet plié vers l'arrière (degrés négatifs) quand la rotation seule ne suffit pas : barre sur le dos, sur les hanches, poignées verticales. */
 const POIGNET = { "good-morning": -40, "front-squat": -40, "pont-fessier-barre": -30, "hip-thrust-une-jambe": -30, "squat-barre": -40, "smith-squat": -40, "pec-deck": -40, "tirage-vertical": -20, "hip-thrust": -30, "hip-thrust-machine": -30,
-  "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "oiseau-machine": -40, "fente-arriere-barre": -40, "fente-avant-barre": -40, "squat-large-barre": -40 };
+  "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "oiseau-machine": -40, "fente-arriere-barre": -40, "fente-avant-barre": -40, "squat-large-barre": -40,
+  "step-up-barre": -40, "squat-serre-barre": -40 };
 for (const [id, w] of Object.entries(POIGNET)) for (const o of [EXERCICES[id], EXERCICES[id].erreur]) for (const k of (o && o.cles) || [])
   for (const c of ["G", "D"]) if (k.bras && k.bras[c]) k.bras[c].poignet = w;
 
