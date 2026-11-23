@@ -14,7 +14,7 @@ const BY_ANIM = {
   'triceps-poulie': ['0201', '0241', '0200'], 'squat-barre': ['0043', '3593'], 'fentes-halteres': ['0381'], 'souleve-roumain-halteres': ['1459'],
   'hip-thrust': ['1060'], 'leg-extension': ['0585'], 'leg-curl': ['0599'], 'presse-cuisses': ['0739', '2224'],
   'chest-press': ['0576', '0577', '10671'], 'adducteurs-machine': ['0598'], 'abducteurs-machine': ['0597'],
-  'pec-deck': ['1030', '0596'], 'oiseau-machine': ['0602', '0601'], 'shoulder-press': ['0603'], 'rowing-assis': ['0861', '0180', '1323', '0163'],
+  'pec-deck': ['1030', '0596'], 'oiseau-machine': ['0602', '0601'], 'shoulder-press': ['0603', '0587'], 'rowing-assis': ['0861', '0180', '1323', '0163'],
   'vis-a-vis': ['8141', '0227'], 'face-pull': ['5656', '5609'], 'banc-lombaires': ['5813', '4455', '0489'], 'crunch-machine': ['1452', '0595'],
   'smith-squat': ['0770', '3281'], 'curl-poulie': ['0868'], 'mollets-machine': ['0605'], 'traction-assistee': ['0017'],
   'hack-squat': ['0743'], 'presse-horizontale': ['2951', '3768'], 'hip-thrust-machine': ['2146', '2743'], 'kickback-machine': ['1037'],
@@ -23,12 +23,12 @@ const BY_ANIM = {
   'traction-supination': ['1326', '0140', '0674'], 'rowing-halteres': ['0293'], 'souleve-roumain-barre': ['0085'], 'squat-bulgare-halteres': ['2290'],
   'developpe-militaire-barre': ['1162'], 'ecarte-halteres': ['0308'], 'releve-genoux-suspendu': ['9819'], 'releve-jambes-suspendu': ['0472', '0475'],
   'dips-barres': ['0251', '0814'], 'split-squat': ['0781'], 'goblet-squat': ['1760'],
-  'elevation-laterale-poulie': ['0178', '0192'], 'oiseau-halteres': ['0380', '0383'], 'fente-avant': ['0612', '3470'],
+  'elevation-laterale-poulie': ['0178', '0192'], 'oiseau-halteres': ['0380', '0383', '0378'], 'fente-avant': ['0612', '3470'],
   'step-up': ['0431'], 'leg-curl-allonge': ['0586'], 'swing-kettlebell': ['0549'],
   'pont-fessier-barre': ['1409', '2964'], 'hip-thrust-une-jambe': ['1061'], 'souleve-terre-kettlebell': ['3322'], 'rowing-kettlebell': ['0541'],
   'goblet-squat-kettlebell': ['0534'], 'dips-chaises': ['3387'], 'fente-croisee': ['3769'], 'l-sit': ['3419'], 'etirement-flechisseurs': ['1053'],
   'developpe-couche-serre': ['0030'], 'developpe-incline-barre': ['0047'], 'good-morning': ['0044'], 'front-squat': ['0042'],
-  'rowing-debout': ['0120'], 'barre-front': ['0060', '0061'], 'pullover-haltere': ['0375'], 'crunch': ['0274'], 'extension-triceps-nuque': ['0430'],
+  'rowing-debout': ['0120'], 'barre-front': ['0060', '0061'], 'pullover-haltere': ['0375', '0433'], 'crunch': ['0274'], 'extension-triceps-nuque': ['0430'],
   'elevation-frontale': ['0310'], 'tirage-vertical-serre': ['1047', '7583'], 'developpe-epaules-assis': ['0405'], 'squat-sumo': ['1064'],
   'squat-saute': ['0514'], 'russian-twist': ['0687'],
   'pompe-large': ['1311'], 'curl-inverse': ['0080'], 'crunch-inverse': ['0872'], 'kickback-triceps': ['0333'], 'fente-laterale': ['2972'],
@@ -59,6 +59,9 @@ const BY_ANIM = {
   // atelier lot 16
   'elevations-laterales-assis': ['0396'], 'developpe-epaules-assis-alterne': ['0388'], 'mollets-halteres': ['0417'], 'curl-inverse-halteres': ['0429'],
   'curl-barre-serre': ['0446'], 'pompe-inclinee-serree': ['0490'], 'developpe-couche-smith': ['0748'], 'developpe-couche-serre-smith': ['0751'],
+  // atelier lot 17
+  'extension-triceps-halteres': ['0351'], 'squat-saute-halteres': ['0371'], 'traction-assistee-supination': ['0572'], 'traction-mixte': ['0627'],
+  'kickback-haltere': ['0354'], 'kickback-halteres-debout': ['0420'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {

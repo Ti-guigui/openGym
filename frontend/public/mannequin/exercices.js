@@ -2161,6 +2161,52 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   V("developpe-couche-serre-smith", "developpe-couche-serre", { nom: "Développé couché prise serrée à la Smith machine", accessoires: [...copie(EXERCICES["developpe-couche-serre"].accessoires), RAILS] }, verticale);
 }
 
+/* ---------- LOT 17 pour l'appli : triceps aux haltères (allongé, kickbacks), squat sauté aux haltères, tractions assistée en supination et prise mixte ---------- */
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const V = (id, base, def, f) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  // Extension des triceps allongé aux haltères : la barre au front, un haltère dans chaque main, prise neutre
+  V("extension-triceps-halteres", "barre-front", { nom: "Extension des triceps allongé aux haltères", accessoires: [EXERCICES["barre-front"].accessoires[0], ...HALTERES] },
+    n => { for (const c of ["G", "D"]) n.bras[c].ik[0] = Math.sign(n.bras[c].ik[0]) * 21; });   // les haltères passent de chaque côté de la tête
+  // Squat sauté aux haltères : bras pendants, haltères à la verticale des épaules tout le long
+  V("squat-saute-halteres", "squat-saute", { nom: "Squat sauté aux haltères", reps: 8, accessoires: HALTERES,
+    muscles: { p: ["quadriceps", "fessiers"], s: ["mollets", "ischios", "avant-bras", "abdominaux"] } },
+    n => { const a = n.racine.r[0] + (n.colonne.lomb?.flex || 0) + (n.colonne.thorax?.flex || 0); n.bras = bras2({ fk: { flex: a + 2, abd: 14 }, coude: 4, prono: -85, ...PRISE }); });
+  // Tractions : assistée en supination (prise de la traction supination), prise mixte (main gauche en supination)
+  V("traction-assistee-supination", "traction-assistee", { nom: "Traction assistée en supination", recalageDe: "traction-assistee-supination",
+    muscles: { p: ["dorsaux", "biceps"], s: ["avant-bras", "trapezes"] } }, n => { for (const c of ["G", "D"]) n.bras[c].ik[0] = Math.sign(n.bras[c].ik[0]) * 24; });
+  V("traction-mixte", "traction", { nom: "Traction prise mixte (une main en supination)", recalageDe: "traction-mixte" }, () => { });
+}
+{ // Kickbacks : buste penché, le haut du bras reste le long du corps et le coude se tend vers l'arrière
+  const K1 = EXERCICES["rowing-haltere"].cles[0], KB = (coude, flex = -14) => ({ fk: { flex, abd: 14 }, coude, prono: 0, ...PRISE });
+  const U = (t, coude, flex) => ({ ...copie(K1), t, bras: { G: { ...KB(coude, flex), fk: { flex: flex ?? -14, abd: 24 } }, D: copie(K1.bras.D) } });   // l'haltère passe à côté du genou d'appui
+  E("kickback-haltere", {
+    nom: "Kickback à un bras (extension triceps penché)", duree: 3, reps: 12, affiche: 0.4, vue: "profil", recalageDe: "kickback-haltere",
+    camera: { cible: [0, 70, 15], dist: 420, el: 10 }, ombre: [0, 10, 80, 180], accessoires: [copie(EXERCICES["rowing-haltere"].accessoires[0]), { type: "haltere", main: "G" }],
+    muscles: { p: ["triceps"], s: ["deltoides", "dorsaux"] },
+    tempo: [[0, "Tendre le coude vers l'arrière · 1 s"], [0.4, "Bras tendu, serrer"], [0.5, "Revenir en 2 s"]],
+    cles: [U(0, 95), U(0.4, 6), U(0.5, 6), U(0.95, 95)],
+    erreur: { texte: "le coude descend et le bras balance : c'est l'épaule qui lance l'haltère, pas le triceps qui tend le bras.", zone: ["deltoides"],
+      cles: [U(0, 95, 30), U(0.4, 20, -30), U(0.5, 20, -30), U(0.95, 95, 30)] }
+  });
+  const R0 = EXERCICES["rowing-halteres"].cles[0];
+  const D = (t, coude, flex = -14) => ({ ...copie(R0), t, bras: bras2(KB(coude, flex)) });
+  E("kickback-halteres-debout", {
+    nom: "Kickback debout aux haltères, buste penché", duree: 3, reps: 12, affiche: 0.4, vue: "profil", recalageDe: "kickback-halteres-debout",
+    camera: { cible: [0, 90, 5], dist: 430, el: 6 }, ombre: [0, 0, 90, 110], accessoires: HALTERES,
+    muscles: { p: ["triceps"], s: ["deltoides", "lombaires"] },
+    tempo: [[0, "Tendre les coudes vers l'arrière · 1 s"], [0.4, "Bras tendus, serrer"], [0.5, "Revenir en 2 s"]],
+    cles: [D(0, 95), D(0.4, 6), D(0.5, 6), D(0.95, 95)],
+    erreur: { texte: "les coudes descendent et les bras balancent : l'élan des épaules remplace le travail des triceps.", zone: ["deltoides"],
+      cles: [D(0, 95, 30), D(0.4, 20, -30), D(0.5, 20, -30), D(0.95, 95, 30)] }
+  });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2185,7 +2231,9 @@ const ORIENTATION = {
   "squat-banc-barre": AVANT, "squat-banc-halteres": DEDANS, "squat-saute-barre": AVANT, "squat-barre-tete": [0, 1, 0],
   "rowing-barre-serre": ARRIERE, "tirage-vertical-supination": ARRIERE, "rowing-assis-large": BAS, "tirage-bras-tendus": [0, -0.7, -0.7],
   "squat-vitesse-barre": AVANT, "good-morning-assis": AVANT,
-  "mollets-halteres": DEDANS, "developpe-epaules-assis-alterne": AVANT, "developpe-couche-smith": AVANT, "developpe-couche-serre-smith": AVANT
+  "mollets-halteres": DEDANS, "developpe-epaules-assis-alterne": AVANT, "developpe-couche-smith": AVANT, "developpe-couche-serre-smith": AVANT,
+  "extension-triceps-halteres": DEDANS, "squat-saute-halteres": DEDANS, "traction-assistee-supination": ARRIERE, "traction-mixte": [ARRIERE, "G"],
+  "kickback-haltere": [DEDANS, "G"], "kickback-halteres-debout": DEDANS
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
