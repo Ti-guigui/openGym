@@ -2431,6 +2431,36 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   V("crunch-bras-tendus", "crunch", "Crunch bras tendus au-dessus de la tête", n => { n.bras = bras2({ fk: { flex: 165, abd: 12 }, coude: 4 }); });
 }
 
+/* ---------- LOT 26 pour l'appli : curls sur banc incliné, élévations latérale pouces en haut et frontale au-dessus de la tête ---------- */
+{ // Curl incliné : assis dos au banc incliné, les bras pendent à la verticale derrière le buste et seul le coude plie
+  const b0 = EXERCICES["developpe-incline"].cles[0];
+  const K = (t, coude, flex, prono) => ({ ...copie(b0), t, bras: bras2({ fk: { flex, abd: prono ? 16 : 28 }, coude, prono, ...PRISE }) });   // paumes vers l'avant : l'haltère est en travers, bras plus écartés
+  const curl = (id, nom, prono, muscles) => E(id, {
+    nom, duree: 3.5, reps: 10, affiche: 0.4, vue: "profil", recalageDe: id,
+    camera: { cible: [0, 80, 5], dist: 430, el: 8 }, ombre: [0, 10, 80, 150], accessoires: [copie(EXERCICES["developpe-incline"].accessoires[0]), ...HALTERES], muscles,
+    tempo: [[0, "Plier les coudes · 1 s"], [0.4, "Serrer en haut"], [0.5, "Redescendre en 2 s, bras tendus en bas"]],
+    cles: [K(0, 4, -50, prono), K(0.4, 130, -46, prono), K(0.5, 130, -46, prono), K(0.95, 4, -50, prono)],
+    erreur: { texte: "les coudes avancent pendant la montée : l'épaule prend le relais et le biceps perd l'étirement qui fait l'intérêt du banc incliné.", zone: ["deltoides"],
+      cles: [K(0, 4, -50, prono), K(0.4, 130, 10, prono), K(0.5, 130, 10, prono), K(0.95, 4, -50, prono)] } });
+  curl("curl-incline", "Curl incliné aux haltères", 0, { p: ["biceps"], s: ["avant-bras"] });
+  curl("curl-marteau-incline", "Curl marteau sur banc incliné", 90, { p: ["biceps", "avant-bras"], s: [] });
+}
+{
+  const appl = (cles, f) => cles && cles.map((k, i) => { const n = copie(k); f(n, i); return n; });
+  const V = (id, base, nom, f, def = {}) => {
+    const b = EXERCICES[base], e = b.erreur;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, ...def, cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f),
+      erreur: e && { ...copie(e), cles: appl(e.cles, f), clesFemme: appl(e.clesFemme, f) } });
+    for (const o of [EXERCICES[id], EXERCICES[id].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+  };
+  // « Full can » : bras montés à 30° vers l'avant (plan de l'omoplate), pouces vers le haut
+  V("elevation-laterale-pouces", "elevations-laterales", "Élévation latérale pouces en haut (full can)",
+    n => { for (const c of ["G", "D"]) { n.bras[c].fk.flex = 30; n.bras[c].prono = 90; } });
+  // Élévation frontale jusqu'au-dessus de la tête : le haut du mouvement passe de 88° à 165°
+  V("elevation-frontale-haute", "elevation-frontale", "Élévation frontale jusqu'au-dessus de la tête",
+    n => { for (const c of ["G", "D"]) if (n.bras[c].fk.flex > 60) n.bras[c].fk.flex = 165; }, { muscles: { p: ["deltoides"], s: ["trapezes", "pectoraux", "abdominaux"] } });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
