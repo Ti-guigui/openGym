@@ -3044,6 +3044,26 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   B("rowing-debout-elastique", "rowing-debout-halteres", "Rowing debout à l'élastique");
 }
 
+/* ---------- LOT 62 pour l'appli : élastique accroché (poteau) à la place de la poulie ; rowing assis élastique autour des pieds ; kickback élastique ---------- */
+{ // Un poteau remplace la colonne ; l'élastique part du même point d'accroche que le câble, un brin par main
+  const BANDE = 0xd04a3a, brin = (de, main) => ({ type: "cable", de, main, r: 0.9, couleur: BANDE, poignee: 10 });
+  const POTEAU = (x, z) => machine([{ b: [7, 230, 7], p: [x, 115, z] }, { b: [30, 2, 30], p: [x, 1, z] }]);
+  const A = (id, base, nom) => { const b = EXERCICES[base], c = b.accessoires.find(a => a.type === "cable"), [x, y, z] = c.de;
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom,
+      accessoires: [...b.accessoires.filter(a => !["poulie", "machine", "cable"].includes(a.type)), POTEAU(x, z + 6 * Math.sign(z)), brin([x + 2, y, z], "G"), brin([x - 2, y, z], "D")] }); };
+  A("triceps-elastique", "triceps-poulie", "Extension des triceps à l'élastique accroché en haut");
+  A("tirage-bras-tendus-elastique", "tirage-bras-tendus", "Tirage bras tendus à l'élastique");
+  A("face-pull-elastique", "face-pull", "Face pull à l'élastique");
+  // Rowing assis : l'élastique passe autour des pieds, posés sur la cale
+  const r = EXERCICES["rowing-assis"], cale = r.accessoires.find(a => a.type === "machine").pieces.slice(-2);
+  E("rowing-assis-elastique", { ...copie(r), recalageDe: r.recalageDe || "rowing-assis", nom: "Rowing assis à l'élastique",
+    accessoires: [copie(r.accessoires[0]), machine(cale), brin([13, 26, 52], "G"), brin([-13, 26, 52], "D")] });
+  // Kickback debout, buste penché : élastique sous les pieds
+  const k = EXERCICES["kickback-halteres-debout"], ik = k.cles[0].jambes.G.ik || [12, 8, 3];
+  E("kickback-elastique", { ...copie(k), recalageDe: k.recalageDe || "kickback-halteres-debout", nom: "Kickback des triceps à l'élastique",
+    accessoires: [brin([ik[0], 1, ik[2] + 8], "G"), brin([-ik[0], 1, ik[2] + 8], "D")] });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -3083,7 +3103,7 @@ const ORIENTATION = {
   "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "developpe-genoux-un-bras": [AVANT, "G"], "ecarte-incline": [-0.7, 0.7, 0], "rowing-incline-halteres": DEDANS, "oiseau-incline": DEDANS, "developpe-decline-halteres": AVANT, "developpe-decline-barre": AVANT, "developpe-decline-marteau": DEDANS, "ecarte-decline": [-0.7, 0.7, 0], "developpe-genoux-un-bras-kettlebell": [AVANT, "G"], "souleve-terre-sumo-kettlebell": ARRIERE,
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"],
   "developpe-couche-poulie": AVANT, "developpe-incline-poulie": AVANT, "ecarte-poulie": [-0.7, 0.7, 0], "ecarte-incline-poulie": [-0.7, 0.7, 0], "ecarte-decline-poulie": [-0.7, 0.7, 0],
-  "developpe-militaire-poulie": AVANT, "developpe-militaire-alterne-poulie": AVANT, "developpe-decline-poulie": AVANT, "souleve-de-terre-poulie": ARRIERE, "rowing-poulie-un-bras": [DEDANS, "G"], "developpe-incline-poulie-un-bras": [AVANT, "G"], "developpe-decline-poulie-un-bras": [AVANT, "G"], "ecarte-decline-poulie-un-bras": [[-0.7, 0.7, 0], "G"], "triceps-poulie-un-bras": [[0, -0.7, -0.7], "G"], "pull-through-poulie": DEDANS, "elevation-laterale-elastique": [-0.6, -0.8, 0], "developpe-epaules-elastique": AVANT, "rowing-penche-elastique": DEDANS, "souleve-jambes-tendues-elastique": ARRIERE, "rowing-debout-elastique": ARRIERE, "kickback-poulie": [DEDANS, "G"], "kickback-poulie-debout": DEDANS, "mollets-poulie": DEDANS, "rowing-assis-un-bras": [DEDANS, "G"]
+  "developpe-militaire-poulie": AVANT, "developpe-militaire-alterne-poulie": AVANT, "developpe-decline-poulie": AVANT, "souleve-de-terre-poulie": ARRIERE, "rowing-poulie-un-bras": [DEDANS, "G"], "developpe-incline-poulie-un-bras": [AVANT, "G"], "developpe-decline-poulie-un-bras": [AVANT, "G"], "ecarte-decline-poulie-un-bras": [[-0.7, 0.7, 0], "G"], "triceps-poulie-un-bras": [[0, -0.7, -0.7], "G"], "pull-through-poulie": DEDANS, "triceps-elastique": [0, -0.7, -0.7], "tirage-bras-tendus-elastique": [0, -0.7, -0.7], "face-pull-elastique": DEDANS, "rowing-assis-elastique": DEDANS, "kickback-elastique": DEDANS, "elevation-laterale-elastique": [-0.6, -0.8, 0], "developpe-epaules-elastique": AVANT, "rowing-penche-elastique": DEDANS, "souleve-jambes-tendues-elastique": ARRIERE, "rowing-debout-elastique": ARRIERE, "kickback-poulie": [DEDANS, "G"], "kickback-poulie-debout": DEDANS, "mollets-poulie": DEDANS, "rowing-assis-un-bras": [DEDANS, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
@@ -3095,7 +3115,7 @@ for (const [id, v] of Object.entries(ORIENTATION)) {
 
 /* Poignet plié vers l'arrière (degrés négatifs) quand la rotation seule ne suffit pas : barre sur le dos, sur les hanches, poignées verticales. */
 const POIGNET = { "good-morning": -40, "front-squat": -40, "pont-fessier-barre": -30, "hip-thrust-une-jambe": -30, "squat-barre": -40, "smith-squat": -40, "pec-deck": -40, "tirage-vertical": -20, "hip-thrust": -30, "hip-thrust-machine": -30,
-  "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "oiseau-machine": -40, "fente-arriere-barre": -40, "fente-avant-barre": -40, "squat-large-barre": -40,
+  "kickback-machine": -30, "chest-press": -40, "face-pull": -30, "face-pull-elastique": -30, "oiseau-machine": -40, "fente-arriere-barre": -40, "fente-avant-barre": -40, "squat-large-barre": -40,
   "step-up-barre": -40, "squat-serre-barre": -40, "squat-banc-barre": -40, "squat-saute-barre": -40, "squat-vitesse-barre": -40, "good-morning-assis": -40,
   "mollets-barre": -40, "squat-bulgare-barre": -40, "split-squat-barre": -40, "fente-laterale-barre": -40,
   "hip-thrust-haltere": -30, "hip-thrust-une-jambe-haltere": -30, "pont-fessier-haltere": -30,
