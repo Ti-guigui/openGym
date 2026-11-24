@@ -95,6 +95,7 @@ const BY_ANIM = {
   'developpe-couche-poulie': ['0151', '11256'], 'developpe-incline-poulie': ['0169', '11264'], 'ecarte-poulie': ['0185', '11273'], 'ecarte-incline-poulie': ['0171'],
   'ecarte-decline-poulie': ['0158'], 'developpe-militaire-poulie': ['0219'], 'developpe-militaire-alterne-poulie': ['0148'],
   'developpe-decline-poulie': ['1261'], 'souleve-de-terre-poulie': ['0157'], 'rowing-poulie-un-bras': ['0189', '11269'],
+  'developpe-incline-poulie-un-bras': ['1265'], 'developpe-decline-poulie-un-bras': ['1260'], 'ecarte-decline-poulie-un-bras': ['1262'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {
