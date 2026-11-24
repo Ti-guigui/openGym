@@ -2870,6 +2870,16 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   C("developpe-militaire-alterne-poulie", "developpe-militaire-alterne", "Développé épaules debout alterné aux poulies", 10, 80);
 }
 
+/* ---------- LOT 50 pour l'appli : développé décliné, soulevé de terre et rowing un bras à la poulie ---------- */
+{ // Une colonne de poulie devant (z) ; le câble remplace la barre ou l'haltère
+  const F = (id, base, nom, acc) => { const b = EXERCICES[base];
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, accessoires: [...b.accessoires.filter(a => !a.main), ...acc] }); };
+  F("developpe-decline-poulie", "developpe-decline-halteres", "Développé décliné aux poulies", [machine([...PILE(100, -30), ...PILE(-100, -30)]),
+    { type: "cable", de: [94, 20, -30], main: "G", poignee: 12 }, { type: "cable", de: [-94, 20, -30], main: "D", poignee: 12 }]);
+  F("souleve-de-terre-poulie", "souleve-de-terre", "Soulevé de terre à la poulie basse", [machine(PILE(0, 90)), { type: "cable", de: [0, 20, 84], main: "2", poignee: 44 }]);
+  F("rowing-poulie-un-bras", "rowing-haltere", "Rowing un bras à la poulie basse", [machine(PILE(22, 110)), { type: "cable", de: [22, 20, 104], main: "G", poignee: 12 }]);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2909,7 +2919,7 @@ const ORIENTATION = {
   "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "developpe-genoux-un-bras": [AVANT, "G"], "ecarte-incline": [-0.7, 0.7, 0], "rowing-incline-halteres": DEDANS, "oiseau-incline": DEDANS, "developpe-decline-halteres": AVANT, "developpe-decline-barre": AVANT, "developpe-decline-marteau": DEDANS, "ecarte-decline": [-0.7, 0.7, 0], "developpe-genoux-un-bras-kettlebell": [AVANT, "G"], "souleve-terre-sumo-kettlebell": ARRIERE,
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"],
   "developpe-couche-poulie": AVANT, "developpe-incline-poulie": AVANT, "ecarte-poulie": [-0.7, 0.7, 0], "ecarte-incline-poulie": [-0.7, 0.7, 0], "ecarte-decline-poulie": [-0.7, 0.7, 0],
-  "developpe-militaire-poulie": AVANT, "developpe-militaire-alterne-poulie": AVANT
+  "developpe-militaire-poulie": AVANT, "developpe-militaire-alterne-poulie": AVANT, "developpe-decline-poulie": AVANT, "souleve-de-terre-poulie": ARRIERE, "rowing-poulie-un-bras": [DEDANS, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
