@@ -3117,6 +3117,21 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   M("mollets-une-jambe-elastique", "mollets-une-jambe-haltere", "Mollets sur une jambe à l'élastique", ["G"]);
 }
 
+/* ---------- LOT 66 pour l'appli : étirement des ischio-jambiers allongé (jambe tendue vers le plafond) ---------- */
+{ // Même mise en place que genou-poitrine ; la jambe droite monte tendue, les mains la tiennent derrière la cuisse
+  const g = EXERCICES["genou-poitrine"];
+  const leve = k => { const n = copie(k); if (!n.jambes.D.fk) return n;
+    n.jambes.D = { fk: { flex: 84, abd: 2 }, genou: 6, cheville: -8 };
+    n.bras = { G: { ik: [-8, 62, 2], pole: [1, -1, 0], doigts: 70, phal: 80 }, D: { ik: [-22, 62, 2], pole: [-1, -1, 0], doigts: 70, phal: 80 } };
+    return n; };
+  E("etirement-ischios-allonge", { ...copie(g), recalageDe: "etirement-ischios-allonge", nom: "Étirement des ischio-jambiers allongé, jambe tendue", camera: { cible: [0, 45, 5], dist: 470, el: 12 },
+    muscles: { p: ["ischios"], s: ["mollets"] }, cles: g.cles.map(leve) });
+  const bas = d => k => { const n = copie(k); if (n.jambes.D.fk && n.jambes.D.fk.flex > 60) n.racine.p[1] -= d; return n; };   // jambe levée : le bassin redescend sur le tapis
+  EXERCICES["etirement-ischios-allonge"].clesFemme = EXERCICES["etirement-ischios-allonge"].cles.map(bas(1.5));
+  EXERCICES["etirement-ischios-allonge"].cles = EXERCICES["etirement-ischios-allonge"].cles.map(bas(3.5));
+  if (EXERCICES["etirement-ischios-allonge"].erreur) delete EXERCICES["etirement-ischios-allonge"].erreur;
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
