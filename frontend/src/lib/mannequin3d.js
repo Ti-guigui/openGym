@@ -115,6 +115,7 @@ const BY_ANIM = {
   'kickback-elastique': ['0903', '4143'],
   'developpe-debout-elastique': ['3780', '5608', '4074', '0923'], 'developpe-debout-alterne-elastique': ['4079', '4077'], 'ecarte-debout-elastique': ['4075', '4073', '0913', '0908'],
   'tirage-genoux-elastique': ['0905', '4358'], 'tirage-genoux-un-bras-elastique': ['0983'], 'tirage-serre-assis-elastique': ['3117'],
+  'mollets-elastique': ['0894', '0973', '1505'], 'mollets-une-jambe-elastique': ['0999'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {
