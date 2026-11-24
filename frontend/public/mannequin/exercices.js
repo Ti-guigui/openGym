@@ -2968,6 +2968,15 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   for (const o of [EXERCICES["rowing-assis-un-bras"], EXERCICES["rowing-assis-un-bras"].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
 }
 
+/* ---------- LOT 57 pour l'appli : extension des triceps au-dessus de la tête à la poulie (deux bras, un bras) ---------- */
+{ // Dos à la colonne ; le câble part d'une poulie réglée au-dessus de la tête, derrière, et file vers l'arrière au-dessus de la nuque
+  const F = (id, base, nom, main) => { const b = EXERCICES[base];
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, accessoires: [...b.accessoires.filter(a => !a.main), machine(PILE(0, -62)),
+      { type: "cable", de: [0, 190, -56], main, poignee: 12 }] }); };
+  F("extension-nuque-poulie", "extension-triceps-nuque", "Extension des triceps au-dessus de la tête à la poulie", "2");
+  F("extension-nuque-poulie-un-bras", "extension-nuque-un-bras", "Extension des triceps au-dessus de la tête à la poulie, un bras", "G");
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
