@@ -3000,8 +3000,8 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
 
 /* ---------- LOT 59 pour l'appli : flexion latérale debout (haltère, kettlebell, poulie, mains derrière la tête) ---------- */
 { // La colonne s'incline sur le côté (vers la main gauche chargée) ; le bassin reste droit, la main gauche glisse le long de la cuisse
-  const LAT = (a, cou = 0) => ({ lomb: { flex: 0, lat: -a * 0.55 }, thorax: { flex: 0, lat: -a * 0.45 }, cou: { flex: cou, lat: a * 0.2 } });   // lat négatif : vers la gauche
-  const G = bras2({ fk: { flex: 4, abd: 14 }, coude: 6, prono: -85, ...PRISE }).G;   // la charge reste à côté de la cuisse
+  const LAT = (a, cou = 0) => ({ lomb: { flex: 0, lat: a * 0.55 }, thorax: { flex: 0, lat: a * 0.45 }, cou: { flex: cou, lat: -a * 0.2 } });   // lat positif : vers la gauche (côté chargé)
+  const G = bras2({ fk: { flex: 4, abd: 22 }, coude: 6, prono: -85, ...PRISE }).G;   // la charge reste à côté de la cuisse
   const NUQUE = bras2({ fk: { flex: -55, abd: 85, rot: 85 }, coude: 160, doigts: 30 }), HANCHES = bras2({ ik: [22, 100, 0], pole: [1, -0.3, -1] });
   const ex = (id, nom, acc, brasG, brasD, extra = {}) => { const P = (t, a) => ({ t, racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne: LAT(a), jambes: DEBOUT,
       bras: { G: copie(brasG), D: copie(brasD) } });
@@ -3009,13 +3009,20 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
       camera: { cible: [0, 110, 0], dist: 440, el: 6 }, ombre: [0, 0, 80, 70], accessoires: acc,
       muscles: { p: ["obliques"], s: ["lombaires", "abdominaux"] },
       tempo: [[0, "Descendre sur le côté · 2 s, sans pencher en avant"], [0.4, "Étirement du côté opposé"], [0.5, "Remonter et dépasser un peu le centre · 1 s"]],
-      cles: [P(0, 0), P(0.4, 24), P(0.5, 24), P(0.75, -8), P(0.95, 0)],
+      cles: [P(0, 0), P(0.4, 20), P(0.5, 20), P(0.75, -8), P(0.95, 0)],
       erreur: { texte: "le buste part en avant ou en arrière au lieu de rester de profil : les obliques ne travaillent plus seuls.", zone: ["lombaires"],
-        cles: [P(0, 0), { ...P(0.4, 24), colonne: { ...LAT(24), lomb: { flex: 22, lat: -13 } } }, { ...P(0.5, 24), colonne: { ...LAT(24), lomb: { flex: 22, lat: -13 } } }, P(0.75, -8), P(0.95, 0)] }, ...extra }); };
+        cles: [P(0, 0), { ...P(0.4, 20), colonne: { ...LAT(20), lomb: { flex: 14, lat: 11 } } }, { ...P(0.5, 20), colonne: { ...LAT(20), lomb: { flex: 14, lat: 11 } } }, P(0.75, -8), P(0.95, 0)] }, ...extra }); };
   ex("flexion-laterale-haltere", "Flexion latérale à l'haltère", [{ type: "haltere", main: "G" }], G, HANCHES.D);
+  EXERCICES["flexion-laterale-haltere"].erreur.cles.forEach(k => { k.bras.G.fk.abd += 8; });   // buste en avant : l'haltère s'écarte plus de la cuisse
   ex("flexion-laterale-kettlebell", "Flexion latérale au kettlebell", [copie(EXERCICES["rowing-kettlebell"].accessoires[1])], G, HANCHES.D);
   ex("flexion-laterale-poulie", "Flexion latérale à la poulie basse", [machine(PILE(78, 0)), { type: "cable", de: [72, 20, 0], main: "G", poignee: 12 }], G, HANCHES.D);
   ex("flexion-laterale-mains-nuque", "Flexion latérale debout, mains derrière la tête", [], NUQUE.G, NUQUE.D);
+  // Lot 60 : sans charge, bras droit tendu au-dessus de la tête (on s'incline du côté opposé), deux bras joints, ou bras le long du corps
+  const HAUT = bras2({ fk: { flex: 170, abd: 14 }, coude: 8, doigts: 10 }), JOINTS = bras2({ fk: { flex: 172, abd: 3 }, coude: 12, doigts: 10 });
+  const LIBRES = bras2({ fk: { flex: 4, abd: 9 }, coude: 8 });
+  ex("flexion-laterale-bras-leve", "Flexion latérale debout, un bras au-dessus de la tête", [], HANCHES.G, HAUT.D);
+  ex("flexion-laterale-bras-joints", "Flexion latérale debout, mains jointes au-dessus de la tête", [], JOINTS.G, JOINTS.D);
+  ex("flexion-laterale-bras-le-long", "Flexion latérale debout, bras le long du corps", [], LIBRES.G, LIBRES.D);
 }
 
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
