@@ -2918,6 +2918,30 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   for (const o of [EXERCICES["pull-through-poulie"], EXERCICES["pull-through-poulie"].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
 }
 
+/* ---------- LOT 54 pour l'appli : debout à la poulie basse, câble à la cheville (abduction, adduction, extension, flexion de hanche) ---------- */
+{ // Debout sur la jambe droite ; la jambe gauche, sangle à la cheville, bouge seule ; une main tient la colonne, l'autre sur la hanche
+  const HANCHE = s => ({ ik: [22 * s, 100, 0], pole: [s, -0.3, -1] }), TIENT = (x, z) => ({ ik: [x, 112, z], pole: [Math.sign(x), -1, 0], ...PRISE });
+  const P = (t, flex, abd, bras, pitch = 0) => ({ t, racine: { p: [0, 99, 0], r: [pitch, 0, 0] }, colonne: col(0, 0, 0), bras,
+    jambes: { G: jambes2({ fk: { flex, abd }, genou: 6, cheville: 15 }).G, D: DEBOUT.D } });
+  const ex = (id, nom, pile, de, bras, muscles, repos, effort, pitch = 0) => E(id, {
+    nom, duree: 3, reps: 12, affiche: 0.4, vue: "3/4", recalageDe: id,
+    camera: { cible: [0, 90, 0], dist: 460, el: 6 }, ombre: [0, 0, 90, 90],
+    accessoires: [machine(pile), { type: "cable", de, suit: ["chevilleG"] }], muscles,
+    tempo: [[0, "Écarter la jambe · 1 s, buste immobile"], [0.4, "Tenir 1 s"], [0.5, "Revenir lentement · 2 s"]],
+    cles: [P(0, ...repos, bras, pitch), P(0.4, ...effort, bras, pitch), P(0.5, ...effort, bras, pitch), P(0.95, ...repos, bras, pitch)],
+    erreur: { texte: "le buste penche pour aller plus loin : ce sont les lombaires et les obliques qui font le mouvement.", zone: ["lombaires", "obliques"],
+      cles: [P(0, ...repos, bras, pitch), { ...P(0.4, effort[0] * 1.4, effort[1] * 1.4, bras, pitch), colonne: col(0, -12, 0) },
+        { ...P(0.5, effort[0] * 1.4, effort[1] * 1.4, bras, pitch), colonne: col(0, -12, 0) }, P(0.95, ...repos, bras, pitch)] } });
+  ex("abduction-poulie", "Abduction de hanche debout à la poulie basse", PILE(-60, 40), [-60, 15, 34], bras2(HANCHE(1), TIENT(-40, 40)),
+    { p: ["fessiers"], s: ["obliques"] }, [0, 2], [0, 34]);
+  ex("adduction-poulie", "Adduction de hanche debout à la poulie basse", PILE(75, -45), [75, 15, -39], bras2(HANCHE(1), HANCHE(-1)),
+    { p: ["adducteurs"], s: ["abdominaux"] }, [0, 26], [8, -8]);
+  ex("extension-hanche-poulie", "Extension de hanche debout à la poulie basse (kickback)", PILE(0, 56), [0, 15, 50], bras2(TIENT(14, 46), TIENT(-14, 46)),
+    { p: ["fessiers"], s: ["ischios", "lombaires"] }, [6, 4], [-30, 4], 8);
+  ex("flexion-hanche-poulie", "Flexion de hanche debout à la poulie basse", PILE(0, -56), [0, 15, -50], bras2(HANCHE(1), HANCHE(-1)),
+    { p: ["flechisseurs"], s: ["quadriceps", "abdominaux"] }, [-6, 4], [50, 4]);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
