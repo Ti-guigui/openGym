@@ -3132,6 +3132,21 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   if (EXERCICES["etirement-ischios-allonge"].erreur) delete EXERCICES["etirement-ischios-allonge"].erreur;
 }
 
+/* ---------- LOT 67 pour l'appli : posture du chameau (à genoux, cambré, mains sur les reins) ---------- */
+{
+  const GEN = jambes2({ fk: { flex: 0, abd: 6 }, genou: 104, cheville: 40 });
+  const P = (t, lomb, thorax, cou, avance) => ({ t, racine: { p: [0, 52, avance], r: [0, 0, 0] }, colonne: col(lomb, thorax, cou), jambes: copie(GEN),
+    bras: { G: { ik: [14, 72, -8], pole: [1, 0.3, -1], doigts: 20 }, D: { ik: [-14, 72, -8], pole: [-1, 0.3, -1], doigts: 20 } } });
+  const ouvert = P(0.3, -22, -18, -24, 4);
+  E("posture-chameau", { nom: "Posture du chameau (à genoux, mains sur les reins)", duree: 8, reps: 3, affiche: 0.5, vue: "profil", recalageDe: "posture-chameau",
+    camera: { cible: [0, 80, 0], dist: 400, el: 6 }, ombre: [0, 0, 80, 120], accessoires: [{ type: "tapis", p0: [0, 0, 0] }],
+    muscles: { p: ["abdominaux", "flechisseurs"], s: ["pectoraux", "quadriceps"] },
+    tempo: [[0, "Hanches au-dessus des genoux, mains sur les reins"], [0.3, "Pousser les hanches en avant, ouvrir la poitrine · respirer"], [0.8, "Revenir lentement"]],
+    cles: [P(0, 0, 0, 0, 0), ouvert, { ...copie(ouvert), t: 0.8 }, P(0.95, 0, 0, 0, 0)],
+    erreur: { texte: "la tête part en arrière et le bas du dos s'écrase : c'est la nuque et les lombaires qui plient, pas la poitrine qui s'ouvre.", zone: ["lombaires"],
+      cles: [P(0, 0, 0, 0, 0), P(0.3, -34, -6, -40, 0), P(0.8, -34, -6, -40, 0), P(0.95, 0, 0, 0, 0)] } });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
