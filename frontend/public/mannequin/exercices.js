@@ -2951,6 +2951,23 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     { type: "cable", de: [89, 20, 34], main: "G", poignee: 12 }, { type: "cable", de: [-89, 20, 34], main: "D", poignee: 12 }]);
 }
 
+/* ---------- LOT 56 pour l'appli : mollets debout à la poulie, rowing assis à un bras ---------- */
+{ // Mollets : poignées tenues bras le long du corps, câbles venant des poulies basses de chaque côté
+  const F = (id, base, nom, acc, def = {}) => { const b = EXERCICES[base];
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, ...def, accessoires: [...b.accessoires.filter(a => !a.main), ...acc] }); };
+  F("mollets-poulie", "mollets-halteres", "Mollets debout à la poulie basse", [machine([...PILE(95, 0), ...PILE(-95, 0)]),
+    { type: "cable", de: [89, 20, 0], main: "G", poignee: 12 }, { type: "cable", de: [-89, 20, 0], main: "D", poignee: 12 }], { vue: "3/4" });
+  F("mollets-une-jambe-poulie", "mollets-une-jambe-haltere", "Mollets sur une jambe à la poulie basse", [machine(PILE(95, 0)),
+    { type: "cable", de: [89, 20, 0], main: "G", poignee: 12 }], { vue: "3/4" });
+  // Rowing assis à un bras : la main droite repose sur la cuisse, une seule poignée
+  const r = EXERCICES["rowing-assis"], appl = (cles, f) => cles && cles.map(k => { const n = copie(k); f(n); return n; });
+  const g = n => { n.bras.D = bras2({ fk: { flex: 30, abd: 12 }, coude: 45 }).D; };
+  E("rowing-assis-un-bras", { ...copie(r), recalageDe: r.recalageDe || "rowing-assis", nom: "Rowing assis à un bras à la poulie basse",
+    accessoires: r.accessoires.map(a => a.type === "cable" ? { ...copie(a), main: "G", poignee: 12 } : copie(a)),
+    cles: appl(r.cles, g), clesFemme: appl(r.clesFemme, g), erreur: r.erreur && { ...copie(r.erreur), cles: appl(r.erreur.cles, g), clesFemme: appl(r.erreur.clesFemme, g) } });
+  for (const o of [EXERCICES["rowing-assis-un-bras"], EXERCICES["rowing-assis-un-bras"].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2990,7 +3007,7 @@ const ORIENTATION = {
   "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "developpe-genoux-un-bras": [AVANT, "G"], "ecarte-incline": [-0.7, 0.7, 0], "rowing-incline-halteres": DEDANS, "oiseau-incline": DEDANS, "developpe-decline-halteres": AVANT, "developpe-decline-barre": AVANT, "developpe-decline-marteau": DEDANS, "ecarte-decline": [-0.7, 0.7, 0], "developpe-genoux-un-bras-kettlebell": [AVANT, "G"], "souleve-terre-sumo-kettlebell": ARRIERE,
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"],
   "developpe-couche-poulie": AVANT, "developpe-incline-poulie": AVANT, "ecarte-poulie": [-0.7, 0.7, 0], "ecarte-incline-poulie": [-0.7, 0.7, 0], "ecarte-decline-poulie": [-0.7, 0.7, 0],
-  "developpe-militaire-poulie": AVANT, "developpe-militaire-alterne-poulie": AVANT, "developpe-decline-poulie": AVANT, "souleve-de-terre-poulie": ARRIERE, "rowing-poulie-un-bras": [DEDANS, "G"], "developpe-incline-poulie-un-bras": [AVANT, "G"], "developpe-decline-poulie-un-bras": [AVANT, "G"], "ecarte-decline-poulie-un-bras": [[-0.7, 0.7, 0], "G"], "triceps-poulie-un-bras": [[0, -0.7, -0.7], "G"], "pull-through-poulie": DEDANS, "kickback-poulie": [DEDANS, "G"], "kickback-poulie-debout": DEDANS
+  "developpe-militaire-poulie": AVANT, "developpe-militaire-alterne-poulie": AVANT, "developpe-decline-poulie": AVANT, "souleve-de-terre-poulie": ARRIERE, "rowing-poulie-un-bras": [DEDANS, "G"], "developpe-incline-poulie-un-bras": [AVANT, "G"], "developpe-decline-poulie-un-bras": [AVANT, "G"], "ecarte-decline-poulie-un-bras": [[-0.7, 0.7, 0], "G"], "triceps-poulie-un-bras": [[0, -0.7, -0.7], "G"], "pull-through-poulie": DEDANS, "kickback-poulie": [DEDANS, "G"], "kickback-poulie-debout": DEDANS, "mollets-poulie": DEDANS, "rowing-assis-un-bras": [DEDANS, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
