@@ -3025,6 +3025,25 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   ex("flexion-laterale-bras-le-long", "Flexion latérale debout, bras le long du corps", [], LIBRES.G, LIBRES.D);
 }
 
+/* ---------- LOT 61 pour l'appli : élastique sous les pieds (curl, élévations, développé, rowing, oiseau, soulevé jambes tendues) ---------- */
+{ // Même corps que la version aux haltères ; un élastique part de sous chaque pied (avant du pied) jusqu'à la poignée de la main du même côté
+  const BANDE = 0xd04a3a;
+  const B = (id, base, nom, cotes = ["G", "D"]) => { const b = EXERCICES[base], ik = b.cles[0].jambes.G.ik || [12, 8, 3];
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom, accessoires: [...b.accessoires.filter(a => !a.main),
+      ...cotes.map(c => ({ type: "cable", de: [(c === "G" ? 1 : -1) * ik[0], 1, ik[2] + 8], main: c, r: 0.9, couleur: BANDE, poignee: 10 }))] }); };
+  B("curl-elastique", "curl-biceps", "Curl biceps à l'élastique");
+  B("curl-marteau-elastique", "curl-marteau", "Curl marteau à l'élastique");
+  B("curl-inverse-elastique", "curl-inverse-halteres", "Curl inversé à l'élastique");
+  B("curl-alterne-elastique", "curl-alterne", "Curl alterné à l'élastique");
+  B("elevation-laterale-elastique", "elevations-laterales", "Élévations latérales à l'élastique");
+  B("elevation-frontale-elastique", "elevation-frontale", "Élévation frontale à l'élastique");
+  B("developpe-epaules-elastique", "developpe-militaire", "Développé épaules debout à l'élastique");
+  B("rowing-penche-elastique", "rowing-halteres", "Rowing buste penché à l'élastique");
+  B("oiseau-elastique", "oiseau-halteres", "Oiseau buste penché à l'élastique");
+  B("souleve-jambes-tendues-elastique", "souleve-roumain-halteres", "Soulevé de terre jambes tendues à l'élastique");
+  B("rowing-debout-elastique", "rowing-debout-halteres", "Rowing debout à l'élastique");
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -3064,7 +3083,7 @@ const ORIENTATION = {
   "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "developpe-genoux-un-bras": [AVANT, "G"], "ecarte-incline": [-0.7, 0.7, 0], "rowing-incline-halteres": DEDANS, "oiseau-incline": DEDANS, "developpe-decline-halteres": AVANT, "developpe-decline-barre": AVANT, "developpe-decline-marteau": DEDANS, "ecarte-decline": [-0.7, 0.7, 0], "developpe-genoux-un-bras-kettlebell": [AVANT, "G"], "souleve-terre-sumo-kettlebell": ARRIERE,
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"],
   "developpe-couche-poulie": AVANT, "developpe-incline-poulie": AVANT, "ecarte-poulie": [-0.7, 0.7, 0], "ecarte-incline-poulie": [-0.7, 0.7, 0], "ecarte-decline-poulie": [-0.7, 0.7, 0],
-  "developpe-militaire-poulie": AVANT, "developpe-militaire-alterne-poulie": AVANT, "developpe-decline-poulie": AVANT, "souleve-de-terre-poulie": ARRIERE, "rowing-poulie-un-bras": [DEDANS, "G"], "developpe-incline-poulie-un-bras": [AVANT, "G"], "developpe-decline-poulie-un-bras": [AVANT, "G"], "ecarte-decline-poulie-un-bras": [[-0.7, 0.7, 0], "G"], "triceps-poulie-un-bras": [[0, -0.7, -0.7], "G"], "pull-through-poulie": DEDANS, "kickback-poulie": [DEDANS, "G"], "kickback-poulie-debout": DEDANS, "mollets-poulie": DEDANS, "rowing-assis-un-bras": [DEDANS, "G"]
+  "developpe-militaire-poulie": AVANT, "developpe-militaire-alterne-poulie": AVANT, "developpe-decline-poulie": AVANT, "souleve-de-terre-poulie": ARRIERE, "rowing-poulie-un-bras": [DEDANS, "G"], "developpe-incline-poulie-un-bras": [AVANT, "G"], "developpe-decline-poulie-un-bras": [AVANT, "G"], "ecarte-decline-poulie-un-bras": [[-0.7, 0.7, 0], "G"], "triceps-poulie-un-bras": [[0, -0.7, -0.7], "G"], "pull-through-poulie": DEDANS, "elevation-laterale-elastique": [-0.6, -0.8, 0], "developpe-epaules-elastique": AVANT, "rowing-penche-elastique": DEDANS, "souleve-jambes-tendues-elastique": ARRIERE, "rowing-debout-elastique": ARRIERE, "kickback-poulie": [DEDANS, "G"], "kickback-poulie-debout": DEDANS, "mollets-poulie": DEDANS, "rowing-assis-un-bras": [DEDANS, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];

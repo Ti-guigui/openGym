@@ -570,7 +570,8 @@ export function accessoire(type, o = {}) {
     if (bras) boite(6, 6, bras, 0, h, bras / 2);
     const r = new THREE.Mesh(new THREE.CylinderGeometry(5, 5, 3, 20), mat); r.rotation.z = Math.PI / 2; r.position.set(0, (o.y ?? h) - (bras ? 6 : 0), bras || 6); g.add(r);
   } else if (type === "cable") {     // câble de poulie ou levier (o.r) : de o.de (monde) jusqu'à la main, recalculé à chaque image par le lecteur
-    const c = new THREE.Mesh(new THREE.CylinderGeometry(o.r || 0.5, o.r || 0.5, 1, 8), o.r ? mat : new THREE.MeshStandardMaterial({ color: 0x15181c, roughness: 0.5 }));
+    const c = new THREE.Mesh(new THREE.CylinderGeometry(o.r || 0.5, o.r || 0.5, 1, 8), o.couleur ? new THREE.MeshStandardMaterial({ color: o.couleur, roughness: 0.6 })   // élastique coloré
+      : o.r ? mat : new THREE.MeshStandardMaterial({ color: 0x15181c, roughness: 0.5 }));
     c.name = "fil"; g.add(c);
     if (o.poignee) { const p = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.4, o.poignee, 16), mat); p.rotation.z = Math.PI / 2; p.name = "poignee"; g.add(p); }
   } else if (type === "machine") {   // machine de salle décrite pièce par pièce : { b: [l, h, p] ou c: [rayon, longueur], p: [x, y, z], r: [rx, ry, rz] en degrés, m }

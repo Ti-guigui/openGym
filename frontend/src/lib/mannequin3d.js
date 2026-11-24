@@ -107,6 +107,10 @@ const BY_ANIM = {
   'flexion-laterale-haltere': ['0407', '4335', '6054'], 'flexion-laterale-kettlebell': ['4396'], 'flexion-laterale-poulie': ['0222', '5657', '11278'],
   'flexion-laterale-mains-nuque': ['3256', '4322'],
   'flexion-laterale-bras-leve': ['3253', '4810', '2117', '2119', '3997'], 'flexion-laterale-bras-joints': ['3254'],
+  'curl-elastique': ['4063', '4357'], 'curl-alterne-elastique': ['0005', '0968'], 'curl-marteau-elastique': ['0897'], 'curl-inverse-elastique': ['0917'],
+  'elevation-laterale-elastique': ['0907', '1508', '0793'], 'elevation-frontale-elastique': ['0978'], 'developpe-epaules-elastique': ['0997', '0698', '5205', '8364'],
+  'rowing-penche-elastique': ['0892', '3899', '4698'], 'oiseau-elastique': ['0893', '3971', '6486'], 'souleve-jambes-tendues-elastique': ['1009', '1010'],
+  'rowing-debout-elastique': ['0934'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {
