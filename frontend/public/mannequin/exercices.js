@@ -2855,6 +2855,21 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     "le dos se cambre en montant : ce sont les fléchisseurs de hanche et les lombaires qui tirent, pas les abdominaux.");
 }
 
+/* ---------- LOT 49 pour l'appli : développés et écartés aux poulies basses ---------- */
+{ // Même corps que la version aux haltères ; deux colonnes de poulie de chaque côté, le câble part du bas jusqu'à chaque poignée
+  const C = (id, base, nom, z, x = 100) => { const b = EXERCICES[base];
+    E(id, { ...copie(b), recalageDe: b.recalageDe || base, nom,
+      accessoires: [...b.accessoires.filter(a => a.type !== "haltere"), machine([...PILE(x, z), ...PILE(-x, z)]),
+        { type: "cable", de: [x - 6, 20, z], main: "G", poignee: 12 }, { type: "cable", de: [6 - x, 20, z], main: "D", poignee: 12 }] }); };
+  C("developpe-couche-poulie", "developpe-couche-halteres", "Développé couché aux poulies", -36);
+  C("developpe-incline-poulie", "developpe-incline", "Développé incliné aux poulies", -12);
+  C("ecarte-poulie", "ecarte-halteres", "Écarté couché aux poulies", -36);
+  C("ecarte-incline-poulie", "ecarte-incline", "Écarté incliné aux poulies", -12);
+  C("ecarte-decline-poulie", "ecarte-decline", "Écarté décliné aux poulies", -30);
+  C("developpe-militaire-poulie", "developpe-militaire", "Développé épaules debout aux poulies", 10, 80);
+  C("developpe-militaire-alterne-poulie", "developpe-militaire-alterne", "Développé épaules debout alterné aux poulies", 10, 80);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2892,7 +2907,9 @@ const ORIENTATION = {
   "mollets-assis-barre": BAS, "developpe-kettlebell": AVANT, "kickback-assis": DEDANS, "kickback-assis-un-bras": [DEDANS, "G"], "split-squat-barre": AVANT, "fente-croisee-halteres": DEDANS, "fente-laterale-halteres": DEDANS, "fente-laterale-barre": AVANT, "pullover-barre": AVANT, "hip-thrust-haltere": BAS, "hip-thrust-une-jambe-haltere": BAS, "pont-fessier-haltere": BAS, "fente-avant-kettlebells": DEDANS,
   "squat-sumo-kettlebell": ARRIERE, "squat-sumo-haltere": ARRIERE, "squat-sumo-barre": AVANT, "fente-avant-front": [0, 1, 0.3], "fente-arriere-front": [0, 1, 0.3], "split-squat-front": [0, 1, 0.3],
   "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "developpe-genoux-un-bras": [AVANT, "G"], "ecarte-incline": [-0.7, 0.7, 0], "rowing-incline-halteres": DEDANS, "oiseau-incline": DEDANS, "developpe-decline-halteres": AVANT, "developpe-decline-barre": AVANT, "developpe-decline-marteau": DEDANS, "ecarte-decline": [-0.7, 0.7, 0], "developpe-genoux-un-bras-kettlebell": [AVANT, "G"], "souleve-terre-sumo-kettlebell": ARRIERE,
-  "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"]
+  "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"],
+  "developpe-couche-poulie": AVANT, "developpe-incline-poulie": AVANT, "ecarte-poulie": [-0.7, 0.7, 0], "ecarte-incline-poulie": [-0.7, 0.7, 0], "ecarte-decline-poulie": [-0.7, 0.7, 0],
+  "developpe-militaire-poulie": AVANT, "developpe-militaire-alterne-poulie": AVANT
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
