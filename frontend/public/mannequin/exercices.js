@@ -3064,6 +3064,27 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     accessoires: [brin([ik[0], 1, ik[2] + 8], "G"), brin([-ik[0], 1, ik[2] + 8], "D")] });
 }
 
+/* ---------- LOT 63 pour l'appli : debout, élastique accroché derrière (développé et écarté, deux bras ou alterné) ---------- */
+{ // Même posture que le vis-à-vis (buste un peu penché en avant) ; deux montants derrière, de chaque côté, à hauteur de poitrine
+  const BANDE = 0xd04a3a, brin = (de, main) => ({ type: "cable", de, main, r: 0.9, couleur: BANDE, poignee: 10 });
+  const MONTANTS = machine([{ b: [7, 200, 7], p: [48, 100, -58] }, { b: [7, 200, 7], p: [-48, 100, -58] }, { b: [103, 6, 7], p: [0, 197, -58] }]);
+  const acc = [MONTANTS, brin([45, 125, -54], "G"), brin([-45, 125, -54], "D")];
+  const vv = EXERCICES["vis-a-vis"], k0 = vv.cles[0];
+  const P = (t, g, d = g) => ({ t, racine: copie(k0.racine), colonne: copie(k0.colonne), jambes: copie(k0.jambes),
+    bras: { G: { ik: g, pole: [1, -1, -0.3], ...PRISE }, D: { ik: [-d[0], d[1], d[2]], pole: [-1, -1, -0.3], ...PRISE } } });
+  const POITRINE = [22, 130, 22], DEVANT = [12, 132, 62];
+  const tempo = [[0, "Pousser devant soi · 1 s"], [0.4, "Bras tendus, sans bloquer"], [0.5, "Revenir en 2 s"]];
+  const dev = (id, nom, cles) => E(id, { nom, duree: 3, reps: 12, affiche: 0.4, vue: "3/4", recalageDe: id,
+    camera: { cible: [0, 115, 0], dist: 480, el: 6 }, ombre: [0, 0, 110, 140], accessoires: acc,
+    muscles: { p: ["pectoraux"], s: ["triceps", "deltoides"] }, tempo, cles,
+    erreur: { texte: "les coudes remontent à hauteur des épaules : l'avant des épaules force à la place des pectoraux.", zone: ["deltoides"],
+      cles: cles.map(k => ({ ...copie(k), bras: { G: { ...k.bras.G, pole: [0.3, 1, -0.3] }, D: { ...k.bras.D, pole: [-0.3, 1, -0.3] } } })) } });
+  dev("developpe-debout-elastique", "Développé debout à l'élastique", [P(0, POITRINE), P(0.4, DEVANT), P(0.5, DEVANT), P(0.95, POITRINE)]);
+  dev("developpe-debout-alterne-elastique", "Développé debout alterné à l'élastique",
+    [P(0, POITRINE), P(0.2, DEVANT, POITRINE), P(0.3, DEVANT, POITRINE), P(0.48, POITRINE), P(0.68, POITRINE, DEVANT), P(0.78, POITRINE, DEVANT), P(0.95, POITRINE)]);
+  E("ecarte-debout-elastique", { ...copie(vv), recalageDe: vv.recalageDe || "vis-a-vis", nom: "Écarté debout à l'élastique", accessoires: acc });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -3103,7 +3124,7 @@ const ORIENTATION = {
   "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "developpe-genoux-un-bras": [AVANT, "G"], "ecarte-incline": [-0.7, 0.7, 0], "rowing-incline-halteres": DEDANS, "oiseau-incline": DEDANS, "developpe-decline-halteres": AVANT, "developpe-decline-barre": AVANT, "developpe-decline-marteau": DEDANS, "ecarte-decline": [-0.7, 0.7, 0], "developpe-genoux-un-bras-kettlebell": [AVANT, "G"], "souleve-terre-sumo-kettlebell": ARRIERE,
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"],
   "developpe-couche-poulie": AVANT, "developpe-incline-poulie": AVANT, "ecarte-poulie": [-0.7, 0.7, 0], "ecarte-incline-poulie": [-0.7, 0.7, 0], "ecarte-decline-poulie": [-0.7, 0.7, 0],
-  "developpe-militaire-poulie": AVANT, "developpe-militaire-alterne-poulie": AVANT, "developpe-decline-poulie": AVANT, "souleve-de-terre-poulie": ARRIERE, "rowing-poulie-un-bras": [DEDANS, "G"], "developpe-incline-poulie-un-bras": [AVANT, "G"], "developpe-decline-poulie-un-bras": [AVANT, "G"], "ecarte-decline-poulie-un-bras": [[-0.7, 0.7, 0], "G"], "triceps-poulie-un-bras": [[0, -0.7, -0.7], "G"], "pull-through-poulie": DEDANS, "triceps-elastique": [0, -0.7, -0.7], "tirage-bras-tendus-elastique": [0, -0.7, -0.7], "face-pull-elastique": DEDANS, "rowing-assis-elastique": DEDANS, "kickback-elastique": DEDANS, "elevation-laterale-elastique": [-0.6, -0.8, 0], "developpe-epaules-elastique": AVANT, "rowing-penche-elastique": DEDANS, "souleve-jambes-tendues-elastique": ARRIERE, "rowing-debout-elastique": ARRIERE, "kickback-poulie": [DEDANS, "G"], "kickback-poulie-debout": DEDANS, "mollets-poulie": DEDANS, "rowing-assis-un-bras": [DEDANS, "G"]
+  "developpe-militaire-poulie": AVANT, "developpe-militaire-alterne-poulie": AVANT, "developpe-decline-poulie": AVANT, "souleve-de-terre-poulie": ARRIERE, "rowing-poulie-un-bras": [DEDANS, "G"], "developpe-incline-poulie-un-bras": [AVANT, "G"], "developpe-decline-poulie-un-bras": [AVANT, "G"], "ecarte-decline-poulie-un-bras": [[-0.7, 0.7, 0], "G"], "triceps-poulie-un-bras": [[0, -0.7, -0.7], "G"], "pull-through-poulie": DEDANS, "developpe-debout-elastique": DEDANS, "developpe-debout-alterne-elastique": DEDANS, "ecarte-debout-elastique": DEDANS, "triceps-elastique": [0, -0.7, -0.7], "tirage-bras-tendus-elastique": [0, -0.7, -0.7], "face-pull-elastique": DEDANS, "rowing-assis-elastique": DEDANS, "kickback-elastique": DEDANS, "elevation-laterale-elastique": [-0.6, -0.8, 0], "developpe-epaules-elastique": AVANT, "rowing-penche-elastique": DEDANS, "souleve-jambes-tendues-elastique": ARRIERE, "rowing-debout-elastique": ARRIERE, "kickback-poulie": [DEDANS, "G"], "kickback-poulie-debout": DEDANS, "mollets-poulie": DEDANS, "rowing-assis-un-bras": [DEDANS, "G"]
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];
