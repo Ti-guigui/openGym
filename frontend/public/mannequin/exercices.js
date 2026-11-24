@@ -2905,6 +2905,19 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   U("curl-inverse-poulie-un-bras", "curl-inverse-poulie", "Curl inversé à la poulie basse, un bras");
 }
 
+/* ---------- LOT 53 pour l'appli : tirage entre les jambes à la poulie basse (pull-through) ---------- */
+{ // Dos à la poulie, corde tenue à deux mains entre les cuisses ; même charnière de hanche que le soulevé de terre roumain
+  const b = EXERCICES["souleve-roumain-barre"], appl = (cles, f) => cles && cles.map(k => { const n = copie(k); f(n); return n; });
+  const f = n => { for (const c of ["G", "D"]) {   // mains devant le bassin en haut, entre les genoux en bas ; pieds plus écartés pour le câble
+    const m = n.bras[c], a = Math.min(1, Math.max(0, (76 - m.ik[1]) / 16));
+    m.ik = [Math.sign(m.ik[0]) * 5, 80 - 25 * a, 18 - 6 * a]; n.jambes[c].ik[0] = Math.sign(n.jambes[c].ik[0]) * 20; } };
+  E("pull-through-poulie", { ...copie(b), recalageDe: b.recalageDe || "souleve-roumain-barre", nom: "Tirage entre les jambes à la poulie (pull-through)",
+    muscles: { p: ["fessiers", "ischios"], s: ["lombaires", "avant-bras"] },
+    accessoires: [machine(PILE(0, -95)), { type: "cable", de: [0, 20, -89], main: "2", poignee: 10 }],
+    cles: appl(b.cles, f), clesFemme: appl(b.clesFemme, f), erreur: b.erreur && { ...copie(b.erreur), cles: appl(b.erreur.cles, f), clesFemme: appl(b.erreur.clesFemme, f) } });
+  for (const o of [EXERCICES["pull-through-poulie"], EXERCICES["pull-through-poulie"].erreur]) if (o && !o.clesFemme) delete o.clesFemme;
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -2944,7 +2957,7 @@ const ORIENTATION = {
   "split-squat-goblet": DEDANS, "fente-croisee-goblet": DEDANS, "squat-bulgare-goblet": DEDANS, "squat-sumo-goblet": DEDANS, "squat-banc-goblet": DEDANS, "chaise-mur-goblet": DEDANS, "developpe-genoux-un-bras": [AVANT, "G"], "ecarte-incline": [-0.7, 0.7, 0], "rowing-incline-halteres": DEDANS, "oiseau-incline": DEDANS, "developpe-decline-halteres": AVANT, "developpe-decline-barre": AVANT, "developpe-decline-marteau": DEDANS, "ecarte-decline": [-0.7, 0.7, 0], "developpe-genoux-un-bras-kettlebell": [AVANT, "G"], "souleve-terre-sumo-kettlebell": ARRIERE,
   "developpe-couche-neutre": DEDANS, "developpe-incline-neutre": DEDANS, "developpe-couche-serre-halteres": DEDANS, "developpe-couche-un-bras": [AVANT, "G"],
   "developpe-couche-poulie": AVANT, "developpe-incline-poulie": AVANT, "ecarte-poulie": [-0.7, 0.7, 0], "ecarte-incline-poulie": [-0.7, 0.7, 0], "ecarte-decline-poulie": [-0.7, 0.7, 0],
-  "developpe-militaire-poulie": AVANT, "developpe-militaire-alterne-poulie": AVANT, "developpe-decline-poulie": AVANT, "souleve-de-terre-poulie": ARRIERE, "rowing-poulie-un-bras": [DEDANS, "G"], "developpe-incline-poulie-un-bras": [AVANT, "G"], "developpe-decline-poulie-un-bras": [AVANT, "G"], "ecarte-decline-poulie-un-bras": [[-0.7, 0.7, 0], "G"], "triceps-poulie-un-bras": [[0, -0.7, -0.7], "G"]
+  "developpe-militaire-poulie": AVANT, "developpe-militaire-alterne-poulie": AVANT, "developpe-decline-poulie": AVANT, "souleve-de-terre-poulie": ARRIERE, "rowing-poulie-un-bras": [DEDANS, "G"], "developpe-incline-poulie-un-bras": [AVANT, "G"], "developpe-decline-poulie-un-bras": [AVANT, "G"], "ecarte-decline-poulie-un-bras": [[-0.7, 0.7, 0], "G"], "triceps-poulie-un-bras": [[0, -0.7, -0.7], "G"], "pull-through-poulie": DEDANS
 };
 for (const [id, v] of Object.entries(ORIENTATION)) {
   const [paume, seul] = Array.isArray(v[0]) ? v : [v, null], ex = EXERCICES[id];

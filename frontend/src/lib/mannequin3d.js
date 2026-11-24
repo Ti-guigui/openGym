@@ -97,6 +97,7 @@ const BY_ANIM = {
   'developpe-decline-poulie': ['1261'], 'souleve-de-terre-poulie': ['0157'], 'rowing-poulie-un-bras': ['0189', '11269'],
   'developpe-incline-poulie-un-bras': ['1265'], 'developpe-decline-poulie-un-bras': ['1260'], 'ecarte-decline-poulie-un-bras': ['1262'],
   'triceps-poulie-un-bras': ['1227', '1723', '0231'], 'curl-inverse-poulie-un-bras': ['1413'],
+  'pull-through-poulie': ['0196', '1206', '2324'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {
