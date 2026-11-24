@@ -2977,6 +2977,27 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   F("extension-nuque-poulie-un-bras", "extension-nuque-un-bras", "Extension des triceps au-dessus de la tête à la poulie, un bras", "G");
 }
 
+/* ---------- LOT 58 pour l'appli : curl à la poulie haute, bras écartés (debout, assis) ---------- */
+{ // Entre les deux colonnes du vis-à-vis, poulies hautes ; bras tendus à l'horizontale sur les côtés, les mains viennent vers les oreilles
+  const ROT = 80, B = coude => bras2({ fk: { flex: 0, abd: 86, rot: ROT }, coude, prono: 0, ...PRISE });
+  const ACC = [machine([...PILE(100, -10), ...PILE(-100, -10)]),
+    { type: "cable", de: [94, 200, -6], main: "G", poignee: 12 }, { type: "cable", de: [-94, 200, -6], main: "D", poignee: 12 }];
+  const ex = (id, nom, racine, jambes, acc) => { const P = (t, coude, abd = 86) => ({ t, racine: copie(racine), colonne: col(0, 0, 0), jambes,
+      bras: bras2({ fk: { flex: 0, abd, rot: ROT }, coude, prono: 0, ...PRISE }) });
+    E(id, { nom, duree: 3, reps: 12, affiche: 0.4, vue: "face", recalageDe: id,
+      camera: { cible: [0, racine.p[1] + 40, 0], dist: 500, el: 6 }, ombre: [0, 0, 120, 100], accessoires: acc,
+      muscles: { p: ["biceps"], s: ["deltoides", "avant-bras"] },
+      tempo: [[0, "Plier les coudes, mains vers les oreilles · 1 s"], [0.4, "Serrer les biceps"], [0.5, "Tendre en 2 s"]],
+      cles: [P(0, 10), P(0.4, 125), P(0.5, 125), P(0.95, 10)],
+      erreur: { texte: "les coudes descendent pendant la flexion : les épaules lâchent et le biceps travaille moins.", zone: ["deltoides"],
+        cles: [P(0, 10), P(0.4, 125, 62), P(0.5, 125, 62), P(0.95, 10)] } }); };
+  ex("curl-poulie-haute", "Curl biceps à la poulie haute, bras écartés", { p: [0, 99, 0], r: [0, 0, 0] }, DEBOUT, ACC);
+  const a = EXERCICES["developpe-epaules-assis"], k = a.cles[0];      // même banc et même assise que le développé assis
+  ex("curl-poulie-haute-assis", "Curl biceps à la poulie haute, assis", k.racine, k.jambes,
+    [...a.accessoires.filter(x => !x.main), ...ACC.slice(0, 1), ...ACC.slice(1).map(c => ({ ...c, de: [c.de[0], 170, c.de[2]] }))]);
+  EXERCICES["curl-poulie-haute-assis"].cles.forEach((c, i) => { c.colonne = copie(k.colonne); EXERCICES["curl-poulie-haute-assis"].erreur.cles[i].colonne = copie(k.colonne); });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
