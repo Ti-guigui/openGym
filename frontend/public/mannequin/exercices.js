@@ -2838,6 +2838,23 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
       cles: [P(0, 90, 8, 15), P(0.4, 0, 88, 60), P(0.5, 0, 88, 60), P(0.95, 90, 8, 15)] } });
 }
 
+/* ---------- LOT 45 pour l'appli : crunch et relevé de buste sur banc décliné ---------- */
+{ // Même banc décliné (lot 44) ; les jambes passent par-dessus le bout haut et les pieds se calent dessous ; mains croisées sur la poitrine
+  const BANC = { type: "banc", dossier: -18, ry: 180, p0: [0, 0, 0] };
+  const P = (t, pitch, lomb, thorax, cou) => ({ t, racine: { p: [0, 56, 20], r: [pitch, 0, 0] }, colonne: col(lomb, thorax, cou),
+    bras: bras2({ fk: { flex: 10, abd: 22 }, coude: 140 }), jambes: jambes2({ ik: [12, 38, 67], pole: [0.2, 1, 0.3], pied: PIED_PLAT(0) }) });
+  const ex = (id, nom, cles, faux) => E(id, {
+    nom, duree: 3, reps: 12, affiche: 0.4, vue: "profil", recalageDe: id,
+    camera: { cible: [0, 55, 5], dist: 400, el: 10 }, ombre: [0, 0, 80, 170], accessoires: [BANC],
+    muscles: { p: ["abdominaux"], s: ["obliques"] },
+    tempo: [[0, "Enrouler le buste · 1 s"], [0.4, "Serrer les abdominaux"], [0.5, "Redescendre lentement · 2 s"]],
+    cles, erreur: { texte: faux, zone: ["lombaires"], cles: cles.map(k => ({ ...copie(k), colonne: col(-6, 4, 0) })) } });
+  ex("crunch-decline", "Crunch sur banc décliné", [P(0, -108, 0, 0, 8), P(0.4, -108, 12, 34, 18), P(0.5, -108, 12, 34, 18), P(0.95, -108, 0, 0, 8)],
+    "le dos reste droit et la nuque tire : on lève la tête au lieu d'enrouler le buste.");
+  ex("sit-up-decline", "Relevé de buste sur banc décliné", [P(0, -108, 0, 0, 8), P(0.2, -80, 10, 24, 14), P(0.4, -40, 10, 20, 10), P(0.5, -40, 10, 20, 10), P(0.7, -80, 10, 24, 14), P(0.95, -108, 0, 0, 8)],
+    "le dos se cambre en montant : ce sont les fléchisseurs de hanche et les lombaires qui tirent, pas les abdominaux.");
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
