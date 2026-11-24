@@ -3147,6 +3147,19 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
       cles: [P(0, 0, 0, 0, 0), P(0.3, -34, -6, -40, 0), P(0.8, -34, -6, -40, 0), P(0.95, 0, 0, 0, 0)] } });
 }
 
+/* ---------- LOT 68 pour l'appli : étirement des poignets debout (bras tendu devant, l'autre main tire les doigts) ---------- */
+{ // Bras gauche tendu devant à hauteur d'épaule ; la main droite vient sur les doigts gauches et les ramène vers soi
+  const P = (t, prono, poignet, main, flex = 88) => ({ t, racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne: col(0, 0, 0), jambes: DEBOUT,
+    bras: { G: { fk: { flex, abd: 4 }, coude: 3, prono, poignet, doigts: 0, phal: 0 }, D: { ik: main, pole: [-1, -1, 0], doigts: 40, phal: 30 } } });
+  const ex = (id, nom, prono, poignet, main) => E(id, { nom, duree: 8, reps: 3, affiche: 0.5, vue: "3/4", recalageDe: id,
+    camera: { cible: [0, 120, 20], dist: 380, el: 6 }, ombre: [0, 0, 70, 80],
+    muscles: { p: ["avant-bras"], s: [] },
+    tempo: [[0, "Tendre le bras devant soi"], [0.25, "Ramener doucement les doigts vers soi · tenir en respirant"], [0.85, "Relâcher"]],
+    cles: [P(0, prono, 0, [16, 112, 40]), P(0.25, prono, poignet, main), P(0.85, prono, poignet, main), P(0.95, prono, 0, [16, 112, 40])] });
+  ex("etirement-poignet-flechisseurs", "Étirement des fléchisseurs du poignet (paume vers le haut)", 0, -75, [15, 132, 70]);
+  ex("etirement-poignet-extenseurs", "Étirement des extenseurs du poignet (paume vers le bas)", 180, 75, [15, 126, 72]);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
