@@ -3160,6 +3160,22 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   ex("etirement-poignet-extenseurs", "Étirement des extenseurs du poignet (paume vers le bas)", 180, 75, [15, 126, 72]);
 }
 
+/* ---------- LOT 69 pour l'appli : étirements de la nuque debout (flexion, extension, avant-arrière, inclinaison, rotation) ---------- */
+{ // Debout, épaules relâchées ; seule la tête bouge (cou : flex positif = menton vers la poitrine, lat positif = vers l'épaule gauche)
+  const BRAS = bras2({ fk: { flex: 3, abd: 8 }, coude: 8 }), TETE = { ik: [6, 172, 4], pole: [-0.5, 1, 0.3], doigts: 20 };
+  const P = (t, cou, bras = BRAS) => ({ t, racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne: { lomb: { flex: 0 }, thorax: { flex: 0 }, cou }, jambes: DEBOUT, bras: copie(bras) });
+  const ex = (id, nom, cles, muscles = { p: ["trapezes"], s: [] }) => E(id, { nom, duree: 8, reps: 3, affiche: 0.4, vue: "3/4", recalageDe: id,
+    camera: { cible: [0, 140, 0], dist: 300, el: 4 }, ombre: [0, 0, 70, 70], muscles,
+    tempo: [[0, "Épaules basses, dos droit"], [0.15, "Bouger la tête lentement · tenir en respirant"], [0.85, "Revenir au centre"]], cles });
+  const N = { flex: 0 };
+  ex("nuque-flexion", "Étirement de la nuque, menton vers la poitrine", [P(0, N), P(0.2, { flex: 38 }), P(0.85, { flex: 38 }), P(0.95, N)]);
+  ex("nuque-extension", "Étirement de la nuque, regard vers le plafond", [P(0, N), P(0.2, { flex: -34 }), P(0.85, { flex: -34 }), P(0.95, N)]);
+  ex("nuque-avant-arriere", "Étirement de la nuque, avant puis arrière", [P(0, N), P(0.2, { flex: 36 }), P(0.4, { flex: 36 }), P(0.6, { flex: -30 }), P(0.8, { flex: -30 }), P(0.95, N)]);
+  const aide = { G: copie(BRAS.G), D: { ...TETE, ik: [6, 174, 2] } };
+  ex("nuque-laterale", "Étirement de la nuque sur le côté, main sur la tête", [P(0, N), P(0.2, { flex: 0, lat: -32 }, aide), P(0.85, { flex: 0, lat: -32 }, aide), P(0.95, N)]);
+  ex("nuque-rotation", "Rotation de la nuque d'un côté puis de l'autre", [P(0, N), P(0.2, { flex: 0, rot: 55 }), P(0.4, { flex: 0, rot: 55 }), P(0.6, { flex: 0, rot: -55 }), P(0.8, { flex: 0, rot: -55 }), P(0.95, N)]);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
