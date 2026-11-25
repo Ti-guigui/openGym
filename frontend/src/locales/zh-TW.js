@@ -6017,4 +6017,6 @@ export default {
   "Set {0} / {1}": "第 {0} / {1} 組",
   "Tap the body to choose what you measure.": "點身體選擇要測量的部位。",
   "Warm-up {0} / {1}": "熱身 {0} / {1}",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "蛋白質 {0} 克",
 }

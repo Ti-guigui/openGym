@@ -6024,4 +6024,6 @@ export default {
   "Set {0} / {1}": "Serie {0} / {1}",
   "Tap the body to choose what you measure.": "Toca el cuerpo para elegir qué mides.",
   "Warm-up {0} / {1}": "Calentamiento {0} / {1}",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "{0} g de proteína",
 }

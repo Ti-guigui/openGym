@@ -3,7 +3,7 @@ import { useStore } from '../store/useStore.js'
 import { useUI } from '../store/useUI.js'
 import { t } from '../lib/i18n.js'
 import { exOr } from '../lib/exercises.js'
-import { exerciseNameText, fmtNum } from '../lib/format.js'
+import { exerciseNameText } from '../lib/format.js'
 import { modeOf, setLabel } from '../lib/history.js'
 import { speedUnitOf } from '../lib/speed.js'
 import { fmtClock } from '../lib/circuit-copy.js'
@@ -11,6 +11,7 @@ import { useWakeLock } from '../lib/wakelock.js'
 import { setOverlayBack } from '../lib/back.js'
 import { guidedNow, guidedAfter, guidedWhere, guidedKey } from '../lib/guided.js'
 import Media from './Media.jsx'
+import RollingNumber from './RollingNumber.jsx'
 import Icon from './Icon.jsx'
 import { Button } from './ui.jsx'
 
@@ -171,7 +172,7 @@ export default function GuidedPlayer({ toggle, startTimed, close }) {
           <span className="gp-l">{t('Reps')}</span>
           <div className="cp-reps">
             <button type="button" className="cp-round-btn" aria-label={t('Fewer reps')} onClick={() => setRow({ r: Math.max(0, (Number(row.r) || 0) - 1) })}><Icon name="minus" /></button>
-            <span className="gp-big cp-num">{fmtNum(Number(row.r) || 0)}</span>
+            <span className="gp-big cp-num"><RollingNumber value={Number(row.r) || 0} ms={300} /></span>
             <button type="button" className="cp-round-btn" aria-label={t('More reps')} onClick={() => setRow({ r: (Number(row.r) || 0) + 1 })}><Icon name="plus" /></button>
           </div>
         </div>
@@ -179,7 +180,7 @@ export default function GuidedPlayer({ toggle, startTimed, close }) {
           <span className="gp-l">{t('Weight ({0})', unit)}</span>
           <div className="cp-reps">
             <button type="button" className="cp-round-btn" aria-label={t('Decrease')} onClick={() => setRow({ w: Math.max(0, Math.round(((Number(row.w) || 0) - step) * 100) / 100) })}><Icon name="minus" /></button>
-            <span className="gp-big cp-num">{fmtNum(Number(row.w) || 0)}</span>
+            <span className="gp-big cp-num"><RollingNumber value={Number(row.w) || 0} ms={300} step={0.5} /></span>
             <button type="button" className="cp-round-btn" aria-label={t('Increase')} onClick={() => setRow({ w: Math.round(((Number(row.w) || 0) + step) * 100) / 100 })}><Icon name="plus" /></button>
           </div>
         </div>}

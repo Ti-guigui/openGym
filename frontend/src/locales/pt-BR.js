@@ -4453,6 +4453,8 @@ export const PT_BR_OVERRIDES = {
   "Set {0} / {1}": "Série {0} / {1}",
   "Tap the body to choose what you measure.": "Toque no corpo para escolher o que você mede.",
   "Warm-up {0} / {1}": "Aquecimento {0} / {1}",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "{0} g de proteína",
 }
 
 export default { ...pt, ...PT_BR_OVERRIDES }

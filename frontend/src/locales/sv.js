@@ -6071,4 +6071,6 @@ export default {
   "Set {0} / {1}": "Set {0} / {1}",
   "Tap the body to choose what you measure.": "Tryck på kroppen för att välja vad du mäter.",
   "Warm-up {0} / {1}": "Uppvärmning {0} / {1}",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "{0} g protein",
 }

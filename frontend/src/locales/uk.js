@@ -6021,4 +6021,6 @@ export default {
   "Set {0} / {1}": "Підхід {0} / {1}",
   "Tap the body to choose what you measure.": "Торкнися тіла, щоб вибрати, що вимірювати.",
   "Warm-up {0} / {1}": "Розминка {0} / {1}",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "{0} г білка",
 }

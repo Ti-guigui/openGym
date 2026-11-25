@@ -6020,4 +6020,6 @@ export default {
   "Set {0} / {1}": "Priėjimas {0} / {1}",
   "Tap the body to choose what you measure.": "Bakstelėk kūną, kad pasirinktum, ką matuoji.",
   "Warm-up {0} / {1}": "Apšilimas {0} / {1}",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "{0} g baltymų",
 }
