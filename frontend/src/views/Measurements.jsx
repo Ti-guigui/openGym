@@ -296,6 +296,46 @@ export function manageMeasurementsSheet() {
   return useUI.getState().openSheet(close => <ManageMeasurements close={close} />)
 }
 
+/**
+ * The tracked circumferences on the body, with the ruler and the scale: a tap opens that point's
+ * field (and, with `onSelect`, charts it). On the Measurements screen and at the top of Stats → Body.
+ */
+export function MeasureFigureCard({ selected = null, onSelect = null }) {
+  const S = useStore(s => s.S)
+  const [choosing, setChoosing] = useState(false)
+  const enabledKeys = new Set(enabledMeasurementFields(S).map(f => f.key))
+  const figFields = choosing
+    ? MEASUREMENT_FIELDS.filter(f => onFigure(f.key)).map(f => ({ ...f, on: enabledKeys.has(f.key) }))
+    : enabledMeasurementFields(S).filter(f => onFigure(f.key))
+  const toggleOnFigure = k => update(state => {
+    const set = new Set(state.measurementEnabled || DEFAULT_MEASUREMENT_KEYS)
+    if (set.has(k)) set.delete(k); else set.add(k)
+    state.measurementEnabled = [...set]
+  })
+  // Ti Guigui FIT: or choose which circumferences to track right on the body.
+  return <div className="card mfig-card">
+    <div className="row between mfig-head">
+      <span className="small dim">{choosing ? t('Tap the body to choose what you measure.') : onSelect ? t('Tap a point to see its curve.') : t('Body measurements')}</span>
+      <Button size="sm" variant={choosing ? 'tinted' : 'ghost'} icon={choosing ? 'check' : 'pencil'} style={{ width: 'auto' }}
+        onClick={() => setChoosing(!choosing)}>{choosing ? t('Done') : t('Choose')}</Button>
+    </div>
+    {figFields.length > 0 ? <MeasureFigure fields={figFields} unit={lengthUnitOf(S)} selected={selected} body={S.body} choosing={choosing}
+      stats={choosing ? null : {
+        height: Number(S.heightCm) > 0 ? fmtNum(lengthUnitOf(S) === 'in' ? Math.round(S.heightCm / CM_PER_IN) : Math.round(S.heightCm)) : null,
+        heightLabel: t('Height ({0})', lengthUnitOf(S)), onHeight: heightSheet,
+        weight: Number(lastBW(S)?.w) > 0 ? fmtNum(lastBW(S).w) : null,
+        weightLabel: t('Body weight ({0})', S.unit), onWeight: () => bwSheet(),
+      }}
+      values={Object.fromEntries(figFields.map(f => { const l = latestMeasurement(S, f.key); return [f.key, l ? shownValue(l.entry, f, lengthUnitOf(S)) : null] }))}
+      onPick={k => { if (choosing) toggleOnFigure(k); else {
+        // A point charts its curve and opens its field, filled or not. Today's check-in, if any,
+        // is added to rather than refused as a second one for the day.
+        onSelect?.(k); measurementLogSheet(S.measurements.some(e => e.d === todayISO()) ? todayISO() : null, k, figureOrder(figFields.map(f => f.key), S.body))
+      } }} />
+      : <div className="small dim">{t('Choose the measurements you want to track, then log your first check-in.')}</div>}
+  </div>
+}
+
 export default function Measurements() {
   const nav = useNavigate()
   const S = useStore(s => s.S)
@@ -316,16 +356,6 @@ export default function Measurements() {
     return out
   }, [S])
   const fallback = available.find(f => f.key === 'waist')?.key || available[0]?.key || null
-  const [choosing, setChoosing] = useState(false)
-  const enabledKeys = new Set(enabledMeasurementFields(S).map(f => f.key))
-  const figFields = choosing
-    ? MEASUREMENT_FIELDS.filter(f => onFigure(f.key)).map(f => ({ ...f, on: enabledKeys.has(f.key) }))
-    : enabledMeasurementFields(S).filter(f => onFigure(f.key))
-  const toggleOnFigure = k => update(state => {
-    const set = new Set(state.measurementEnabled || DEFAULT_MEASUREMENT_KEYS)
-    if (set.has(k)) set.delete(k); else set.add(k)
-    state.measurementEnabled = [...set]
-  })
   const [selected, setSelected] = useState(fallback)
   const key = available.some(f => f.key === selected) ? selected : fallback
   const field = available.find(f => f.key === key)
@@ -354,29 +384,7 @@ export default function Measurements() {
       <button className="iconbtn" onClick={manageMeasurementsSheet} aria-label={t('Choose measurements')}><Icon name="gear" /></button>
     </div>
 
-    {/* Ti Guigui FIT: the tracked circumferences on the anatomical figure: tap one to chart it,
-        or choose which ones to track right on the body. */}
-    <div className="card mfig-card">
-      <div className="row between mfig-head">
-        <span className="small dim">{choosing ? t('Tap the body to choose what you measure.') : t('Tap a point to see its curve.')}</span>
-        <Button size="sm" variant={choosing ? 'tinted' : 'ghost'} icon={choosing ? 'check' : 'pencil'} style={{ width: 'auto' }}
-          onClick={() => setChoosing(!choosing)}>{choosing ? t('Done') : t('Choose')}</Button>
-      </div>
-      {figFields.length > 0 ? <MeasureFigure fields={figFields} unit={lengthUnitOf(S)} selected={key} body={S.body} choosing={choosing}
-        stats={choosing ? null : {
-          height: Number(S.heightCm) > 0 ? fmtNum(lengthUnitOf(S) === 'in' ? Math.round(S.heightCm / CM_PER_IN) : Math.round(S.heightCm)) : null,
-          heightLabel: t('Height ({0})', lengthUnitOf(S)), onHeight: heightSheet,
-          weight: Number(lastBW(S)?.w) > 0 ? fmtNum(lastBW(S).w) : null,
-          weightLabel: t('Body weight ({0})', S.unit), onWeight: () => bwSheet(),
-        }}
-        values={Object.fromEntries(figFields.map(f => { const l = latestMeasurement(S, f.key); return [f.key, l ? shownValue(l.entry, f, lengthUnitOf(S)) : null] }))}
-        onPick={k => { if (choosing) toggleOnFigure(k); else {
-          // A point charts its curve and opens its field, filled or not. Today's check-in, if any,
-          // is added to rather than refused as a second one for the day.
-          setSelected(k); measurementLogSheet(S.measurements.some(e => e.d === todayISO()) ? todayISO() : null, k, figureOrder(figFields.map(f => f.key), S.body))
-        } }} />
-        : <div className="small dim">{t('Choose the measurements you want to track, then log your first check-in.')}</div>}
-    </div>
+    <MeasureFigureCard selected={key} onSelect={setSelected} />
 
     <div className="card">
       <div className="row between" style={{ marginBottom: 10 }}>
