@@ -4760,7 +4760,7 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
   border:1.5px solid transparent;color:var(--label);font:inherit;text-align:start;cursor:pointer;line-height:1.15}
 .mfig-row.on,.mfig-row.picked{border-color:var(--c)}
 .mfig-row.off{opacity:.55}
-.mfig-dot{flex:none;width:18px;height:18px;border-radius:50%;background:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 30%,transparent);display:grid;place-items:center;color:#1f2329;font-size:12px}
+.mfig-dot{flex:none;width:18px;height:18px;border-radius:50%;background:var(--c);box-shadow:0 0 0 3px rgba(255,255,255,.12);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 30%,transparent);display:grid;place-items:center;color:#1f2329;font-size:12px}
 .mfig-row.off .mfig-dot{background:none;border:2px solid var(--c);box-shadow:none}
 .mfig-n{flex:1;min-width:0;font-size:var(--fs-footnote);color:var(--label);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mfig-v{flex:none;font-size:var(--fs-subhead);font-weight:700;color:var(--c);font-variant-numeric:tabular-nums;white-space:nowrap}
