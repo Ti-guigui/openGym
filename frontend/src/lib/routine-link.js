@@ -19,6 +19,7 @@
 import { EXIDX, isCustomEx } from './exercises.js'
 import { buildPlanBundle, parsePlan, mergePlan } from './plan-share.js'
 import { t } from './i18n-core.js'
+import { APP_NAME } from './brand.js'
 
 export const LINK_FMT = 1
 export const LINK_BASE = 'https://opengym.ch/r'
@@ -155,7 +156,10 @@ export async function decodePayload(payload) {
   return data
 }
 
-export const linkFor = payload => `${LINK_BASE}#${payload}`
+// Ti Guigui FIT: a link opens the fork's web app (any phone, nothing to install), on the hash route
+// every web app already reads (routinePayloadFromUrl). The upstream name keeps opengym.ch.
+export const FORK_WEB = 'https://ti-guigui-fit.pages.dev'
+export const linkFor = (payload, name = APP_NAME) => name === 'openGym' ? `${LINK_BASE}#${payload}` : `${FORK_WEB}/#/r/${payload}`
 
 /**
  * The link for a routine, or `{ tooLong: true }` when it would pass MAX_LINK (the caller shares a

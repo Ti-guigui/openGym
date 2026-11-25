@@ -39,6 +39,8 @@ import { ChallengesCard } from '../components/Challenges.jsx'
 import { isOn } from '../lib/modules.js'
 import WaterCard from '../components/WaterCard.jsx'
 import SuppsCard from '../components/SuppsCard.jsx'
+import NutritionCard from '../components/NutritionCard.jsx'
+import { APP_NAME } from '../lib/brand.js'
 import { quoteOf } from '../lib/quotes.js'
 
 // Home = what to do now + a quick glance. Deep charts & history live in Stats.
@@ -140,7 +142,7 @@ export default function Home() {
   return <div className="narrow">
     <div className="hdr">
       <SeasonDeco spot="header-bats" />
-      <div><h1>{user ? t('Hi {0}', user.name) : 'openGym'}</h1><div className="sub">{today.toLocaleDateString(dateLocale(), { weekday: 'long', day: 'numeric', month: 'long' })}</div></div>
+      <div><h1>{user ? t('Hi {0}', user.name) : APP_NAME}</h1><div className="sub">{today.toLocaleDateString(dateLocale(), { weekday: 'long', day: 'numeric', month: 'long' })}</div></div>
       <button className="iconbtn" data-tour="settings-gear" onClick={() => nav('/settings')} aria-label={trouble ? t('Settings') + ', ' + t('Connection problem') : t('Settings')}><Icon name="gear" />{trouble && <span className="tab-dot" aria-hidden="true" />}</button>
     </div>
     <TrainerNotice />
@@ -303,6 +305,15 @@ export default function Home() {
           : t("No weigh-ins yet. Log your weight to start the curve (we also ask before every workout).")}</div>
         <Button size="sm" variant="ghost" icon="target" className="bw-goal" style={{ marginTop: 6, ...(S.targetW ? { color: 'var(--gold-ink)' } : {}) }} onClick={goalSheet}>{S.targetW ? fmtNum(S.targetW) : t('Goal')}</Button>
       </>}
+    </div>}
+
+    {/* Today's calorie target and this week's burn (views/Nutrition.jsx), part of the Body module. */}
+    {on('body') && <NutritionCard S={S} />}
+
+    {/* The AI coach (views/CoachIA.jsx), served by the Pages build's own server. */}
+    {import.meta.env.VITE_LOCAL_ONLY === '1' && <div className="card tap-host coach-ia-card">
+      <CardHead icon="sparkles" tint="var(--purple)" eyebrow={t('AI coach')} title={t('Ask the coach')}
+        sub={t('Training and nutrition, from your data')} open={{ onClick: () => nav('/coach-ia') }} />
     </div>}
 
     {/* Glasses of water today (lib/water.js), part of the Body module. */}

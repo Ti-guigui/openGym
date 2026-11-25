@@ -72,6 +72,71 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
      (le dépôt `atelier` doit être à côté d'`openGym`), puis reconstruire et republier ;
    - les textes du lecteur sont en français seulement ; crédits (Z-Anatomy, CMU, three.js) dans `NOTICE.md`.
 
+9. **Nutrition** (Accueil → carte Nutrition, ou Stats → Nutrition ; module Corps) :
+   - calculs dans `frontend/src/lib/nutrition.js` (tests `nutrition.test.js`) : besoin du jour
+     (Mifflin-St Jeor × activité), déficit = rythme × 7 700 / 7 kcal par jour (gain : la moitié),
+     jamais sous 1 500 kcal (homme) / 1 200 kcal (femme) ni sous le métabolisme de repos ; macros
+     (protéines 2 g/kg en perte, 1,8 sinon ; lipides 0,9 g/kg ; glucides le reste) ; date estimée
+     pour le poids visé (`S.targetW`, le même que la carte Poids) ;
+   - réglages : `S.nutrition = { goal, rate, activity }` et `S.kcalWeekGoal` (objectif de calories
+     brûlées par semaine), synchronisés comme les autres réglages ;
+   - calories brûlées par semaine : estimées depuis les séances (`activeKcal` de `active-energy.js`) ;
+   - « Quoi manger » et « Idées repas » : `frontend/src/lib/food-ideas.js` (tests
+     `food-ideas.test.js`), textes en **français et anglais seulement** (les autres langues lisent
+     l'anglais), comme le mannequin 3D. Pour ajouter un repas : une ligne dans `MEALS` ;
+   - écran `frontend/src/views/Nutrition.jsx`, carte `frontend/src/components/NutritionCard.jsx`,
+     style `.nut-*` dans `index.css`, icônes `utensils` et `leaf` dans `Icon.jsx`.
+10. **Mannequin des mensurations** (Stats → Mensurations) : `frontend/src/components/MeasureFigure.jsx`.
+    - Profil homme : ton image du mannequin, recadrée sur le corps, dans
+      `frontend/public/mensurations-homme.webp` (448 × 1072). Retouches : logo de marque du short
+      effacé, bande du haut du bras droit recolorée en mauve (comme le bras gauche ; la ligne de la
+      poitrine reste verte). Les ronds de couleur font partie de l'image : les points cliquables
+      (`PHOTO.spots`) sont posés dessus, seuls ceux qui manquent (abdomen, poignets, chevilles, haut du
+      bras gauche) sont dessinés. Pour changer d'image : garder les ronds aux mêmes endroits, ou
+      recaler `PHOTO.spots` (coordonnées en pixels de l'image).
+    - Profil femme : le corps des cartes musculaires (`lib/body-geometry.js`), points dessinés (`SPOTS.female`).
+    - À côté, la liste : pastille de la même couleur (bras mauve, tronc vert, jambes jaune : `COLOR`),
+      nom et dernière valeur. Toucher un point ou une ligne affiche la courbe ; un tour jamais noté
+      ouvre la saisie. Bouton **Choisir** : tous les tours apparaissent, toucher active ou désactive.
+      Tests : `MeasureFigure.test.js`. Style `.mfig-*`.
+11. **Partager une séance avec un collègue** : le bouton « Partager avec un ami » (dans une routine,
+    ou dans le détail d'une séance terminée) crée maintenant un lien
+    `https://ti-guigui-fit.pages.dev/#/r/…` (avant : opengym.ch). Le collègue l'ouvre sur son
+    téléphone, entre dans l'appli (compte ou invité) et ajoute la séance à ses routines.
+    Code : `linkFor` dans `frontend/src/lib/routine-link.js`.
+12. **Coach IA** (version téléphone Cloudflare seulement, avec un compte) :
+    - serveur : routes `/api/ai/status` et `/api/ai/chat` dans `functions/api/[[path]].js`, requête
+      à Claude dans `functions/lib/ai-coach.js` (tests `api/test/ai-coach.test.js`) ; compteur du
+      jour dans la table D1 `ai_usage` (`migrations/0003_coach_ia.sql`). Les questions ne sont pas
+      gardées sur le serveur ;
+    - appli : écran `frontend/src/views/CoachIA.jsx` (carte « Coach IA » sur l'Accueil), résumé des
+      données envoyé avec chaque question dans `frontend/src/lib/coach-ia.js`, conversation gardée
+      dans le téléphone ;
+    - **mise en route, une fois** (sinon l'écran dit « pas encore configuré ») :
+      ```powershell
+      cd "$HOME\openGym"
+      npx wrangler d1 migrations apply ti-guigui-fit --remote
+      npx wrangler pages secret put ANTHROPIC_API_KEY --project-name ti-guigui-fit
+      ```
+      La clé se crée sur https://platform.claude.com/settings/keys (compte Anthropic payant à
+      l'usage). Réglages facultatifs (Cloudflare → Pages → ti-guigui-fit → Paramètres → Variables) :
+      `AI_DAILY` = questions par personne et par jour (20 par défaut), `AI_MODEL` = modèle
+      (`claude-opus-5-5` par défaut ; `claude-haiku-5-5` coûte environ 40 fois moins cher) ;
+    - la politique de confidentialité mentionne l'envoi à Anthropic.
+
+13. **Séance guidée** (comme sur la montre) : `frontend/src/components/GuidedPlayer.jsx`, en plein
+    écran, une série à la fois : animation de l'exercice, répétitions et poids réglables avec un grand
+    bouton Terminé, ou chrono pour un exercice tenu (gainage…), puis le repos en compte à rebours avec
+    l'exercice suivant. S'ouvre avec « Séance guidée » dans l'aperçu de séance ou en haut de la séance
+    en cours (et dans le menu ⋯). L'ordre des séries (superséries comprises) est dans `lib/guided.js`
+    (tests `guided.test.js`) ; valider une série, les chronos et le repos passent par le code normal de
+    `views/Workout.jsx` (records, temps de repos, fin de séance identiques). Style `.gp-*` (repris du
+    lecteur de circuit `.cp-*`).
+14. **Aperçu de séance avec les zones travaillées** : choisir une séance ouvre l'aperçu
+    (`components/StartSheets.jsx`, activé par défaut dans Ti Guigui FIT, désactivable dans Réglages →
+    Séance → Aperçu avant de démarrer ; règle dans `lib/preview-start.js`) avec le grand mannequin
+    avant/arrière des muscles travaillés et leurs noms, puis « Séance guidée » ou « Démarrer ».
+
 ## Règles à respecter
 
 - **Mention de licence Gym visual :** la garder mot pour mot, ainsi que `NOTICE.md`. Ne jamais
@@ -92,7 +157,7 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
 
 L'appli s'utilise sur **https://ti-guigui-fit.pages.dev** (Cloudflare Pages) : tous les téléphones, partout, même hors connexion.
 Comptes (depuis le 23/11/2026) : un surnom et un mot de passe, rien d'autre (pas d'e-mail). Le petit serveur est dans `functions/api/[[path]].js`, les comptes et les séances dans la base Cloudflare D1 `ti-guigui-fit` (tables dans `migrations/`). On retrouve ses séances sur n'importe quel téléphone. Le mode invité existe toujours (données gardées sur le téléphone).
-Ce que ce serveur ne fait pas : passkeys, e-mail, montre, notifications push, coach. Le mot de passe se change dans Réglages → Compte. Politique de confidentialité : `frontend/public/confidentialite.html` (https://ti-guigui-fit.pages.dev/confidentialite), sans aucun nom ; à mettre à jour si on ajoute un service ou une donnée. 10 mauvais mots de passe d'affilée bloquent le compte 15 minutes.
+Ce que ce serveur ne fait pas : passkeys, e-mail, montre, notifications push, le coach d'openGym (mais il a son propre Coach IA, voir le point 12). Le mot de passe se change dans Réglages → Compte. Politique de confidentialité : `frontend/public/confidentialite.html` (https://ti-guigui-fit.pages.dev/confidentialite), sans aucun nom ; à mettre à jour si on ajoute un service ou une donnée. 10 mauvais mots de passe d'affilée bloquent le compte 15 minutes.
 Administration (Réglages → Compte → Tableau d'administration, réservé aux comptes admin) : liste des comptes et code de réinitialisation (une fois, 24 h) pour un mot de passe oublié. La personne le saisit via « Se connecter avec un mot de passe » → « Tu as un code de réinitialisation… ». Le compte « Ti Guigui » est admin. Rendre un autre compte admin :
 `npx wrangler d1 execute ti-guigui-fit --remote --command "UPDATE users SET admin = 1 WHERE name_key = 'pseudo en minuscules'"`
 

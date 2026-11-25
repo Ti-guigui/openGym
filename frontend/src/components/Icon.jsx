@@ -27,6 +27,9 @@ const P = {
   /* ---- training ---- */
   dumbbell: <><rect x="5.9" y="7.9" width="3.2" height="8.2" rx="1.3" /><rect x="14.9" y="7.9" width="3.2" height="8.2" rx="1.3" /><path d="M9.1 12h5.8M3.6 9.9v4.2M20.4 9.9v4.2" /></>,
   drop: <path d="M12 3.5c3.4 4.1 5.8 7.4 5.8 10.7a5.8 5.8 0 0 1-11.6 0c0-3.3 2.4-6.6 5.8-10.7Z" />,
+  // Ti Guigui FIT: nutrition (fork and knife) and the vegetables group (a leaf).
+  utensils: <path d="M7 3.5v5.2a2.3 2.3 0 0 0 4.6 0V3.5M9.3 3.5v17M16.8 20.5V3.6c-1.9.9-3 3.3-3 6.4v3.6h3" />,
+  leaf: <><path d="M5.2 18.8C4.4 11 9 5 19.2 4.8c.4 9.6-4.6 14.6-12.4 14" /><path d="M4.6 19.4c3-3.6 6-6.3 9.4-8.4" /></>,
   pill: <><rect x="3.6" y="8.4" width="16.8" height="7.2" rx="3.6" transform="rotate(-45 12 12)" /><path d="m9.5 9.5 5 5" /></>,
   barbell: <path d="M2.9 12h18.2M7.4 7.4v9.2M9.8 9.3v5.4M16.6 7.4v9.2M14.2 9.3v5.4" />,
   figureRun: <><circle cx="14.2" cy="4.9" r="1.9" /><path d="M13.4 9.1 9.6 11.4l1.7 3.3-2.4 5.4M13.4 9.1l3.4 1.5 1.4 3.4M11.3 14.7l4.3.9 1.5 4.5M9.6 11.4 6 10.2" /></>,
