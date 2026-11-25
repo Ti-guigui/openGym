@@ -41,6 +41,7 @@ import { e1rmSeries, best1RM, formulaOf } from '../lib/onerm.js'
 import { currentDbLoad, workoutAs } from '../lib/dumbbells.js'
 import { maxRepsSeries } from '../lib/pyramid.js'
 import { weighInAt } from '../lib/bodyweight.js'
+import { MeasureFigureCard } from './Measurements.jsx'
 import { perSetSessions, perSetLines, dropOffSet } from '../lib/per-set.js'
 import { relativeSeries } from '../lib/relative-strength.js'
 import {
@@ -971,6 +972,8 @@ export default function Stats() {
 
     {bodyOn && <section className="stats-sect" id="stats-body" data-stats-sect="body" aria-labelledby="stats-h-body">
       <h2 className="stats-sect-h" id="stats-h-body">{t('Body')}</h2>
+    {/* Ti Guigui FIT: the measurement figure first, so it is found at once (views/Measurements.jsx). */}
+    <MeasureFigureCard />
     <div className="card">
       <div className="row between bw-head" style={{ marginBottom: 8 }}>
         <h2 style={{ margin: 0 }}>{t('Body weight')}</h2>
