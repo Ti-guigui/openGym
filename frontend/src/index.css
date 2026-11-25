@@ -4767,6 +4767,16 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 .mfig-v small{font-size:10px;font-weight:500;color:var(--label-2)}
 .mfig-row.empty .mfig-v{opacity:.75}
 @media (max-width:360px){.mfig{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.mfig-n{font-size:12px}}
+/* The ruler beside the body (height) and the scale under it (weight): each a tap to change it. */
+.mfig-fig.with-ruler{display:grid;grid-template-columns:16px minmax(0,1fr);gap:4px}
+.mfig-ruler{display:block;padding:0;border:0;background:none;color:var(--teal);cursor:pointer;min-height:44px}
+.mfig-ruler svg{display:block;width:100%;height:100%}
+.mfig-ruler line{stroke:currentColor;stroke-width:1.5;vector-effect:non-scaling-stroke}
+.mfig-stats{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;margin-top:4px}
+.mfig-stat{--c:var(--teal);display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 10px 6px 8px;border-radius:14px;background:var(--surface-2);
+  border:1.5px solid transparent;color:var(--label);font:inherit;text-align:start;cursor:pointer;line-height:1.15}
+.measure-steps{justify-content:space-between;align-items:center;gap:8px;margin-top:12px}
+.mfig-stat svg{flex:none;width:24px;height:20px;fill:none;stroke:var(--c);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
 /* ---- AI coach (Ti Guigui FIT, views/CoachIA.jsx) ---- */
 .cia{display:flex;flex-direction:column;min-height:calc(100dvh - 140px)}
