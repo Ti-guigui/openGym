@@ -169,10 +169,17 @@ export default function MeasureFigure({ fields, values, unit, selected, onPick, 
         <span className="mfig-n">{stats.heightLabel}</span>
         <span className="mfig-v">{stats.height ?? <Icon name="plus" />}</span>
       </button>
-      <button type="button" className="mfig-stat" onClick={stats.onWeight}>
-        <svg viewBox="0 0 28 20" aria-hidden="true"><rect x="1" y="2" width="26" height="17" rx="4" /><path d="M8.5 10a5.5 5.5 0 0 1 11 0" /><path d="M14 10l2.6-3" /></svg>
+      {/* A bathroom scale seen from above: the weight on its screen, the two foot pads below. */}
+      <button type="button" className="mfig-scale" onClick={stats.onWeight} aria-label={stats.weightLabel + (stats.weight ? ' ' + stats.weight : '')}>
+        <svg viewBox="0 0 160 84" aria-hidden="true">
+          <rect className="sc-body" x="3" y="3" width="154" height="78" rx="20" />
+          <rect className="sc-lcd" x="44" y="10" width="72" height="26" rx="6" />
+          <text className="sc-val" x="80" y="29" textAnchor="middle">{stats.weight ?? '+'}</text>
+          <rect className="sc-pad" x="18" y="42" width="52" height="32" rx="12" />
+          <rect className="sc-pad" x="90" y="42" width="52" height="32" rx="12" />
+          <path className="sc-grip" d="M28 52h32M28 58h32M28 64h32M100 52h32M100 58h32M100 64h32" />
+        </svg>
         <span className="mfig-n">{stats.weightLabel}</span>
-        <span className="mfig-v">{stats.weight ?? <Icon name="plus" />}</span>
       </button>
     </div>}
   </div>

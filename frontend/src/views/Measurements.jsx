@@ -18,7 +18,7 @@ import { nameIn } from '../lib/a11y-name.js'
 import LineChart from '../components/LineChart.jsx'
 import Icon from '../components/Icon.jsx'
 import HealthBodyCard from '../components/HealthBodyCard.jsx'
-import MeasureFigure, { figureOrder, onFigure } from '../components/MeasureFigure.jsx'
+import MeasureFigure, { COLOR, figureOrder, onFigure } from '../components/MeasureFigure.jsx'
 import { Button, NumberField, Section, Segmented, SelectRow, Stepper, Switch, TextField } from '../components/ui.jsx'
 import { bwSheet, confirmSheet } from '../sheets.jsx'
 import { lastBW } from '../lib/history.js'
@@ -116,6 +116,10 @@ function MeasurementLog({ sourceDate, close, only, steps }) {
 
   return <>
     <h3>{source ? t('Edit measurements') : t('Log measurements')}</h3>
+    {/* The body part being measured, big and in its colour on the figure, so a value never lands on the wrong one. */}
+    {seq && shownFields[0] && <div className={'measure-part mfig-row c-' + COLOR(shownFields[0].key)} aria-live="polite">
+      <span className="mfig-dot" aria-hidden="true" />{t(shownFields[0].label)}
+    </div>}
     {!seq && <div className="muted small" style={{ marginBottom: 12 }}>{t('Fill only what you measured today. Empty fields stay empty.')}</div>}
     <label className="measure-date">
       <span>{t('Date')}</span>
