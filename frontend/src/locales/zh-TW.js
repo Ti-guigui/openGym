@@ -5954,6 +5954,7 @@ export default {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "每週 1 公斤很快。幾週可以，難以維持。",
   "AI coach": "AI 教練",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "回答來自 AI（Claude）：可能出錯，也不是醫療建議。你的問題和資料摘要會傳送給 Anthropic 用於回答。",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "回答來自 AI（由 Cloudflare 執行的開放模型）：可能出錯，也不是醫療建議。你的問題和資料摘要會傳送到 Cloudflare 以產生回答。",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "關於訓練、飲食或進步，什麼都可以問。教練能看到你的個人資料、目標、熱量、體重、圍度和最近的訓練。",
   "Ask the coach": "問教練",
   "Ask the coach…": "傳訊息給教練…",

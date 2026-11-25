@@ -1,12 +1,14 @@
 // Ti Guigui FIT's AI coach on Cloudflare Pages (functions/api/[[path]].js, /api/ai/*): the request
-// to the Claude Messages API and the reading of its answer, kept apart so they can be tested
-// (api/test/ai-coach.test.js). Plain fetch, like api/coach/core/adapters/anthropic.js: no SDK, no
-// new dependency. The key is the Pages secret ANTHROPIC_API_KEY; the model can be changed with
-// the AI_MODEL variable (claude-haiku-5-5 costs far less), the daily cap with AI_DAILY.
+// and the reading of its answer, kept apart so they can be tested (api/test/ai-coach.test.js).
+// By default the model runs on Cloudflare Workers AI (the `AI` binding in wrangler.toml): no key,
+// free up to Cloudflare's daily allocation. Claude stays possible: AI_PROVIDER=anthropic with the
+// Pages secret ANTHROPIC_API_KEY (plain fetch, no SDK; AI_MODEL picks the Claude model). The daily
+// cap per person is AI_DAILY.
 
 export const API_URL = 'https://api.anthropic.com/v1/messages'
 export const API_VERSION = '2026-10-21'
 export const DEFAULT_MODEL = 'claude-opus-5-5'
+export const WORKERS_MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast'
 export const DEFAULT_DAILY = 20
 export const MAX_TURNS = 20
 export const MAX_MESSAGE = 2000
@@ -75,6 +77,22 @@ export function readReply(data) {
   if (!text) return { error: 'bad-reply' }
   return { text, truncated: data.stop_reason === 'max_tokens' }
 }
+
+/** The Workers AI input: the same rules and data, as one system message. */
+export function workersInput({ messages, context }) {
+  const ctx = typeof context === 'string' ? context.slice(0, MAX_CONTEXT) : ''
+  const system = SYSTEM + (ctx ? '\n\nDonnées de la personne :\n' + ctx : '')
+  return { messages: [{ role: 'system', content: system }, ...messages], max_tokens: 1500 }
+}
+
+/** { text } from a Workers AI answer (its own shape, or the OpenAI-like one), or { error }. */
+export function readWorkersReply(data) {
+  const text = String((typeof data?.response === 'string' ? data.response : data?.choices?.[0]?.message?.content) || '').trim()
+  return text ? { text, truncated: false } : { error: 'bad-reply' }
+}
+
+/** The app's code for a failed Workers AI run: the free daily allocation used up reads as today's limit. */
+export const workersErrorCode = err => (/4006|free allocation|neurons/i.test(String(err?.message || err)) ? 'limit' : 'unreachable')
 
 /** The daily cap from AI_DAILY (1 to 500), else DEFAULT_DAILY. */
 export const dailyCap = v => {

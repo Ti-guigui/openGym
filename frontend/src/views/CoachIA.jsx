@@ -96,6 +96,8 @@ export default function CoachIA() {
         disabled={off || busy} maxLength={2000} expanded={expanded} setExpanded={setExpanded} />
       <Button variant="primary" icon="arrowUp" className="cia-send" aria-label={t('Send')} disabled={off || busy || !text.trim()} onClick={() => send()} />
     </div>
-    <div className="small dim cia-foot">{t('Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.')}</div>
+    <div className="small dim cia-foot">{status?.provider === 'anthropic'
+      ? t('Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.')
+      : t('Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.')}</div>
   </div>
 }

@@ -6040,6 +6040,7 @@ export default {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "সপ্তাহে ১ কেজি দ্রুত। কয়েক সপ্তাহ চলে, ধরে রাখা কঠিন।",
   "AI coach": "এআই কোচ",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "উত্তর আসে একটি এআই (Claude) থেকে: এগুলো ভুল হতে পারে এবং চিকিৎসা পরামর্শ নয়। উত্তর দিতে তোমার প্রশ্ন ও ডেটার সারাংশ Anthropic-এ পাঠানো হয়।",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "উত্তরগুলো একটি এআই থেকে আসে (Cloudflare-চালিত একটি ওপেন মডেল): এগুলো ভুল হতে পারে এবং চিকিৎসা পরামর্শ নয়। উত্তর দিতে তোমার প্রশ্ন ও তোমার ডেটার সারাংশ Cloudflare-এ পাঠানো হয়।",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "ট্রেনিং, খাবার বা অগ্রগতি নিয়ে যা খুশি জিজ্ঞেস করো। কোচ তোমার প্রোফাইল, লক্ষ্য, ক্যালরি, ওজন, মাপ ও সাম্প্রতিক ওয়ার্কআউট দেখে।",
   "Ask the coach": "কোচকে জিজ্ঞেস করো",
   "Ask the coach…": "কোচকে লেখো…",

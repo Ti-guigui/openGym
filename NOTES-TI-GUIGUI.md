@@ -106,31 +106,39 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
     Code : `linkFor` dans `frontend/src/lib/routine-link.js`.
 12. **Coach IA** (version téléphone Cloudflare seulement, avec un compte) :
     - serveur : routes `/api/ai/status` et `/api/ai/chat` dans `functions/api/[[path]].js`, requête
-      à Claude dans `functions/lib/ai-coach.js` (tests `api/test/ai-coach.test.js`) ; compteur du
+      au modèle dans `functions/lib/ai-coach.js` (tests `api/test/ai-coach.test.js`) ; compteur du
       jour dans la table D1 `ai_usage` (`migrations/0003_coach_ia.sql`). Les questions ne sont pas
       gardées sur le serveur ;
     - appli : écran `frontend/src/views/CoachIA.jsx` (carte « Coach IA » sur l'Accueil), résumé des
       données envoyé avec chaque question dans `frontend/src/lib/coach-ia.js`, conversation gardée
       dans le téléphone ;
-    - **mise en route, une fois** (sinon l'écran dit « pas encore configuré ») :
+    - **modèle : Cloudflare Workers AI** (depuis le 25/11/2026), branché par `[ai] binding = "AI"`
+      dans `wrangler.toml` : aucune clé, gratuit jusqu'à 10 000 « neurons » par jour pour tout le
+      compte Cloudflare (environ quelques dizaines de questions ; au-delà, l'écran dit « plus de
+      questions pour aujourd'hui »). Modèle : `WORKERS_MODEL` dans `functions/lib/ai-coach.js`
+      (Llama 3.3 70B). Mise en route : seulement la migration D1 (`npx wrangler d1 migrations apply
+      ti-guigui-fit --remote`) puis un déploiement ;
+    - **revenir à Claude** (payant, meilleures réponses) : poser `AI_PROVIDER` = `anthropic` et la clé
+      `ANTHROPIC_API_KEY` comme secrets Pages, puis redéployer. La clé se crée sur
+      https://platform.claude.com/settings/keys et il faut des crédits (Plans & Billing). La poser
+      dans sa propre fenêtre PowerShell, sans passer par le presse-papiers déjà utilisé pour la
+      commande :
       ```powershell
       cd "$HOME\openGym"
-      npx wrangler d1 migrations apply ti-guigui-fit --remote
-      npx.cmd wrangler pages secret put ANTHROPIC_API_KEY --project-name ti-guigui-fit
+      $k = (Read-Host "Clé").Trim()   # coller la clé ici
+      $k | npx.cmd wrangler pages secret put ANTHROPIC_API_KEY --project-name ti-guigui-fit
+      "anthropic" | npx.cmd wrangler pages secret put AI_PROVIDER --project-name ti-guigui-fit
       ```
-      La clé se crée sur https://platform.claude.com/settings/keys (compte Anthropic payant à
-      l'usage). La commande demande de coller la clé : la lancer dans sa propre fenêtre PowerShell
-      (`npx.cmd`, car `npx` y est bloqué), pas avec `!` dans Claude Code, qui enregistre une clé vide.
-      Réglages facultatifs, posés eux aussi comme secrets (avec `wrangler.toml` présent, le tableau
-      de bord Cloudflare ne laisse pas modifier les variables) : `AI_DAILY` = questions par
-      personne et par jour (20 par défaut), `AI_MODEL` = modèle (`claude-opus-5-5` par défaut ;
-      `claude-haiku-5-5` coûte environ 40 fois moins cher, en place depuis le 25/11/2026) :
-      ```powershell
-      "claude-haiku-5-5" | npx.cmd wrangler pages secret put AI_MODEL --project-name ti-guigui-fit
-      ```
-      Tout changement de secret ne compte qu'au déploiement suivant ; vérifier ensuite
-      https://ti-guigui-fit.pages.dev/api/ai/status (`"available":true`) ;
-    - la politique de confidentialité mentionne l'envoi à Anthropic.
+      (`npx.cmd`, car `npx` y est bloqué ; jamais avec `!` dans Claude Code, qui enregistre une
+      valeur vide.) `AI_MODEL` choisit le modèle Claude (`claude-haiku-5-5` posé le 25/11/2026) ;
+    - `AI_DAILY` = questions par personne et par jour (20 par défaut), posé lui aussi comme secret
+      (avec `wrangler.toml` présent, le tableau de bord Cloudflare ne laisse pas modifier les
+      variables). Tout changement de secret ne compte qu'au déploiement suivant ; vérifier ensuite
+      https://ti-guigui-fit.pages.dev/api/ai/status (`"available":true` et `"provider"`) ;
+    - en cas de refus, la raison est dans les journaux : `npx wrangler pages deployment tail <adresse
+      du déploiement> --project-name ti-guigui-fit` (lignes `ai workers` ou `ai upstream`) ;
+    - la politique de confidentialité dit à qui partent les questions (Cloudflare, ou Anthropic si
+      Claude est choisi), et l'écran du coach aussi.
 
 13. **Séance guidée** (comme sur la montre) : `frontend/src/components/GuidedPlayer.jsx`, en plein
     écran, une série à la fois : animation de l'exercice, répétitions et poids réglables avec un grand

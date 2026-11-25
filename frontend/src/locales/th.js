@@ -5972,6 +5972,7 @@ export default {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "สัปดาห์ละ 1 กก. ถือว่าเร็ว ทำได้ไม่กี่สัปดาห์ รักษาไว้ยาก",
   "AI coach": "โค้ช AI",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "คำตอบมาจาก AI (Claude): อาจผิดพลาดและไม่ใช่คำแนะนำทางการแพทย์ คำถามและสรุปข้อมูลของคุณจะถูกส่งไปยัง Anthropic เพื่อตอบ",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "คำตอบมาจาก AI (โมเดลแบบเปิดที่ Cloudflare รัน) อาจผิดพลาดได้และไม่ใช่คำแนะนำทางการแพทย์ คำถามของคุณและสรุปข้อมูลของคุณจะถูกส่งไปยัง Cloudflare เพื่อตอบ",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "ถามได้ทุกเรื่องเกี่ยวกับการฝึก อาหาร หรือความก้าวหน้า โค้ชเห็นโปรไฟล์ เป้าหมาย แคลอรี่ น้ำหนัก สัดส่วน และการฝึกล่าสุดของคุณ",
   "Ask the coach": "ถามโค้ช",
   "Ask the coach…": "พิมพ์ถึงโค้ช…",

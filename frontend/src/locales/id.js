@@ -5926,6 +5926,7 @@ export default {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "1 kg per minggu itu cepat. Boleh beberapa minggu, sulit dipertahankan.",
   "AI coach": "Pelatih AI",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "Jawaban berasal dari AI (Claude): bisa salah dan bukan saran medis. Pertanyaanmu dan ringkasan datamu dikirim ke Anthropic untuk dijawab.",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "Jawaban berasal dari AI (model terbuka yang dijalankan Cloudflare): bisa salah dan bukan nasihat medis. Pertanyaanmu dan ringkasan datamu dikirim ke Cloudflare untuk dijawab.",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "Tanyakan apa saja soal latihan, makanan, atau kemajuanmu. Pelatih melihat profil, target, kalori, berat badan, ukuran tubuh, dan latihan terakhirmu.",
   "Ask the coach": "Tanya pelatih",
   "Ask the coach…": "Tulis ke pelatih…",
