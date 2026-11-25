@@ -36,13 +36,14 @@ const shownValue = (entry, field, profileUnit) => {
   return toMeasurementDisplay(value, profileUnit, field)
 }
 
-function MeasurementLog({ sourceDate, close }) {
+function MeasurementLog({ sourceDate, close, only }) {
   const S = useStore(s => s.S)
   const source = sourceDate ? S.measurements.find(e => e.d === sourceDate) : null
   const enabled = enabledMeasurementFields(S)
-  const fields = [...enabled]
+  // `only`: a tap on the figure asks for that one measurement; the day's other values are kept.
+  const fields = only ? enabled.filter(f => f.key === only) : [...enabled]
   // Editing must expose populated fields even if the user disabled them after logging.
-  if (source) {
+  if (source && !only) {
     for (const f of MEASUREMENT_FIELDS) {
       if (source[f.key] != null && !fields.some(x => x.key === f.key)) fields.push(f)
     }
@@ -142,8 +143,8 @@ function MeasurementLog({ sourceDate, close }) {
   </>
 }
 
-export function measurementLogSheet(sourceDate = null) {
-  return useUI.getState().openSheet(close => <MeasurementLog sourceDate={sourceDate} close={close} />)
+export function measurementLogSheet(sourceDate = null, only = null) {
+  return useUI.getState().openSheet(close => <MeasurementLog sourceDate={sourceDate} only={only} close={close} />)
 }
 
 function ManageMeasurements({ close }) {
@@ -328,7 +329,10 @@ export default function Measurements() {
       </div>
       {figFields.length > 0 ? <MeasureFigure fields={figFields} unit={lengthUnitOf(S)} selected={key} body={S.body} choosing={choosing}
         values={Object.fromEntries(figFields.map(f => { const l = latestMeasurement(S, f.key); return [f.key, l ? shownValue(l.entry, f, lengthUnitOf(S)) : null] }))}
-        onPick={(k, has) => { if (choosing) toggleOnFigure(k); else if (has) setSelected(k); else measurementLogSheet() }} />
+        onPick={(k, has) => { if (choosing) toggleOnFigure(k); else if (has) setSelected(k); else {
+          // Today's check-in, if any, is added to rather than refused as a second one for the day.
+          setSelected(k); measurementLogSheet(S.measurements.some(e => e.d === todayISO()) ? todayISO() : null, k)
+        } }} />
         : <div className="small dim">{t('Choose the measurements you want to track, then log your first check-in.')}</div>}
     </div>
 

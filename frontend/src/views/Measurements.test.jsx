@@ -106,6 +106,18 @@ describe('logging body measurements', () => {
     expect(entries()[0].waist).toBe(88)
   })
 
+  it('a tap on the figure opens only that measurement, and keeps the day\'s others', () => {
+    const day = todayISO()
+    seed({ measurements: [{ d: day, t: 1, waist: 90, chest: null, bodyFat: 18, other: [] }] })
+    act(() => measurementLogSheet(day, 'chest'))
+    const form = topSheet()
+    expect(form.querySelectorAll('.measure-field')).toHaveLength(1)
+    setValue(field(form, 'Chest'), '100')
+    click(form, 'Save')
+    expect(entries()).toHaveLength(1)
+    expect(entries()[0]).toMatchObject({ waist: 90, chest: 100, bodyFat: 18 })
+  })
+
   it('deleting a check-in asks first and then removes only that day', () => {
     seed({ measurements: [
       { d: '2026-09-01', t: 1, waist: 92, chest: null, bodyFat: null, other: [] },
