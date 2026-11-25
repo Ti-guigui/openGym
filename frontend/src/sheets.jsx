@@ -4029,7 +4029,7 @@ function dailyCheckinSheet(routineIds, opts) {
 }
 // `opts` from the Apple Watch (lib/watch-sync.js): a session started there keeps the watch's id,
 // so the sets ticked on it find it, and its start time, however late the phone hears of it.
-export function beginWorkout(routineIds, bw, { id = null, start = null, lead = null, lighter = null } = {}) {
+export function beginWorkout(routineIds, bw, { id = null, start = null, lead = null, lighter = null, guided = false } = {}) {
   const st = S()
   const built = buildCombinedEntries(st, routineIds)
   const { routineIds: rids, routines } = built
@@ -4049,6 +4049,8 @@ export function beginWorkout(routineIds, bw, { id = null, start = null, lead = n
       // Snapshot the layout at start so the header ⋮ can change it for this session only —
       // changing the saved default (Settings → Workout view) mid-session leaves it alone.
       workoutView: st.workoutView || 'cards',
+      // Ti Guigui FIT: started in the guided player (components/GuidedPlayer.jsx).
+      ...(guided ? { guided: true } : {}),
     }
   })
   // "Go lighter" from the check-in (lib/daily-form.js): today's numbers only, said so.

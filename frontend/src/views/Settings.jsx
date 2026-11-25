@@ -1,5 +1,6 @@
 import { showsDashboard } from '../lib/trainer-api.js'
 import { APP_NAME } from '../lib/brand.js'
+import { previewOn } from '../lib/preview-start.js'
 import { recordHintsOn } from '../lib/set-records.js'
 import { setRecoveryHint } from '../lib/recovery-hint.js'
 import { useEffect, useRef, useState, forwardRef, useSyncExternalStore } from 'react'
@@ -708,8 +709,8 @@ export default function Settings({ page = null, find = null, via = null, entryKe
         {/* #976: a planned session opens on what it holds, with Start at its foot. */}
         <Row icon="list" iconTint="var(--blue)" title={t('Preview before starting')}
           subtitle={t('See the exercises and weights first, then tap Start.')}>
-          <Switch aria-label={t('Preview before starting')} checked={S.previewStart === true}
-            onChange={v => update(s => { if (v) s.previewStart = true; else delete s.previewStart })} />
+          <Switch aria-label={t('Preview before starting')} checked={previewOn(S)}
+            onChange={v => update(s => { if (APP_NAME === 'openGym') { if (v) s.previewStart = true; else delete s.previewStart } else if (v) delete s.previewStart; else s.previewStart = false })} />
         </Row>
         {/* The quick weigh-in that opens on Start (sheets.jsx startFlow, issue #137); off skips
             straight to the session. Home and Stats still log weight by hand. */}

@@ -6013,4 +6013,15 @@ export default {
   "Plan my training week.": "मेरा ट्रेनिंग हफ़्ता प्लान करें।",
   "How are my measurements going?": "मेरे माप कैसे बदल रहे हैं?",
   "Couldn’t reach the coach. Check your connection and try again.": "कोच तक नहीं पहुँच सके। अपना कनेक्शन जाँचें और फिर कोशिश करें।",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "सूची पर वापस",
+  "Choose": "चुनें",
+  "Every set is done": "सारे सेट पूरे",
+  "Guided workout": "गाइडेड वर्कआउट",
+  "Muscles worked": "काम करने वाली मांसपेशियाँ",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "एक बार में एक सेट, पूरी स्क्रीन पर: एनीमेशन, आपके रेप्स या उलटी गिनती, फिर आराम।",
+  "One set at a time, with the animation and the timers": "एक बार में एक सेट, एनीमेशन और टाइमर के साथ",
+  "Set {0} / {1}": "सेट {0} / {1}",
+  "Tap the body to choose what you measure.": "क्या मापना है चुनने के लिए शरीर पर टैप करें।",
+  "Warm-up {0} / {1}": "वार्म-अप {0} / {1}",
 }

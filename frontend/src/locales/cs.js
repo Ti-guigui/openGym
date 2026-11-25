@@ -5979,4 +5979,15 @@ export default {
   "Plan my training week.": "Naplánuj mi tréninkový týden.",
   "How are my measurements going?": "Jak se vyvíjejí moje míry?",
   "Couldn’t reach the coach. Check your connection and try again.": "Trenér není dostupný. Zkontroluj připojení a zkus to znovu.",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "Zpět na seznam",
+  "Choose": "Vybrat",
+  "Every set is done": "Všechny série hotové",
+  "Guided workout": "Řízený trénink",
+  "Muscles worked": "Procvičované svaly",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "Jedna série po druhé na celé obrazovce: animace, opakování nebo odpočet, pak pauza.",
+  "One set at a time, with the animation and the timers": "Jedna série po druhé, s animací a stopkami",
+  "Set {0} / {1}": "Série {0} / {1}",
+  "Tap the body to choose what you measure.": "Klepni na tělo a vyber, co měříš.",
+  "Warm-up {0} / {1}": "Rozcvička {0} / {1}",
 }

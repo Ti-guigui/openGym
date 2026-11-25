@@ -5953,4 +5953,15 @@ export default {
   "Plan my training week.": "Planlæg min træningsuge.",
   "How are my measurements going?": "Hvordan går det med mine mål?",
   "Couldn’t reach the coach. Check your connection and try again.": "Kunne ikke nå coachen. Tjek din forbindelse, og prøv igen.",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "Tilbage til listen",
+  "Choose": "Vælg",
+  "Every set is done": "Alle sæt er færdige",
+  "Guided workout": "Guidet træning",
+  "Muscles worked": "Trænede muskler",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "Ét sæt ad gangen i fuld skærm: animationen, dine gentagelser eller en nedtælling, derefter pausen.",
+  "One set at a time, with the animation and the timers": "Ét sæt ad gangen med animation og timere",
+  "Set {0} / {1}": "Sæt {0} / {1}",
+  "Tap the body to choose what you measure.": "Tryk på kroppen for at vælge, hvad du måler.",
+  "Warm-up {0} / {1}": "Opvarmning {0} / {1}",
 }

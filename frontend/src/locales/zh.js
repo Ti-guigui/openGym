@@ -6013,4 +6013,15 @@ export default {
   "Plan my training week.": "帮我安排这周的训练。",
   "How are my measurements going?": "我的围度变化怎么样？",
   "Couldn’t reach the coach. Check your connection and try again.": "无法连接教练。请检查网络后重试。",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "返回列表",
+  "Choose": "选择",
+  "Every set is done": "所有组都已完成",
+  "Guided workout": "引导训练",
+  "Muscles worked": "训练到的肌肉",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "全屏一次一组：动画、你的次数或倒计时，然后休息。",
+  "One set at a time, with the animation and the timers": "一次一组，带动画和计时",
+  "Set {0} / {1}": "第 {0} / {1} 组",
+  "Tap the body to choose what you measure.": "点身体选择要测量的部位。",
+  "Warm-up {0} / {1}": "热身 {0} / {1}",
 }

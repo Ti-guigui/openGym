@@ -86,9 +86,12 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
      l'anglais), comme le mannequin 3D. Pour ajouter un repas : une ligne dans `MEALS` ;
    - écran `frontend/src/views/Nutrition.jsx`, carte `frontend/src/components/NutritionCard.jsx`,
      style `.nut-*` dans `index.css`, icônes `utensils` et `leaf` dans `Icon.jsx`.
-10. **Silhouette des mensurations** (Stats → Mensurations) : `frontend/src/components/MeasureFigure.jsx`,
-    un dessin simple fait pour l'appli. Chaque tour suivi a son point (`SPOTS`) et sa dernière valeur ;
-    toucher un point affiche sa courbe, un tour jamais noté ouvre la saisie. Style `.mfig-*`.
+10. **Mannequin des mensurations** (Stats → Mensurations) : `frontend/src/components/MeasureFigure.jsx`
+    dessine le corps des cartes musculaires de l'appli (`lib/body-geometry.js`, homme ou femme selon
+    le profil) avec un point par tour suivi (`SPOTS`) et sa dernière valeur. Toucher un point affiche
+    sa courbe ; un tour jamais noté ouvre la saisie. Bouton **Choisir** : tous les tours apparaissent
+    et toucher le corps active ou désactive une mensuration. Placement des étiquettes sans
+    chevauchement : `lib/measure-figure.js` (tests `measure-figure.test.js`). Style `.mfig-*`.
 11. **Partager une séance avec un collègue** : le bouton « Partager avec un ami » (dans une routine,
     ou dans le détail d'une séance terminée) crée maintenant un lien
     `https://ti-guigui-fit.pages.dev/#/r/…` (avant : opengym.ch). Le collègue l'ouvre sur son
@@ -113,6 +116,19 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
       `AI_DAILY` = questions par personne et par jour (20 par défaut), `AI_MODEL` = modèle
       (`claude-opus-5-5` par défaut ; `claude-haiku-5-5` coûte environ 40 fois moins cher) ;
     - la politique de confidentialité mentionne l'envoi à Anthropic.
+
+13. **Séance guidée** (comme sur la montre) : `frontend/src/components/GuidedPlayer.jsx`, en plein
+    écran, une série à la fois : animation de l'exercice, répétitions et poids réglables avec un grand
+    bouton Terminé, ou chrono pour un exercice tenu (gainage…), puis le repos en compte à rebours avec
+    l'exercice suivant. S'ouvre avec « Séance guidée » dans l'aperçu de séance ou en haut de la séance
+    en cours (et dans le menu ⋯). L'ordre des séries (superséries comprises) est dans `lib/guided.js`
+    (tests `guided.test.js`) ; valider une série, les chronos et le repos passent par le code normal de
+    `views/Workout.jsx` (records, temps de repos, fin de séance identiques). Style `.gp-*` (repris du
+    lecteur de circuit `.cp-*`).
+14. **Aperçu de séance avec les zones travaillées** : choisir une séance ouvre l'aperçu
+    (`components/StartSheets.jsx`, activé par défaut dans Ti Guigui FIT, désactivable dans Réglages →
+    Séance → Aperçu avant de démarrer ; règle dans `lib/preview-start.js`) avec le grand mannequin
+    avant/arrière des muscles travaillés et leurs noms, puis « Séance guidée » ou « Démarrer ».
 
 ## Règles à respecter
 

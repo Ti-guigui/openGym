@@ -16,6 +16,10 @@ import { glyphOf } from '../lib/glyphs.js'
 import { leftoversBefore } from '../lib/leftovers.js'
 import { Button, Row } from './ui.jsx'
 import MiniBodyMap from './MiniBodyMap.jsx'
+import BodyMap from './BodyMap.jsx'
+import { APP_NAME } from '../lib/brand.js'
+import { previewOn } from '../lib/preview-start.js'
+import { loadOfRoutine, MUSCLES, MUSCLE_NAME } from '../lib/muscles.js'
 
 const ui = () => useUI.getState()
 const S = () => useStore.getState().S
@@ -29,7 +33,7 @@ export function startOrPreview(routineIds) {
   // answer is remembered (S.leftoverSeen) and Start goes back to one tap.
   const left = ids.length ? leftoversBefore(S(), todayISO(), ids) : null
   if (left) return askLeftovers(left, ids)
-  if (S().previewStart === true && ids.length) { previewSheet(ids); return }
+  if (previewOn(S()) && ids.length) { previewSheet(ids); return }
   startFlow(ids)
 }
 
@@ -123,15 +127,26 @@ function Preview({ ids, close }) {
   const name = built.routines.length ? deriveSessionName(built.routines.map(r => r.name)) : t('Freestyle')
   const speedUnit = speedUnitOf(st)
   const start = () => { close(); startFlow(built.routineIds) }
+  const startGuided = () => { close(); startFlow(built.routineIds, { guided: true }) }
   const other = () => { close(); startPickerSheet() }
+  const fork = APP_NAME !== 'openGym'
+  // The muscles the session works, most sets first (Ti Guigui FIT: a big map, not a thumbnail).
+  const load = useMemo(() => loadOfRoutine({ ex: built.routines.flatMap(r => r?.ex || []) }), [built])
+  const worked = MUSCLES.filter(m => (load[m] || 0) > 0).sort((a, b) => load[b] - load[a])
   return <>
     <div className="row between" style={{ gap: 12, marginBottom: 4 }}>
       <div style={{ minWidth: 0 }}>
         <h3 style={{ marginBottom: 2 }}>{name}</h3>
         <div className="muted small">{exCount(built.entries.length)}</div>
       </div>
-      <MiniBodyMap routines={built.routines} body={st.body} />
+      {!fork && <MiniBodyMap routines={built.routines} body={st.body} />}
     </div>
+    {fork && worked.length > 0 && <div className="pv-muscles">
+      <BodyMap className="bm-session pv-map" load={load} body={st.body} />
+      <div className="pv-chips" aria-label={t('Muscles worked')}>
+        {worked.slice(0, 8).map((m, i) => <span key={m} className={'chip nocap pv-chip' + (i < 3 ? ' main' : '')}>{t(MUSCLE_NAME[m])}</span>)}
+      </div>
+    </div>}
     {built.entries.length
       ? <ol className="list preview-list" style={{ margin: '12px 0 16px' }} aria-label={t('In this workout')}>
         {built.entries.map((e, i) => {
@@ -145,7 +160,9 @@ function Preview({ ids, close }) {
         })}
       </ol>
       : <div className="muted small" style={{ margin: '12px 0 16px' }}>{t('No exercises in it yet. You can add them once it runs.')}</div>}
-    <Button variant="primary" icon="play" onClick={start}>{t('Start {0}', name)}</Button>
+    {fork && built.entries.length > 0 && <><Button variant="primary" icon="play" onClick={startGuided}>{t('Guided workout')}</Button>
+      <div className="small dim pv-guided">{t('One set at a time, full screen: the animation, your reps or a countdown, then the rest.')}</div></>}
+    <Button variant={fork && built.entries.length ? 'tinted' : 'primary'} icon={fork && built.entries.length ? 'list' : 'play'} onClick={start}>{t('Start {0}', name)}</Button>
     <div style={{ height: 8 }} />
     <Button variant="ghost" className="dim" icon="swap" onClick={other}>{t('Choose a different workout')}</Button>
   </>

@@ -5979,4 +5979,15 @@ export default {
   "Plan my training week.": "Lên kế hoạch tuần tập của tôi.",
   "How are my measurements going?": "Số đo của tôi đang thay đổi thế nào?",
   "Couldn’t reach the coach. Check your connection and try again.": "Không liên lạc được với huấn luyện viên. Kiểm tra kết nối và thử lại.",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "Quay lại danh sách",
+  "Choose": "Chọn",
+  "Every set is done": "Đã xong mọi hiệp",
+  "Guided workout": "Buổi tập có hướng dẫn",
+  "Muscles worked": "Nhóm cơ được tập",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "Từng hiệp một, toàn màn hình: hoạt ảnh, số lần hoặc đếm ngược, rồi nghỉ.",
+  "One set at a time, with the animation and the timers": "Từng hiệp một, có hoạt ảnh và đồng hồ",
+  "Set {0} / {1}": "Hiệp {0} / {1}",
+  "Tap the body to choose what you measure.": "Chạm vào cơ thể để chọn số đo cần theo dõi.",
+  "Warm-up {0} / {1}": "Khởi động {0} / {1}",
 }

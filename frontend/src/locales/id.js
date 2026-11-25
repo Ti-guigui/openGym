@@ -5978,4 +5978,15 @@ export default {
   "Plan my training week.": "Rencanakan minggu latihanku.",
   "How are my measurements going?": "Bagaimana perkembangan ukuran tubuhku?",
   "Couldn’t reach the coach. Check your connection and try again.": "Tidak bisa menghubungi pelatih. Periksa koneksimu dan coba lagi.",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "Kembali ke daftar",
+  "Choose": "Pilih",
+  "Every set is done": "Semua set selesai",
+  "Guided workout": "Latihan terpandu",
+  "Muscles worked": "Otot yang dilatih",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "Satu set sekali, layar penuh: animasi, repetisimu atau hitung mundur, lalu istirahat.",
+  "One set at a time, with the animation and the timers": "Satu set sekali, dengan animasi dan pengatur waktu",
+  "Set {0} / {1}": "Set {0} / {1}",
+  "Tap the body to choose what you measure.": "Ketuk tubuh untuk memilih yang kamu ukur.",
+  "Warm-up {0} / {1}": "Pemanasan {0} / {1}",
 }

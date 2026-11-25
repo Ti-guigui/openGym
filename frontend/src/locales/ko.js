@@ -6013,4 +6013,15 @@ export default {
   "Plan my training week.": "이번 주 운동 계획을 짜 줘.",
   "How are my measurements going?": "신체 치수는 어떻게 변하고 있나요?",
   "Couldn’t reach the coach. Check your connection and try again.": "코치에 연결할 수 없습니다. 연결을 확인하고 다시 시도하세요.",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "목록으로",
+  "Choose": "선택",
+  "Every set is done": "모든 세트 완료",
+  "Guided workout": "가이드 운동",
+  "Muscles worked": "사용 근육",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "전체 화면에서 한 세트씩: 애니메이션, 반복 횟수나 카운트다운, 그다음 휴식.",
+  "One set at a time, with the animation and the timers": "애니메이션과 타이머로 한 세트씩",
+  "Set {0} / {1}": "세트 {0} / {1}",
+  "Tap the body to choose what you measure.": "측정할 부위를 고르려면 몸을 탭하세요.",
+  "Warm-up {0} / {1}": "워밍업 {0} / {1}",
 }

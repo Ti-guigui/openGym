@@ -5979,4 +5979,15 @@ export default {
   "Plan my training week.": "هفتهٔ تمرینی‌ام را برنامه‌ریزی کن.",
   "How are my measurements going?": "اندازه‌هایم چطور پیش می‌رود؟",
   "Couldn’t reach the coach. Check your connection and try again.": "دسترسی به مربی ممکن نشد. اتصالت را بررسی کن و دوباره امتحان کن.",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "بازگشت به فهرست",
+  "Choose": "انتخاب",
+  "Every set is done": "همهٔ ست‌ها انجام شد",
+  "Guided workout": "تمرین هدایت‌شده",
+  "Muscles worked": "عضلات درگیر",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "هر بار یک ست، تمام‌صفحه: انیمیشن، تکرارهایت یا شمارش معکوس، سپس استراحت.",
+  "One set at a time, with the animation and the timers": "هر بار یک ست، با انیمیشن و زمان‌سنج‌ها",
+  "Set {0} / {1}": "ست {0} / {1}",
+  "Tap the body to choose what you measure.": "روی بدن بزن تا انتخاب کنی چه چیزی را اندازه بگیری.",
+  "Warm-up {0} / {1}": "گرم‌کردن {0} / {1}",
 }

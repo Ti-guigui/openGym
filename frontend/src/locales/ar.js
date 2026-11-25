@@ -6068,4 +6068,15 @@ export default {
   "Plan my training week.": "خطط لأسبوع تماريني.",
   "How are my measurements going?": "كيف تتطور قياساتي؟",
   "Couldn’t reach the coach. Check your connection and try again.": "تعذّر الوصول إلى المدرب. تحقق من اتصالك وحاول مجددًا.",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "العودة إلى القائمة",
+  "Choose": "اختيار",
+  "Every set is done": "انتهت كل المجموعات",
+  "Guided workout": "تمرين موجَّه",
+  "Muscles worked": "العضلات العاملة",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "مجموعة واحدة في كل مرة بملء الشاشة: الرسم المتحرك، تكراراتك أو عدّ تنازلي، ثم الراحة.",
+  "One set at a time, with the animation and the timers": "مجموعة واحدة في كل مرة، مع الرسم المتحرك والمؤقتات",
+  "Set {0} / {1}": "المجموعة {0} / {1}",
+  "Tap the body to choose what you measure.": "المس الجسم لتختار ما تقيسه.",
+  "Warm-up {0} / {1}": "الإحماء {0} / {1}",
 }

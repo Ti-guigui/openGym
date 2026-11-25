@@ -73,6 +73,10 @@ import { canMoveActiveWorkoutUnit, moveActiveWorkoutUnit, canMoveActiveWorkoutEn
 import { nextOpenSet, workoutKeyAction } from '../lib/workout-keys.js'
 import { MUSCLE_NAME } from '../lib/muscles.js'
 import FocusView from './FocusView.jsx'
+import GuidedPlayer from '../components/GuidedPlayer.jsx'
+import { APP_NAME } from '../lib/brand.js'
+// Ti Guigui FIT's own additions on this screen; the upstream test run keeps the upstream screen.
+const FORK = APP_NAME !== 'openGym'
 import { startOrPreview } from '../components/StartSheets.jsx'
 import { isPaused, canPause, pauseWorkout, resumeWorkout } from '../lib/workout-pause.js'
 import { SeasonDeco } from '../components/Seasonal.jsx'
@@ -1839,6 +1843,7 @@ function ActiveWorkout() {
   // (Settings → During a workout → Workout view). It writes s.active.workoutView, which the
   // render above prefers over S.workoutView.
   const setWorkoutView = v => update(s => { if (s.active) s.active.workoutView = v })
+  const setGuided = on => update(s => { if (!s.active) return; if (on) s.active.guided = true; else delete s.active.guided })
   const LAYOUT_LABEL = {
     cards: t('Cards'),
     list: t('List'),
@@ -1976,6 +1981,7 @@ function ActiveWorkout() {
         { icon: 'plusCircle', label: t('Add exercise'), onClick: addExercise },
         { icon: 'note', label: A.note ? t('Edit session note') : t('Add session note'), onClick: sessionNoteSheet },
         { icon: 'layout', label: t('Layout'), sub: LAYOUT_LABEL[workoutView] || LAYOUT_LABEL.cards, onClick: openLayoutMenu },
+        FORK && !editing && !A.backfill && A.entries.length > 0 && { icon: 'play', label: t('Guided workout'), sub: t('One set at a time, with the animation and the timers'), onClick: () => setGuided(true) },
       ] },
       { more: [{ items: [
         !editing && { icon: 'clipboard', label: t('Add routine'), sub: t('Bring another routine into this session'), onClick: addRoutineToSessionSheet },
@@ -2741,6 +2747,13 @@ function ActiveWorkout() {
         anywhere in a long stack. */}
     {listMode && chipRow}
     </div>
+    {/* Ti Guigui FIT: the guided workout, one set at a time full screen (components/GuidedPlayer.jsx). */}
+    {FORK && !editing && !A.backfill && A.entries.length > 0 && !A.guided && <button type="button" className="gp-open" onClick={() => setGuided(true)}>
+      <span className="lrow-i" aria-hidden="true"><Icon name="play" /></span>
+      <span className="gp-open-m"><b>{t('Guided workout')}</b><span className="small dim">{t('One set at a time, with the animation and the timers')}</span></span>
+      <Icon name="chevronRight" />
+    </button>}
+    {!editing && !A.backfill && A.guided && <GuidedPlayer toggle={toggle} startTimed={startTimed} close={() => setGuided(false)} />}
     {/* Paused (#976): said plainly, with the one thing to do about it. Set a set done and it resumes too. */}
     {paused && <div className="wpause" role="status">
       <span className="wpause-i" aria-hidden="true"><Icon name="pause" /></span>

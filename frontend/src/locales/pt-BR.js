@@ -4442,6 +4442,17 @@ export const PT_BR_OVERRIDES = {
   "Plan my training week.": "Planeje minha semana de treino.",
   "How are my measurements going?": "Como estão minhas medidas?",
   "Couldn’t reach the coach. Check your connection and try again.": "Não foi possível falar com o treinador. Confira sua conexão e tente de novo.",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "Voltar para a lista",
+  "Choose": "Escolher",
+  "Every set is done": "Todas as séries feitas",
+  "Guided workout": "Treino guiado",
+  "Muscles worked": "Músculos trabalhados",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "Uma série por vez, em tela cheia: a animação, suas repetições ou uma contagem regressiva, depois o descanso.",
+  "One set at a time, with the animation and the timers": "Uma série por vez, com a animação e os timers",
+  "Set {0} / {1}": "Série {0} / {1}",
+  "Tap the body to choose what you measure.": "Toque no corpo para escolher o que você mede.",
+  "Warm-up {0} / {1}": "Aquecimento {0} / {1}",
 }
 
 export default { ...pt, ...PT_BR_OVERRIDES }

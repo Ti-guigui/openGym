@@ -6024,4 +6024,15 @@ export default {
   "Plan my training week.": "วางแผนสัปดาห์ฝึกของฉัน",
   "How are my measurements going?": "สัดส่วนของฉันเป็นอย่างไรบ้าง?",
   "Couldn’t reach the coach. Check your connection and try again.": "ติดต่อโค้ชไม่ได้ ตรวจสอบการเชื่อมต่อแล้วลองอีกครั้ง",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "กลับไปที่รายการ",
+  "Choose": "เลือก",
+  "Every set is done": "ทำครบทุกเซ็ตแล้ว",
+  "Guided workout": "การฝึกแบบนำทาง",
+  "Muscles worked": "กล้ามเนื้อที่ใช้",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "ทีละเซ็ตแบบเต็มจอ: แอนิเมชัน จำนวนครั้งหรือการนับถอยหลัง แล้วพัก",
+  "One set at a time, with the animation and the timers": "ทีละเซ็ต พร้อมแอนิเมชันและตัวจับเวลา",
+  "Set {0} / {1}": "เซ็ต {0} / {1}",
+  "Tap the body to choose what you measure.": "แตะที่ร่างกายเพื่อเลือกสิ่งที่จะวัด",
+  "Warm-up {0} / {1}": "วอร์มอัพ {0} / {1}",
 }

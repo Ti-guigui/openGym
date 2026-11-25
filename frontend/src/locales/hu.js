@@ -6016,4 +6016,15 @@ export default {
   "Plan my training week.": "Tervezd meg az edzéshetemet.",
   "How are my measurements going?": "Hogy alakulnak a méreteim?",
   "Couldn’t reach the coach. Check your connection and try again.": "Nem érhető el az edző. Ellenőrizd a kapcsolatot, és próbáld újra.",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "Vissza a listához",
+  "Choose": "Kiválasztás",
+  "Every set is done": "Minden sorozat kész",
+  "Guided workout": "Vezetett edzés",
+  "Muscles worked": "Dolgozó izmok",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "Egyszerre egy sorozat, teljes képernyőn: az animáció, az ismétléseid vagy egy visszaszámlálás, aztán a pihenő.",
+  "One set at a time, with the animation and the timers": "Egyszerre egy sorozat, animációval és időzítőkkel",
+  "Set {0} / {1}": "{0}. / {1} sorozat",
+  "Tap the body to choose what you measure.": "Koppints a testre, hogy kiválaszd, mit mérsz.",
+  "Warm-up {0} / {1}": "{0}. / {1} bemelegítés",
 }

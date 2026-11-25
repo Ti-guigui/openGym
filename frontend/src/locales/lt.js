@@ -6009,4 +6009,15 @@ export default {
   "Plan my training week.": "Suplanuok mano treniruočių savaitę.",
   "How are my measurements going?": "Kaip keičiasi mano apimtys?",
   "Couldn’t reach the coach. Check your connection and try again.": "Nepavyko susisiekti su treneriu. Patikrink ryšį ir bandyk dar kartą.",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "Atgal į sąrašą",
+  "Choose": "Pasirinkti",
+  "Every set is done": "Visi priėjimai atlikti",
+  "Guided workout": "Vedama treniruotė",
+  "Muscles worked": "Dirbantys raumenys",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "Po vieną priėjimą per visą ekraną: animacija, tavo pakartojimai arba atgalinis laikmatis, tada poilsis.",
+  "One set at a time, with the animation and the timers": "Po vieną priėjimą, su animacija ir laikmačiais",
+  "Set {0} / {1}": "Priėjimas {0} / {1}",
+  "Tap the body to choose what you measure.": "Bakstelėk kūną, kad pasirinktum, ką matuoji.",
+  "Warm-up {0} / {1}": "Apšilimas {0} / {1}",
 }

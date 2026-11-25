@@ -6010,4 +6010,15 @@ export default {
   "Plan my training week.": "Сплануй мій тренувальний тиждень.",
   "How are my measurements going?": "Як змінюються мої заміри?",
   "Couldn’t reach the coach. Check your connection and try again.": "Не вдалося зв’язатися з тренером. Перевір підключення й спробуй ще раз.",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "Назад до списку",
+  "Choose": "Вибрати",
+  "Every set is done": "Усі підходи виконано",
+  "Guided workout": "Тренування з підказками",
+  "Muscles worked": "Задіяні м’язи",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "По одному підходу на весь екран: анімація, твої повторення або відлік, потім відпочинок.",
+  "One set at a time, with the animation and the timers": "По одному підходу, з анімацією й таймерами",
+  "Set {0} / {1}": "Підхід {0} / {1}",
+  "Tap the body to choose what you measure.": "Торкнися тіла, щоб вибрати, що вимірювати.",
+  "Warm-up {0} / {1}": "Розминка {0} / {1}",
 }

@@ -6013,4 +6013,15 @@ export default {
   "Plan my training week.": "Antrenman haftamı planla.",
   "How are my measurements going?": "Ölçülerim nasıl gidiyor?",
   "Couldn’t reach the coach. Check your connection and try again.": "Koça ulaşılamadı. Bağlantını kontrol edip tekrar dene.",
+  // --- Guided workout, session muscles, measurements chooser (Ti Guigui FIT) ---
+  "Back to the list": "Listeye dön",
+  "Choose": "Seç",
+  "Every set is done": "Tüm setler tamam",
+  "Guided workout": "Rehberli antrenman",
+  "Muscles worked": "Çalışan kaslar",
+  "One set at a time, full screen: the animation, your reps or a countdown, then the rest.": "Tam ekranda tek tek setler: animasyon, tekrarların ya da geri sayım, sonra dinlenme.",
+  "One set at a time, with the animation and the timers": "Tek tek setler, animasyon ve zamanlayıcılarla",
+  "Set {0} / {1}": "Set {0} / {1}",
+  "Tap the body to choose what you measure.": "Neyi ölçeceğini seçmek için vücuda dokun.",
+  "Warm-up {0} / {1}": "Isınma {0} / {1}",
 }
