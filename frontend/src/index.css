@@ -4735,29 +4735,35 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 /* ---- Measurements figure (Ti Guigui FIT, components/MeasureFigure.jsx) ---- */
 .mfig-card{padding:12px 8px 12px}
 .mfig-head{gap:8px;margin:0 6px 6px}
-.mfig{position:relative;width:100%;max-width:460px;margin:0 auto}
-.mfig-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.mfig{display:grid;grid-template-columns:minmax(0,52fr) minmax(0,48fr);gap:10px;align-items:start}
+.mfig-svg{display:block;width:100%;height:auto;overflow:visible}
 .mfig-body path{fill:#e9ebef;stroke:#1f2329;stroke-width:3;stroke-linejoin:round}
 :root[data-theme="light"] .mfig-body path{fill:#f4f5f7;stroke:#3a3f47}
-.mfig-spot,.mfig-lbl{--c:var(--green)}
-.mfig-spot.c-violet,.mfig-lbl.c-violet{--c:var(--purple)}
-.mfig-spot.c-yellow,.mfig-lbl.c-yellow{--c:var(--yellow)}
-.mfig-spot circle{fill:var(--c);stroke:#1f2329;stroke-width:5}
-.mfig-lead{fill:none;stroke:var(--c);stroke-width:4;opacity:.85}
+.mfig-spot,.mfig-row{--c:var(--green)}
+.mfig-spot.c-violet,.mfig-row.c-violet{--c:var(--purple)}
+.mfig-spot.c-yellow,.mfig-row.c-yellow{--c:var(--yellow)}
+.mfig-spot{cursor:pointer}
+.mfig-spot circle{fill:var(--c);stroke:#1f2329;stroke-width:calc(5px * var(--k,1))}
 .mfig-tape{stroke:var(--c);stroke-width:10;stroke-dasharray:22 12;stroke-linecap:round}
-.mfig-spot.on .mfig-lead{stroke-width:6;opacity:1}
-.mfig-spot.off circle{fill:var(--surface);stroke:var(--c);stroke-width:5}
-.mfig-spot.off .mfig-lead,.mfig-spot.off .mfig-tape{opacity:.3}
-.mfig-lbl{position:absolute;transform:translateY(-50%);width:22.5%;height:9.4%;min-height:30px;display:flex;flex-direction:column;justify-content:center;gap:0;padding:2px 6px;border-radius:10px;
-  background:var(--surface-2);border:1.5px solid transparent;color:var(--label);font:inherit;cursor:pointer;text-align:start;line-height:1.1;overflow:hidden}
-.mfig-lbl.l{left:0}
-.mfig-lbl.r{right:0;text-align:end}
-.mfig-lbl.on,.mfig-lbl.picked{border-color:var(--c)}
-.mfig-lbl.off{opacity:.55}
-.mfig-n{font-size:10.5px;color:var(--label-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mfig-v{font-size:var(--fs-subhead);font-weight:600;color:var(--c);font-variant-numeric:tabular-nums;white-space:nowrap}
+.mfig-spot.off circle{fill:var(--surface);stroke:var(--c);stroke-width:calc(5px * var(--k,1))}
+.mfig-spot.off .mfig-tape{opacity:.3}
+.mfig-spot circle.mfig-ring{fill:transparent;stroke:none}
+.mfig-spot circle.mfig-ring.on{stroke:#fff;stroke-width:4}
+.mfig-spot.painted.off .mfig-ring{fill:rgba(10,12,18,.6)}
+.mfig-spot circle.mfig-hit{fill:transparent;stroke:none}
+.mfig-photo{clip-path:inset(0 round 18px)}
+.mfig-list{display:flex;flex-direction:column;gap:6px}
+.mfig-row{display:flex;align-items:center;gap:8px;min-height:40px;padding:6px 10px 6px 8px;border-radius:14px;background:var(--surface-2);
+  border:1.5px solid transparent;color:var(--label);font:inherit;text-align:start;cursor:pointer;line-height:1.15}
+.mfig-row.on,.mfig-row.picked{border-color:var(--c)}
+.mfig-row.off{opacity:.55}
+.mfig-dot{flex:none;width:18px;height:18px;border-radius:50%;background:var(--c);box-shadow:0 0 0 3px color-mix(in srgb,var(--c) 30%,transparent);display:grid;place-items:center;color:#1f2329;font-size:12px}
+.mfig-row.off .mfig-dot{background:none;border:2px solid var(--c);box-shadow:none}
+.mfig-n{flex:1;min-width:0;font-size:var(--fs-footnote);color:var(--label);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mfig-v{flex:none;font-size:var(--fs-subhead);font-weight:700;color:var(--c);font-variant-numeric:tabular-nums;white-space:nowrap}
 .mfig-v small{font-size:10px;font-weight:500;color:var(--label-2)}
-.mfig-lbl.empty .mfig-v{opacity:.75}
+.mfig-row.empty .mfig-v{opacity:.75}
+@media (max-width:360px){.mfig{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.mfig-n{font-size:12px}}
 
 /* ---- AI coach (Ti Guigui FIT, views/CoachIA.jsx) ---- */
 .cia{display:flex;flex-direction:column;min-height:calc(100dvh - 140px)}

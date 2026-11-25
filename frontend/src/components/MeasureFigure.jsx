@@ -1,15 +1,43 @@
 import { useEffect, useState } from 'react'
 import { t } from '../lib/i18n.js'
 import { fmtNum } from '../lib/format.js'
-import { placeLabels } from '../lib/measure-figure.js'
+import Icon from './Icon.jsx'
 
-// Body measurements on the app's anatomical figure (Ti Guigui FIT, views/Measurements.jsx): the
-// body of the muscle maps (lib/body-geometry.js, male or female as the profile says), drawn plain,
-// with a dot where the tape goes for each circumference and its latest value at the side.
+// Body measurements on a figure (Ti Guigui FIT, views/Measurements.jsx). A male profile gets the
+// illustrated man (public/mensurations-homme.webp, the owner's own picture, the brand logo on the
+// shorts painted out), whose coloured circles and tape lines are part of the picture: the spots sit
+// exactly on them and only the ones it lacks are drawn. A female profile gets the body of the
+// muscle maps (lib/body-geometry.js) drawn plain, with every spot drawn. Beside it, the list: a dot
+// of the same colour, the name and the latest value.
 // A tap picks it for the chart below; one never logged opens the log. In `choosing` mode every
 // circumference shows and a tap switches it on or off (Measurements → choose on the figure).
 //
 // Facing us, the person's left side is on our right. Spots are in each view's own viewBox.
+// The illustrated man, in the picture's own pixels (448 × 1072). `p`: the circle is in the picture.
+export const PHOTO = {
+  src: 'mensurations-homme.webp', vb: [0, 0, 448, 1072],
+  spots: {
+    neck: { x: 20, y: 165, side: 'l', p: 1 },
+    shoulders: { x: 20, y: 224, side: 'l', p: 1 },
+    chest: { x: 20, y: 294, side: 'l', p: 1 },
+    upperArmRight: { x: 20, y: 349, side: 'l', p: 1 },
+    forearmRight: { x: 20, y: 404, side: 'l', p: 1 },
+    waist: { x: 139, y: 382, side: 'l', p: 1 },
+    hips: { x: 116, y: 449, side: 'l', p: 1 },
+    wristRight: { x: 64, y: 530, side: 'l' },
+    thighRight: { x: 65, y: 604, side: 'l', p: 1 },
+    calfRight: { x: 65, y: 790, side: 'l', p: 1 },
+    ankleRight: { x: 158, y: 960, side: 'l' },
+    upperArmLeft: { x: 353, y: 350, side: 'r' },
+    forearmLeft: { x: 420, y: 404, side: 'r', p: 1 },
+    abdomen: { x: 208, y: 415, side: 'r' },
+    wristLeft: { x: 373, y: 530, side: 'r' },
+    thighLeft: { x: 369, y: 604, side: 'r', p: 1 },
+    calfLeft: { x: 369, y: 790, side: 'r', p: 1 },
+    ankleLeft: { x: 283, y: 960, side: 'r' },
+  },
+}
+
 export const SPOTS = {
   male: {
     neck: { x: 363, y: 268, side: 'l' },
@@ -52,12 +80,12 @@ export const SPOTS = {
     ankleLeft: { x: 378, y: 1290, side: 'r' },
   },
 }
-const COLOR = key => (/Arm|forearm|wrist/i.test(key) ? 'violet' : /thigh|calf|ankle/i.test(key) ? 'yellow' : 'green')
+// The picture's own colours: arms violet, torso green, legs yellow.
+const VIOLET = new Set(['upperArmRight', 'upperArmLeft', 'forearmRight', 'forearmLeft', 'wristRight', 'wristLeft'])
+const YELLOW = new Set(['thighRight', 'thighLeft', 'calfRight', 'calfLeft', 'ankleRight', 'ankleLeft'])
+export const COLOR = key => (VIOLET.has(key) ? 'violet' : YELLOW.has(key) ? 'yellow' : 'green')
 /** Whether a measurement key has a place on the figure. */
-export const onFigure = key => !!SPOTS.male[key]
-
-// The figure is 55 % of the width; each label column 22.5 %.
-const FIG_SHARE = 0.55, COL_SHARE = 0.225
+export const onFigure = key => !!SPOTS.male[key] && !!PHOTO.spots[key]
 
 let GEO = null
 function useGeometry() {
@@ -77,46 +105,47 @@ function useGeometry() {
  * choosing: every field shows, `on` says which are tracked; onPick(key, hasValue).
  */
 export default function MeasureFigure({ fields, values, unit, selected, onPick, body, choosing = false }) {
+  const photo = body !== 'female'
   const geo = useGeometry()
-  const sex = body === 'female' ? 'female' : 'male'
-  const view = geo?.[sex]?.front
-  const spots = SPOTS[sex]
-  const shown = fields.filter(f => spots[f.key])
+  const view = photo ? null : geo?.female?.front
+  const spots = photo ? PHOTO.spots : SPOTS.female
+  // Top to bottom, as on the body.
+  const shown = fields.filter(f => spots[f.key]).sort((a, b) => spots[a.key].y - spots[b.key].y || (spots[a.key].side === 'l' ? -1 : 1))
   if (!shown.length) return null
-  const [vx, vy, vw, vh] = (view?.vb || (sex === 'female' ? '0 0 650 1450' : '0 95 727 1280')).split(' ').map(Number)
-  const W = vw / FIG_SHARE
-  const x0 = vx - (W - vw) / 2
-  const colL = x0 + W * COL_SHARE, colR = x0 + W * (1 - COL_SHARE)
-  const gap = vh * 0.1
-  const ly = placeLabels(shown.map(f => ({ key: f.key, side: spots[f.key].side, y: spots[f.key].y })), { top: vy + gap / 2, bottom: vy + vh - gap / 2, gap })
-  return <div className="mfig" style={{ aspectRatio: `${W} / ${vh}` }}>
-    <svg viewBox={`${x0} ${vy} ${W} ${vh}`} className="mfig-svg" aria-hidden="true">
+  const [vx, vy, vw, vh] = photo ? PHOTO.vb : (view?.vb || '0 0 650 1450').split(' ').map(Number)
+  const k = photo ? 0.45 : 1
+  const pick = f => onPick(f.key, values[f.key] != null)
+  return <div className="mfig">
+    <svg viewBox={`${vx} ${vy} ${vw} ${vh}`} className="mfig-svg" aria-hidden="true">
+      {photo && <image href={PHOTO.src} x={vx} y={vy} width={vw} height={vh} className="mfig-photo" preserveAspectRatio="xMidYMid meet" />}
       {view && <g className="mfig-body">{Object.values(view.p).flat().map((d, i) => <path key={i} d={d} />)}</g>}
       {shown.map(f => {
         const s = spots[f.key]
         const on = f.key === selected && !choosing
         const off = choosing && !f.on
-        const end = s.side === 'l' ? colL : colR
-        const y = ly[f.key]
-        return <g key={f.key} className={'mfig-spot c-' + COLOR(f.key) + (on ? ' on' : '') + (off ? ' off' : '')}>
+        return <g key={f.key} className={'mfig-spot c-' + COLOR(f.key) + (on ? ' on' : '') + (off ? ' off' : '') + (s.p ? ' painted' : '')}
+          style={{ '--k': k }} onClick={() => pick(f)}>
           {s.tape && <line x1={s.tape[0]} y1={s.y} x2={s.tape[1]} y2={s.y} className="mfig-tape" />}
-          <polyline points={`${end},${y} ${s.side === 'l' ? end + 25 : end - 25},${y} ${s.x},${s.y}`} className="mfig-lead" />
-          <circle cx={s.x} cy={s.y} r={on ? 17 : 13} />
+          {s.p ? <circle cx={s.x} cy={s.y} r={22} className={'mfig-ring' + (on ? ' on' : '')} />
+            : <circle cx={s.x} cy={s.y} r={(on ? 17 : 13) * k} />}
+          {/* a bigger invisible target for a finger */}
+          <circle cx={s.x} cy={s.y} r={34 * (photo ? 1 : 2.2)} className="mfig-hit" />
         </g>
       })}
     </svg>
-    {shown.map(f => {
-      const s = spots[f.key]
-      const v = values[f.key]
-      const has = v != null
-      const off = choosing && !f.on
-      return <button key={f.key} type="button"
-        className={'mfig-lbl ' + s.side + ' c-' + COLOR(f.key) + (f.key === selected && !choosing ? ' on' : '') + (has ? '' : ' empty') + (off ? ' off' : '') + (choosing && f.on ? ' picked' : '')}
-        style={{ top: ((ly[f.key] - vy) / vh * 100) + '%' }}
-        aria-pressed={choosing ? !!f.on : f.key === selected} onClick={() => onPick(f.key, has)}>
-        <span className="mfig-n">{t(f.label)}</span>
-        <span className="mfig-v">{choosing ? (f.on ? '✓' : '+') : has ? <>{fmtNum(v)} <small>{unit}</small></> : '+'}</span>
-      </button>
-    })}
+    <div className="mfig-list">
+      {shown.map(f => {
+        const v = values[f.key]
+        const has = v != null
+        const off = choosing && !f.on
+        return <button key={f.key} type="button"
+          className={'mfig-row c-' + COLOR(f.key) + (f.key === selected && !choosing ? ' on' : '') + (has ? '' : ' empty') + (off ? ' off' : '') + (choosing && f.on ? ' picked' : '')}
+          aria-pressed={choosing ? !!f.on : f.key === selected} onClick={() => pick(f)}>
+          <span className="mfig-dot" aria-hidden="true">{choosing && f.on ? <Icon name="check" /> : null}</span>
+          <span className="mfig-n">{t(f.label)}</span>
+          <span className="mfig-v">{choosing ? null : has ? <>{fmtNum(v)}<small> {unit}</small></> : <Icon name="plus" />}</span>
+        </button>
+      })}
+    </div>
   </div>
 }

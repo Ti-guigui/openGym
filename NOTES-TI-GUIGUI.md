@@ -86,12 +86,19 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
      l'anglais), comme le mannequin 3D. Pour ajouter un repas : une ligne dans `MEALS` ;
    - écran `frontend/src/views/Nutrition.jsx`, carte `frontend/src/components/NutritionCard.jsx`,
      style `.nut-*` dans `index.css`, icônes `utensils` et `leaf` dans `Icon.jsx`.
-10. **Mannequin des mensurations** (Stats → Mensurations) : `frontend/src/components/MeasureFigure.jsx`
-    dessine le corps des cartes musculaires de l'appli (`lib/body-geometry.js`, homme ou femme selon
-    le profil) avec un point par tour suivi (`SPOTS`) et sa dernière valeur. Toucher un point affiche
-    sa courbe ; un tour jamais noté ouvre la saisie. Bouton **Choisir** : tous les tours apparaissent
-    et toucher le corps active ou désactive une mensuration. Placement des étiquettes sans
-    chevauchement : `lib/measure-figure.js` (tests `measure-figure.test.js`). Style `.mfig-*`.
+10. **Mannequin des mensurations** (Stats → Mensurations) : `frontend/src/components/MeasureFigure.jsx`.
+    - Profil homme : ton image du mannequin, recadrée sur le corps, dans
+      `frontend/public/mensurations-homme.webp` (448 × 1072). Retouches : logo de marque du short
+      effacé, bande du haut du bras droit recolorée en mauve (comme le bras gauche ; la ligne de la
+      poitrine reste verte). Les ronds de couleur font partie de l'image : les points cliquables
+      (`PHOTO.spots`) sont posés dessus, seuls ceux qui manquent (abdomen, poignets, chevilles, haut du
+      bras gauche) sont dessinés. Pour changer d'image : garder les ronds aux mêmes endroits, ou
+      recaler `PHOTO.spots` (coordonnées en pixels de l'image).
+    - Profil femme : le corps des cartes musculaires (`lib/body-geometry.js`), points dessinés (`SPOTS.female`).
+    - À côté, la liste : pastille de la même couleur (bras mauve, tronc vert, jambes jaune : `COLOR`),
+      nom et dernière valeur. Toucher un point ou une ligne affiche la courbe ; un tour jamais noté
+      ouvre la saisie. Bouton **Choisir** : tous les tours apparaissent, toucher active ou désactive.
+      Tests : `MeasureFigure.test.js`. Style `.mfig-*`.
 11. **Partager une séance avec un collègue** : le bouton « Partager avec un ami » (dans une routine,
     ou dans le détail d'une séance terminée) crée maintenant un lien
     `https://ti-guigui-fit.pages.dev/#/r/…` (avant : opengym.ch). Le collègue l'ouvre sur son
