@@ -18,9 +18,11 @@ import { nameIn } from '../lib/a11y-name.js'
 import LineChart from '../components/LineChart.jsx'
 import Icon from '../components/Icon.jsx'
 import HealthBodyCard from '../components/HealthBodyCard.jsx'
-import MeasureFigure, { onFigure } from '../components/MeasureFigure.jsx'
-import { Button, NumberField, Section, Segmented, SelectRow, Switch, TextField } from '../components/ui.jsx'
-import { confirmSheet } from '../sheets.jsx'
+import MeasureFigure, { figureOrder, onFigure } from '../components/MeasureFigure.jsx'
+import { Button, NumberField, Section, Segmented, SelectRow, Stepper, Switch, TextField } from '../components/ui.jsx'
+import { bwSheet, confirmSheet } from '../sheets.jsx'
+import { lastBW } from '../lib/history.js'
+import { CM_PER_IN } from '../lib/calculators.js'
 
 // Every write leaves the list in its one-entry-per-day shape (normalizeMeasurementsState).
 const update = (fn, ...rest) => useStore.getState().update(s => { fn(s); normalizeMeasurementsState(s) }, ...rest)
@@ -36,12 +38,17 @@ const shownValue = (entry, field, profileUnit) => {
   return toMeasurementDisplay(value, profileUnit, field)
 }
 
-function MeasurementLog({ sourceDate, close, only }) {
+function MeasurementLog({ sourceDate, close, only, steps }) {
   const S = useStore(s => s.S)
   const source = sourceDate ? S.measurements.find(e => e.d === sourceDate) : null
   const enabled = enabledMeasurementFields(S)
-  // `only`: a tap on the figure asks for that one measurement; the day's other values are kept.
-  const fields = only ? enabled.filter(f => f.key === only) : [...enabled]
+  // `only`: a tap on the figure asks for that one measurement, one field at a time; `steps` (the
+  // figure's order) lets Next walk on to the others without closing. The day's other values are kept.
+  const seq = only ? (steps?.length ? steps : [only]) : null
+  const fields = seq ? seq.map(k => enabled.find(f => f.key === k)).filter(Boolean) : [...enabled]
+  const [step, setStep] = useState(() => seq ? Math.max(0, fields.findIndex(f => f.key === only)) : 0)
+  const shownFields = seq ? fields.slice(step, step + 1) : fields
+  const last = step >= fields.length - 1
   // Editing must expose populated fields even if the user disabled them after logging.
   if (source && !only) {
     for (const f of MEASUREMENT_FIELDS) {
@@ -109,13 +116,13 @@ function MeasurementLog({ sourceDate, close, only }) {
 
   return <>
     <h3>{source ? t('Edit measurements') : t('Log measurements')}</h3>
-    <div className="muted small" style={{ marginBottom: 12 }}>{t('Fill only what you measured today. Empty fields stay empty.')}</div>
+    {!seq && <div className="muted small" style={{ marginBottom: 12 }}>{t('Fill only what you measured today. Empty fields stay empty.')}</div>}
     <label className="measure-date">
       <span>{t('Date')}</span>
       <DateField value={date} max={todayISO()} onChange={setDate} label={t('Date')} />
     </label>
     {fields.length ? <div className="measure-form">
-      {fields.map(field => field.key === 'bpDia' && fields.some(f => f.key === 'bpSys') ? null
+      {shownFields.map(field => field.key === 'bpDia' && fields.some(f => f.key === 'bpSys') ? null
         : field.key === 'bpSys' ? <div className="measure-field measure-bp" key="bp" role="group" aria-label={t('Blood pressure')}>
           <span>{t('Blood pressure')}</span>
           <span className="measure-input">
@@ -128,14 +135,21 @@ function MeasurementLog({ sourceDate, close, only }) {
         : <label className="measure-field" key={field.key}>
         <span>{t(field.label)}</span>
         <span className="measure-input">
-          <NumberField nullable decimal={!field.kind || field.kind === 'percent'} value={values[field.key]} onChange={value => setValues(v => ({ ...v, [field.key]: value }))} />
+          <NumberField nullable decimal={!field.kind || field.kind === 'percent'} value={values[field.key]} onChange={value => setValues(v => ({ ...v, [field.key]: value }))}
+            autoFocus={!!seq} enterKeyHint={seq ? (last ? 'done' : 'next') : undefined}
+            onKeyDown={seq ? e => { if (e.key === 'Enter') { e.preventDefault(); if (last) save(); else setStep(step + 1) } } : undefined} />
           <i>{fieldUnit(field, lengthUnitOf(S))}</i>
         </span>
       </label>)}
     </div> : <div className="empty small">{t('Choose at least one measurement first.')}</div>}
-    <textarea className="input measure-note" rows={2} maxLength={MEASUREMENT_NOTE_MAX} value={note}
+    {seq && fields.length > 1 && <div className="row measure-steps">
+      <Button size="sm" variant="ghost" icon="chevronLeft" style={{ width: 'auto' }} disabled={step === 0} onClick={() => setStep(step - 1)}>{t('Previous')}</Button>
+      <span className="small dim">{step + 1} / {fields.length}</span>
+      <Button size="sm" variant="tinted" style={{ width: 'auto' }} disabled={last} onClick={() => setStep(step + 1)}>{t('Next')}</Button>
+    </div>}
+    {!seq && <textarea className="input measure-note" rows={2} maxLength={MEASUREMENT_NOTE_MAX} value={note}
       aria-label={t('Note')} placeholder={t('A note for this check-in (optional), like “after the holidays”.')}
-      onChange={e => setNote(e.target.value)} />
+      onChange={e => setNote(e.target.value)} />}
     <div style={{ height: 14 }} />
     <Button variant="primary" onClick={save} disabled={!fields.length && !note.trim()}>{t('Save')}</Button>
     <div style={{ height: 8 }} />
@@ -143,8 +157,8 @@ function MeasurementLog({ sourceDate, close, only }) {
   </>
 }
 
-export function measurementLogSheet(sourceDate = null, only = null) {
-  return useUI.getState().openSheet(close => <MeasurementLog sourceDate={sourceDate} only={only} close={close} />)
+export function measurementLogSheet(sourceDate = null, only = null, steps = null) {
+  return useUI.getState().openSheet(close => <MeasurementLog sourceDate={sourceDate} only={only} steps={steps} close={close} />)
 }
 
 function ManageMeasurements({ close }) {
@@ -257,6 +271,23 @@ function ManageMeasurements({ close }) {
   </>
 }
 
+// Height, the ruler beside the figure: the same field as the Nutrition profile's (S.heightCm).
+function HeightSheet({ close }) {
+  const S = useStore(s => s.S)
+  const lenUnit = lengthUnitOf(S)
+  const cm = Number(S.heightCm) > 0 ? Number(S.heightCm) : 0
+  const shown = cm ? (lenUnit === 'in' ? Math.round(cm / CM_PER_IN) : Math.round(cm)) : (lenUnit === 'in' ? 67 : 170)
+  const set = v => useStore.getState().update(s => { if (v > 0) s.heightCm = Math.round((lenUnit === 'in' ? v * CM_PER_IN : v) * 10) / 10; else delete s.heightCm })
+  return <>
+    <h3>{t('Height ({0})', lenUnit)}</h3>
+    <Stepper label={t('Height ({0})', lenUnit)} value={shown} step={1} decimal={false} onChange={set} />
+    <div style={{ height: 14 }} />
+    {/* Done keeps the starting guess too, so what was shown is what is saved. */}
+    <Button variant="primary" onClick={() => { if (!cm) set(shown); close() }}>{t('Done')}</Button>
+  </>
+}
+const heightSheet = () => useUI.getState().openSheet(close => <HeightSheet close={close} />)
+
 export function manageMeasurementsSheet() {
   return useUI.getState().openSheet(close => <ManageMeasurements close={close} />)
 }
@@ -328,10 +359,16 @@ export default function Measurements() {
           onClick={() => setChoosing(!choosing)}>{choosing ? t('Done') : t('Choose')}</Button>
       </div>
       {figFields.length > 0 ? <MeasureFigure fields={figFields} unit={lengthUnitOf(S)} selected={key} body={S.body} choosing={choosing}
+        stats={choosing ? null : {
+          height: Number(S.heightCm) > 0 ? fmtNum(lengthUnitOf(S) === 'in' ? Math.round(S.heightCm / CM_PER_IN) : Math.round(S.heightCm)) : null,
+          heightLabel: t('Height ({0})', lengthUnitOf(S)), onHeight: heightSheet,
+          weight: Number(lastBW(S)?.w) > 0 ? fmtNum(lastBW(S).w) : null,
+          weightLabel: t('Body weight ({0})', S.unit), onWeight: () => bwSheet(),
+        }}
         values={Object.fromEntries(figFields.map(f => { const l = latestMeasurement(S, f.key); return [f.key, l ? shownValue(l.entry, f, lengthUnitOf(S)) : null] }))}
         onPick={(k, has) => { if (choosing) toggleOnFigure(k); else if (has) setSelected(k); else {
           // Today's check-in, if any, is added to rather than refused as a second one for the day.
-          setSelected(k); measurementLogSheet(S.measurements.some(e => e.d === todayISO()) ? todayISO() : null, k)
+          setSelected(k); measurementLogSheet(S.measurements.some(e => e.d === todayISO()) ? todayISO() : null, k, figureOrder(figFields.map(f => f.key), S.body))
         } }} />
         : <div className="small dim">{t('Choose the measurements you want to track, then log your first check-in.')}</div>}
     </div>
