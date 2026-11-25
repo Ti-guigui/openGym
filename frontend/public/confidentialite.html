@@ -40,6 +40,7 @@
     <li><strong>Ce que tu enregistres dans l'appli</strong> quand tu es connecté : séances, charges, plans, poids du corps, mesures, notes et réglages. Ça sert uniquement à te les rendre sur tes appareils.</li>
     <li><strong>Un cookie de connexion</strong>, pour que tu restes connecté (90 jours au plus). C'est le seul cookie, et il est nécessaire au fonctionnement.</li>
     <li>Le nombre de mauvais mots de passe tapés d'affilée, pour bloquer le compte 15 minutes après 10 essais ratés.</li>
+    <li>Si tu utilises le Coach IA : seulement le nombre de questions posées dans la journée (pour la limite quotidienne). Les questions et les réponses ne sont pas gardées sur le serveur, elles restent dans ton téléphone.</li>
   </ul>
 
   <h2>Sans compte</h2>
@@ -50,7 +51,11 @@
   <p>Une copie de tes données reste aussi dans ton téléphone, pour que l'appli marche sans connexion.</p>
 
   <h2>Services extérieurs</h2>
-  <p>Aucun, sauf si tu choisis de regarder une vidéo YouTube dans la fiche d'un exercice : à ce moment-là, YouTube (Google) reçoit l'adresse de ton appareil. Rien n'est chargé depuis YouTube tant que tu n'appuies pas sur la vidéo.</p>
+  <p>Aucun, sauf dans deux cas que tu choisis :</p>
+  <ul>
+    <li><strong>Vidéo YouTube</strong> dans la fiche d'un exercice : à ce moment-là, YouTube (Google) reçoit l'adresse de ton appareil. Rien n'est chargé depuis YouTube tant que tu n'appuies pas sur la vidéo.</li>
+    <li><strong>Coach IA</strong> (avec un compte) : quand tu poses une question, elle part avec la conversation en cours et un résumé de tes données (profil, objectif, calories, poids, mensurations, dernières séances), sans ton surnom, à <strong>Anthropic</strong> (modèle Claude), qui rédige la réponse. D'après ses conditions pour les services d'API, Anthropic n'entraîne pas ses modèles avec ces données et ne les garde que pour une durée limitée. Si tu n'utilises pas le coach, rien n'est envoyé.</li>
+  </ul>
 
   <h2>Combien de temps</h2>
   <p>Tes données restent tant que ton compte existe. Quand tu le supprimes, elles sont effacées tout de suite de la base. Les copies de secours automatiques de Cloudflare peuvent les garder encore jusqu'à 30 jours, puis elles disparaissent.</p>

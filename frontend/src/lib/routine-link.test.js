@@ -242,3 +242,11 @@ describe('Watch on YouTube', () => {
     expect(youtubeSearchUrl({ id: 'x', n: 'Unknown exercise', missing: true })).toBeNull()
   })
 })
+
+describe('Ti Guigui FIT links', () => {
+  it('opens the fork web app on its hash route, which the reader understands', () => {
+    const url = linkFor('1.d.abc', 'Ti Guigui FIT')
+    expect(url).toBe('https://ti-guigui-fit.pages.dev/#/r/1.d.abc')
+    expect(routinePayloadFromUrl(url)).toBe('1.d.abc')
+  })
+})

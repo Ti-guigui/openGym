@@ -97,6 +97,8 @@ const AdminComptes = lazyView(() => import('./views/AdminComptes.jsx'))
 const CoachChat = lazyView(() => import('./views/CoachChat.jsx'))
 const Connect = lazyView(() => import('./views/Connect.jsx'))
 const Measurements = lazyView(() => import('./views/Measurements.jsx'))
+const Nutrition = lazyView(() => import('./views/Nutrition.jsx'))
+const CoachIA = lazyView(() => import('./views/CoachIA.jsx'))
 const CoachIntake = lazyView(() => import('./views/CoachIntake.jsx'))
 const CoachSetup = lazyView(() => import('./views/CoachSetup.jsx'))
 const Assistants = lazyView(() => import('./views/Assistants.jsx'))
@@ -417,6 +419,8 @@ function Shell() {
       <Route path="/journal" element={<Journal />} />
       {isOn(S, 'body') && <Route path="/progress-photos" element={<ProgressPhotos />} />}
       {isOn(S, 'body') && <Route path="/measurements" element={<Measurements />} />}
+      {isOn(S, 'body') && <Route path="/nutrition" element={<Nutrition />} />}
+      {import.meta.env.VITE_LOCAL_ONLY === '1' && <Route path="/coach-ia" element={<CoachIA />} />}
       {/* The MCP connector's consent screen (api/oauth.js): an assistant sent the browser here. */}
       <Route path="/connect/:id" element={<Connect />} />
       {/* Use your subscription: openGym as a connector in Claude, ChatGPT or Gemini (sub-connect-146). */}

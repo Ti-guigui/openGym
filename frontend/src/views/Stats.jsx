@@ -896,6 +896,8 @@ export default function Stats() {
     // and its camera, could not be reached to add the very first one.
     bodyOn && (workouts.length > 0 || dayPhotosOf(S).length > 0 || serverTakesDayPhotos(photoUser, photoConfig)) && <Row key="p" title={t('Progress photos')} accessory="chevron" className="stats-link" onClick={() => nav('/progress-photos')} />,
     workouts.length > 0 && <Row key="b" title={t('Structural balance')} subtitle={t('See which lift is holding back the rest.')} accessory="chevron" className="stats-link" onClick={() => nav('/structural-balance')} />,
+    // Ti Guigui FIT: calorie target, deficit, burn and meal ideas (views/Nutrition.jsx).
+    bodyOn && <Row key="n" title={t('Nutrition')} subtitle={t('Calories, deficit, what to eat')} accessory="chevron" className="stats-link" onClick={() => nav('/nutrition')} />,
     // Every note in one feed (views/Journal.jsx): workouts, sets, exercises, check-ins, days off.
     <Row key="j" title={t('Journal')} subtitle={t('Every note you wrote, in one place.')} accessory="chevron" className="stats-link" onClick={() => nav('/journal')} />,
     <Row key="t" title={t('Tools')} subtitle={t('1RM table, RPE load, DOTS, BMI, body fat, pace.')} accessory="chevron" className="stats-link" onClick={() => nav('/tools')} />,

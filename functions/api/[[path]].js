@@ -1,9 +1,12 @@
 // Ti Guigui FIT on Cloudflare Pages: the few API routes the app needs for "nickname + password"
 // accounts and syncing the profile, backed by D1 (binding DB, schema in migrations/). Everything
 // else of api/server.js (passkeys, e-mail, push, coach, sharing...) is not served here: 404.
+// One addition of its own: a light AI coach (/api/ai/*, functions/lib/ai-coach.js), on only once
+// the ANTHROPIC_API_KEY secret is set on the Pages project.
 // Same request and answer shapes as api/server.js, so the frontend is unchanged.
 import { passwordProblem, nameKey, MAX_LENGTH, makeResetCode, hashResetCode, resetCodeMatches, RESET_TTL_MS } from '../../api/password.js'
 import { stampPut } from '../../api/sync-stamps.js'
+import { API_URL, DEFAULT_MODEL, cleanMessages, requestBody, requestHeaders, readReply, dailyCap } from '../lib/ai-coach.js'
 
 const COOKIE = '__Host-tgf_session'
 const SESSION_DAYS = 90
@@ -103,7 +106,52 @@ const locked = user => {
   return json(429, { error: 'too many attempts, try again later', code: 'locked', retryAfter: +secs }, { 'Retry-After': secs })
 }
 
+const today = () => new Date().toISOString().slice(0, 10)
+async function aiUsed(db, uid) {
+  const row = await db.prepare('SELECT n FROM ai_usage WHERE uid = ? AND day = ?').bind(uid, today()).first()
+  return row?.n || 0
+}
+
 const routes = {
+  // The AI coach: whether it is on, and how many questions are left today.
+  'GET /api/ai/status': async (db, req, env) => {
+    const user = await sessionUser(db, req)
+    const cap = dailyCap(env.AI_DAILY)
+    return json(200, { available: !!env.ANTHROPIC_API_KEY, signedIn: !!user, cap, left: user ? Math.max(0, cap - await aiUsed(db, user.id)) : 0 })
+  },
+
+  // One question: the conversation so far and a summary of the person's data, sent to Claude.
+  // Nothing is kept on the server but the day's count.
+  'POST /api/ai/chat': async (db, req, env) => {
+    const user = await sessionUser(db, req)
+    if (!user) return json(401, { error: 'not signed in', code: 'signed-out' })
+    if (!env.ANTHROPIC_API_KEY) return json(503, { error: 'the coach is not set up', code: 'no-key' })
+    const cap = dailyCap(env.AI_DAILY)
+    const used = await aiUsed(db, user.id)
+    if (used >= cap) return json(429, { error: 'daily limit reached', code: 'limit', left: 0 })
+    const body = await readBody(req)
+    const messages = cleanMessages(body.messages)
+    if (!messages) return json(400, { error: 'a question is needed', code: 'empty' })
+    let res
+    try {
+      res = await fetch(API_URL, {
+        method: 'POST', headers: requestHeaders(env.ANTHROPIC_API_KEY),
+        body: JSON.stringify(requestBody({ messages, context: body.context, model: env.AI_MODEL || DEFAULT_MODEL }))
+      })
+    } catch { return json(502, { error: 'the coach could not be reached', code: 'unreachable' }) }
+    let data = null
+    try { data = await res.json() } catch { /* not JSON */ }
+    if (!res.ok) {
+      const code = res.status === 429 || res.status === 529 ? 'busy' : res.status === 401 || res.status === 403 ? 'no-key' : 'unreachable'
+      return json(502, { error: 'the coach is unavailable', code })
+    }
+    const reply = readReply(data)
+    if (reply.error) return json(502, { error: 'no answer', code: reply.error })
+    await db.prepare('INSERT INTO ai_usage (uid, day, n) VALUES (?, ?, 1) ON CONFLICT (uid, day) DO UPDATE SET n = n + 1')
+      .bind(user.id, today()).run()
+    return json(200, { text: reply.text, truncated: reply.truncated, left: Math.max(0, cap - used - 1) })
+  },
+
   'GET /api/config': async (db, req) => json(200, {
     invite_only: false, allow_guest: true, signed_in: !!(await sessionUser(db, req)), password_login: true
   }),
@@ -325,5 +373,5 @@ export async function onRequest({ request, env }) {
   if (!route) return json(404, { error: 'not available on this server' })
   // CSRF: a write must come from the app's own page.
   if (request.method !== 'GET' && request.headers.get('Origin') !== url.origin) return json(403, { error: 'origin not allowed' })
-  return route(env.DB, request)
+  return route(env.DB, request, env)
 }

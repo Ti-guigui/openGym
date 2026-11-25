@@ -18,6 +18,7 @@ import { nameIn } from '../lib/a11y-name.js'
 import LineChart from '../components/LineChart.jsx'
 import Icon from '../components/Icon.jsx'
 import HealthBodyCard from '../components/HealthBodyCard.jsx'
+import MeasureFigure, { SPOTS } from '../components/MeasureFigure.jsx'
 import { Button, NumberField, Section, Segmented, SelectRow, Switch, TextField } from '../components/ui.jsx'
 import { confirmSheet } from '../sheets.jsx'
 
@@ -279,6 +280,7 @@ export default function Measurements() {
     return out
   }, [S])
   const fallback = available.find(f => f.key === 'waist')?.key || available[0]?.key || null
+  const figFields = enabledMeasurementFields(S).filter(f => SPOTS[f.key])
   const [selected, setSelected] = useState(fallback)
   const key = available.some(f => f.key === selected) ? selected : fallback
   const field = available.find(f => f.key === key)
@@ -306,6 +308,14 @@ export default function Measurements() {
       <div style={{ flex: 1, marginInlineStart: 12 }}><h1>{t('Body measurements')}</h1><div className="sub">{t('Circumference & composition')}</div></div>
       <button className="iconbtn" onClick={manageMeasurementsSheet} aria-label={t('Choose measurements')}><Icon name="gear" /></button>
     </div>
+
+    {/* Ti Guigui FIT: the tracked circumferences on a figure, tap one to chart it. */}
+    {figFields.length > 0 && <div className="card mfig-card">
+      <MeasureFigure fields={figFields} unit={lengthUnitOf(S)} selected={key}
+        values={Object.fromEntries(figFields.map(f => { const l = latestMeasurement(S, f.key); return [f.key, l ? shownValue(l.entry, f, lengthUnitOf(S)) : null] }))}
+        onPick={(k, has) => { if (has) setSelected(k); else measurementLogSheet() }} />
+      <div className="small dim mfig-hint">{t('Tap a point to see its curve.')}</div>
+    </div>}
 
     <div className="card">
       <div className="row between" style={{ marginBottom: 10 }}>

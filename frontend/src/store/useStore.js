@@ -110,6 +110,9 @@ export const DEF = {
   water: {},
   // The daily water goal in glasses (lib/water.js waterGoalOf); null is 8.
   waterGoal: null,
+  // Nutrition (Ti Guigui FIT, lib/nutrition.js): { goal, rate, activity }, and the weekly burn goal
+  // in active kcal (null = none). Plain settings, synced whole.
+  nutrition: null, kcalWeekGoal: null,
   // Supplements (Ti Guigui FIT, lib/supps.js): the ones on the card, and what was taken per day
   // ({ [iso]: { ids, _ts } }, merged per day like water).
   suppList: [], supps: {},
