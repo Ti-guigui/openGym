@@ -6005,6 +6005,7 @@ export default {
   "Maintain": "बनाए रखें",
   "Sign in to an account to talk to the coach.": "कोच से बात करने के लिए किसी खाते में साइन इन करें।",
   "The coach is not set up on this server yet.": "इस सर्वर पर कोच अभी सेट नहीं है।",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "इस सर्वर पर कोच का क्रेडिट खत्म हो गया है। Anthropic खाते में क्रेडिट जोड़ें, फिर दोबारा कोशिश करें।",
   "That’s all the questions for today. Back tomorrow.": "आज के सवाल खत्म। कल मिलते हैं।",
   "The coach is busy. Try again in a minute.": "कोच व्यस्त है। एक मिनट बाद फिर कोशिश करें।",
   "The coach could not answer that one. Try putting it another way.": "कोच इसका जवाब नहीं दे सका। इसे दूसरे तरीके से पूछें।",

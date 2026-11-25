@@ -6005,6 +6005,7 @@ export default {
   "Maintain": "Korumak",
   "Sign in to an account to talk to the coach.": "Koçla konuşmak için bir hesaba giriş yap.",
   "The coach is not set up on this server yet.": "Koç bu sunucuda henüz kurulmadı.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "Koçun bu sunucuda kredisi kalmadı. Anthropic hesabına bakiye yükle, sonra tekrar dene.",
   "That’s all the questions for today. Back tomorrow.": "Bugünlük sorular bu kadar. Yarın görüşürüz.",
   "The coach is busy. Try again in a minute.": "Koç meşgul. Bir dakika sonra tekrar dene.",
   "The coach could not answer that one. Try putting it another way.": "Koç buna yanıt veremedi. Başka şekilde sormayı dene.",

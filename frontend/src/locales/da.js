@@ -5945,6 +5945,7 @@ export default {
   "Maintain": "Holde",
   "Sign in to an account to talk to the coach.": "Log ind på en konto for at tale med coachen.",
   "The coach is not set up on this server yet.": "Coachen er ikke sat op på denne server endnu.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "Coachen har ingen kredit tilbage på denne server. Fyld Anthropic-kontoen op, og prøv igen.",
   "That’s all the questions for today. Back tomorrow.": "Det var alle spørgsmål for i dag. Vi ses i morgen.",
   "The coach is busy. Try again in a minute.": "Coachen har travlt. Prøv igen om et minut.",
   "The coach could not answer that one. Try putting it another way.": "Coachen kunne ikke svare på det. Prøv at sige det på en anden måde.",

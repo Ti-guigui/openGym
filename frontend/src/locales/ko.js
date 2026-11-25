@@ -6005,6 +6005,7 @@ export default {
   "Maintain": "유지",
   "Sign in to an account to talk to the coach.": "코치와 대화하려면 계정에 로그인하세요.",
   "The coach is not set up on this server yet.": "이 서버에는 아직 코치가 설정되지 않았습니다.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "이 서버에서 코치의 크레딧이 모두 소진되었어요. Anthropic 계정을 충전한 뒤 다시 시도하세요.",
   "That’s all the questions for today. Back tomorrow.": "오늘 질문은 여기까지입니다. 내일 만나요.",
   "The coach is busy. Try again in a minute.": "코치가 바쁩니다. 1분 후 다시 시도하세요.",
   "The coach could not answer that one. Try putting it another way.": "코치가 이 질문에 답하지 못했습니다. 다르게 물어보세요.",

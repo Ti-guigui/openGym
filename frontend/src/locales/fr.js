@@ -6005,6 +6005,7 @@ export default {
   "Maintain": "Maintenir",
   "Sign in to an account to talk to the coach.": "Connecte-toi à un compte pour parler au coach.",
   "The coach is not set up on this server yet.": "Le coach n’est pas encore configuré sur ce serveur.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "Le coach n’a plus de crédit sur ce serveur. Recharge le compte Anthropic, puis réessaie.",
   "That’s all the questions for today. Back tomorrow.": "C’est tout pour les questions d’aujourd’hui. À demain.",
   "The coach is busy. Try again in a minute.": "Le coach est occupé. Réessaie dans une minute.",
   "The coach could not answer that one. Try putting it another way.": "Le coach n’a pas pu répondre à celle-ci. Essaie de la formuler autrement.",

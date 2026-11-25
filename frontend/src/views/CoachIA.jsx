@@ -17,6 +17,7 @@ const ERRORS = {
   'no-key': 'The coach is not set up on this server yet.',
   limit: 'That’s all the questions for today. Back tomorrow.',
   busy: 'The coach is busy. Try again in a minute.',
+  credit: 'The coach has no credit left on this server. Top up the Anthropic account, then try again.',
   refused: 'The coach could not answer that one. Try putting it another way.',
 }
 const SUGGEST = [

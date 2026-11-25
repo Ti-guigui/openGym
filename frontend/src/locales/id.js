@@ -5970,6 +5970,7 @@ export default {
   "Maintain": "Pertahankan",
   "Sign in to an account to talk to the coach.": "Masuk ke akun untuk berbicara dengan pelatih.",
   "The coach is not set up on this server yet.": "Pelatih belum disiapkan di server ini.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "Pelatih tidak punya kredit lagi di server ini. Isi ulang akun Anthropic, lalu coba lagi.",
   "That’s all the questions for today. Back tomorrow.": "Pertanyaan hari ini sudah habis. Sampai besok.",
   "The coach is busy. Try again in a minute.": "Pelatih sedang sibuk. Coba lagi dalam semenit.",
   "The coach could not answer that one. Try putting it another way.": "Pelatih tidak bisa menjawab itu. Coba tanyakan dengan cara lain.",

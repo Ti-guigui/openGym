@@ -1,7 +1,7 @@
 // Ti Guigui FIT: the AI coach request and answer (functions/lib/ai-coach.js).
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { cleanMessages, requestBody, readReply, dailyCap, MAX_MESSAGE, MAX_TURNS, DEFAULT_MODEL } from '../../functions/lib/ai-coach.js'
+import { cleanMessages, requestBody, readReply, dailyCap, upstreamCode, MAX_MESSAGE, MAX_TURNS, DEFAULT_MODEL } from '../../functions/lib/ai-coach.js'
 
 test('cleanMessages keeps alternating user and assistant turns ending on the user', () => {
   assert.equal(cleanMessages(null), null)
@@ -38,4 +38,13 @@ test('dailyCap', () => {
   assert.equal(dailyCap(undefined), 20)
   assert.equal(dailyCap('5'), 5)
   assert.equal(dailyCap(9999), 20)
+})
+
+test('upstreamCode tells an empty credit balance from a bad key or a busy API', () => {
+  const credit = { error: { type: 'invalid_request_error', message: 'Your credit balance is too low to access the Anthropic API.' } }
+  assert.equal(upstreamCode(400, credit), 'credit')
+  assert.equal(upstreamCode(400, { error: { message: 'max_tokens too large' } }), 'unreachable')
+  assert.equal(upstreamCode(401, null), 'no-key')
+  assert.equal(upstreamCode(529, null), 'busy')
+  assert.equal(upstreamCode(500, null), 'unreachable')
 })

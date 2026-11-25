@@ -6,7 +6,7 @@
 // Same request and answer shapes as api/server.js, so the frontend is unchanged.
 import { passwordProblem, nameKey, MAX_LENGTH, makeResetCode, hashResetCode, resetCodeMatches, RESET_TTL_MS } from '../../api/password.js'
 import { stampPut } from '../../api/sync-stamps.js'
-import { API_URL, DEFAULT_MODEL, cleanMessages, requestBody, requestHeaders, readReply, dailyCap } from '../lib/ai-coach.js'
+import { API_URL, DEFAULT_MODEL, cleanMessages, requestBody, requestHeaders, readReply, dailyCap, upstreamCode } from '../lib/ai-coach.js'
 
 const COOKIE = '__Host-tgf_session'
 const SESSION_DAYS = 90
@@ -144,8 +144,7 @@ const routes = {
     if (!res.ok) {
       // Anthropic's own reason (never the key), readable with `wrangler pages deployment tail`.
       console.log('ai upstream', res.status, data?.error?.type || '', String(data?.error?.message || '').slice(0, 200))
-      const code = res.status === 429 || res.status === 529 ? 'busy' : res.status === 401 || res.status === 403 ? 'no-key' : 'unreachable'
-      return json(502, { error: 'the coach is unavailable', code })
+      return json(502, { error: 'the coach is unavailable', code: upstreamCode(res.status, data) })
     }
     const reply = readReply(data)
     if (reply.error) return json(502, { error: 'no answer', code: reply.error })

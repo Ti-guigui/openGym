@@ -6002,6 +6002,7 @@ export default {
   "Maintain": "Підтримувати",
   "Sign in to an account to talk to the coach.": "Увійди в обліковий запис, щоб поговорити з тренером.",
   "The coach is not set up on this server yet.": "Тренер ще не налаштований на цьому сервері.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "У тренера закінчився кредит на цьому сервері. Поповни обліковий запис Anthropic і спробуй ще раз.",
   "That’s all the questions for today. Back tomorrow.": "На сьогодні запитання скінчилися. До завтра.",
   "The coach is busy. Try again in a minute.": "Тренер зайнятий. Спробуй за хвилину.",
   "The coach could not answer that one. Try putting it another way.": "Тренер не зміг на це відповісти. Спробуй сформулювати інакше.",

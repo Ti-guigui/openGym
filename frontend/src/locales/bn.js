@@ -6084,6 +6084,7 @@ export default {
   "Maintain": "বজায় রাখো",
   "Sign in to an account to talk to the coach.": "কোচের সাথে কথা বলতে একটি অ্যাকাউন্টে সাইন ইন করো।",
   "The coach is not set up on this server yet.": "এই সার্ভারে কোচ এখনো সেট করা হয়নি।",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "এই সার্ভারে কোচের আর কোনো ক্রেডিট নেই। Anthropic অ্যাকাউন্টে টাকা যোগ করে আবার চেষ্টা করো।",
   "That’s all the questions for today. Back tomorrow.": "আজকের প্রশ্ন শেষ। কাল দেখা হবে।",
   "The coach is busy. Try again in a minute.": "কোচ ব্যস্ত। এক মিনিট পরে আবার চেষ্টা করো।",
   "The coach could not answer that one. Try putting it another way.": "কোচ এর উত্তর দিতে পারেনি। অন্যভাবে বলে দেখো।",

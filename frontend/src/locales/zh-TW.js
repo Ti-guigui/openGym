@@ -5998,6 +5998,7 @@ export default {
   "Maintain": "維持",
   "Sign in to an account to talk to the coach.": "登入帳號後即可與教練對話。",
   "The coach is not set up on this server yet.": "此伺服器尚未設定教練。",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "這台伺服器上的教練已沒有額度。請為 Anthropic 帳戶儲值後再試一次。",
   "That’s all the questions for today. Back tomorrow.": "今天的問題已用完，明天見。",
   "The coach is busy. Try again in a minute.": "教練正忙，請一分鐘後再試。",
   "The coach could not answer that one. Try putting it another way.": "教練無法回答這個問題，換個說法試試。",

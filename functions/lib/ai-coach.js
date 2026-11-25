@@ -76,6 +76,15 @@ export function readReply(data) {
   return { text, truncated: data.stop_reason === 'max_tokens' }
 }
 
+/** The app's code for a refused request: Anthropic's status and error body → a short code. */
+export function upstreamCode(status, data) {
+  if (status === 429 || status === 529) return 'busy'
+  if (status === 401 || status === 403) return 'no-key'
+  // An empty prepaid balance comes back as a plain 400 that says so.
+  if (status === 400 && /credit balance/i.test(String(data?.error?.message || ''))) return 'credit'
+  return 'unreachable'
+}
+
 /** The daily cap from AI_DAILY (1 to 500), else DEFAULT_DAILY. */
 export const dailyCap = v => {
   const n = Math.round(Number(v))

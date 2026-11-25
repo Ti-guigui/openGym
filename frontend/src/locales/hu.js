@@ -6008,6 +6008,7 @@ export default {
   "Maintain": "Tartás",
   "Sign in to an account to talk to the coach.": "Jelentkezz be egy fiókba, hogy beszélj az edzővel.",
   "The coach is not set up on this server yet.": "Az edző még nincs beállítva ezen a szerveren.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "Az edzőnek nincs több kreditje ezen a szerveren. Töltsd fel az Anthropic-fiókot, majd próbáld újra.",
   "That’s all the questions for today. Back tomorrow.": "Mára ennyi kérdés volt. Holnap folytatjuk.",
   "The coach is busy. Try again in a minute.": "Az edző elfoglalt. Próbáld újra egy perc múlva.",
   "The coach could not answer that one. Try putting it another way.": "Erre az edző nem tudott válaszolni. Fogalmazd meg másképp.",

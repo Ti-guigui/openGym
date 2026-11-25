@@ -4434,6 +4434,7 @@ export const PT_BR_OVERRIDES = {
   "Maintain": "Manter",
   "Sign in to an account to talk to the coach.": "Entre em uma conta para falar com o treinador.",
   "The coach is not set up on this server yet.": "O treinador ainda não está configurado neste servidor.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "O coach não tem mais crédito neste servidor. Recarregue a conta da Anthropic e tente de novo.",
   "That’s all the questions for today. Back tomorrow.": "Acabaram as perguntas de hoje. Até amanhã.",
   "The coach is busy. Try again in a minute.": "O treinador está ocupado. Tente de novo em um minuto.",
   "The coach could not answer that one. Try putting it another way.": "O treinador não conseguiu responder essa. Tente dizer de outro jeito.",

@@ -6016,6 +6016,7 @@ export default {
   "Maintain": "คงที่",
   "Sign in to an account to talk to the coach.": "ลงชื่อเข้าใช้บัญชีเพื่อคุยกับโค้ช",
   "The coach is not set up on this server yet.": "เซิร์ฟเวอร์นี้ยังไม่ได้ตั้งค่าโค้ช",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "โค้ชไม่มีเครดิตเหลือบนเซิร์ฟเวอร์นี้แล้ว เติมเงินบัญชี Anthropic แล้วลองอีกครั้ง",
   "That’s all the questions for today. Back tomorrow.": "คำถามวันนี้หมดแล้ว พบกันพรุ่งนี้",
   "The coach is busy. Try again in a minute.": "โค้ชไม่ว่าง ลองอีกครั้งในอีกหนึ่งนาที",
   "The coach could not answer that one. Try putting it another way.": "โค้ชตอบคำถามนี้ไม่ได้ ลองถามแบบอื่น",

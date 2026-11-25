@@ -6005,6 +6005,7 @@ export default {
   "Maintain": "保持",
   "Sign in to an account to talk to the coach.": "登录账户后即可与教练对话。",
   "The coach is not set up on this server yet.": "此服务器尚未配置教练。",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "这台服务器上的教练已没有额度。请为 Anthropic 账户充值后再试一次。",
   "That’s all the questions for today. Back tomorrow.": "今天的问题已用完，明天见。",
   "The coach is busy. Try again in a minute.": "教练正忙，请一分钟后再试。",
   "The coach could not answer that one. Try putting it another way.": "教练无法回答这个问题，换个说法试试。",

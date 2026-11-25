@@ -6052,6 +6052,7 @@ export default {
   "Maintain": "Behålla",
   "Sign in to an account to talk to the coach.": "Logga in på ett konto för att prata med coachen.",
   "The coach is not set up on this server yet.": "Coachen är inte konfigurerad på den här servern än.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "Coachen har ingen kredit kvar på den här servern. Fyll på Anthropic-kontot och försök igen.",
   "That’s all the questions for today. Back tomorrow.": "Det var alla frågor för i dag. Vi ses i morgon.",
   "The coach is busy. Try again in a minute.": "Coachen är upptagen. Försök igen om en minut.",
   "The coach could not answer that one. Try putting it another way.": "Coachen kunde inte svara på den. Försök säga det på ett annat sätt.",

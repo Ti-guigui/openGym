@@ -5971,6 +5971,7 @@ export default {
   "Maintain": "حفظ",
   "Sign in to an account to talk to the coach.": "برای گفت‌وگو با مربی وارد یک حساب شو.",
   "The coach is not set up on this server yet.": "مربی هنوز روی این سرور راه‌اندازی نشده است.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "مربی دیگر روی این سرور اعتباری ندارد. حساب Anthropic را شارژ کن و دوباره امتحان کن.",
   "That’s all the questions for today. Back tomorrow.": "سؤال‌های امروز تمام شد. تا فردا.",
   "The coach is busy. Try again in a minute.": "مربی مشغول است. یک دقیقهٔ دیگر دوباره امتحان کن.",
   "The coach could not answer that one. Try putting it another way.": "مربی نتوانست به این پاسخ دهد. جور دیگری بپرس.",

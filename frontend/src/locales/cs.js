@@ -5971,6 +5971,7 @@ export default {
   "Maintain": "Udržet",
   "Sign in to an account to talk to the coach.": "Přihlas se k účtu, abys mohl mluvit s trenérem.",
   "The coach is not set up on this server yet.": "Trenér na tomto serveru zatím není nastavený.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "Trenér na tomto serveru už nemá žádný kredit. Dobij účet Anthropic a zkus to znovu.",
   "That’s all the questions for today. Back tomorrow.": "To jsou všechny otázky na dnešek. Zase zítra.",
   "The coach is busy. Try again in a minute.": "Trenér je zaneprázdněný. Zkus to za minutu.",
   "The coach could not answer that one. Try putting it another way.": "Na tohle trenér neuměl odpovědět. Zkus to říct jinak.",

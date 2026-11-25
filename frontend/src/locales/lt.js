@@ -6001,6 +6001,7 @@ export default {
   "Maintain": "Išlaikyti",
   "Sign in to an account to talk to the coach.": "Prisijunk prie paskyros, kad kalbėtum su treneriu.",
   "The coach is not set up on this server yet.": "Treneris šiame serveryje dar nesukonfigūruotas.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "Treneris šiame serveryje nebeturi kredito. Papildyk Anthropic paskyrą ir bandyk dar kartą.",
   "That’s all the questions for today. Back tomorrow.": "Šiandienos klausimai baigėsi. Iki rytojaus.",
   "The coach is busy. Try again in a minute.": "Treneris užimtas. Bandyk po minutės.",
   "The coach could not answer that one. Try putting it another way.": "Treneris negalėjo į tai atsakyti. Pabandyk suformuluoti kitaip.",

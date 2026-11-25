@@ -5971,6 +5971,7 @@ export default {
   "Maintain": "Duy trì",
   "Sign in to an account to talk to the coach.": "Đăng nhập vào một tài khoản để trò chuyện với huấn luyện viên.",
   "The coach is not set up on this server yet.": "Máy chủ này chưa thiết lập huấn luyện viên.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "Huấn luyện viên đã hết tín dụng trên máy chủ này. Nạp thêm vào tài khoản Anthropic rồi thử lại.",
   "That’s all the questions for today. Back tomorrow.": "Hết câu hỏi cho hôm nay. Hẹn mai nhé.",
   "The coach is busy. Try again in a minute.": "Huấn luyện viên đang bận. Thử lại sau một phút.",
   "The coach could not answer that one. Try putting it another way.": "Huấn luyện viên không trả lời được câu này. Hãy thử hỏi cách khác.",

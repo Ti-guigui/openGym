@@ -6060,6 +6060,7 @@ export default {
   "Maintain": "الحفاظ",
   "Sign in to an account to talk to the coach.": "سجّل الدخول إلى حساب للتحدث مع المدرب.",
   "The coach is not set up on this server yet.": "المدرب غير مُعَدّ على هذا الخادم بعد.",
+  "The coach has no credit left on this server. Top up the Anthropic account, then try again.": "لم يعد لدى المدرب رصيد على هذا الخادم. اشحن حساب Anthropic ثم حاول مجددًا.",
   "That’s all the questions for today. Back tomorrow.": "انتهت أسئلة اليوم. نلتقي غدًا.",
   "The coach is busy. Try again in a minute.": "المدرب مشغول. حاول بعد دقيقة.",
   "The coach could not answer that one. Try putting it another way.": "لم يستطع المدرب الإجابة عن هذا. جرّب صياغته بطريقة أخرى.",
