@@ -116,12 +116,20 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
       ```powershell
       cd "$HOME\openGym"
       npx wrangler d1 migrations apply ti-guigui-fit --remote
-      npx wrangler pages secret put ANTHROPIC_API_KEY --project-name ti-guigui-fit
+      npx.cmd wrangler pages secret put ANTHROPIC_API_KEY --project-name ti-guigui-fit
       ```
       La clé se crée sur https://platform.claude.com/settings/keys (compte Anthropic payant à
-      l'usage). Réglages facultatifs (Cloudflare → Pages → ti-guigui-fit → Paramètres → Variables) :
-      `AI_DAILY` = questions par personne et par jour (20 par défaut), `AI_MODEL` = modèle
-      (`claude-opus-5-5` par défaut ; `claude-haiku-5-5` coûte environ 40 fois moins cher) ;
+      l'usage). La commande demande de coller la clé : la lancer dans sa propre fenêtre PowerShell
+      (`npx.cmd`, car `npx` y est bloqué), pas avec `!` dans Claude Code, qui enregistre une clé vide.
+      Réglages facultatifs, posés eux aussi comme secrets (avec `wrangler.toml` présent, le tableau
+      de bord Cloudflare ne laisse pas modifier les variables) : `AI_DAILY` = questions par
+      personne et par jour (20 par défaut), `AI_MODEL` = modèle (`claude-opus-5-5` par défaut ;
+      `claude-haiku-5-5` coûte environ 40 fois moins cher, en place depuis le 25/11/2026) :
+      ```powershell
+      "claude-haiku-5-5" | npx.cmd wrangler pages secret put AI_MODEL --project-name ti-guigui-fit
+      ```
+      Tout changement de secret ne compte qu'au déploiement suivant ; vérifier ensuite
+      https://ti-guigui-fit.pages.dev/api/ai/status (`"available":true`) ;
     - la politique de confidentialité mentionne l'envoi à Anthropic.
 
 13. **Séance guidée** (comme sur la montre) : `frontend/src/components/GuidedPlayer.jsx`, en plein
