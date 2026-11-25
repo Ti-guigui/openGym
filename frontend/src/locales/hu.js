@@ -5964,6 +5964,7 @@ export default {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "Heti 1 kg gyors. Pár hétig rendben, nehéz tartani.",
   "AI coach": "MI edző",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "A válaszokat egy MI (Claude) adja: tévedhetnek, és nem orvosi tanácsok. A kérdésed és az adataid összefoglalója a válaszhoz az Anthropichoz kerül.",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "A válaszok egy MI-től származnak (a Cloudflare által futtatott nyílt modell): tévedhetnek, és nem orvosi tanácsok. A kérdésed és az adataid összefoglalója a válaszhoz a Cloudflare-hez kerül.",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "Kérdezz bármit edzésről, étkezésről vagy a fejlődésedről. Az edző látja a profilod, célod, kalóriáid, súlyod, méreteid és utolsó edzéseid.",
   "Ask the coach": "Kérdezd az edzőt",
   "Ask the coach…": "Írj az edzőnek…",

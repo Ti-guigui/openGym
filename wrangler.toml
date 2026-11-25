@@ -11,3 +11,7 @@ binding = "DB"
 database_name = "ti-guigui-fit"
 database_id = "d188129e-0f22-41dd-858b-24ea8fa40afb"
 migrations_dir = "migrations"
+
+# The AI coach's model (functions/lib/ai-coach.js): Workers AI, no key, free daily allocation.
+[ai]
+binding = "AI"

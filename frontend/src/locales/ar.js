@@ -6016,6 +6016,7 @@ export default {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "1 كغ في الأسبوع سريع. مقبول لبضعة أسابيع، وصعب الاستمرار عليه.",
   "AI coach": "مدرب الذكاء الاصطناعي",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "تأتي الإجابات من ذكاء اصطناعي (Claude): قد تكون خاطئة وليست نصيحة طبية. يُرسَل سؤالك وملخص لبياناتك إلى Anthropic للإجابة.",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "تأتي الإجابات من ذكاء اصطناعي (نموذج مفتوح تشغّله Cloudflare): قد تخطئ وليست استشارة طبية. يُرسَل سؤالك وملخص لبياناتك إلى Cloudflare للإجابة.",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "اسأل أي شيء عن التمرين أو الأكل أو تقدمك. يرى المدرب ملفك وهدفك وسعراتك ووزنك وقياساتك وآخر تمارينك.",
   "Ask the coach": "اسأل المدرب",
   "Ask the coach…": "اكتب للمدرب…",

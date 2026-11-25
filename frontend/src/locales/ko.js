@@ -5961,6 +5961,7 @@ export default {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "주 1kg은 빠릅니다. 몇 주는 괜찮지만 유지하기 어렵습니다.",
   "AI coach": "AI 코치",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "답변은 AI(Claude)가 작성합니다: 틀릴 수 있으며 의학적 조언이 아닙니다. 답변을 위해 질문과 데이터 요약이 Anthropic에 전송됩니다.",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "답변은 AI(Cloudflare가 실행하는 오픈 모델)가 작성해요. 틀릴 수 있고 의학적 조언이 아니에요. 답변을 위해 질문과 데이터 요약이 Cloudflare로 전송돼요.",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "운동, 식단, 진행 상황에 대해 무엇이든 물어보세요. 코치는 프로필, 목표, 칼로리, 체중, 신체 치수, 최근 운동을 봅니다.",
   "Ask the coach": "코치에게 묻기",
   "Ask the coach…": "코치에게 메시지…",

@@ -5961,6 +5961,7 @@ export default {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "Haftada 1 kg hızlı. Birkaç hafta olur, sürdürmek zor.",
   "AI coach": "Yapay zekâ koçu",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "Yanıtlar bir yapay zekâdan (Claude) gelir: yanlış olabilir ve tıbbi tavsiye değildir. Sorun ve verilerinin bir özeti yanıt için Anthropic'e gönderilir.",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "Yanıtlar bir yapay zekâdan gelir (Cloudflare’ın çalıştırdığı açık bir model): yanılabilir ve tıbbi tavsiye değildir. Sorun ve verilerinin bir özeti yanıt için Cloudflare’a gönderilir.",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "Antrenman, beslenme veya ilerlemen hakkında her şeyi sor. Koç profilini, hedefini, kalorilerini, kilonu, ölçülerini ve son antrenmanlarını görür.",
   "Ask the coach": "Koça sor",
   "Ask the coach…": "Koça yaz…",

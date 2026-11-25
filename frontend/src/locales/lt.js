@@ -5957,6 +5957,7 @@ export default {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "1 kg per savaitę yra greitai. Kelias savaites gerai, sunku išlaikyti.",
   "AI coach": "DI treneris",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "Atsakymus pateikia DI (Claude): jie gali būti klaidingi ir nėra medicininis patarimas. Tavo klausimas ir duomenų santrauka siunčiami Anthropic, kad būtų atsakyta.",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "Atsakymus pateikia DI (atviras modelis, kurį vykdo Cloudflare): jie gali klysti ir nėra medicininis patarimas. Tavo klausimas ir duomenų santrauka atsakymui siunčiami į Cloudflare.",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "Klausk ko nori apie treniruotes, mitybą ar pažangą. Treneris mato tavo profilį, tikslą, kalorijas, svorį, apimtis ir paskutines treniruotes.",
   "Ask the coach": "Paklausk trenerio",
   "Ask the coach…": "Rašyk treneriui…",

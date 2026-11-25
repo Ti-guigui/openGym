@@ -5961,6 +5961,7 @@ export default {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "1 kg tygodniowo to szybko. Na kilka tygodni w porządku, trudno utrzymać.",
   "AI coach": "Trener AI",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "Odpowiedzi pochodzą od AI (Claude): mogą być błędne i nie są poradą medyczną. Twoje pytanie i podsumowanie twoich danych są wysyłane do Anthropic, aby odpowiedzieć.",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "Odpowiedzi pochodzą od AI (otwarty model uruchamiany przez Cloudflare): mogą się mylić i nie są poradą medyczną. Twoje pytanie i podsumowanie twoich danych są wysyłane do Cloudflare, aby uzyskać odpowiedź.",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "Pytaj o wszystko: trening, jedzenie, postępy. Trener widzi twój profil, cel, kalorie, wagę, obwody i ostatnie treningi.",
   "Ask the coach": "Zapytaj trenera",
   "Ask the coach…": "Napisz do trenera…",
