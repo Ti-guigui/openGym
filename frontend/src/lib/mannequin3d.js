@@ -121,6 +121,7 @@ const BY_ANIM = {
   'etirement-poignet-flechisseurs': ['1850', '1824', '1825', '2093'], 'etirement-poignet-extenseurs': ['11383', '1822', '1823'],
   'nuque-flexion': ['4509', '1837', '1836'], 'nuque-extension': ['0250', '1833', '1839'], 'nuque-avant-arriere': ['0462', '3441'],
   'nuque-laterale': ['0713', '0716', '1403', '7306', '6765', '5058'], 'nuque-rotation': ['1831', '1843'],
+  'bras-tendus-haut': ['1777', '1797', '1983'], 'ouverture-poitrine': ['1167'], 'coudes-arriere': ['4672'], 'genou-poitrine-debout': ['1811'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {
