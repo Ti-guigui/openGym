@@ -142,6 +142,8 @@ const routes = {
     let data = null
     try { data = await res.json() } catch { /* not JSON */ }
     if (!res.ok) {
+      // Anthropic's own reason (never the key), readable with `wrangler pages deployment tail`.
+      console.log('ai upstream', res.status, data?.error?.type || '', String(data?.error?.message || '').slice(0, 200))
       const code = res.status === 429 || res.status === 529 ? 'busy' : res.status === 401 || res.status === 403 ? 'no-key' : 'unreachable'
       return json(502, { error: 'the coach is unavailable', code })
     }
