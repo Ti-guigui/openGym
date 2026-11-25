@@ -9,7 +9,7 @@ export const pick = txt => (txt && typeof txt === 'object' ? (String(getLang()).
 // Food groups, each with what it brings and examples (kcal and protein for a usual portion).
 export const FOOD_GROUPS = [
   {
-    id: 'protein', icon: 'dumbbell', tint: 'var(--red)',
+    id: 'protein', icon: 'dumbbell',
     name: { fr: 'Protéines', en: 'Protein' },
     why: { fr: 'Gardent et construisent le muscle, calent longtemps. À chaque repas.', en: 'Keep and build muscle, keep you full. At every meal.' },
     foods: [
@@ -24,7 +24,7 @@ export const FOOD_GROUPS = [
     ],
   },
   {
-    id: 'carbs', icon: 'bolt', tint: 'var(--orange)',
+    id: 'carbs', icon: 'bolt',
     name: { fr: 'Glucides (énergie)', en: 'Carbs (energy)' },
     why: { fr: 'Le carburant des séances. Plutôt complets, et autour de l’entraînement.', en: 'Fuel for training. Wholegrain where you can, and around your sessions.' },
     foods: [
@@ -39,7 +39,7 @@ export const FOOD_GROUPS = [
     ],
   },
   {
-    id: 'fat', icon: 'drop', tint: 'var(--yellow)',
+    id: 'fat', icon: 'drop',
     name: { fr: 'Bons gras', en: 'Healthy fats' },
     why: { fr: 'Utiles aux hormones et à la récupération, mais très caloriques : on dose.', en: 'Good for hormones and recovery, but calorie-dense: measure them.' },
     foods: [
@@ -52,7 +52,7 @@ export const FOOD_GROUPS = [
     ],
   },
   {
-    id: 'veg', icon: 'leaf', tint: 'var(--green)',
+    id: 'veg', icon: 'leaf',
     name: { fr: 'Légumes et fruits', en: 'Vegetables and fruit' },
     why: { fr: 'Volume, fibres et vitamines pour peu de calories. La moitié de l’assiette.', en: 'Volume, fibre and vitamins for few calories. Half the plate.' },
     foods: [

@@ -227,7 +227,7 @@ export default function Home() {
 
     {/* A motivating line of the day (lib/quotes.js), with the Motivation module. */}
     {on('motivation') && <div className="card quote-card">
-      <CardHead icon="sparkles" tint="var(--orange)" eyebrow={t('Quote of the day')} title={t(quoteOf(todayKey))} />
+      <CardHead icon="note" tint="var(--grey)" eyebrow={t('Quote of the day')} title={t(quoteOf(todayKey))} />
     </div>}
 
     {/* Monday: Your week; the 1st: Your month (lib/recap.js). Off in Settings → Look & Home. */}
@@ -312,7 +312,7 @@ export default function Home() {
 
     {/* The AI coach (views/CoachIA.jsx), served by the Pages build's own server. */}
     {import.meta.env.VITE_LOCAL_ONLY === '1' && <div className="card tap-host coach-ia-card">
-      <CardHead icon="sparkles" tint="var(--purple)" eyebrow={t('AI coach')} title={t('Ask the coach')}
+      <CardHead icon="chat" eyebrow={t('AI coach')} title={t('Ask the coach')}
         sub={t('Training and nutrition, from your data')} open={{ onClick: () => nav('/coach-ia') }} />
     </div>}
 

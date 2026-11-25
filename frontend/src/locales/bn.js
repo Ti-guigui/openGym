@@ -6103,4 +6103,6 @@ export default {
   "Set {0} / {1}": "সেট {0} / {1}",
   "Tap the body to choose what you measure.": "কী মাপবে বেছে নিতে শরীরে ট্যাপ করো।",
   "Warm-up {0} / {1}": "ওয়ার্ম-আপ {0} / {1}",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "{0} গ্রা প্রোটিন",
 }

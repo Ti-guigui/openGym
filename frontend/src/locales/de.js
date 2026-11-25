@@ -6044,4 +6044,6 @@ export default {
   "Set {0} / {1}": "Satz {0} / {1}",
   "Tap the body to choose what you measure.": "Tippe auf den Körper, um zu wählen, was du misst.",
   "Warm-up {0} / {1}": "Aufwärmen {0} / {1}",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "{0} g Eiweiß",
 }

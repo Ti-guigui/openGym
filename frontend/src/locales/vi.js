@@ -5990,4 +5990,6 @@ export default {
   "Set {0} / {1}": "Hiệp {0} / {1}",
   "Tap the body to choose what you measure.": "Chạm vào cơ thể để chọn số đo cần theo dõi.",
   "Warm-up {0} / {1}": "Khởi động {0} / {1}",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "{0} g đạm",
 }

@@ -78,7 +78,7 @@ export default function CoachIA() {
       <span>{t(!status.signedIn ? ERRORS['signed-out'] : ERRORS['no-key'])}</span></div>}
 
     {!chat.length && <div className="card cia-hello">
-      <Icon name="sparkles" />
+      <Icon name="chat" />
       <div>{t('Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.')}</div>
       <div className="chips cia-chips">{SUGGEST.map(s => <button key={s} type="button" className="chip nocap" disabled={off || busy} onClick={() => send(t(s))}>{t(s)}</button>)}</div>
     </div>}

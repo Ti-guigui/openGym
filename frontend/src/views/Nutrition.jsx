@@ -13,6 +13,7 @@ import {
 import { FOOD_GROUPS, GOAL_TIPS, LIMIT, SLOTS, SLOT_NAME, mealIdeas, pick } from '../lib/food-ideas.js'
 import Icon from '../components/Icon.jsx'
 import CardHead from '../components/CardHead.jsx'
+import RollingNumber from '../components/RollingNumber.jsx'
 import { Button, Segmented, Stepper } from '../components/ui.jsx'
 import { bwSheet, goalSheet } from '../sheets.jsx'
 
@@ -21,6 +22,9 @@ import { bwSheet, goalSheet } from '../sheets.jsx'
 // by week against a goal; what to eat and meal ideas sized to the target. Formulas and sources are
 // in lib/nutrition.js, the food texts in lib/food-ideas.js. Home → Nutrition card, or Stats.
 
+// unslop pass (Ti Guigui FIT): the section heads are quiet grey tiles; colour is kept for what the
+// screen is about, the day's number, the protein bar and the current week of the burn chart.
+const QUIET = 'var(--grey)'
 const ACTIVITY_LABEL = { sedentary: 'Sedentary', light: 'Lightly active', moderate: 'Moderate', very: 'Very active' }
 const GOAL_LABEL = { lose: 'Lose', keep: 'Maintain', gain: 'Gain' }
 
@@ -53,7 +57,7 @@ export default function Nutrition() {
 
     {/* Who you are: what the formula needs, saved on the profile. */}
     <section className="card">
-      <CardHead icon="person" title={t('Your profile')} sub={t('Saved on your profile, used by every estimate.')} />
+      <CardHead icon="person" tint={QUIET} title={t('Your profile')} sub={t('Saved on your profile, used by every estimate.')} />
       <div className="row cfgrow nut-profile">
         <div className="nut-bw">
           <span className="stp-l">{t('Body weight ({0})', unit)}</span>
@@ -74,7 +78,7 @@ export default function Nutrition() {
 
     {/* The goal and the deficit it means. */}
     <section className="card">
-      <CardHead icon="target" tint="var(--gold-ink)" title={t('Your goal')}
+      <CardHead icon="target" tint={QUIET} title={t('Your goal')}
         action={<Button size="sm" variant="ghost" icon="target" onClick={goalSheet}>{S.targetW ? fmtNum(S.targetW) + ' ' + unit : t('Goal weight')}</Button>} />
       <Segmented value={n.goal} onChange={v => set({ goal: v })} options={GOALS.map(g => ({ value: g, label: t(GOAL_LABEL[g]) }))} />
       {n.goal !== 'keep' && <>
@@ -86,7 +90,7 @@ export default function Nutrition() {
 
       {target ? <>
         <div className="nut-target" aria-live="polite">
-          <div className="nut-big">{fmtNum(target.target)}<span> kcal</span></div>
+          <div className="nut-big"><RollingNumber value={target.target} step={10} /><span className="nut-unit"> kcal</span></div>
           <div className="small dim">{t('to eat each day')}</div>
         </div>
         <div className="tiles tools-tiles">
@@ -97,9 +101,9 @@ export default function Nutrition() {
         </div>
         {target.limited && <div className="small nut-warn"><Icon name="warning" /> {t('Held at a safe minimum: eating less would cost muscle and energy. Lose slower or move more.')}</div>}
         <div className="nut-macros">
-          <Macro label={t('Protein')} g={target.protein} kcal={target.protein * 4} total={target.target} color="var(--red)" />
-          <Macro label={t('Carbs')} g={target.carbs} kcal={target.carbs * 4} total={target.target} color="var(--orange)" />
-          <Macro label={t('Fat')} g={target.fat} kcal={target.fat * 9} total={target.target} color="var(--yellow)" />
+          <Macro label={t('Protein')} g={target.protein} kcal={target.protein * 4} total={target.target} color="var(--acc)" />
+          <Macro label={t('Carbs')} g={target.carbs} kcal={target.carbs * 4} total={target.target} color="var(--grey)" />
+          <Macro label={t('Fat')} g={target.fat} kcal={target.fat * 9} total={target.target} color="var(--label-3)" />
         </div>
         {weeks != null && <div className="nut-eta"><Icon name="flag" />
           <span>{t('Goal weight around {0}', fmtDate(dateInWeeks(weeks), true))} · {tn('{0} week', '{0} weeks', weeks)}</span></div>}
@@ -137,7 +141,7 @@ function BurnCard({ S, update }) {
   const top = Math.max(goal || 0, ...rows.map(r => r.kcal), 100)
   const now = rows.at(-1)
   return <section className="card">
-    <CardHead icon="flame" tint="var(--orange)" title={t('Calories burned')}
+    <CardHead icon="flame" tint={QUIET} title={t('Calories burned')}
       sub={goal ? t('{0} of {1} kcal this week', fmtNum(now.kcal), fmtNum(goal)) : t('{0} kcal this week', fmtNum(now.kcal))}
       action={editing
         ? <Button size="sm" variant="tinted" onClick={() => setEditing(false)}>{t('Done')}</Button>
@@ -149,7 +153,7 @@ function BurnCard({ S, update }) {
     </div>}
     <div className="nut-chart" role="img" aria-label={rows.map(r => fmtDate(r.week) + ': ' + r.kcal + ' kcal').join(', ')}>
       {goal && <span className="nut-goal-line" style={{ bottom: (goal / top * 100) + '%' }}><i>{fmtNum(goal)}</i></span>}
-      {rows.map(r => <div key={r.week} className={'nut-col' + (goal && r.kcal >= goal ? ' hit' : '')}>
+      {rows.map((r, i) => <div key={r.week} className={'nut-col' + (i === rows.length - 1 ? ' now' : '') + (goal && r.kcal >= goal ? ' hit' : '')}>
         <span className="nut-col-v">{r.kcal ? fmtNum(r.kcal) : ''}</span>
         <span className="nut-col-b" style={{ height: Math.max(r.kcal ? 3 : 0, r.kcal / top * 100) + '%' }} />
       </div>)}
@@ -163,10 +167,10 @@ function FoodGroup({ g }) {
   const [open, setOpen] = useState(false)
   const list = open ? g.foods : g.foods.slice(0, 4)
   return <section className="card nut-group">
-    <CardHead icon={g.icon} tint={g.tint} title={pick(g.name)} sub={pick(g.why)} />
+    <CardHead icon={g.icon} tint={QUIET} title={pick(g.name)} sub={pick(g.why)} />
     <div className="nut-foods">{list.map(f => <div key={f.en} className="nut-food">
       <span>{pick(f)} <span className="dim">· {f.portion}</span></span>
-      <span className="dim nut-food-n">{f.kcal} kcal{f.p ? ' · ' + f.p + ' g P' : ''}</span>
+      <span className="dim nut-food-n">{f.kcal} kcal{f.p ? ' · ' + t('{0} g protein', f.p) : ''}</span>
     </div>)}</div>
     {g.foods.length > 4 && <Button size="sm" variant="ghost" trailingIcon={open ? 'chevronUp' : 'chevronDown'} onClick={() => setOpen(!open)}>{open ? t('Show less') : t('Show more')}</Button>}
   </section>
@@ -181,9 +185,9 @@ function MealIdeas({ dayKcal }) {
     </div>
     {dayKcal && <div className="small dim" style={{ margin: '0 2px 10px' }}>{t('Sized for {0} kcal a day.', fmtNum(dayKcal))}</div>}
     {SLOTS.map(slot => <section key={slot} className="card nut-meals">
-      <div className="nut-slot"><Icon name="utensils" />{pick(SLOT_NAME[slot])}</div>
+      <div className="nut-slot">{pick(SLOT_NAME[slot])}</div>
       {mealIdeas(slot, dayKcal, seed, 2).map(m => <div key={m.id} className="nut-meal">
-        <div className="row between"><b>{pick(m.name)}</b><span className="nut-meal-n">{m.kcal} kcal · {m.p} g P</span></div>
+        <div className="row between"><b>{pick(m.name)}</b><span className="nut-meal-n">{m.kcal} kcal · {t('{0} g protein', m.p)}</span></div>
         <div className="small dim">{pick(m.what)}</div>
       </div>)}
     </section>)}

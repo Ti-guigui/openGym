@@ -36,12 +36,12 @@ export function ChallengeRows({ progress, unit }) {
 
 /** One challenge done, or all three: said once, the way the streak's party says a week is done.
     The medal is the month's next tier (bronze, silver, gold), a gold month gets the crown. */
-function ChallengeParty({ party, onClose }) {
+function ChallengeParty({ party, unit, onClose }) {
   useEffect(() => {
     const tm = setTimeout(onClose, PARTY_MS)
     return () => clearTimeout(tm)
   }, [party, onClose])
-  const text = party.gold ? t('All three done. Gold month!') : t('Challenge done: {0}. New badge!', party.title)
+  const text = party.gold ? t('All three done. Gold month!') : t('Challenge done: {0}. New badge!', challengeTitle(party.p, unit))
   const icon = party.gold ? <Icon name="crown" className="ch-crown" /> : <Medal tier={TIERS[Math.max(0, Math.min(2, (party.n || 1) - 1))]} />
   return <PartyBanner text={text} icon={icon} className={'ch-party' + (party.gold ? ' gold' : '')} onClose={onClose} />
 }
@@ -67,7 +67,9 @@ export function ChallengesCard({ S, now = new Date() }) {
       let gold = false, n = 1
       update(s => { markDone(s, key, fresh, month.picked); const m = cleanChallenges(s.challenges)?.[key]; gold = isGold(m); n = m?.done.length || 1 })
       const p = progress.find(x => x.id === fresh[0])
-      setParty({ gold, n, title: challengeTitle(p, S.unit), at: Date.now() })
+      // The title is worked out when shown, in the language then loaded (Ti Guigui FIT: it was
+      // English when the challenge finished before the language pack arrived).
+      setParty({ gold, n, p, at: Date.now() })
     } else if (!month.stored) update(s => { savePicks(s, key, month.picked) })
     // Last month's goals reached on its last evening, with the app opened only now: the badge
     // still counts, quietly.
@@ -98,7 +100,7 @@ export function ChallengesCard({ S, now = new Date() }) {
       : <ChallengeRows progress={progress} unit={S.unit} />}
     {!folded && gold && <div className="ch-note small"><Icon name="crown" className="ch-crown" /> {t('Gold month. Take a bow.')}</div>}
     {!folded && !gold && newMonth && <div className="ch-note small muted">{t('New month, new challenges.')}</div>}
-    {party && <ChallengeParty party={party} onClose={closeParty} />}
+    {party && <ChallengeParty party={party} unit={S.unit} onClose={closeParty} />}
   </div>
 }
 

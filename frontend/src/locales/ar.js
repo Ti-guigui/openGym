@@ -6079,4 +6079,6 @@ export default {
   "Set {0} / {1}": "المجموعة {0} / {1}",
   "Tap the body to choose what you measure.": "المس الجسم لتختار ما تقيسه.",
   "Warm-up {0} / {1}": "الإحماء {0} / {1}",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "{0} غ بروتين",
 }

@@ -5990,4 +5990,6 @@ export default {
   "Set {0} / {1}": "ست {0} / {1}",
   "Tap the body to choose what you measure.": "روی بدن بزن تا انتخاب کنی چه چیزی را اندازه بگیری.",
   "Warm-up {0} / {1}": "گرم‌کردن {0} / {1}",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "{0} گرم پروتئین",
 }

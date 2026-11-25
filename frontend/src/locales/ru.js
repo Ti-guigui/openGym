@@ -6028,4 +6028,6 @@ export default {
   "Set {0} / {1}": "Подход {0} / {1}",
   "Tap the body to choose what you measure.": "Нажми на тело, чтобы выбрать, что измерять.",
   "Warm-up {0} / {1}": "Разминка {0} / {1}",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "{0} г белка",
 }

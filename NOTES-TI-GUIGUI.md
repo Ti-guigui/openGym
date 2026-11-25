@@ -137,6 +137,20 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
     Séance → Aperçu avant de démarrer ; règle dans `lib/preview-start.js`) avec le grand mannequin
     avant/arrière des muscles travaillés et leurs noms, puis « Séance guidée » ou « Démarrer ».
 
+15. **Passe « unslop » et mouvement** (méthode unslop de Damir Sokolovsky, CC BY 4.0 ; règles de
+    mouvement de fortix.fr) :
+    - direction : la salle de muscu (fonte, craie, chrono mural, mètre ruban). Deux moments en couleur :
+      le chiffre du jour et le chrono de la séance guidée, puis le mannequin. Signature : les pointillés
+      du mètre ruban (mannequin, ligne d'objectif des graphiques) ;
+    - Nutrition : en-têtes en pastilles grises, couleur gardée pour les protéines et la semaine en cours,
+      « 30 g P » devenu « 30 g protéines », plus d'icône répétée devant les repas ;
+    - plus d'étincelles pour l'IA : le Coach IA a une bulle de discussion, la citation du jour une note ;
+    - un seul mouvement par écran, sans librairie : le chiffre des calories et les reps/poids de la
+      séance guidée roulent (`components/RollingNumber.jsx`, `lib/tween.js` + tests), l'anneau du chrono
+      avance en douceur, le point choisi du mannequin apparaît. Rien ne bouge avec « Réduire les
+      animations » ;
+    - correction openGym : la bannière « Défi réussi » s'affichait parfois en anglais.
+
 ## Règles à respecter
 
 - **Mention de licence Gym visual :** la garder mot pour mot, ainsi que `NOTICE.md`. Ne jamais

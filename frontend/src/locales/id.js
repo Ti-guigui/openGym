@@ -5989,4 +5989,6 @@ export default {
   "Set {0} / {1}": "Set {0} / {1}",
   "Tap the body to choose what you measure.": "Ketuk tubuh untuk memilih yang kamu ukur.",
   "Warm-up {0} / {1}": "Pemanasan {0} / {1}",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "{0} g protein",
 }

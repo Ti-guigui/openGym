@@ -6027,4 +6027,6 @@ export default {
   "Set {0} / {1}": "{0}. / {1} sorozat",
   "Tap the body to choose what you measure.": "Koppints a testre, hogy kiválaszd, mit mérsz.",
   "Warm-up {0} / {1}": "{0}. / {1} bemelegítés",
+  // --- unslop pass (Ti Guigui FIT) ---
+  "{0} g protein": "{0} g fehérje",
 }
