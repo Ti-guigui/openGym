@@ -137,6 +137,7 @@ const BY_ANIM = {
   'curl-poignets-inverse-ez': ['6364'], 'rowing-debout-ez': ['7114'], 'rowing-ez-supination': ['1344'], 'pullover-ez': ['3010'],
   'pull-through-elastique': ['0991', '5837'], 'curl-poignets-inverse-elastique': ['0994'], 'pallof-elastique': ['0979', '4240'],
   'rotation-externe-elastique': ['0921', '2151', '6441', '8361'], 'rotation-interne-elastique': ['0924', '8360'],
+  'pallof-squat-elastique': ['3774', '3796', '3524'], 'pallof-fente-elastique': ['3775', '3797', '10184'], 'pallof-verticale-elastique': ['1015'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {

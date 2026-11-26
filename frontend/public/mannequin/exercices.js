@@ -3423,6 +3423,30 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     [[0, "Coude collé au corps, plié à 90°, avant-bras ouvert vers l'extérieur"], [0.4, "Ramener l'avant-bras devant le ventre"], [0.55, "Revenir lentement"]]);
 }
 
+/* ---------- LOT 83 pour l'appli : presse Pallof en squat, en fente, et verticale ---------- */
+{
+  const BANDE = 0xd04a3a, brin = (de, main) => ({ type: "cable", de, main, r: 0.9, couleur: BANDE, poignee: 0 });
+  const POTEAU = (x, z, h = 160) => machine([{ b: [7, h, 7], p: [x, h / 2, z] }, { b: [30, 2, 30], p: [x, 1, z] }]);
+  const ACC = () => [POTEAU(-75, 20), brin([-72, 122, 20], "G"), brin([-72, 122, 20], "D")];
+  const MAINS = (y, z, x = y > 150 ? 6 : 2) => ({ G: { ik: [x, y, z], pole: [1, -1, 0], doigts: 88, phal: 95, pouce: 80 }, D: { ik: [-x, y, z], pole: [-1, -1, 0], doigts: 88, phal: 95, pouce: 80 } });   // au-dessus de la tête : mains un peu écartées, sinon les poignets se croisent
+  const LARGE = jambes2({ ik: [17, 8, 4], pole: [0.35, 0, 1], pied: PIED_PLAT(10) });
+  const P = (t, rac, jambes, bras, colonne = col(0, 0, 0)) => ({ t, racine: copie(rac), colonne, jambes: copie(jambes), bras: copie(bras) });
+  const ex = (id, nom, cles, tempo, muscles = { p: ["abdominaux", "obliques"], s: ["quadriceps", "fessiers"] }) => E(id, { nom, duree: 4, reps: 10, affiche: 0.45, vue: "face", recalageDe: id,
+    camera: { cible: [0, 105, 0], dist: 480, el: 8 }, ombre: [0, 0, 80, 90], accessoires: ACC(), muscles, tempo, cles });
+  const HAUT = { p: [0, 97, 0], r: [0, 0, 0] }, BAS = { p: [0, 66, -8], r: [16, 0, 0] };
+  // Squat bras tendus : l'élastique tire sur le côté pendant toute la descente
+  ex("pallof-squat-elastique", "Squat en tenant la presse Pallof", [P(0, HAUT, LARGE, MAINS(122, 50)), P(0.4, BAS, LARGE, MAINS(90, 46), col(6, 0, -4)), P(0.55, BAS, LARGE, MAINS(90, 46), col(6, 0, -4)), P(0.95, HAUT, LARGE, MAINS(122, 50))],
+    [[0, "De profil par rapport à l'accroche, bras tendus devant"], [0.4, "Descendre en squat sans laisser les bras tourner"], [0.55, "Remonter"]]);
+  // Fente sur place, bras tendus
+  const FENTE = { G: { ik: [15, 8, 32], pole: [0.2, 0, 1], pied: PIED_PLAT(4) }, D: { ik: [-15, 17, -44], pole: [0, 0, 1], pied: [42, 0, 0] } };
+  const F_HAUT = { p: [0, 92, -6], r: [0, 0, 0] }, F_BAS = { p: [0, 62, -6], r: [0, 0, 0] };
+  ex("pallof-fente-elastique", "Fente sur place en tenant la presse Pallof", [P(0, F_HAUT, FENTE, MAINS(118, 46)), P(0.4, F_BAS, FENTE, MAINS(88, 44)), P(0.55, F_BAS, FENTE, MAINS(88, 44)), P(0.95, F_HAUT, FENTE, MAINS(118, 46))],
+    [[0, "Fente, de profil par rapport à l'accroche, bras tendus"], [0.4, "Descendre le genou arrière, buste droit, sans tourner"], [0.55, "Remonter"]]);
+  // Presse Pallof verticale : des mains contre la poitrine jusqu'au-dessus de la tête
+  ex("pallof-verticale-elastique", "Presse Pallof verticale à l'élastique", [P(0, HAUT, LARGE, MAINS(122, 16)), P(0.4, HAUT, LARGE, MAINS(186, 8)), P(0.55, HAUT, LARGE, MAINS(186, 8)), P(0.95, HAUT, LARGE, MAINS(122, 16))],
+    [[0, "De profil par rapport à l'accroche, mains contre la poitrine"], [0.4, "Pousser les mains au-dessus de la tête sans pencher"], [0.55, "Redescendre"]], { p: ["abdominaux", "obliques"], s: ["deltoides"] });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
