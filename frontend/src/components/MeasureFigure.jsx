@@ -2,6 +2,7 @@ import { t } from '../lib/i18n.js'
 import { fmtNum } from '../lib/format.js'
 import Icon from './Icon.jsx'
 import ScaleCard from './ScaleCard.jsx'
+import HeightRuler from './HeightRuler.jsx'
 
 // Body measurements on a figure (Ti Guigui FIT, views/Measurements.jsx). A male profile gets the
 // illustrated man (public/mensurations-homme.webp, the owner's own picture, the brand logo on the
@@ -80,14 +81,12 @@ export function figureOrder(keys, body) {
   return keys.filter(k => s[k]).sort((a, b) => s[a].y - s[b].y || (s[a].side === 'l' ? -1 : 1))
 }
 
-// The ruler's graduation beside the body: a long tick every 10, a middle one every 5.
-const TICKS = Array.from({ length: 51 }, (_, i) => <line key={i} x1="0" x2={i % 10 === 0 ? 20 : i % 5 === 0 ? 13 : 7} y1={i * 2} y2={i * 2} />)
 
 /**
  * fields: [{ key, label, on? }] in display order; values: { [key]: number | null } in display
  * units; unit: the length unit; selected: the key the chart shows; body: 'male' | 'female';
  * choosing: every field shows, `on` says which are tracked; onPick(key, hasValue).
- * stats (optional): { height, heightLabel, onHeight, weight, weightUnit, weightLabel, onWeight }: the ruler
+ * stats (optional): { height, heightCm, heightUnit, heightLabel, onHeight, onSetHeight, weight, weightUnit, weightLabel, onWeight }: the ruler
  * beside the body (and its row under it) and the weight card with the scale under the body, each a
  * value already formatted (null when unknown); weightUnit is 'kg' or 'lb'.
  */
@@ -104,9 +103,7 @@ export default function MeasureFigure({ fields, values, unit, selected, onPick, 
         so the list beside it stays short. */}
     <div className="mfig-left">
     <div className={'mfig-fig' + (stats ? ' with-ruler' : '')}>
-    {stats && <button type="button" className="mfig-ruler" onClick={stats.onHeight} aria-label={stats.heightLabel + (stats.height ? ' ' + stats.height : '')}>
-      <svg viewBox="0 0 20 100" preserveAspectRatio="none" aria-hidden="true">{TICKS}</svg>
-    </button>}
+    {stats && <HeightRuler cm={stats.heightCm} unit={stats.heightUnit} label={stats.heightLabel} onOpen={stats.onHeight} onSet={stats.onSetHeight} />}
     <svg viewBox={`${vx} ${vy} ${vw} ${vh}`} className="mfig-svg" aria-hidden="true">
       <image href={ph.src} x={vx} y={vy} width={vw} height={vh} className="mfig-photo" preserveAspectRatio="xMidYMid meet" />
       {shown.map(f => {

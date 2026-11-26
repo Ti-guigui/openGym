@@ -323,6 +323,9 @@ export function MeasureFigureCard({ selected = null, onSelect = null }) {
       stats={choosing ? null : {
         height: Number(S.heightCm) > 0 ? fmtNum(lengthUnitOf(S) === 'in' ? Math.round(S.heightCm / CM_PER_IN) : Math.round(S.heightCm)) : null,
         heightLabel: t('Height ({0})', lengthUnitOf(S)), onHeight: heightSheet,
+        // The ruler: slide on it to set the height (components/HeightRuler.jsx).
+        heightCm: Number(S.heightCm) > 0 ? Number(S.heightCm) : null, heightUnit: lengthUnitOf(S),
+        onSetHeight: cm => useStore.getState().update(s => { s.heightCm = cm }),
         weight: Number(lastBW(S)?.w) > 0 ? fmtNum(lastBW(S).w) : null,
         weightUnit: S.unit === 'lb' ? 'lb' : 'kg',
         weightLabel: t('Body weight ({0})', S.unit), onWeight: () => bwSheet(),

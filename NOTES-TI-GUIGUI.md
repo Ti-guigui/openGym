@@ -175,6 +175,12 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
     réglage de l'écran dans `LCD`). Elle remplace la balance dessinée en vectoriel ; la règle de
     taille reste à côté du corps. Toucher la carte ou la balance ouvre la pesée. Style `.scale-*`.
 
+17. **Règle de taille qu'on fait glisser** (`frontend/src/components/HeightRuler.jsx`, calcul dans
+    `lib/height-ruler.js` + tests) : un repère violet sur la règle à côté du mannequin, à la hauteur de
+    la taille, avec sa valeur. Glisser le doigt le long de la règle le déplace ; la taille est enregistrée
+    au lever du doigt. La règle va de 220 cm en haut à 120 cm en bas (un trait tous les 2 cm). Un simple
+    toucher ouvre la fenêtre avec − et +. En pouces, la taille se cale sur des pouces entiers.
+
 ## Règles à respecter
 
 - **Mention de licence Gym visual :** la garder mot pour mot, ainsi que `NOTICE.md`. Ne jamais
