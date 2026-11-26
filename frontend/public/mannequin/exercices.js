@@ -3370,6 +3370,28 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   for (const id of ["haussement-barre-dos"]) for (const k of EXERCICES[id].cles) for (const c of ["G", "D"]) k.bras[c].pole = [c === "G" ? 0.2 : -0.2, 0, 1];
 }
 
+/* ---------- LOT 80 pour l'appli : haussements d'épaules à la poulie, à l'élastique, assis aux haltères, Smith barre derrière, kettlebells ---------- */
+{
+  const P = (t, h, x, z, racine = { p: [0, 99, 0], r: [0, 0, 0] }, jambes = DEBOUT, bas = 76) => ({ t, racine: copie(racine), colonne: col(0, 0, 0), jambes: copie(jambes),
+    bras: { G: { ik: [x, bas + h, z], pole: [0.2, 0, -1], hausse: h, doigts: 88, phal: 95, pouce: 80 }, D: { ik: [-x, bas + h, z], pole: [-0.2, 0, -1], hausse: h, doigts: 88, phal: 95, pouce: 80 } } });
+  const ex = (id, nom, x, z, acc, o = {}) => E(id, { nom, duree: 2.5, reps: 12, affiche: 0.5, vue: "3/4", recalageDe: id,
+    camera: { cible: [0, 115, 0], dist: 440, el: 6 }, ombre: [0, 0, 80, 80], accessoires: acc, muscles: { p: ["trapezes"], s: ["avant-bras"] },
+    tempo: [[0, "Bras tendus, charge qui pend"], [0.3, "Monter les épaules vers les oreilles"], [0.5, "Marquer un temps en haut"], [0.6, "Redescendre lentement"]],
+    cles: [0, 7, 7, 0].map((h, i) => P([0, 0.3, 0.5, 0.85][i], h, x, z, o.racine, o.jambes, o.bas)) });
+  const poulies = EXERCICES["mollets-poulie"].accessoires.filter(a => a.type !== "marche").map(copie);
+  ex("haussement-poulie", "Haussements d'épaules à la poulie basse", 26, 4, poulies);
+  const BANDE = 0xd04a3a, brin = (de, main) => ({ type: "cable", de, main, r: 0.9, couleur: BANDE, poignee: 10 });
+  ex("haussement-elastique", "Haussements d'épaules à l'élastique", 24, 6, [brin([16, 1, 6], "G"), brin([-16, 1, 6], "D")]);
+  const assis = EXERCICES["developpe-epaules-assis"], k0 = assis.cles[0];
+  ex("haussement-assis-halteres", "Haussements d'épaules assis aux haltères", 27, 4, [copie(assis.accessoires[0]), { type: "haltere", main: "G" }, { type: "haltere", main: "D" }],
+    { racine: k0.racine, jambes: k0.jambes, bas: k0.racine.p[1] - 23 });
+  ex("haussement-smith-dos", "Haussements d'épaules à la Smith, barre derrière", 24, -14, [{ type: "barre-olympique", main: "2" },
+    machine([{ b: [8, 200, 8], p: [92, 100, -14] }, { b: [8, 200, 8], p: [-92, 100, -14] }, { b: [200, 8, 8], p: [0, 200, -14] }])]);
+  for (const k of EXERCICES["haussement-smith-dos"].cles) for (const c of ["G", "D"]) k.bras[c].pole = [c === "G" ? 0.2 : -0.2, 0, 1];
+  const kettle = c => ({ ...copie(EXERCICES["rowing-kettlebell"].accessoires[1]), main: c });
+  ex("haussement-kettlebells", "Haussements d'épaules aux kettlebells", 30, 4, [kettle("G"), kettle("D")]);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
