@@ -94,7 +94,9 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
       (`PHOTO.spots`) sont posés dessus, seuls ceux qui manquent (abdomen, poignets, chevilles, haut du
       bras gauche) sont dessinés. Pour changer d'image : garder les ronds aux mêmes endroits, ou
       recaler `PHOTO.spots` (coordonnées en pixels de l'image).
-    - Profil femme : le corps des cartes musculaires (`lib/body-geometry.js`), points dessinés (`SPOTS.female`).
+    - Profil femme : l'image générée avec Gemini à partir de celle de l'homme, recadrée sans ses règles
+      (l'appli a la sienne), dans `frontend/public/mensurations-femme.webp` (484 × 1072). Points sur ses
+      ronds dans `PHOTO_FEMALE.spots` ; dessinés seulement pour hanches, poignets, chevilles et haut du bras gauche.
     - À côté, la liste : pastille de la même couleur (bras mauve, tronc vert, jambes jaune : `COLOR`),
       nom et dernière valeur. Toucher un point ou une ligne affiche la courbe ; un tour jamais noté
       ouvre la saisie. Bouton **Choisir** : tous les tours apparaissent, toucher active ou désactive.

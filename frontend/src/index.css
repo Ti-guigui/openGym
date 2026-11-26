@@ -4740,8 +4740,6 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 .mfig-head{gap:8px;margin:0 6px 6px}
 .mfig{display:grid;grid-template-columns:minmax(0,52fr) minmax(0,48fr);gap:10px;align-items:start}
 .mfig-svg{display:block;width:100%;height:auto;overflow:visible}
-.mfig-body path{fill:#e9ebef;stroke:#1f2329;stroke-width:3;stroke-linejoin:round}
-:root[data-theme="light"] .mfig-body path{fill:#f4f5f7;stroke:#3a3f47}
 .mfig-spot,.mfig-row{--c:var(--green)}
 .mfig-spot.c-violet,.mfig-row.c-violet{--c:var(--purple)}
 .mfig-spot.c-yellow,.mfig-row.c-yellow{--c:var(--yellow)}

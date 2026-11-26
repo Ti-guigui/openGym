@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { t } from '../lib/i18n.js'
 import { fmtNum } from '../lib/format.js'
 import Icon from './Icon.jsx'
@@ -7,8 +6,9 @@ import ScaleCard from './ScaleCard.jsx'
 // Body measurements on a figure (Ti Guigui FIT, views/Measurements.jsx). A male profile gets the
 // illustrated man (public/mensurations-homme.webp, the owner's own picture, the brand logo on the
 // shorts painted out), whose coloured circles and tape lines are part of the picture: the spots sit
-// exactly on them and only the ones it lacks are drawn. A female profile gets the body of the
-// muscle maps (lib/body-geometry.js) drawn plain, with every spot drawn. Beside it, the list: a dot
+// exactly on them and only the ones it lacks are drawn. A female profile gets the illustrated
+// woman (public/mensurations-femme.webp, made with Gemini from the man, its rulers cropped out since
+// the app draws its own), the same way. Beside it, the list: a dot
 // of the same colour, the name and the latest value.
 // A tap picks it for the chart below; one never logged opens the log. In `choosing` mode every
 // circumference shows and a tap switches it on or off (Measurements → choose on the figure).
@@ -39,68 +39,41 @@ export const PHOTO = {
   },
 }
 
-export const SPOTS = {
-  male: {
-    neck: { x: 363, y: 268, side: 'l' },
-    shoulders: { x: 205, y: 330, tape: [205, 525], side: 'l' },
-    chest: { x: 258, y: 385, tape: [258, 470], side: 'l' },
-    upperArmRight: { x: 205, y: 405, side: 'l' },
-    forearmRight: { x: 160, y: 525, side: 'l' },
-    wristRight: { x: 135, y: 595, side: 'l' },
-    thighRight: { x: 285, y: 790, side: 'l' },
-    calfRight: { x: 282, y: 1060, side: 'l' },
-    ankleRight: { x: 290, y: 1215, side: 'l' },
-    upperArmLeft: { x: 522, y: 405, side: 'r' },
-    forearmLeft: { x: 567, y: 525, side: 'r' },
-    wristLeft: { x: 592, y: 595, side: 'r' },
-    abdomen: { x: 410, y: 545, side: 'r' },
-    waist: { x: 458, y: 600, tape: [270, 458], side: 'r' },
-    hips: { x: 480, y: 690, tape: [245, 480], side: 'r' },
-    thighLeft: { x: 442, y: 790, side: 'r' },
-    calfLeft: { x: 445, y: 1060, side: 'r' },
-    ankleLeft: { x: 437, y: 1215, side: 'r' },
-  },
-  female: {
-    neck: { x: 320, y: 280, side: 'l' },
-    shoulders: { x: 178, y: 330, tape: [178, 470], side: 'l' },
-    chest: { x: 218, y: 380, tape: [218, 422], side: 'l' },
-    upperArmRight: { x: 180, y: 430, side: 'l' },
-    forearmRight: { x: 135, y: 570, side: 'l' },
-    wristRight: { x: 85, y: 640, side: 'l' },
-    thighRight: { x: 240, y: 800, side: 'l' },
-    calfRight: { x: 255, y: 1150, side: 'l' },
-    ankleRight: { x: 262, y: 1290, side: 'l' },
-    upperArmLeft: { x: 460, y: 430, side: 'r' },
-    forearmLeft: { x: 510, y: 570, side: 'r' },
-    wristLeft: { x: 560, y: 640, side: 'r' },
-    abdomen: { x: 360, y: 520, side: 'r' },
-    waist: { x: 395, y: 560, tape: [245, 395], side: 'r' },
-    hips: { x: 435, y: 660, tape: [210, 435], side: 'r' },
-    thighLeft: { x: 405, y: 800, side: 'r' },
-    calfLeft: { x: 385, y: 1150, side: 'r' },
-    ankleLeft: { x: 378, y: 1290, side: 'r' },
+// The illustrated woman, in the picture's own pixels (484 × 1072).
+export const PHOTO_FEMALE = {
+  src: 'mensurations-femme.webp', vb: [0, 0, 484, 1072],
+  spots: {
+    neck: { x: 33, y: 212, side: 'l', p: 1 },
+    shoulders: { x: 33, y: 269, side: 'l', p: 1 },
+    chest: { x: 33, y: 344, side: 'l', p: 1 },
+    upperArmRight: { x: 33, y: 400, side: 'l', p: 1 },
+    forearmRight: { x: 33, y: 456, side: 'l', p: 1 },
+    waist: { x: 156, y: 433, side: 'l', p: 1 },
+    abdomen: { x: 133, y: 500, side: 'l', p: 1 },
+    hips: { x: 138, y: 542, side: 'l' },
+    wristRight: { x: 76, y: 582, side: 'l' },
+    thighRight: { x: 81, y: 655, side: 'l', p: 1 },
+    calfRight: { x: 81, y: 835, side: 'l', p: 1 },
+    ankleRight: { x: 183, y: 975, side: 'l' },
+    upperArmLeft: { x: 366, y: 400, side: 'r' },
+    forearmLeft: { x: 451, y: 456, side: 'r', p: 1 },
+    wristLeft: { x: 396, y: 582, side: 'r' },
+    thighLeft: { x: 389, y: 655, side: 'r', p: 1 },
+    calfLeft: { x: 389, y: 835, side: 'r', p: 1 },
+    ankleLeft: { x: 291, y: 975, side: 'r' },
   },
 }
+/** The picture for a profile: the woman for 'female', the man otherwise. */
+export const photoFor = body => (body === 'female' ? PHOTO_FEMALE : PHOTO)
+
 // The picture's own colours: arms violet, torso green, legs yellow.
 const VIOLET = new Set(['upperArmRight', 'upperArmLeft', 'forearmRight', 'forearmLeft', 'wristRight', 'wristLeft'])
 const YELLOW = new Set(['thighRight', 'thighLeft', 'calfRight', 'calfLeft', 'ankleRight', 'ankleLeft'])
 export const COLOR = key => (VIOLET.has(key) ? 'violet' : YELLOW.has(key) ? 'yellow' : 'green')
 /** Whether a measurement key has a place on the figure. */
-export const onFigure = key => !!SPOTS.male[key] && !!PHOTO.spots[key]
+export const onFigure = key => !!PHOTO.spots[key] && !!PHOTO_FEMALE.spots[key]
 
-let GEO = null
-function useGeometry() {
-  const [geo, setGeo] = useState(GEO)
-  useEffect(() => {
-    if (GEO) return
-    let alive = true
-    import('../lib/body-geometry.js').then(m => { GEO = m.default; if (alive) setGeo(GEO) }).catch(() => {})
-    return () => { alive = false }
-  }, [])
-  return geo
-}
-
-const spotsFor = body => (body !== 'female' ? PHOTO.spots : SPOTS.female)
+const spotsFor = body => photoFor(body).spots
 /** The keys that have a spot, top to bottom as on the body: the order a quick fill walks through. */
 export function figureOrder(keys, body) {
   const s = spotsFor(body)
@@ -119,14 +92,12 @@ const TICKS = Array.from({ length: 51 }, (_, i) => <line key={i} x1="0" x2={i % 
  * value already formatted (null when unknown); weightUnit is 'kg' or 'lb'.
  */
 export default function MeasureFigure({ fields, values, unit, selected, onPick, body, choosing = false, stats = null }) {
-  const photo = body !== 'female'
-  const geo = useGeometry()
-  const view = photo ? null : geo?.female?.front
+  const ph = photoFor(body)
   const spots = spotsFor(body)
   const shown = figureOrder(fields.map(f => f.key), body).map(k => fields.find(f => f.key === k))
   if (!shown.length) return null
-  const [vx, vy, vw, vh] = photo ? PHOTO.vb : (view?.vb || '0 0 650 1450').split(' ').map(Number)
-  const k = photo ? 0.45 : 1
+  const [vx, vy, vw, vh] = ph.vb
+  const k = 0.45
   const pick = f => onPick(f.key, values[f.key] != null)
   return <div className="mfig">
     <div className={'mfig-fig' + (stats ? ' with-ruler' : '')}>
@@ -134,8 +105,7 @@ export default function MeasureFigure({ fields, values, unit, selected, onPick, 
       <svg viewBox="0 0 20 100" preserveAspectRatio="none" aria-hidden="true">{TICKS}</svg>
     </button>}
     <svg viewBox={`${vx} ${vy} ${vw} ${vh}`} className="mfig-svg" aria-hidden="true">
-      {photo && <image href={PHOTO.src} x={vx} y={vy} width={vw} height={vh} className="mfig-photo" preserveAspectRatio="xMidYMid meet" />}
-      {view && <g className="mfig-body">{Object.values(view.p).flat().map((d, i) => <path key={i} d={d} />)}</g>}
+      <image href={ph.src} x={vx} y={vy} width={vw} height={vh} className="mfig-photo" preserveAspectRatio="xMidYMid meet" />
       {shown.map(f => {
         const s = spots[f.key]
         const on = f.key === selected && !choosing
@@ -146,7 +116,7 @@ export default function MeasureFigure({ fields, values, unit, selected, onPick, 
           {s.p ? <circle cx={s.x} cy={s.y} r={22} className={'mfig-ring' + (on ? ' on' : '')} />
             : <circle cx={s.x} cy={s.y} r={(on ? 17 : 13) * k} />}
           {/* a bigger invisible target for a finger */}
-          <circle cx={s.x} cy={s.y} r={34 * (photo ? 1 : 2.2)} className="mfig-hit" />
+          <circle cx={s.x} cy={s.y} r={34} className="mfig-hit" />
         </g>
       })}
     </svg>
