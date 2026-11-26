@@ -31,10 +31,10 @@ const BY_ANIM = {
   'rowing-debout': ['0120'], 'barre-front': ['0060', '0061'], 'pullover-haltere': ['0375', '0433', '2365', '3176', '4326', '3188'], 'crunch': ['0274', '4727'], 'extension-triceps-nuque': ['0430'],
   'elevation-frontale': ['0310'], 'tirage-vertical-serre': ['1047', '7583', '0818', '2616'], 'developpe-epaules-assis': ['0405'], 'squat-sumo': ['1064', '4936'],
   'squat-saute': ['0514'], 'russian-twist': ['0687'],
-  'pompe-large': ['1311'], 'curl-inverse': ['0080'], 'crunch-inverse': ['0872'], 'kickback-triceps': ['0333'], 'fente-laterale': ['2972', '4788'],
+  'pompe-large': ['1311'], 'curl-inverse': ['0080'], 'crunch-inverse': ['0872'], 'kickback-triceps': ['0333'], 'fente-laterale': ['2972', '4788', '0711', '1899', '1904', '1877', '1900'],
   // stretches (atelier lot 8)
   'etirement-quadriceps': ['1059', '3504', '4300', '1953', '11903'], 'etirement-ischios-assis': ['0692'], 'etirement-mollet-mur': ['1377', '1407', '4510', '1848', '11452', '1054', '4931', '1398'], 'etirement-pectoraux': ['1271', '4515', '1488', '1782', '1971', '1974', '1787'],
-  'etirement-triceps': ['0643', '0817', '1828', '1986'], 'etirement-epaule-croise': ['0669', '1980', '1793', '1792', '1981'], 'posture-enfant': ['0945', '8130'], 'cobra': ['1482'], 'papillon': ['1494', '1169', '4867'],
+  'etirement-triceps': ['0643', '0817', '1828', '1986'], 'etirement-epaule-croise': ['0669', '1980', '1793', '1792', '1981', '1984'], 'posture-enfant': ['0945', '8130'], 'cobra': ['1482'], 'papillon': ['1494', '1169', '4867'],
   'genou-poitrine': ['1810', '0559'],
   'chien-tete-en-bas': ['3469', '0949'], 'pigeon': ['1943', '6761'], 'pliure-avant': ['0959', '0789', '6764', '1916'], 'torsion-allongee': ['1491', '3639', '2116', '0615'],
   'etirement-poignets': ['0561'], 'fessier-figure-4': ['1056'],
@@ -106,7 +106,7 @@ const BY_ANIM = {
   'curl-poulie-haute': ['1636'], 'curl-poulie-haute-assis': ['1643'],
   'flexion-laterale-haltere': ['0407', '4335', '6054'], 'flexion-laterale-kettlebell': ['4396'], 'flexion-laterale-poulie': ['0222', '5657', '11278'],
   'flexion-laterale-mains-nuque': ['3256', '4322'],
-  'flexion-laterale-bras-leve': ['3253', '4810', '2117', '2119', '3997'], 'flexion-laterale-bras-joints': ['3254'],
+  'flexion-laterale-bras-leve': ['3253', '4810', '2117', '2119', '3997', '1802'], 'flexion-laterale-bras-joints': ['3254'],
   'curl-elastique': ['4063', '4357'], 'curl-alterne-elastique': ['0005', '0968'], 'curl-marteau-elastique': ['0897'], 'curl-inverse-elastique': ['0917'],
   'elevation-laterale-elastique': ['0907', '1508', '0793'], 'elevation-frontale-elastique': ['0978'], 'developpe-epaules-elastique': ['0997', '0698', '5205', '8364'],
   'rowing-penche-elastique': ['0892', '3899', '4698'], 'oiseau-elastique': ['0893', '3971', '6486', '4682', '4114'], 'souleve-jambes-tendues-elastique': ['1009', '1010'],
@@ -118,12 +118,13 @@ const BY_ANIM = {
   'mollets-elastique': ['0894', '0973', '1505'], 'mollets-une-jambe-elastique': ['0999'],
   'etirement-ischios-allonge': ['1406', '4929', '1576'],
   'posture-chameau': ['3505', '6303'],
-  'etirement-poignet-flechisseurs': ['1850', '1824', '1825', '2093'], 'etirement-poignet-extenseurs': ['11383', '1822', '1823'],
+  'etirement-poignet-flechisseurs': ['1850', '1824', '1825', '2093', '1814', '1826'], 'etirement-poignet-extenseurs': ['11383', '1822', '1823', '1827'],
   'nuque-flexion': ['4509', '1837', '1836'], 'nuque-extension': ['0250', '1833', '1839'], 'nuque-avant-arriere': ['0462', '3441'],
   'nuque-laterale': ['0713', '0716', '1403', '7306', '6765', '5058'], 'nuque-rotation': ['1831', '1843'],
-  'bras-tendus-haut': ['1777', '1797', '1983'], 'ouverture-poitrine': ['1167'], 'coudes-arriere': ['4672'], 'genou-poitrine-debout': ['1811'],
+  'bras-tendus-haut': ['1777', '1797', '1983', '1788', '1816'], 'ouverture-poitrine': ['1167'], 'coudes-arriere': ['4672'], 'genou-poitrine-debout': ['1811'],
   'cercles-bras': ['3905'], 'cercles-coudes': ['0256'], 'dos-rond-bras-devant': ['1795', '1365', '1794'], 'etirement-bras-leve-rotation': ['1796'],
   'inclinaison-bras-cotes': ['0794'], 'ischios-talon-devant': ['1909', '3468', '1908'], 'pliure-avant-jambes-croisees': ['1917'], 'demi-squat-inclinaison': ['6006'],
+  'rotation-buste-debout': ['1813'], 'mains-jointes-dos': ['1970', '1480'], 'squat-profond-coudes': ['1931', '1893'], 'flechisseurs-hanche-debout': ['1949'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {
@@ -168,12 +169,13 @@ const SAME_AS = {
   '3615': '0673', '3618': '0752', '3620': '0765', '3753': '0595', '3754': '1047', '3760': '1452', '3764': '0315',
   '3800': '1243', '3817': '3556', '3842': '0983', '3894': '0432', '3895': '0674', '3897': '0498', '3902': '3322',
   '3973': '0409', '4019': '0872', '4037': '1311', '4267': '1482', '4280': '0250', '4284': '0457', '4289': '1403',
-  '4301': '0669', '4319': '1398', '4320': '0794', '4321': '1796', '4508': '1494', '4514': '1777', '4525': '3574',
-  '4643': '0459', '4645': '0630', '4743': '0315', '4774': '7385', '4778': '0872', '4808': '1163', '4811': '0715',
-  '4975': '1163', '5119': '0300', '5177': '3769', '5213': '0630', '5251': '3469', '5252': '4580', '5268': '4688',
-  '5330': '0375', '5722': '1063', '5734': '0459', '5937': '6006', '5964': '0180', '6036': '0238', '6484': '0375',
-  '6556': '4397', '7002': '0748', '7003': '0757', '7069': '0122', '7071': '0579', '7113': '0433', '7157': '1246',
-  '7253': '1053', '7839': '1243', '7892': '2188', '8062': '1811', '8372': '1059', '9609': '3322', '9739': '0201',
+  '4301': '0669', '4316': '1813', '4319': '1398', '4320': '0794', '4321': '1796', '4508': '1494', '4514': '1777',
+  '4525': '3574', '4643': '0459', '4645': '0630', '4743': '0315', '4774': '7385', '4778': '0872', '4808': '1163',
+  '4811': '0715', '4975': '1163', '5119': '0300', '5177': '3769', '5213': '0630', '5251': '3469', '5252': '4580',
+  '5268': '4688', '5330': '0375', '5722': '1063', '5734': '0459', '5937': '6006', '5964': '0180', '6036': '0238',
+  '6484': '0375', '6556': '4397', '7002': '0748', '7003': '0757', '7069': '0122', '7071': '0579', '7113': '0433',
+  '7157': '1246', '7253': '1053', '7839': '1243', '7892': '2188', '8062': '1811', '8372': '1059', '8971': '0711',
+  '9609': '3322', '9739': '0201',
 }
 export const ANIM_3D = Object.fromEntries(Object.entries(BY_ANIM).flatMap(([anim, ids]) => ids.map(id => [id, anim])))
 for (const [id, ref] of Object.entries(SAME_AS)) ANIM_3D[id] = ANIM_3D[ref]

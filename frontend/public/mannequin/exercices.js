@@ -3262,6 +3262,33 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     { p: ["obliques", "quadriceps"], s: ["fessiers", "dorsaux"] }, [[0, "Pieds plus larges que les épaules"], [0.12, "Descendre en demi-squat, buste droit"], [0.3, "Lever un bras et s'incliner de l'autre côté"], [0.63, "Puis de l'autre côté"]], { vue: "face" });
 }
 
+/* ---------- LOT 73 pour l'appli : rotation du buste debout, mains jointes dans le dos, squat profond coudes aux genoux, fléchisseurs de hanche debout ---------- */
+{
+  const P = (t, bras, colonne = col(0, 0, 0), jambes = DEBOUT, racine = { p: [0, 99, 0], r: [0, 0, 0] }) => ({ t, racine: copie(racine), colonne, jambes: copie(jambes), bras: copie(bras) });
+  const BAS = bras2({ fk: { flex: 3, abd: 8 }, coude: 8 });
+  const ex = (id, nom, cles, muscles, tempo, o = {}) => E(id, { nom, duree: 10, reps: 3, affiche: 0.3, vue: "3/4", recalageDe: id,
+    camera: { cible: [0, 110, 0], dist: 460, el: 6 }, ombre: [0, 0, 80, 90], muscles, tempo, cles, ...o });
+  const ROT = -80;   // rotation interne : avant-bras à l'horizontale devant la poitrine (0 : mains au visage)
+  // Rotation du buste : avant-bras croisés devant la poitrine, le haut du corps tourne d'un côté puis de l'autre, bassin de face
+  const CROISES = bras2({ fk: { flex: 82, abd: 12, rot: ROT }, coude: 100, doigts: 20 });
+  ex("rotation-buste-debout", "Rotation du buste debout, bras à hauteur de poitrine", [P(0, BAS), P(0.1, CROISES), P(0.25, CROISES, col(0, 0, 0, 60)), P(0.42, CROISES, col(0, 0, 0, 60)), P(0.52, CROISES), P(0.67, CROISES, col(0, 0, 0, -60)), P(0.85, CROISES, col(0, 0, 0, -60)), P(0.97, BAS)],
+    { p: ["obliques"], s: ["lombaires", "dorsaux"] }, [[0, "Pieds largeur d'épaules, bras à hauteur de poitrine"], [0.25, "Tourner le haut du corps, hanches de face · tenir"], [0.67, "Puis de l'autre côté"]]);
+  // Mains jointes dans le dos, bras tendus qui s'éloignent du corps, poitrine ouverte
+  const DOS = h => ({ G: { ik: [3, h, -30 - (h - 78) * 1.5], pole: [1, -0.3, 0], doigts: 50, phal: 40 }, D: { ik: [-3, h, -30 - (h - 78) * 1.5], pole: [-1, -0.3, 0], doigts: 50, phal: 40 } });
+  ex("mains-jointes-dos", "Étirement mains jointes dans le dos", [P(0, BAS), P(0.2, DOS(78)), P(0.4, DOS(90), col(0, -6, -4)), P(0.8, DOS(90), col(0, -6, -4)), P(0.95, BAS)],
+    { p: ["pectoraux", "deltoides"], s: ["biceps"] }, [[0, "Joindre les mains derrière le dos"], [0.4, "Tendre les bras et les éloigner du dos, poitrine ouverte · respirer"], [0.85, "Relâcher"]], { vue: "profil" });
+  // Squat profond, talons au sol, mains jointes devant la poitrine et coudes qui poussent les genoux
+  const LARGE = jambes2({ ik: [20, 8, 4], pole: [0.7, 0, 1], pied: PIED_PLAT(22) }), DEBOUT_L = { p: [0, 97, 0], r: [0, 0, 0] };
+  const BAS_SQ = { p: [0, 36, -8], r: [22, 0, 0] }, PRIERE = bras2({ ik: [3, 74, 30], pole: [1, -1, 0], doigts: 0 });
+  ex("squat-profond-coudes", "Squat profond, coudes contre les genoux", [P(0, BAS, col(0, 0, 0), LARGE, DEBOUT_L), P(0.3, PRIERE, col(12, 2, -10), LARGE, BAS_SQ), P(0.8, PRIERE, col(12, 2, -10), LARGE, BAS_SQ), P(0.97, BAS, col(0, 0, 0), LARGE, DEBOUT_L)],
+    { p: ["adducteurs", "fessiers"], s: ["mollets", "lombaires"] }, [[0, "Pieds un peu plus larges que les épaules, pointes vers l'extérieur"], [0.3, "Descendre en squat profond, talons au sol, coudes contre les genoux · respirer"], [0.85, "Remonter doucement"]]);
+  // Fléchisseurs de hanche debout : pas en avant, bassin rentré, hanches poussées vers l'avant
+  const DECALE = { G: { ik: [13, 8, 34], pole: [0.2, 0, 1], pied: PIED_PLAT(4) }, D: { ik: [-13, 17, -42], pole: [0, 0, 1], pied: [42, 0, 0] } };
+  const HANCHES = bras2({ ik: [22, 100, 0], pole: [1, 0, -1], doigts: 20 });
+  ex("flechisseurs-hanche-debout", "Étirement des fléchisseurs de hanche, debout en fente", [P(0, HANCHES), P(0.2, HANCHES, col(0, 0, 0), DECALE, { p: [0, 92, -4], r: [0, 0, 0] }), P(0.4, HANCHES, col(-4, 0, 0), DECALE, { p: [0, 86, 4], r: [-6, 0, 0] }), P(0.8, HANCHES, col(-4, 0, 0), DECALE, { p: [0, 86, 4], r: [-6, 0, 0] }), P(0.95, HANCHES)],
+    { p: ["flechisseurs"], s: ["quadriceps", "fessiers"] }, [[0, "Mains sur les hanches"], [0.2, "Un grand pas en avant"], [0.4, "Rentrer le bassin, serrer la fesse arrière, avancer les hanches · tenir"], [0.85, "Revenir"]], { vue: "profil" });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
