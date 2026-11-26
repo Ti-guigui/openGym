@@ -3202,6 +3202,34 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     { p: ["fessiers", "lombaires"], s: ["ischios"] }, T("Debout sur une jambe", "Tirer le genou contre la poitrine · tenir en respirant"));
 }
 
+/* ---------- LOT 71 pour l'appli : cercles de bras, cercles de coudes, dos rond bras devant, étirement bras levé en rotation ---------- */
+{
+  const P = (t, bras, colonne = col(0, 0, 0)) => ({ t, racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne, jambes: DEBOUT, bras: copie(bras) });
+  const BAS = bras2({ fk: { flex: 3, abd: 8 }, coude: 8 });
+  const ex = (id, nom, cles, muscles, tempo, duree = 8) => E(id, { nom, duree, reps: 3, affiche: 0.4, vue: "3/4", recalageDe: id,
+    camera: { cible: [0, 120, 0], dist: 440, el: 6 }, ombre: [0, 0, 80, 80], muscles, tempo, cles });
+  // Cercles de bras : bras tendus sur les côtés, la main décrit un cercle (avant puis arrière)
+  const tour = (n, r, f) => Array.from({ length: n }, (_, i) => f(Math.cos(2 * Math.PI * i / n) * r, Math.sin(2 * Math.PI * i / n) * r));
+  const CERCLE = (t, a, b) => P(t, bras2({ fk: { flex: a, abd: 86 + b }, coude: 4 }));
+  const cercles = (r, f) => [...tour(8, r, (a, b) => [a, b]), ...tour(8, r, (a, b) => [a, -b])].map(([a, b], i) => f(0.06 + i * 0.055, a, b));
+  ex("cercles-bras", "Cercles de bras, bras tendus sur les côtés", [P(0, BAS), CERCLE(0.03, 14, 0), ...cercles(14, CERCLE), P(0.97, BAS)],
+    { p: ["deltoides"], s: ["trapezes"] }, [[0, "Bras sur les côtés à hauteur d'épaules"], [0.06, "Petits cercles vers l'avant"], [0.5, "Puis vers l'arrière"]]);
+  // Cercles de coudes : bouts des doigts sur les épaules, les coudes dessinent de grands cercles
+  const COUDE = (t, a, b) => P(t, bras2({ fk: { flex: 12 + a, abd: 78 + b, rot: 20 }, coude: 155, doigts: 30 }));   // rot 60 : mains aux oreilles ; IK aux épaules : coudes collés au corps
+  ex("cercles-coudes", "Cercles de coudes, doigts sur les épaules", [P(0, BAS), COUDE(0.03, 24, 0), ...cercles(24, COUDE), P(0.97, BAS)],
+    { p: ["deltoides"], s: ["trapezes", "pectoraux"] }, [[0, "Doigts sur les épaules"], [0.06, "Grands cercles avec les coudes vers l'avant"], [0.5, "Puis vers l'arrière"]]);
+  // Dos rond, bras tendus devant : on pousse les mains loin devant et on arrondit le haut du dos
+  const DEVANT = bras2({ fk: { flex: 86, abd: 4 }, coude: 4, doigts: 40 });
+  const ROND = col(4, 22, 18), DEVANT_ROND = bras2({ fk: { flex: 110, abd: 4 }, coude: 4, doigts: 40 });   // le buste penche de 26° : les bras gardent l'horizontale
+  ex("dos-rond-bras-devant", "Étirement du haut du dos, bras tendus devant", [P(0, BAS), P(0.2, DEVANT), P(0.35, DEVANT_ROND, ROND), P(0.8, DEVANT_ROND, ROND), P(0.95, BAS)],
+    { p: ["trapezes", "dorsaux"], s: ["deltoides"] }, [[0, "Pieds écartés largeur de hanches"], [0.2, "Bras tendus devant à hauteur de poitrine"], [0.35, "Arrondir le haut du dos, écarter les omoplates · respirer"], [0.85, "Revenir doucement"]]);
+  // Bras droit levé, le haut du corps s'incline vers la gauche en tournant
+  const LEVE = { G: { fk: { flex: 3, abd: 8 }, coude: 8 }, D: { fk: { flex: 170, abd: 2 }, coude: 6 } };
+  const PENCHE = { lomb: { flex: 0, lat: 13, rot: -6 }, thorax: { flex: 0, lat: 13, rot: -6 }, cou: { flex: 0, lat: 2 } };   // lat positif : vers la gauche, loin du bras levé
+  ex("etirement-bras-leve-rotation", "Étirement bras levé, inclinaison et rotation", [P(0, BAS), P(0.2, LEVE), P(0.4, LEVE, PENCHE), P(0.8, LEVE, PENCHE), P(0.95, BAS)],
+    { p: ["dorsaux", "obliques"], s: ["deltoides"] }, [[0, "Pieds écartés largeur d'épaules"], [0.2, "Lever un bras au-dessus de la tête"], [0.4, "S'incliner et tourner du côté opposé · respirer"], [0.85, "Revenir doucement"]]);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
