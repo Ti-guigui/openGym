@@ -154,7 +154,7 @@ export function creerCorps(genre = "homme") {
   E(tete, [1.8, 2.2, 1.8], 0, 9.5, 10.6);            // nez : repère de l'orientation du visage
 
   for (const [cote, s] of [["G", 1], ["D", -1]]) {
-    const ep = J("epaule" + cote, thorax, 17 * s, 26, 0);
+    const ep = J("epaule" + cote, thorax, 17 * s, 26, 0); ep.userData.y0 = ep.position.y;   // y0 : hauteur de repos (haussement d'épaules : bras.hausse)
     ep.add(cone(matPeau, 4.8, 3.9, 29)); os["brasH" + cote] = ep;
     const co = J("coude" + cote, ep, 0, -29, 0);
     co.add(cone(matPeau, 3.9, 2.9, 25)); os["brasB" + cote] = co;
@@ -364,6 +364,7 @@ function membre(corps, type, cote, s, m) {
     return;
   }
   const bras = type === "bras";
+  if (bras) { const e = os["epaule" + cote]; e.position.y = e.userData.y0 + Math.max(0, Math.min(m.hausse || 0, 8)); e.updateMatrixWorld(true); }   // épaule montée (cm), omoplate comprise
   const haut = os[(bras ? "epaule" : "hanche") + cote], milieu = os[(bras ? "coude" : "genou") + cote], bout = os[(bras ? "poignet" : "cheville") + cote];
   const Lh = bras ? LIMITES.epaule : LIMITES.hanche;
   if (m.ik) {

@@ -3352,6 +3352,24 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     { p: ["deltoides", "pectoraux"], s: ["trapezes"] }, [[0, "Prise très large, bâton devant les cuisses"], [0.2, "Monter bras tendus au-dessus de la tête"], [0.5, "Passer derrière si les épaules le permettent"], [0.6, "Revenir devant"]], { vue: "profil" });
 }
 
+/* ---------- LOT 79 pour l'appli : haussements d'épaules (shrugs) aux haltères et à la barre ---------- */
+{ // Debout, bras tendus qui pendent ; seules les épaules montent vers les oreilles (bras.hausse, en cm) puis redescendent
+  const P = (t, h, x, z, lourd) => ({ t, racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne: col(0, 0, 0), jambes: DEBOUT,
+    bras: { G: { ik: [x, 76 + h, z], pole: [0.2, 0, -1], hausse: h, doigts: 88, phal: 95, pouce: 80 }, D: { ik: [-x, 76 + h, z], pole: [-0.2, 0, -1], hausse: h, doigts: 88, phal: 95, pouce: 80 } } });
+  const ex = (id, nom, x, z, acc) => E(id, { nom, duree: 2.5, reps: 12, affiche: 0.5, vue: "3/4", recalageDe: id,
+    camera: { cible: [0, 120, 0], dist: 420, el: 6 }, ombre: [0, 0, 80, 80], accessoires: acc, muscles: { p: ["trapezes"], s: ["avant-bras"] },
+    tempo: [[0, "Bras tendus, charge qui pend"], [0.3, "Monter les épaules vers les oreilles"], [0.5, "Marquer un temps en haut"], [0.6, "Redescendre lentement"]],
+    cles: [P(0, 0, x, z), P(0.3, 7, x, z), P(0.5, 7, x, z), P(0.85, 0, x, z)] });
+  ex("haussement-halteres", "Haussements d'épaules aux haltères", 26, 4, [{ type: "haltere", main: "G" }, { type: "haltere", main: "D" }]);
+  ex("haussement-barre", "Haussements d'épaules à la barre", 24, 16.5, [{ type: "barre-olympique", main: "2" }]);
+  ex("haussement-barre-large", "Haussements d'épaules à la barre, prise large", 36, 16.5, [{ type: "barre-olympique", main: "2" }]);
+  ex("haussement-barre-dos", "Haussements d'épaules, barre derrière le dos", 24, -14, [{ type: "barre-olympique", main: "2" }]);
+  ex("haussement-smith", "Haussements d'épaules à la Smith machine", 24, 16.5, [{ type: "barre-olympique", main: "2" },
+    machine([{ b: [8, 200, 8], p: [92, 100, 16.5] }, { b: [8, 200, 8], p: [-92, 100, 16.5] }, { b: [200, 8, 8], p: [0, 200, 16.5] }])]);
+  ex("haussement-sans-poids", "Haussements d'épaules sans charge", 22, 2, []);
+  for (const id of ["haussement-barre-dos"]) for (const k of EXERCICES[id].cles) for (const c of ["G", "D"]) k.bras[c].pole = [c === "G" ? 0.2 : -0.2, 0, 1];
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
@@ -3443,6 +3461,11 @@ for (const [id, base, nom] of [["mollets-kettlebells", "mollets-halteres", "Moll
   const b = EXERCICES[base], kettle = c => ({ ...copie(EXERCICES["rowing-kettlebell"].accessoires[1]), main: c });
   EXERCICES[id] = { ...copie(b), nom, recalageDe: b.recalageDe || base, accessoires: b.accessoires.map(a => a.type === "haltere" ? kettle(a.main) : a) };
 }
+
+/* LOT 79 pour l'appli : haussements d'épaules à la barre hexagonale (poignées aux côtés du corps) */
+EXERCICES["haussement-trap-bar"] = { ...copie(EXERCICES["haussement-halteres"]), nom: "Haussements d'épaules à la barre hexagonale", recalageDe: "haussement-halteres",
+  accessoires: [{ type: "barre-olympique", main: "2", hex: true }] };
+for (const k of EXERCICES["haussement-trap-bar"].cles) for (const c of ["G", "D"]) { k.bras[c].ik[0] = c === "G" ? 28 : -28; k.bras[c].paume = [-1, 0, 0]; }
 
 /* Recalage automatique (mannequin/outils/verifier.js --recaler [ids] homme|femme) : hauteur et inclinaison du corps, et appuis en
    cinématique inverse, ajustés image clé par image clé et pour chaque mannequin, afin que mains et pieds touchent leur surface
