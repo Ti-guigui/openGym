@@ -3430,6 +3430,13 @@ for (const [id, base, nom] of [["good-morning-baton", "good-morning", "Good morn
   EXERCICES[id] = { ...copie(b), nom, recalageDe: b.recalageDe || base, accessoires: b.accessoires.map(a => a.type === "barre-olympique" ? { ...a, baton: true, l: 150 } : a) };
 }
 
+/* LOT 77 pour l'appli : barre hexagonale (trap bar) à la place des deux haltères, prise neutre aux côtés du corps */
+for (const [id, base, nom] of [["souleve-terre-trap-bar", "souleve-terre-halteres", "Soulevé de terre à la barre hexagonale"], ["rowing-trap-bar", "rowing-halteres", "Rowing penché à la barre hexagonale"],
+  ["squat-saute-trap-bar", "squat-saute-halteres", "Squat sauté à la barre hexagonale"]]) {
+  const b = EXERCICES[base];
+  EXERCICES[id] = { ...copie(b), nom, recalageDe: b.recalageDe || base, accessoires: [...b.accessoires.filter(a => a.type !== "haltere"), { type: "barre-olympique", main: "2", hex: true }] };
+}
+
 /* Recalage automatique (mannequin/outils/verifier.js --recaler [ids] homme|femme) : hauteur et inclinaison du corps, et appuis en
    cinématique inverse, ajustés image clé par image clé et pour chaque mannequin, afin que mains et pieds touchent leur surface
    sans la traverser. ex.cles (homme) et ex.clesFemme ; même chose dans ex.erreur. */
