@@ -104,7 +104,7 @@ function useGeometry() {
  * units; unit: the length unit; selected: the key the chart shows; body: 'male' | 'female';
  * choosing: every field shows, `on` says which are tracked; onPick(key, hasValue).
  */
-export default function MeasureFigure({ fields, values, unit, selected, onPick, body, choosing = false }) {
+export default function MeasureFigure({ fields, values, unit, selected, onPick, body, choosing = false, aside = null }) {
   const photo = body !== 'female'
   const geo = useGeometry()
   const view = photo ? null : geo?.female?.front
@@ -134,6 +134,7 @@ export default function MeasureFigure({ fields, values, unit, selected, onPick, 
       })}
     </svg>
     <div className="mfig-list">
+      {aside}
       {shown.map(f => {
         const v = values[f.key]
         const has = v != null

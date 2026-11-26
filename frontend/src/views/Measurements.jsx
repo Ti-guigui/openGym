@@ -19,6 +19,7 @@ import LineChart from '../components/LineChart.jsx'
 import Icon from '../components/Icon.jsx'
 import HealthBodyCard from '../components/HealthBodyCard.jsx'
 import MeasureFigure, { onFigure } from '../components/MeasureFigure.jsx'
+import ScaleCard from '../components/ScaleCard.jsx'
 import { Button, NumberField, Section, Segmented, SelectRow, Switch, TextField } from '../components/ui.jsx'
 import { confirmSheet } from '../sheets.jsx'
 
@@ -327,6 +328,7 @@ export default function Measurements() {
           onClick={() => setChoosing(!choosing)}>{choosing ? t('Done') : t('Choose')}</Button>
       </div>
       {figFields.length > 0 ? <MeasureFigure fields={figFields} unit={lengthUnitOf(S)} selected={key} body={S.body} choosing={choosing}
+        aside={choosing ? null : <ScaleCard S={S} />}
         values={Object.fromEntries(figFields.map(f => { const l = latestMeasurement(S, f.key); return [f.key, l ? shownValue(l.entry, f, lengthUnitOf(S)) : null] }))}
         onPick={(k, has) => { if (choosing) toggleOnFigure(k); else if (has) setSelected(k); else measurementLogSheet() }} />
         : <div className="small dim">{t('Choose the measurements you want to track, then log your first check-in.')}</div>}

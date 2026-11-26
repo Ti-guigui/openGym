@@ -4826,3 +4826,17 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
   .mfig-spot circle.mfig-ring.on{animation:mfig-pick .22s var(--ease) both;transform-box:fill-box;transform-origin:center}
   @keyframes mfig-pick{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
 }
+
+/* ---- Body weight and scale beside the measurements figure (Ti Guigui FIT, components/ScaleCard.jsx) ---- */
+.scale{display:flex;flex-direction:column;gap:4px;margin-bottom:4px}
+.scale-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:var(--surface-2);border:1.5px solid var(--sep-op);color:var(--label);font:inherit;text-align:start;cursor:pointer}
+.scale-i{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--surface-3);color:var(--label-2);font-size:17px}
+.scale-m{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.1}
+.scale-l{font-size:var(--fs-footnote);color:var(--label-2)}
+.scale-v{font-size:var(--fs-title3,20px);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.scale-v small{font-size:var(--fs-footnote);font-weight:500;color:var(--label-2)}
+.scale-edit{flex:none;color:var(--label-2)}
+.scale-pic{display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;
+  -webkit-mask-image:radial-gradient(ellipse 72% 70% at 50% 52%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 72% 70% at 50% 52%,#000 62%,transparent 100%)}
+.scale-pic svg{display:block;width:100%;height:auto}
+.scale-lcd{fill:#1e2836;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.5px}

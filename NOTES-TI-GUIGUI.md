@@ -151,6 +151,11 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
       animations » ;
     - correction openGym : la bannière « Défi réussi » s'affichait parfois en anglais.
 
+16. **Balance des mensurations** : à côté du mannequin, la carte « Poids » (dernière pesée, crayon pour
+    noter) et la balance de ton image (`frontend/public/balance.webp`) dont l'écran affiche le même
+    poids, en perspective (`frontend/src/components/ScaleCard.jsx`, réglage de l'écran dans `LCD`).
+    Toucher l'une ou l'autre ouvre la pesée. Style `.scale-*`.
+
 ## Règles à respecter
 
 - **Mention de licence Gym visual :** la garder mot pour mot, ainsi que `NOTICE.md`. Ne jamais
