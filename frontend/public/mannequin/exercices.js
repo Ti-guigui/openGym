@@ -3289,6 +3289,40 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     { p: ["flechisseurs"], s: ["quadriceps", "fessiers"] }, [[0, "Mains sur les hanches"], [0.2, "Un grand pas en avant"], [0.4, "Rentrer le bassin, serrer la fesse arrière, avancer les hanches · tenir"], [0.85, "Revenir"]], { vue: "profil" });
 }
 
+/* ---------- LOT 74 pour l'appli : cambrure debout, cercles de hanches, cercles de genoux, bras enroulés, petit soldat ---------- */
+{
+  const P = (t, bras, colonne = col(0, 0, 0), jambes = DEBOUT, racine = { p: [0, 99, 0], r: [0, 0, 0] }) => ({ t, racine: copie(racine), colonne, jambes: copie(jambes), bras: copie(bras) });
+  const BAS = bras2({ fk: { flex: 3, abd: 8 }, coude: 8 });
+  const ex = (id, nom, cles, muscles, tempo, o = {}) => E(id, { nom, duree: 8, reps: 3, affiche: 0.3, vue: "3/4", recalageDe: id,
+    camera: { cible: [0, 110, 0], dist: 460, el: 6 }, ombre: [0, 0, 80, 90], muscles, tempo, cles, ...o });
+  const HANCHES = bras2({ ik: [22, 100, 0], pole: [1, 0, -1], doigts: 20 });
+  const tour = (n, f) => Array.from({ length: n + 1 }, (_, i) => f(Math.cos(2 * Math.PI * i / n), Math.sin(2 * Math.PI * i / n)));
+  // Cambrure debout : mains sur les reins, hanches poussées en avant, buste qui part en arrière
+  const REINS = bras2({ ik: [14, 96, -10], pole: [1, 0.3, -1], doigts: 20 });
+  ex("cambrure-debout", "Cambrure debout, mains sur les reins", [P(0, BAS), P(0.15, REINS), P(0.4, REINS, col(-16, -12, -14), DEBOUT, { p: [0, 98, 4], r: [0, 0, 0] }), P(0.8, REINS, col(-16, -12, -14), DEBOUT, { p: [0, 98, 4], r: [0, 0, 0] }), P(0.95, BAS)],
+    { p: ["abdominaux"], s: ["flechisseurs", "pectoraux"] }, [[0, "Mains sur les reins"], [0.15, "Serrer les fessiers, pousser les hanches en avant"], [0.4, "Pencher le buste en arrière doucement · respirer"], [0.85, "Revenir"]], { vue: "profil" });
+  // Cercles de hanches : pieds écartés, mains sur les hanches, le bassin dessine un grand cercle
+  const ECART = jambes2({ ik: [18, 8, 3], pole: [0.3, 0, 1], pied: PIED_PLAT(10) });
+  ex("cercles-hanches", "Cercles de hanches, mains sur les hanches", tour(8, (c, s2) => P(0.05 + (Math.atan2(s2, c) / (2 * Math.PI) + 1) % 1 * 0.9, HANCHES, col(-c * 4, 0, 0), ECART, { p: [s2 * 7, 97, c * 6], r: [0, 0, -s2 * 4] })).map((k, i) => ({ ...k, t: 0.03 + i * 0.1175 })),
+    { p: ["lombaires", "obliques"], s: ["fessiers"] }, [[0, "Pieds un peu plus larges que les épaules, mains sur les hanches"], [0.03, "Dessiner un grand cercle avec le bassin"]], { vue: "face" });
+  // Cercles de genoux : pieds joints, genoux fléchis, mains sur les genoux, les genoux tournent ensemble
+  const JOINTS = jambes2({ ik: [7, 8, 3], pole: [0, 0, 1], pied: PIED_PLAT(0) });
+  const GENOUX = bras2({ ik: [9, 56, 22], pole: [1, -0.4, 0], doigts: 40 });
+  ex("cercles-genoux", "Cercles de genoux, mains sur les genoux", tour(8, (c, s2) => P(0, { G: { ...GENOUX.G, ik: [9 + s2 * 6, 56, 22 + c * 3] }, D: { ...GENOUX.D, ik: [-9 + s2 * 6, 56, 22 + c * 3] } }, col(24, 10, -10),
+      { G: { ...JOINTS.G, pole: [s2 * 0.6, 0, 1] }, D: { ...JOINTS.D, pole: [s2 * 0.6, 0, 1] } }, { p: [-s2 * 3, 86 + c * 2, -12], r: [26, 0, 0] })).map((k, i) => ({ ...k, t: 0.03 + i * 0.1175 })),
+    { p: ["quadriceps"], s: ["mollets"] }, [[0, "Pieds joints, genoux fléchis, mains sur les genoux"], [0.03, "Faire tourner les genoux en cercle, puis dans l'autre sens"]]);
+  // Bras enroulés : bras grands ouverts, puis enroulés autour du corps, mains sur le haut du dos
+  const OUVERTS = bras2({ fk: { flex: 0, abd: 88 }, coude: 6 });
+  const ENROULES = { G: { ik: [-12, 132, -8], pole: [0.3, -1, 0], doigts: 20 }, D: { ik: [12, 128, -6], pole: [-0.3, -1, 0], doigts: 20 } };
+  ex("bras-enroules", "Bras ouverts puis enroulés autour du corps", [P(0, BAS), P(0.15, OUVERTS), P(0.35, ENROULES, col(0, 8, 4)), P(0.55, OUVERTS), P(0.75, ENROULES, col(0, 8, 4)), P(0.95, OUVERTS)],
+    { p: ["trapezes", "deltoides"], s: ["pectoraux"] }, [[0, "Bras grands ouverts"], [0.35, "Enrouler les bras, mains sur le haut du dos"], [0.55, "Ouvrir à nouveau"]], { duree: 4 });
+  // Petit soldat : bras tendus devant, une jambe tendue monte vers les mains, puis l'autre
+  const DEVANT = bras2({ fk: { flex: 88, abd: 6 }, coude: 4 });
+  const KICK = c => { const j = copie(DEBOUT); j[c] = { fk: { flex: 100, abd: 2 }, genou: 4, cheville: 10 }; return j; };
+  ex("petit-soldat", "Petit soldat, jambe tendue vers les mains", [P(0, DEVANT), P(0.22, DEVANT, col(4, 0, 0), KICK("D")), P(0.45, DEVANT), P(0.72, DEVANT, col(4, 0, 0), KICK("G")), P(0.95, DEVANT)],
+    { p: ["ischios"], s: ["flechisseurs", "fessiers"] }, [[0, "Bras tendus devant"], [0.22, "Lancer une jambe tendue vers les mains"], [0.72, "Puis l'autre"]], { duree: 3, vue: "profil" });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
