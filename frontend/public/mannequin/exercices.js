@@ -3392,6 +3392,37 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   ex("haussement-kettlebells", "Haussements d'épaules aux kettlebells", 30, 4, [kettle("G"), kettle("D")]);
 }
 
+/* ---------- LOT 82 pour l'appli : élastiques (pull-through accroché, curl des poignets inversé, presse Pallof, rotations d'épaule) ---------- */
+{
+  const BANDE = 0xd04a3a, brin = (de, main, poignee = 10) => ({ type: "cable", de, main, r: 0.9, couleur: BANDE, poignee });
+  const POTEAU = (x, z, h = 230) => machine([{ b: [7, h, 7], p: [x, h / 2, z] }, { b: [30, 2, 30], p: [x, 1, z] }]);
+  // Pull-through : poteau derrière, l'élastique part du point d'accroche bas de la poulie
+  const pt = EXERCICES["pull-through-poulie"];
+  E("pull-through-elastique", { ...copie(pt), recalageDe: pt.recalageDe || "pull-through-poulie", nom: "Pull-through à l'élastique",
+    accessoires: [POTEAU(0, -95), brin([2, 20, -89], "G"), brin([-2, 20, -89], "D")] });
+  // Curl des poignets inversé assis : l'élastique passe sous l'avant des pieds et remonte aux mains
+  const cp = EXERCICES["curl-poignets-inverse-barre"];
+  E("curl-poignets-inverse-elastique", { ...copie(cp), recalageDe: cp.recalageDe || "curl-poignets-inverse-barre", nom: "Curl des poignets inversé à l'élastique",
+    accessoires: [...cp.accessoires.filter(a => a.type !== "barre-olympique"), brin([16, 1, 56], "G"), brin([-16, 1, 56], "D")] });
+  // Debout, de profil par rapport au poteau (à droite) : bras à hauteur de poitrine
+  const P = (t, bras) => ({ t, racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne: col(0, 0, 0), jambes: jambes2({ ik: [16, 8, 3], pole: [0.2, 0, 1], pied: PIED_PLAT(6) }), bras: copie(bras) });
+  const ex = (id, nom, cles, acc, muscles, tempo) => E(id, { nom, duree: 3, reps: 12, affiche: 0.5, vue: "face", recalageDe: id,
+    camera: { cible: [0, 115, 0], dist: 470, el: 8 }, ombre: [0, 0, 80, 80], accessoires: acc, muscles, tempo, cles });
+  // Presse Pallof : mains jointes contre le sternum, on tend les bras devant sans laisser le buste tourner vers le poteau
+  const MAINS = z => ({ G: { ik: [2, 122, z], pole: [1, -1, 0], doigts: 88, phal: 95, pouce: 80 }, D: { ik: [-2, 122, z], pole: [-1, -1, 0], doigts: 88, phal: 95, pouce: 80 } });
+  ex("pallof-elastique", "Presse Pallof à l'élastique", [P(0, MAINS(16)), P(0.35, MAINS(50)), P(0.6, MAINS(50)), P(0.9, MAINS(16))],
+    [POTEAU(-75, 20, 160), brin([-72, 122, 20], "G", 0), brin([-72, 122, 20], "D", 0)],
+    { p: ["abdominaux", "obliques"], s: ["pectoraux", "deltoides"] }, [[0, "De profil par rapport à l'accroche, mains contre le sternum"], [0.35, "Tendre les bras devant, sans tourner"], [0.6, "Revenir lentement"]]);
+  // Rotations d'épaule, coude au corps plié à 90° : l'avant-bras s'ouvre vers l'extérieur ou se ferme vers le ventre
+  const ROT = r => ({ G: { fk: { flex: 0, abd: 8, rot: r }, coude: 90, doigts: 88, phal: 95, pouce: 80 }, D: { fk: { flex: 3, abd: 8 }, coude: 8 } });
+  ex("rotation-externe-elastique", "Rotation externe de l'épaule à l'élastique", [P(0, ROT(-60)), P(0.4, ROT(40)), P(0.55, ROT(40)), P(0.9, ROT(-60))],
+    [POTEAU(-75, 30, 160), brin([-72, 104, 30], "G")], { p: ["deltoides"], s: ["trapezes"] },
+    [[0, "Coude collé au corps, plié à 90°, avant-bras devant le ventre"], [0.4, "Ouvrir l'avant-bras vers l'extérieur"], [0.55, "Revenir lentement"]]);
+  ex("rotation-interne-elastique", "Rotation interne de l'épaule à l'élastique", [P(0, ROT(40)), P(0.4, ROT(-60)), P(0.55, ROT(-60)), P(0.9, ROT(40))],
+    [POTEAU(75, 30, 160), brin([72, 104, 30], "G")], { p: ["deltoides", "pectoraux"], s: [] },
+    [[0, "Coude collé au corps, plié à 90°, avant-bras ouvert vers l'extérieur"], [0.4, "Ramener l'avant-bras devant le ventre"], [0.55, "Revenir lentement"]]);
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
