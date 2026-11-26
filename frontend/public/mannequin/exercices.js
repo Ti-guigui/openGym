@@ -3437,6 +3437,13 @@ for (const [id, base, nom] of [["souleve-terre-trap-bar", "souleve-terre-haltere
   EXERCICES[id] = { ...copie(b), nom, recalageDe: b.recalageDe || base, accessoires: [...b.accessoires.filter(a => a.type !== "haltere"), { type: "barre-olympique", main: "2", hex: true }] };
 }
 
+/* LOT 78 pour l'appli : kettlebells à la place des haltères (kettlebell qui pend sous le poing, comme au rowing kettlebell) */
+// Essayés puis retirés (kettlebell 2 à 7 cm dans les cuisses ou l'avant-bras, même mains écartées) : step-up, fente latérale, soulevé roumain, rowing penché, rowing debout
+for (const [id, base, nom] of [["mollets-kettlebells", "mollets-halteres", "Mollets debout avec kettlebells"], ["elevations-laterales-assis-kettlebells", "elevations-laterales-assis", "Élévations latérales assis aux kettlebells"]]) {
+  const b = EXERCICES[base], kettle = c => ({ ...copie(EXERCICES["rowing-kettlebell"].accessoires[1]), main: c });
+  EXERCICES[id] = { ...copie(b), nom, recalageDe: b.recalageDe || base, accessoires: b.accessoires.map(a => a.type === "haltere" ? kettle(a.main) : a) };
+}
+
 /* Recalage automatique (mannequin/outils/verifier.js --recaler [ids] homme|femme) : hauteur et inclinaison du corps, et appuis en
    cinématique inverse, ajustés image clé par image clé et pour chaque mannequin, afin que mains et pieds touchent leur surface
    sans la traverser. ex.cles (homme) et ex.clesFemme ; même chose dans ex.erreur. */
