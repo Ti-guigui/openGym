@@ -3230,6 +3230,38 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     { p: ["dorsaux", "obliques"], s: ["deltoides"] }, [[0, "Pieds écartés largeur d'épaules"], [0.2, "Lever un bras au-dessus de la tête"], [0.4, "S'incliner et tourner du côté opposé · respirer"], [0.85, "Revenir doucement"]]);
 }
 
+/* ---------- LOT 72 pour l'appli : inclinaison bras sur les côtés, ischios talon devant, pliure jambes croisées, demi-squat avec inclinaison ---------- */
+{
+  const P = (t, bras, colonne = col(0, 0, 0), jambes = DEBOUT, racine = { p: [0, 99, 0], r: [0, 0, 0] }) => ({ t, racine: copie(racine), colonne, jambes: copie(jambes), bras: copie(bras) });
+  const BAS = bras2({ fk: { flex: 3, abd: 8 }, coude: 8 });
+  const ex = (id, nom, cles, muscles, tempo, o = {}) => E(id, { nom, duree: 10, reps: 3, affiche: 0.3, vue: "3/4", recalageDe: id,
+    camera: { cible: [0, 110, 0], dist: 460, el: 6 }, ombre: [0, 0, 80, 90], muscles, tempo, cles, ...o });
+  const LAT = a => ({ lomb: { flex: 0, lat: a }, thorax: { flex: 0, lat: a }, cou: { flex: 0, lat: a * 0.15 } });   // lat positif : vers la gauche
+  // Debout, bras tendus sur les côtés, le buste s'incline d'un côté puis de l'autre
+  const CROIX = bras2({ fk: { flex: 0, abd: 88 }, coude: 4 });
+  ex("inclinaison-bras-cotes", "Inclinaison latérale, bras tendus sur les côtés", [P(0, BAS), P(0.1, CROIX), P(0.25, CROIX, LAT(13)), P(0.45, CROIX, LAT(13)), P(0.55, CROIX), P(0.7, CROIX, LAT(-13)), P(0.88, CROIX, LAT(-13)), P(0.97, BAS)],
+    { p: ["obliques", "dorsaux"], s: ["deltoides"] }, [[0, "Pieds largeur d'épaules, bras sur les côtés"], [0.25, "S'incliner d'un côté · tenir en respirant"], [0.7, "Puis de l'autre côté"]]);
+  // Talon droit posé devant, pointe relevée ; le buste descend dos plat depuis les hanches
+  const TALON = { G: { ik: [12, 8, -20], pole: [0.2, 0, 1], pied: PIED_PLAT(8) }, D: { ik: [-12, 8, 48], pole: [0, 0, 1], pied: [-35, 0, 0] } };
+  const PLIE = { p: [0, 90, -12], r: [34, 0, 0] }, DROIT = { p: [0, 94, -8], r: [0, 0, 0] };
+  const MAINS = bras2({ fk: { flex: 20, abd: 6 }, coude: 10 });
+  ex("ischios-talon-devant", "Étirement des ischio-jambiers, talon devant", [P(0, BAS), P(0.15, BAS, col(0, 0, 0), TALON, DROIT), P(0.35, MAINS, col(0, 0, 4), TALON, PLIE), P(0.8, MAINS, col(0, 0, 4), TALON, PLIE), P(0.97, BAS)],
+    { p: ["ischios"], s: ["mollets", "lombaires"] }, [[0, "Poser un talon devant, pointe du pied relevée"], [0.35, "Descendre le buste dos plat · tenir en respirant"], [0.85, "Remonter doucement"]], { vue: "profil" });
+  // Pliure avant pieds croisés
+  const CROISE = { G: { ik: [-3, 8, 7], pole: [0.2, 0, 1], pied: PIED_PLAT(0) }, D: { ik: [6, 8, -5], pole: [-0.2, 0, 1], pied: PIED_PLAT(0) } };
+  const PEND = bras2({ fk: { flex: 30, abd: 6 }, coude: 8 });
+  ex("pliure-avant-jambes-croisees", "Pliure avant debout, pieds croisés", [P(0, BAS, col(0, 0, 0), CROISE, { p: [0, 97.5, 0], r: [0, 0, 0] }), P(0.3, PEND, col(20, 14, 12), CROISE, { p: [0, 94, -12], r: [70, 0, 0] }), P(0.8, PEND, col(20, 14, 12), CROISE, { p: [0, 94, -12], r: [70, 0, 0] }), P(0.97, BAS, col(0, 0, 0), CROISE, { p: [0, 97.5, 0], r: [0, 0, 0] })],
+    { p: ["ischios"], s: ["mollets", "lombaires"] }, [[0, "Croiser un pied devant l'autre"], [0.3, "Se pencher en avant, tête relâchée · respirer"], [0.85, "Remonter lentement"]], { vue: "profil" });
+  // Demi-squat jambes écartées, un bras monte et le buste s'incline de l'autre côté, puis l'inverse
+  const LARGE = jambes2({ ik: [26, 8, 6], pole: [0.4, 0, 1], pied: PIED_PLAT(20) }), BASSIN = { p: [0, 84, 0], r: [8, 0, 0] };
+  const HANCHES = bras2({ ik: [22, 100, 0], pole: [1, 0, -1], doigts: 20 });
+  const D_HAUT = { G: copie(HANCHES.G), D: { fk: { flex: 170, abd: 2 }, coude: 6 } }, G_HAUT = { G: { fk: { flex: 170, abd: 2 }, coude: 6 }, D: copie(HANCHES.D) };
+  const DH = { ...LAT(12), lomb: { flex: 6, lat: 12 } }, GH = { ...LAT(-12), lomb: { flex: 6, lat: -12 } };
+  const Q = (t, bras, colonne) => P(t, bras, colonne, LARGE, BASSIN);
+  ex("demi-squat-inclinaison", "Demi-squat, bras levé et inclinaison sur le côté", [P(0, HANCHES, col(0, 0, 0), LARGE, { p: [0, 96.5, 0], r: [0, 0, 0] }), Q(0.12, HANCHES, col(6, 0, 0)), Q(0.3, D_HAUT, DH), Q(0.45, HANCHES, col(6, 0, 0)), Q(0.63, G_HAUT, GH), Q(0.8, HANCHES, col(6, 0, 0)), P(0.95, HANCHES, col(0, 0, 0), LARGE, { p: [0, 96.5, 0], r: [0, 0, 0] })],
+    { p: ["obliques", "quadriceps"], s: ["fessiers", "dorsaux"] }, [[0, "Pieds plus larges que les épaules"], [0.12, "Descendre en demi-squat, buste droit"], [0.3, "Lever un bras et s'incliner de l'autre côté"], [0.63, "Puis de l'autre côté"]], { vue: "face" });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
