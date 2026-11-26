@@ -5927,6 +5927,7 @@ export default {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "1 kg mỗi tuần là nhanh. Được vài tuần, khó duy trì.",
   "AI coach": "Huấn luyện viên AI",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "Câu trả lời đến từ AI (Claude): có thể sai và không phải lời khuyên y tế. Câu hỏi và bản tóm tắt dữ liệu của bạn được gửi tới Anthropic để trả lời.",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "Câu trả lời đến từ AI (một mô hình mở do Cloudflare vận hành): có thể sai và không phải lời khuyên y tế. Câu hỏi của bạn và bản tóm tắt dữ liệu được gửi đến Cloudflare để trả lời.",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "Hỏi bất cứ điều gì về tập luyện, ăn uống hay tiến bộ. Huấn luyện viên thấy hồ sơ, mục tiêu, calo, cân nặng, số đo và các buổi tập gần đây của bạn.",
   "Ask the coach": "Hỏi huấn luyện viên",
   "Ask the coach…": "Nhắn huấn luyện viên…",

@@ -4390,6 +4390,7 @@ export const PT_BR_OVERRIDES = {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "1 kg por semana é rápido. Dá para algumas semanas, difícil de manter.",
   "AI coach": "Treinador IA",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "As respostas vêm de uma IA (Claude): podem estar erradas e não são orientação médica. Sua pergunta e um resumo dos seus dados são enviados à Anthropic para responder.",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "As respostas vêm de uma IA (um modelo aberto executado pela Cloudflare): podem errar e não são aconselhamento médico. Sua pergunta e um resumo dos seus dados são enviados à Cloudflare para responder.",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "Pergunte o que quiser sobre treino, alimentação ou progresso. O treinador vê seu perfil, objetivo, calorias, peso, medidas e últimos treinos.",
   "Ask the coach": "Pergunte ao treinador",
   "Ask the coach…": "Escreva para o treinador…",

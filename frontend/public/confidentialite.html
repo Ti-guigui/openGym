@@ -54,7 +54,7 @@
   <p>Aucun, sauf dans deux cas que tu choisis :</p>
   <ul>
     <li><strong>Vidéo YouTube</strong> dans la fiche d'un exercice : à ce moment-là, YouTube (Google) reçoit l'adresse de ton appareil. Rien n'est chargé depuis YouTube tant que tu n'appuies pas sur la vidéo.</li>
-    <li><strong>Coach IA</strong> (avec un compte) : quand tu poses une question, elle part avec la conversation en cours et un résumé de tes données (profil, objectif, calories, poids, mensurations, dernières séances), sans ton surnom, à <strong>Anthropic</strong> (modèle Claude), qui rédige la réponse. D'après ses conditions pour les services d'API, Anthropic n'entraîne pas ses modèles avec ces données et ne les garde que pour une durée limitée. Si tu n'utilises pas le coach, rien n'est envoyé.</li>
+    <li><strong>Coach IA</strong> (avec un compte) : quand tu poses une question, elle part avec la conversation en cours et un résumé de tes données (profil, objectif, calories, poids, mensurations, dernières séances), sans ton surnom, à <strong>Cloudflare</strong> (service Workers AI, modèle ouvert Llama), qui rédige la réponse. Cloudflare indique ne pas utiliser ces données pour entraîner les modèles. Si l'administrateur du site choisit Claude à la place, elles partent à <strong>Anthropic</strong>, qui d'après ses conditions pour les services d'API n'entraîne pas ses modèles avec et ne les garde que pour une durée limitée ; l'écran du coach dit alors à qui elles partent. Si tu n'utilises pas le coach, rien n'est envoyé.</li>
   </ul>
 
   <h2>Combien de temps</h2>

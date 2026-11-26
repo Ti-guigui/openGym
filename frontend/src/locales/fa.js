@@ -5927,6 +5927,7 @@ export default {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "هفته‌ای ۱ کیلو سریع است. برای چند هفته مناسب است، ادامه‌اش سخت است.",
   "AI coach": "مربی هوش مصنوعی",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "پاسخ‌ها از یک هوش مصنوعی (Claude) می‌آیند: ممکن است اشتباه باشند و توصیهٔ پزشکی نیستند. سؤال تو و خلاصه‌ای از داده‌هایت برای پاسخ به Anthropic فرستاده می‌شود.",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "پاسخ‌ها از یک هوش مصنوعی می‌آیند (مدلی باز که Cloudflare اجرا می‌کند): ممکن است اشتباه کنند و توصیه پزشکی نیستند. پرسش تو و خلاصه‌ای از داده‌هایت برای پاسخ به Cloudflare فرستاده می‌شود.",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "هر سؤالی دربارهٔ تمرین، غذا یا پیشرفتت بپرس. مربی نمایه، هدف، کالری، وزن، اندازه‌ها و آخرین تمرین‌هایت را می‌بیند.",
   "Ask the coach": "از مربی بپرس",
   "Ask the coach…": "به مربی بنویس…",

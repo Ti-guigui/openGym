@@ -5965,6 +5965,7 @@ export default {
   "1 kg a week is fast. Fine for a few weeks, hard to hold.": "1 кг в неделю — это быстро. Пару недель можно, держать трудно.",
   "AI coach": "ИИ-тренер",
   "Answers come from an AI (Claude): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Anthropic to answer.": "Ответы даёт ИИ (Claude): они могут быть ошибочными и не являются медицинской консультацией. Твой вопрос и сводка твоих данных отправляются в Anthropic для ответа.",
+  "Answers come from an AI (an open model run by Cloudflare): they can be wrong and are not medical advice. Your question and a summary of your data are sent to Cloudflare to answer.": "Ответы даёт ИИ (открытая модель, запущенная Cloudflare): он может ошибаться, и это не медицинский совет. Твой вопрос и краткая сводка твоих данных отправляются в Cloudflare для ответа.",
   "Ask anything about training, food or your progress. The coach sees your profile, goal, calories, weight, measurements and last workouts.": "Спрашивай что угодно о тренировках, питании или прогрессе. Тренер видит твой профиль, цель, калории, вес, замеры и последние тренировки.",
   "Ask the coach": "Спроси тренера",
   "Ask the coach…": "Напиши тренеру…",

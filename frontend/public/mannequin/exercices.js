@@ -3176,6 +3176,32 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
   ex("nuque-rotation", "Rotation de la nuque d'un côté puis de l'autre", [P(0, N), P(0.2, { flex: 0, rot: 55 }), P(0.4, { flex: 0, rot: 55 }), P(0.6, { flex: 0, rot: -55 }), P(0.8, { flex: 0, rot: -55 }), P(0.95, N)]);
 }
 
+/* ---------- LOT 70 pour l'appli : étirements debout (bras au-dessus de la tête, ouverture de poitrine, coudes en arrière, genou contre la poitrine) ---------- */
+{
+  const P = (t, bras, colonne = col(0, 0, 0), jambes = DEBOUT) => ({ t, racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne, jambes, bras: copie(bras) });
+  const BAS = bras2({ fk: { flex: 3, abd: 8 }, coude: 8 });
+  const ex = (id, nom, cles, muscles, tempo) => E(id, { nom, duree: 8, reps: 3, affiche: 0.4, vue: "3/4", recalageDe: id,
+    camera: { cible: [0, 120, 0], dist: 440, el: 6 }, ombre: [0, 0, 80, 80], muscles, tempo, cles });
+  const T = (a, b) => [[0, a], [0.2, b], [0.85, "Revenir doucement"]];
+  // Bras tendus au-dessus de la tête, doigts croisés, poitrine ouverte
+  const HAUT = bras2({ fk: { flex: 172, abd: 6 }, coude: 4, doigts: 40 });
+  ex("bras-tendus-haut", "Étirement bras tendus au-dessus de la tête", [P(0, BAS), P(0.25, HAUT, col(0, -6, -10)), P(0.8, HAUT, col(0, -6, -10)), P(0.95, BAS)],
+    { p: ["dorsaux", "deltoides"], s: ["pectoraux", "abdominaux"] }, T("Monter les bras", "S'étirer vers le haut, poitrine ouverte · respirer"));
+  // Ouverture de poitrine dynamique : bras sur les côtés, devant, puis ramenés en arrière
+  const COTES = bras2({ fk: { flex: 0, abd: 88 }, coude: 4 }), DEVANT = bras2({ fk: { flex: 88, abd: 6 }, coude: 4 }), ARRIERE = bras2({ fk: { flex: -18, abd: 84 }, coude: 4 });
+  ex("ouverture-poitrine", "Ouverture de poitrine dynamique, bras tendus", [P(0, COTES), P(0.25, DEVANT), P(0.5, ARRIERE), P(0.75, DEVANT), P(0.95, COTES)],
+    { p: ["pectoraux"], s: ["deltoides", "trapezes"] }, [[0, "Bras sur les côtés à hauteur d'épaules"], [0.25, "Ramener devant"], [0.5, "Ouvrir loin en arrière"]]);
+  // Mains derrière la tête, coudes tirés vers l'arrière
+  const NUQUE = d => bras2({ fk: { flex: d, abd: 85, rot: 85 }, coude: 160, doigts: 30 });
+  ex("coudes-arriere", "Étirement mains derrière la tête, coudes en arrière", [P(0, NUQUE(-30)), P(0.25, NUQUE(-62)), P(0.8, NUQUE(-62)), P(0.95, NUQUE(-30))],
+    { p: ["pectoraux"], s: ["trapezes", "deltoides"] }, T("Mains derrière la tête", "Tirer les coudes en arrière, omoplates serrées"));
+  // Debout sur la jambe gauche, genou droit ramené contre la poitrine avec les deux mains
+  const GENOU = { G: DEBOUT.G, D: { fk: { flex: 112, abd: 4 }, genou: 125, cheville: 10 } };
+  const TIENT = { G: { ik: [-3, 92, 40], pole: [1, -1, 0], doigts: 70, phal: 80 }, D: { ik: [-17, 92, 40], pole: [-1, -1, 0], doigts: 70, phal: 80 } };
+  ex("genou-poitrine-debout", "Genou contre la poitrine, debout", [P(0, BAS), P(0.25, TIENT, col(0, 0, 0), GENOU), P(0.8, TIENT, col(0, 0, 0), GENOU), P(0.95, BAS)],
+    { p: ["fessiers", "lombaires"], s: ["ischios"] }, T("Debout sur une jambe", "Tirer le genou contre la poitrine · tenir en respirant"));
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */
