@@ -3323,6 +3323,35 @@ const BRAS_BAS = bras2({ fk: { flex: 4, abd: 8 }, coude: 8 });
     { p: ["ischios"], s: ["flechisseurs", "fessiers"] }, [[0, "Bras tendus devant"], [0.22, "Lancer une jambe tendue vers les mains"], [0.72, "Puis l'autre"]], { duree: 3, vue: "profil" });
 }
 
+/* ---------- LOT 75 pour l'appli : étirements au bâton (inclinaison, derrière le dos, rotation sur les épaules, passage par-dessus la tête) ---------- */
+{
+  const P = (t, bras, colonne = col(0, 0, 0)) => ({ t, racine: { p: [0, 99, 0], r: [0, 0, 0] }, colonne, jambes: DEBOUT, bras: copie(bras) });
+  const BATON = { type: "barre-olympique", main: "2", baton: true, l: 150 };
+  const ex = (id, nom, cles, muscles, tempo, o = {}) => E(id, { nom, duree: 8, reps: 3, affiche: 0.3, vue: "3/4", recalageDe: id,
+    camera: { cible: [0, 120, 0], dist: 480, el: 6 }, ombre: [0, 0, 80, 90], accessoires: [copie(BATON)], muscles, tempo, cles, ...o });
+  const DEVANT = bras2({ ik: [28, 98, 18], pole: [1, -1, 0], doigts: 88, phal: 95, pouce: 80 });
+  const HAUT = bras2({ fk: { flex: 0, abd: 150 }, coude: 4, doigts: 88, phal: 95, pouce: 80 });   // flex 168 + abd : bras croisés au-dessus de la tête
+  const LAT = a => ({ lomb: { flex: 0, lat: a }, thorax: { flex: 0, lat: a }, cou: { flex: 0, lat: a * 0.15 } });   // lat positif : vers la gauche
+  // Bâton tenu bras tendus au-dessus de la tête, le buste s'incline d'un côté puis de l'autre
+  ex("baton-inclinaison", "Inclinaison latérale, bâton au-dessus de la tête", [P(0, DEVANT), P(0.12, HAUT), P(0.3, HAUT, LAT(13)), P(0.45, HAUT, LAT(13)), P(0.55, HAUT), P(0.72, HAUT, LAT(-13)), P(0.87, HAUT, LAT(-13)), P(0.97, DEVANT)],
+    { p: ["dorsaux", "obliques"], s: ["deltoides"] }, [[0, "Bâton dans les mains, prise large"], [0.12, "Monter le bâton bras tendus"], [0.3, "S'incliner d'un côté · tenir"], [0.72, "Puis de l'autre"]]);
+  // Bâton derrière le dos, bras tendus, qu'on éloigne du corps
+  const DOS = h => ({ G: { ik: [24, h, -26 - (h - 80) * 1.4], pole: [1, -0.3, 0], doigts: 88, phal: 95, pouce: 80 }, D: { ik: [-24, h, -26 - (h - 80) * 1.4], pole: [-1, -0.3, 0], doigts: 88, phal: 95, pouce: 80 } });
+  ex("baton-derriere-dos", "Bâton derrière le dos, bras tendus vers l'arrière", [P(0, DOS(80)), P(0.3, DOS(90), col(0, -6, -4)), P(0.8, DOS(90), col(0, -6, -4)), P(0.95, DOS(80))],
+    { p: ["pectoraux", "deltoides"], s: ["biceps"] }, [[0, "Tenir le bâton derrière le dos, bras tendus"], [0.3, "Éloigner le bâton du dos, poitrine ouverte · respirer"], [0.85, "Redescendre"]], { vue: "profil" });
+  // Bâton posé sur le haut du dos, rotation du buste d'un côté puis de l'autre, bassin de face
+  const NUQUE = copie(EXERCICES["squat-barre"].cles[0].bras);
+  for (const c of ["G", "D"]) { NUQUE[c].fk.abd = 58; delete NUQUE[c].paume; }   // abd 70 : bâton 1 cm dans la tête
+  ex("baton-rotation", "Rotation du buste, bâton sur les épaules", [P(0, NUQUE, col(0, 0, 8)), P(0.2, NUQUE, col(0, 0, 8, 60)), P(0.4, NUQUE, col(0, 0, 8, 60)), P(0.5, NUQUE, col(0, 0, 8)), P(0.7, NUQUE, col(0, 0, 8, -60)), P(0.9, NUQUE, col(0, 0, 8, -60)), P(0.97, NUQUE, col(0, 0, 8))],
+    { p: ["obliques"], s: ["lombaires", "dorsaux"] }, [[0, "Bâton sur le haut du dos, hanches de face"], [0.2, "Tourner le haut du corps · tenir"], [0.7, "Puis de l'autre côté"]], { vue: "face", camera: { cible: [0, 125, 0], dist: 440, el: 14 } });
+  // Passage du bâton par-dessus la tête : prise très large, bras tendus, de devant les cuisses jusque derrière le dos
+  // Mains sur un cercle autour des épaules (bras tendus, prise large) : angle 0 = devant à hauteur d'épaules, 90 = au-dessus, 200 = derrière
+  const ARC = a => { const r = a * Math.PI / 180, y = 142 + 58 * Math.sin(r), z = 58 * Math.cos(r);
+    return { G: { ik: [52, y, z], pole: [1, 0, -0.3], doigts: 88, phal: 95, pouce: 80 }, D: { ik: [-52, y, z], pole: [-1, 0, -0.3], doigts: 88, phal: 95, pouce: 80 } }; };
+  ex("baton-passe-dessus", "Passage du bâton par-dessus la tête (prise large)", [-70, 0, 60, 90, 130, 180, 130, 90, 60, 0, -70].map((a, i) => P(0.03 + i * 0.094, ARC(a))),
+    { p: ["deltoides", "pectoraux"], s: ["trapezes"] }, [[0, "Prise très large, bâton devant les cuisses"], [0.2, "Monter bras tendus au-dessus de la tête"], [0.5, "Passer derrière si les épaules le permettent"], [0.6, "Revenir devant"]], { vue: "profil" });
+}
+
 /* Orientation des mains : direction où la paume doit regarder (main gauche ; la droite est symétrique), tenue à chaque image
    par la rotation de l'avant-bras. Vers les pieds au développé couché, vers l'avant au tirage, vers le corps au soulevé de terre,
    face à face en prise neutre… « G » : seule la main gauche (la droite sert d'appui). */

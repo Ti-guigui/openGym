@@ -561,6 +561,7 @@ export function accessoire(type, o = {}) {
     const fonte = new THREE.MeshStandardMaterial({ color: 0x1f2328, roughness: 0.7 });
     const cyl = (r, l, x, m) => { const c = new THREE.Mesh(new THREE.CylinderGeometry(r, r, l, 24), m); c.rotation.z = Math.PI / 2; c.position.x = x; g.add(c); };
     if (type === "haltere") { cyl(1.6, 30, 0, acier); for (const x of [-11, 11]) cyl(o.r || 7, 6, x, fonte); }
+    else if (o.baton) cyl(1.4, o.l || 150, 0, new THREE.MeshStandardMaterial({ color: 0xb08850, roughness: 0.8 }));   // bâton d'étirement : sans disques
     else { cyl(1.4, o.l || 200, 0, acier); for (const x of [-1, 1]) { cyl(2.5, 40, x * 80, acier); cyl(o.r || 22, 6, x * 68, fonte); cyl((o.r || 22) * 0.8, 4, x * 73, fonte); } }
   } else if (type === "poulie") {    // colonne de poulie : o.h hauteur du point d'accroche
     const h = o.h || 210;
