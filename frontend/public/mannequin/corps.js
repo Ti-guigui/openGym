@@ -563,6 +563,13 @@ export function accessoire(type, o = {}) {
     const cyl = (r, l, x, m) => { const c = new THREE.Mesh(new THREE.CylinderGeometry(r, r, l, 24), m); c.rotation.z = Math.PI / 2; c.position.x = x; g.add(c); };
     if (type === "haltere") { cyl(1.6, 30, 0, acier); for (const x of [-11, 11]) cyl(o.r || 7, 6, x, fonte); }
     else if (o.baton) cyl(1.4, o.l || 150, 0, new THREE.MeshStandardMaterial({ color: 0xb08850, roughness: 0.8 }));   // bâton d'étirement : sans disques
+    else if (o.ez) {                   // barre EZ : plus courte, coudée au milieu (deux vagues), petits disques
+      const tube = (a, b, r) => { const A = new THREE.Vector3(...a), B = new THREE.Vector3(...b), c = new THREE.Mesh(new THREE.CylinderGeometry(r, r, A.distanceTo(B), 16), acier);
+        c.position.copy(A).add(B).multiplyScalar(0.5); c.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), B.clone().sub(A).normalize()); g.add(c); };
+      const pts = [[-50, 0], [-24, 0], [-18, 1.6], [-11, -1.6], [-5, 0], [5, 0], [11, -1.6], [18, 1.6], [24, 0], [50, 0]];
+      pts.slice(1).forEach((q, i) => tube([pts[i][0], 0, pts[i][1]], [q[0], 0, q[1]], 1.4));
+      for (const x of [-1, 1]) { cyl(2.5, 22, x * 61, acier); cyl(o.r || 16, 5, x * 56, fonte); }
+    }
     else if (o.hex) {                  // barre hexagonale (trap bar) : poignées le long de l'axe avant-arrière, cadre autour des jambes, manchons sur les côtés
       const tube = (a, b, r) => { const A = new THREE.Vector3(...a), B = new THREE.Vector3(...b), c = new THREE.Mesh(new THREE.CylinderGeometry(r, r, A.distanceTo(B), 16), acier);
         c.position.copy(A).add(B).multiplyScalar(0.5); c.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), B.clone().sub(A).normalize()); g.add(c); };

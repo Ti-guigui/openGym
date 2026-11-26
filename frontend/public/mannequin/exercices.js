@@ -3489,6 +3489,16 @@ EXERCICES["haussement-trap-bar"] = { ...copie(EXERCICES["haussement-halteres"]),
   accessoires: [{ type: "barre-olympique", main: "2", hex: true }] };
 for (const k of EXERCICES["haussement-trap-bar"].cles) for (const c of ["G", "D"]) { k.bras[c].ik[0] = c === "G" ? 28 : -28; k.bras[c].paume = [-1, 0, 0]; }
 
+/* LOT 81 pour l'appli : versions à la barre EZ (même mouvement, barre coudée plus courte) */
+for (const [id, base, nom] of [["curl-ez", "curl-barre", "Curl à la barre EZ"], ["curl-ez-large", "curl-barre-large", "Curl à la barre EZ, prise large"],
+  ["barre-front-ez", "barre-front", "Barre au front à la barre EZ"], ["developpe-serre-ez", "developpe-couche-serre", "Développé couché prise serrée à la barre EZ"],
+  ["curl-poignets-ez", "curl-poignets-barre", "Curl des poignets assis à la barre EZ"], ["curl-poignets-inverse-ez", "curl-poignets-inverse-barre", "Curl des poignets inversé à la barre EZ"],
+  ["rowing-debout-ez", "rowing-debout", "Rowing debout à la barre EZ"], ["rowing-ez-supination", "rowing-barre-supination", "Rowing penché en supination à la barre EZ"],
+  ["pullover-ez", "pullover-barre", "Pullover à la barre EZ"]]) {   // extension derrière la nuque essayée : la barre coudée touche le bras (1,2 cm)
+  const b = EXERCICES[base];
+  EXERCICES[id] = { ...copie(b), nom, recalageDe: b.recalageDe || base, ecartsDe: base, accessoires: b.accessoires.map(a => a.type === "barre-olympique" ? { ...a, ez: true } : a) };
+}
+
 /* Recalage automatique (mannequin/outils/verifier.js --recaler [ids] homme|femme) : hauteur et inclinaison du corps, et appuis en
    cinématique inverse, ajustés image clé par image clé et pour chaque mannequin, afin que mains et pieds touchent leur surface
    sans la traverser. ex.cles (homme) et ex.clesFemme ; même chose dans ex.erreur. */
@@ -3519,5 +3529,6 @@ for (const [id, ex] of Object.entries(EXERCICES)) for (const [variante, o] of [[
   const r = ex.recalageDe || id;          // variante avec poids (squat-barre) : mêmes appuis que l'exercice d'origine
   o.cles = brut ? base : recaler(base, RECALAGE.homme?.[r]?.[variante]);
   o.clesFemme = brut ? baseF : recaler(baseF, (RECALAGE.femme?.[r] || RECALAGE.homme?.[r])?.[variante]);
-  if (!sansEcart) { o.cles = ecarter(o.cles, ECARTS.homme?.[id]?.[variante]); o.clesFemme = ecarter(o.clesFemme, ECARTS.femme?.[id]?.[variante]); }
+  const ec = g => ECARTS[g]?.[id] || ECARTS[g]?.[ex.ecartsDe];   // variante copiée (barre EZ…) : mêmes écarts que l'exercice d'origine, sauf les siens
+  if (!sansEcart) { o.cles = ecarter(o.cles, ec("homme")?.[variante]); o.clesFemme = ecarter(o.clesFemme, ec("femme")?.[variante]); }
 }
