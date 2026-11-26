@@ -4838,7 +4838,8 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 }
 
 /* ---- Body weight and scale beside the measurements figure (Ti Guigui FIT, components/ScaleCard.jsx) ---- */
-.scale{display:flex;flex-direction:column;gap:4px;margin-bottom:4px}
+.mfig-left{display:flex;flex-direction:column;gap:8px;min-width:0}
+.scale{display:flex;flex-direction:column;gap:4px}
 .scale-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:var(--surface-2);border:1.5px solid var(--sep-op);color:var(--label);font:inherit;text-align:start;cursor:pointer}
 .scale-i{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--surface-3);color:var(--label-2);font-size:17px}
 .scale-m{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.1}

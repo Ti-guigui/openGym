@@ -88,7 +88,7 @@ const TICKS = Array.from({ length: 51 }, (_, i) => <line key={i} x1="0" x2={i % 
  * units; unit: the length unit; selected: the key the chart shows; body: 'male' | 'female';
  * choosing: every field shows, `on` says which are tracked; onPick(key, hasValue).
  * stats (optional): { height, heightLabel, onHeight, weight, weightUnit, weightLabel, onWeight }: the ruler
- * beside the body (and its row under it) and the weight card with the scale above the list, each a
+ * beside the body (and its row under it) and the weight card with the scale under the body, each a
  * value already formatted (null when unknown); weightUnit is 'kg' or 'lb'.
  */
 export default function MeasureFigure({ fields, values, unit, selected, onPick, body, choosing = false, stats = null }) {
@@ -100,6 +100,9 @@ export default function MeasureFigure({ fields, values, unit, selected, onPick, 
   const k = 0.45
   const pick = f => onPick(f.key, values[f.key] != null)
   return <div className="mfig">
+    {/* The left column: the figure, and under it the weight card and the scale (Ti Guigui FIT),
+        so the list beside it stays short. */}
+    <div className="mfig-left">
     <div className={'mfig-fig' + (stats ? ' with-ruler' : '')}>
     {stats && <button type="button" className="mfig-ruler" onClick={stats.onHeight} aria-label={stats.heightLabel + (stats.height ? ' ' + stats.height : '')}>
       <svg viewBox="0 0 20 100" preserveAspectRatio="none" aria-hidden="true">{TICKS}</svg>
@@ -121,9 +124,9 @@ export default function MeasureFigure({ fields, values, unit, selected, onPick, 
       })}
     </svg>
     </div>
+    {stats && <ScaleCard weight={stats.weight} unit={stats.weightUnit} onWeight={stats.onWeight} />}
+    </div>
     <div className="mfig-list">
-      {/* Ti Guigui FIT: the weight card and the scale of the picture, above the list. */}
-      {stats && <ScaleCard weight={stats.weight} unit={stats.weightUnit} onWeight={stats.onWeight} />}
       {shown.map(f => {
         const v = values[f.key]
         const has = v != null

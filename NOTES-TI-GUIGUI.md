@@ -169,7 +169,7 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
       animations » ;
     - correction openGym : la bannière « Défi réussi » s'affichait parfois en anglais.
 
-16. **Balance des mensurations** : au-dessus de la liste, à côté du mannequin, la carte « Poids »
+16. **Balance des mensurations** : sous le mannequin (la liste reste courte), la carte « Poids »
     (dernière pesée, crayon pour noter) et la balance de ton image (`frontend/public/balance.webp`),
     dont l'écran affiche le même poids en perspective (`frontend/src/components/ScaleCard.jsx`,
     réglage de l'écran dans `LCD`). Elle remplace la balance dessinée en vectoriel ; la règle de
