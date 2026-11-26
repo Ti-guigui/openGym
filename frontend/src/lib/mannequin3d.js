@@ -127,6 +127,7 @@ const BY_ANIM = {
   'rotation-buste-debout': ['1813', '6540', '2110'], 'mains-jointes-dos': ['1970', '1480', '3516'], 'squat-profond-coudes': ['1931', '1893'], 'flechisseurs-hanche-debout': ['1949'],
   'cambrure-debout': ['2108', '3517'], 'cercles-hanches': ['4286'], 'cercles-genoux': ['4278', '0257'], 'bras-enroules': ['3995'], 'petit-soldat': ['5978'],
   'baton-inclinaison': ['5405', '5400', '2120'], 'baton-derriere-dos': ['5401', '9180'], 'baton-rotation': ['5403'], 'baton-passe-dessus': ['5404', '4607', '10936'],
+  'good-morning-baton': ['4604', '4605'], 'squat-tete-baton': ['4606'], 'elevation-frontale-baton': ['9187', '9980'],
 }
 // The same exercise again in the catalogue (its female version, or a "v. 2" of the same name): same animation.
 const SAME_AS = {

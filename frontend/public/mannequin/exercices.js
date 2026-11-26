@@ -3423,6 +3423,13 @@ for (const id of ["pont-fessier-barre", "good-morning", "rowing-debout", "pont-f
     if (ref.paume) { delete b.prono; delete b.main; delete b.auto; } } });
 }
 
+/* LOT 76 pour l'appli : versions au bâton d'exercices à la barre (copiées après les tables d'orientation des mains, qu'elles gardent) */
+for (const [id, base, nom] of [["good-morning-baton", "good-morning", "Good morning au bâton"], ["squat-tete-baton", "squat-barre-tete", "Squat bâton au-dessus de la tête"],
+  ["elevation-frontale-baton", "elevation-frontale-barre", "Élévation frontale au bâton"]]) {
+  const b = EXERCICES[base];
+  EXERCICES[id] = { ...copie(b), nom, recalageDe: b.recalageDe || base, accessoires: b.accessoires.map(a => a.type === "barre-olympique" ? { ...a, baton: true, l: 150 } : a) };
+}
+
 /* Recalage automatique (mannequin/outils/verifier.js --recaler [ids] homme|femme) : hauteur et inclinaison du corps, et appuis en
    cinématique inverse, ajustés image clé par image clé et pour chaque mannequin, afin que mains et pieds touchent leur surface
    sans la traverser. ex.cles (homme) et ex.clesFemme ; même chose dans ex.erreur. */
