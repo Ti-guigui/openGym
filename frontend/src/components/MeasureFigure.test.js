@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { SPOTS, PHOTO, COLOR, onFigure } from './MeasureFigure.jsx'
+import { PHOTO, PHOTO_FEMALE, photoFor, COLOR, onFigure } from './MeasureFigure.jsx'
 import { MEASUREMENT_FIELDS } from '../lib/measurements.js'
 
 describe('figure spots', () => {
@@ -7,10 +7,15 @@ describe('figure spots', () => {
     const circ = MEASUREMENT_FIELDS.filter(f => !f.kind).map(f => f.key)
     for (const k of circ) {
       expect(onFigure(k)).toBe(true)
-      expect(SPOTS.female[k]).toBeTruthy()
+      expect(PHOTO_FEMALE.spots[k]).toBeTruthy()
       expect(PHOTO.spots[k]).toBeTruthy()
     }
     expect(onFigure('bodyFat')).toBe(false)
+  })
+  it('picks the woman for a female profile, the man otherwise', () => {
+    expect(photoFor('female')).toBe(PHOTO_FEMALE)
+    expect(photoFor('male')).toBe(PHOTO)
+    expect(photoFor(undefined)).toBe(PHOTO)
   })
 })
 

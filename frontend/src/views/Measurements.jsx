@@ -324,6 +324,7 @@ export function MeasureFigureCard({ selected = null, onSelect = null }) {
         height: Number(S.heightCm) > 0 ? fmtNum(lengthUnitOf(S) === 'in' ? Math.round(S.heightCm / CM_PER_IN) : Math.round(S.heightCm)) : null,
         heightLabel: t('Height ({0})', lengthUnitOf(S)), onHeight: heightSheet,
         weight: Number(lastBW(S)?.w) > 0 ? fmtNum(lastBW(S).w) : null,
+        weightUnit: S.unit === 'lb' ? 'lb' : 'kg',
         weightLabel: t('Body weight ({0})', S.unit), onWeight: () => bwSheet(),
       }}
       values={Object.fromEntries(figFields.map(f => { const l = latestMeasurement(S, f.key); return [f.key, l ? shownValue(l.entry, f, lengthUnitOf(S)) : null] }))}

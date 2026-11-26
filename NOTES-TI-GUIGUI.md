@@ -94,7 +94,9 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
       (`PHOTO.spots`) sont posés dessus, seuls ceux qui manquent (abdomen, poignets, chevilles, haut du
       bras gauche) sont dessinés. Pour changer d'image : garder les ronds aux mêmes endroits, ou
       recaler `PHOTO.spots` (coordonnées en pixels de l'image).
-    - Profil femme : le corps des cartes musculaires (`lib/body-geometry.js`), points dessinés (`SPOTS.female`).
+    - Profil femme : l'image générée avec Gemini à partir de celle de l'homme, recadrée sans ses règles
+      (l'appli a la sienne), dans `frontend/public/mensurations-femme.webp` (484 × 1072). Points sur ses
+      ronds dans `PHOTO_FEMALE.spots` ; dessinés seulement pour hanches, poignets, chevilles et haut du bras gauche.
     - À côté, la liste : pastille de la même couleur (bras mauve, tronc vert, jambes jaune : `COLOR`),
       nom et dernière valeur. Toucher un point ou une ligne affiche la courbe ; un tour jamais noté
       ouvre la saisie. Bouton **Choisir** : tous les tours apparaissent, toucher active ou désactive.
@@ -166,6 +168,12 @@ conversation, dis simplement : « lis NOTES-TI-GUIGUI.md dans mon fork ».
       avance en douceur, le point choisi du mannequin apparaît. Rien ne bouge avec « Réduire les
       animations » ;
     - correction openGym : la bannière « Défi réussi » s'affichait parfois en anglais.
+
+16. **Balance des mensurations** : au-dessus de la liste, à côté du mannequin, la carte « Poids »
+    (dernière pesée, crayon pour noter) et la balance de ton image (`frontend/public/balance.webp`),
+    dont l'écran affiche le même poids en perspective (`frontend/src/components/ScaleCard.jsx`,
+    réglage de l'écran dans `LCD`). Elle remplace la balance dessinée en vectoriel ; la règle de
+    taille reste à côté du corps. Toucher la carte ou la balance ouvre la pesée. Style `.scale-*`.
 
 ## Règles à respecter
 

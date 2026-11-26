@@ -4740,8 +4740,6 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 .mfig-head{gap:8px;margin:0 6px 6px}
 .mfig{display:grid;grid-template-columns:minmax(0,52fr) minmax(0,48fr);gap:10px;align-items:start}
 .mfig-svg{display:block;width:100%;height:auto;overflow:visible}
-.mfig-body path{fill:#e9ebef;stroke:#1f2329;stroke-width:3;stroke-linejoin:round}
-:root[data-theme="light"] .mfig-body path{fill:#f4f5f7;stroke:#3a3f47}
 .mfig-spot,.mfig-row{--c:var(--green)}
 .mfig-spot.c-violet,.mfig-row.c-violet{--c:var(--purple)}
 .mfig-spot.c-yellow,.mfig-row.c-yellow{--c:var(--yellow)}
@@ -4772,18 +4770,9 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
 .mfig-ruler{display:block;padding:0;border:0;background:none;color:var(--teal);cursor:pointer;min-height:44px}
 .mfig-ruler svg{display:block;width:100%;height:100%}
 .mfig-ruler line{stroke:currentColor;stroke-width:1.5;vector-effect:non-scaling-stroke}
-.mfig-stats{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;margin-top:4px}
+.mfig-stats{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr);gap:6px;margin-top:4px}
 .mfig-stat{--c:var(--teal);display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 10px 6px 8px;border-radius:14px;background:var(--surface-2);
   border:1.5px solid transparent;color:var(--label);font:inherit;text-align:start;cursor:pointer;line-height:1.15}
-.mfig-scale{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 8px 4px;border-radius:14px;background:var(--surface-2);
-  border:1.5px solid transparent;color:var(--label);font:inherit;cursor:pointer}
-.mfig-scale svg{display:block;width:100%;max-width:150px;height:auto}
-.mfig-scale .sc-body{fill:var(--fill-3);stroke:var(--teal);stroke-width:3}
-.mfig-scale .sc-lcd{fill:#0c1a17;stroke:var(--teal);stroke-width:1.5}
-.mfig-scale .sc-val{fill:var(--teal);font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
-.mfig-scale .sc-pad{fill:var(--surface);stroke:var(--separator,rgba(255,255,255,.15));stroke-width:1.5}
-.mfig-scale .sc-grip{stroke:var(--label-3,rgba(255,255,255,.3));stroke-width:2;stroke-linecap:round}
-.mfig-scale .mfig-n{font-size:12px;color:var(--label-2)}
 .measure-part{cursor:default;display:flex;align-items:center;gap:10px;margin:2px 0 12px;font-size:var(--fs-title2,22px);font-weight:700}
 .measure-part .mfig-dot{width:22px;height:22px}
 .measure-steps{justify-content:space-between;align-items:center;gap:8px;margin-top:12px}
@@ -4847,3 +4836,17 @@ button.wl-summary{width:100%;padding:0 0 10px;text-align:start;border-radius:var
   .mfig-spot circle.mfig-ring.on{animation:mfig-pick .22s var(--ease) both;transform-box:fill-box;transform-origin:center}
   @keyframes mfig-pick{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
 }
+
+/* ---- Body weight and scale beside the measurements figure (Ti Guigui FIT, components/ScaleCard.jsx) ---- */
+.scale{display:flex;flex-direction:column;gap:4px;margin-bottom:4px}
+.scale-card{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:var(--surface-2);border:1.5px solid var(--sep-op);color:var(--label);font:inherit;text-align:start;cursor:pointer}
+.scale-i{flex:none;width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:var(--surface-3);color:var(--label-2);font-size:17px}
+.scale-m{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.1}
+.scale-l{font-size:var(--fs-footnote);color:var(--label-2)}
+.scale-v{font-size:var(--fs-title3,20px);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.scale-v small{font-size:var(--fs-footnote);font-weight:500;color:var(--label-2)}
+.scale-edit{flex:none;color:var(--label-2)}
+.scale-pic{display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;
+  -webkit-mask-image:radial-gradient(ellipse 72% 70% at 50% 52%,#000 62%,transparent 100%);mask-image:radial-gradient(ellipse 72% 70% at 50% 52%,#000 62%,transparent 100%)}
+.scale-pic svg{display:block;width:100%;height:auto}
+.scale-lcd{fill:#1e2836;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.5px}
